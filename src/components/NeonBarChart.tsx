@@ -1,6 +1,7 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { token } from '@lib/design/tokens';
 
 const NeonBarChart = ({
   chartData = [],
@@ -163,7 +164,7 @@ const NeonBarChart = ({
       text: title,
       align: 'left',
       style: {
-        color: '#29d3ff',
+        color: token('--color-brand'),
         fontSize: `${config.titleSize}px`,
         fontWeight: 'bold',
       },

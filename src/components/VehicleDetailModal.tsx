@@ -61,7 +61,7 @@ export default function VehicleDetailModal({ vehicleId, initialTab = 'overview' 
   const vehicle = detail?.vehicle;
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[640px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[640px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">{vehicle?.name || 'Vehicle Detail'}</h2>
@@ -458,7 +458,7 @@ function TrackerTab({ vehicleId, vehicle, onChanged }) {
               value={deviceId}
               onChange={e => setDeviceId(e.target.value)}
               disabled={trackersLoading}
-              className="flex-1 bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+              className="flex-1 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
             >
               <option value="">
                 {trackersLoading

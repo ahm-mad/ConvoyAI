@@ -89,7 +89,7 @@ export default function DeviceStatusGrid() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search devices..."
-              className="bg-surface-2 border border-line rounded-md pl-8 pr-3 py-1.5 text-xs text-ink-0 placeholder-ink-2 w-56"
+              className="bg-white border border-line rounded-xl pl-8 pr-3 py-1.5 text-xs text-ink-0 placeholder-ink-2 w-56"
             />
           </div>
           <button
@@ -157,7 +157,7 @@ function DeviceStatusCard({ device }: { device: any }) {
   const dotClass = isReporting ? 'bg-accent-green' : 'bg-ink-2';
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-3.5 hover:border-line transition-colors">
+    <div className="glass-strong  p-3.5 hover:border-line transition-colors">
       <div className="flex items-start justify-between mb-2">
         <div className="min-w-0">
           <div className="text-[13px] font-medium text-ink-0 truncate">{device.name}</div>

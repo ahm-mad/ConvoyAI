@@ -21,11 +21,7 @@ export default function StatusChips({
   if (!counts) return null;
 
   return (
-    <div
-      className="flex items-center gap-1.5 flex-wrap mb-3"
-      role="group"
-      aria-label="Status counts"
-    >
+    <div className="flex items-center gap-2 flex-wrap mb-4" role="group" aria-label="Status counts">
       {options.map(o => {
         const active = value === o.value;
         const n = counts.by_status[o.value] ?? 0;
@@ -37,18 +33,22 @@ export default function StatusChips({
             onClick={() => onChange(active ? '' : o.value)}
             aria-pressed={active}
             data-testid={`status-chip-${o.value}`}
-            className={`flex items-center gap-1.5 text-[11px] rounded-full border px-2.5 py-1 transition-colors ${
+            className={`flex items-center gap-2 text-[13px] font-medium rounded-full border px-4 py-2 transition-all ${
               active
-                ? 'border-accent-cyan text-accent-cyan bg-accent-cyan/10'
-                : 'border-line text-ink-1 hover:bg-surface-2'
+                ? 'btn-brand border-transparent'
+                : 'glass-strong glass-pill border-transparent text-ink-1 hover:text-ink-0'
             } ${n === 0 && !active ? 'opacity-60' : ''}`}
           >
             {o.label}
-            <span className="font-mono text-[10px] text-ink-2">{n}</span>
+            <span
+              className={`font-mono text-[11px] rounded-full px-1.5 ${active ? 'bg-white/25 text-white' : 'bg-black/[0.06] text-ink-1'}`}
+            >
+              {n}
+            </span>
           </button>
         );
       })}
-      <span className="text-[10px] text-ink-2 ml-1">
+      <span className="text-[12px] text-ink-2 ml-1">
         {totalLabel} {counts.total}
       </span>
     </div>

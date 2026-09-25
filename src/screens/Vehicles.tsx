@@ -131,11 +131,11 @@ export default function Vehicles() {
     selection.allMatching ? `${verb} all ${selection.count} matching vehicles?` : undefined;
 
   return (
-    <div className="flex flex-col p-5 h-full overflow-y-auto">
+    <div className="flex flex-col pt-3 pb-12">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-[15px] font-semibold text-ink-0 font-display">Vehicles</h1>
-          <p className="text-xs text-ink-2 mt-0.5">
+          <h1 className="page-title">Vehicles</h1>
+          <p className="text-[13.5px] text-ink-1 mt-1">
             {isLoading
               ? 'Loading…'
               : `${view.total} vehicle${view.total === 1 ? '' : 's'}${list.hasActiveFilters ? ' matching' : ''}`}
@@ -152,7 +152,7 @@ export default function Vehicles() {
           </label>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 text-xs font-medium text-accent-cyan border border-line rounded-md px-3 py-1.5 hover:bg-surface-2"
+            className="flex items-center gap-1.5 btn-brand text-[13px] font-semibold rounded-full px-5 py-2.5 transition-transform hover:-translate-y-px"
           >
             <Plus size={13} /> Add Vehicle
           </button>
@@ -332,7 +332,7 @@ function VehicleRow({ vehicle, onClick }: { vehicle: Vehicle; onClick: () => voi
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left flex items-center justify-between bg-surface-1 border border-line-soft rounded-md px-4 py-3 hover:bg-surface-2 transition-colors ${
+      className={`w-full text-left flex items-center justify-between glass-strong  px-5 py-4 card-lift ${
         vehicle.lifecycle_status === 'retired' || vehicle.lifecycle_status === 'sold'
           ? 'opacity-60'
           : ''
@@ -343,18 +343,18 @@ function VehicleRow({ vehicle, onClick }: { vehicle: Vehicle; onClick: () => voi
           <img
             src={vehicle.image_url}
             alt=""
-            className="w-9 h-9 rounded-md object-cover flex-shrink-0"
+            className="w-11 h-11 rounded-xl object-cover flex-shrink-0"
           />
         ) : (
-          <div className="w-9 h-9 rounded-md bg-surface-3 flex items-center justify-center flex-shrink-0">
-            <Truck size={15} className="text-ink-2" />
+          <div className="w-11 h-11 rounded-xl bg-brand-wash flex items-center justify-center flex-shrink-0">
+            <Truck size={18} className="text-brand" />
           </div>
         )}
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-ink-0">{vehicle.name}</span>
+            <span className="text-[15px] font-semibold text-ink-0">{vehicle.name}</span>
             <span
-              className={`text-[10px] px-1.5 py-0.5 rounded capitalize ${statusColors[vehicle.lifecycle_status] || statusColors.active}`}
+              className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full capitalize ${statusColors[vehicle.lifecycle_status] || statusColors.active}`}
             >
               {vehicle.lifecycle_status?.replace('_', ' ')}
             </span>
@@ -415,7 +415,7 @@ function NewVehicleForm({ existingVehicles = [], onClose, onCreated }: NewVehicl
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-4 mb-4">
+    <div className="glass  p-6 mb-5">
       <VehicleFields
         values={values}
         onChange={setValues}

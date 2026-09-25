@@ -18,7 +18,7 @@ export interface ExtraFilter {
   options: { value: string; label: string }[];
 }
 
-const CONTROL = 'bg-surface-2 border border-line rounded-md px-2 py-1 text-[11px] text-ink-0';
+const CONTROL = 'bg-white border border-line rounded-xl px-2 py-1 text-[11px] text-ink-0';
 
 export default function PagedRecords({
   queryName,

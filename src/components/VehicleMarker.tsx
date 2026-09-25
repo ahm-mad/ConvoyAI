@@ -2,6 +2,7 @@
 import { formatQty, unitsFor, type Units } from '@utils/units';
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
+import { token } from '@lib/design/tokens';
 
 /**
  * Same customIcon pattern as the existing MarkerIcon.jsx, but a colored
@@ -12,8 +13,8 @@ import L from 'leaflet';
 function vehicleIcon(color: string) {
   const svg = `
     <svg width="26" height="34" viewBox="0 0 26 34" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13 0C5.8 0 0 5.8 0 13c0 9.5 13 21 13 21s13-11.5 13-21C26 5.8 20.2 0 13 0z" fill="${color}" stroke="#0a0c0f" stroke-width="1"/>
-      <circle cx="13" cy="13" r="5.5" fill="#0a0c0f"/>
+      <path d="M13 0C5.8 0 0 5.8 0 13c0 9.5 13 21 13 21s13-11.5 13-21C26 5.8 20.2 0 13 0z" fill="${color}" stroke="${token('--color-surface-1')}" stroke-width="1"/>
+      <circle cx="13" cy="13" r="5.5" fill="${token('--color-surface-1')}"/>
       <path d="M9.5 13.5l2.2 2.2 4.3-4.7" stroke="${color}" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
 
@@ -52,7 +53,7 @@ export default function VehicleMarker({
   units?: Units;
 }) {
   const fresh = isFresh(position.recorded_at);
-  const color = fresh ? '#17d68c' : '#565f68';
+  const color = fresh ? token('--color-success') : token('--color-chart-neutral');
 
   // Prefer the assigned VEHICLE's name — that's what a fleet manager
   // actually thinks of this as ("Truck 5"), not the raw tracker identity.
@@ -86,7 +87,7 @@ export default function VehicleMarker({
               style={{
                 marginTop: 6,
                 fontSize: '11px',
-                color: '#29d3ff',
+                color: token('--color-brand'),
                 background: 'none',
                 border: 'none',
                 padding: 0,

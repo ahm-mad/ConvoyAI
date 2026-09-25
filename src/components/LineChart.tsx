@@ -3,6 +3,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
 import { useTheme } from '@contexts/ThemeContext';
+import { token } from '@lib/design/tokens';
 
 const LineChart = ({ title = '', categories = [], series = [], min, max }) => {
   const { isLight } = useTheme();
@@ -10,11 +11,11 @@ const LineChart = ({ title = '', categories = [], series = [], min, max }) => {
   // ApexCharts needs literal color values (not CSS vars) since it renders
   // to SVG outside React's normal styling path — so we compute the right
   // values per theme here instead of hardcoding light-mode colors.
-  const accentCyan = isLight ? '#0075a3' : '#29d3ff';
-  const gridLine = isLight ? '#e5e8eb' : '#181c20';
-  const axisLine = isLight ? '#d3d8dd' : '#22282e';
-  const axisLabel = isLight ? '#4c545c' : '#8b95a1';
-  const titleColor = isLight ? '#12151a' : '#e8ebee';
+  const accentCyan = token('--color-brand');
+  const gridLine = token('--color-chart-grid', '#efe4d6');
+  const axisLine = token('--color-line');
+  const axisLabel = token('--color-chart-axis', '#667572');
+  const titleColor = token('--color-ink-0');
 
   const options = {
     chart: {
@@ -46,7 +47,7 @@ const LineChart = ({ title = '', categories = [], series = [], min, max }) => {
         style: {
           colors: axisLabel,
           fontSize: '11px',
-          fontFamily: 'IBM Plex Mono, monospace',
+          fontFamily: 'Geist Mono, monospace',
         },
       },
       axisBorder: {
@@ -66,7 +67,7 @@ const LineChart = ({ title = '', categories = [], series = [], min, max }) => {
         style: {
           colors: axisLabel,
           fontSize: '11px',
-          fontFamily: 'IBM Plex Mono, monospace',
+          fontFamily: 'Geist Mono, monospace',
         },
       },
       axisBorder: {

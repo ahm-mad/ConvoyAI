@@ -137,7 +137,7 @@ export default function FloorPlanEditor({ componentId, componentName }) {
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[760px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[760px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">Floor Plan — {componentName}</h2>
@@ -191,7 +191,7 @@ export default function FloorPlanEditor({ componentId, componentName }) {
                   type="number"
                   value={floorLevel}
                   onChange={e => setFloorLevel(parseInt(e.target.value, 10) || 0)}
-                  className="w-20 bg-surface-1 border border-line rounded-md px-2 py-1 text-xs text-ink-0 text-center mb-3"
+                  className="w-20 glass-strong  px-2 py-1 text-xs text-ink-0 text-center mb-3"
                 />
                 <br />
                 <button

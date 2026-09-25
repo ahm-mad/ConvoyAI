@@ -31,7 +31,7 @@ export default function ViewSwitch<T extends string>({
             onClick={() => onChange(o.key)}
             className={`text-xs font-medium px-3 py-1.5 rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
               on
-                ? 'bg-surface-1 text-ink-0 shadow-sm border border-line-soft'
+                ? 'btn-brand border border-transparent'
                 : 'text-ink-1 hover:text-ink-0 border border-transparent'
             }`}
           >

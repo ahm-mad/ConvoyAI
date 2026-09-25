@@ -18,7 +18,7 @@ import Pager from '@components/list/Pager';
  */
 export type AssignmentScope = 'vehicle' | 'driver' | 'company';
 
-const CONTROL = 'bg-surface-2 border border-line rounded-md px-2 py-1.5 text-[11px] text-ink-0';
+const CONTROL = 'bg-white border border-line rounded-xl px-2 py-1.5 text-[11px] text-ink-0';
 
 // The year is omitted for the current year (recent history reads shorter and fits narrow tables).
 const fmt = (iso?: string | null) => {

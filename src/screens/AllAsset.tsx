@@ -282,7 +282,7 @@ const AssetsTable = () => {
         {shouldShowSkeleton ? (
           <TableSkeleton />
         ) : (
-          <div className="bg-surface-1 border border-line-soft rounded-md overflow-hidden">
+          <div className="glass-strong  overflow-hidden">
             <DataTable
               data={processedData}
               columns={columns}

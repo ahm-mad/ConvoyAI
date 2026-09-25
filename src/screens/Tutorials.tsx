@@ -156,7 +156,7 @@
 
 //   return (
 //     <div
-//       className="group relative bg-surface-1 border border-line-soft rounded-md overflow-hidden hover:border-line transition-all duration-300 cursor-pointer"
+//       className="group relative glass-strong  overflow-hidden hover:border-line transition-all duration-300 cursor-pointer"
 //       onClick={() => onPlay(tutorial)}
 //     >
 //       {/* Thumbnail */}

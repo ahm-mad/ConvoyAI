@@ -337,9 +337,7 @@ const RolesPermission = () => {
   return (
     <div className="w-full mb-4 md:mb-6 px-2 sm:px-4">
       <div className="mb-3 mt-2 flex sm:flex-row justify-between items-start sm:items-center gap-3">
-        <h1 className="text-[13px] md:text-sm font-semibold text-ink-0 font-display">
-          {t('RulesPermission.title')}
-        </h1>
+        <h1 className="page-title">{t('RulesPermission.title')}</h1>
         {activeTab === 'roles' && (
           <Button onClick={handleAddRole} className="w-full sm:w-auto">
             <AddBtnIcon /> <span className="ml-1">Add Role</span>

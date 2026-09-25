@@ -93,12 +93,12 @@ export default function Trips() {
   };
 
   return (
-    <div className="flex flex-col p-5 h-full overflow-y-auto">
+    <div className="flex flex-col pt-3 pb-12">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-[15px] font-semibold text-ink-0 font-display">Trips</h1>
+          <h1 className="page-title">Trips</h1>
 
-          <p className="text-xs text-ink-2 mt-0.5">
+          <p className="text-[13.5px] text-ink-1 mt-1">
             {t.isLoading ? 'Loading…' : `${t.total} trip${t.total === 1 ? '' : 's'}`}
             {list.hasActiveFilters && !t.isLoading ? ' matching' : ''}
           </p>
@@ -106,7 +106,7 @@ export default function Trips() {
 
         <button
           onClick={() => setShowForm(v => !v)}
-          className="flex items-center gap-1.5 text-xs font-medium text-accent-cyan border border-line rounded-md px-3 py-1.5 hover:bg-surface-2"
+          className="flex items-center gap-1.5 btn-brand text-[13px] font-semibold rounded-full px-5 py-2.5 transition-transform hover:-translate-y-px"
         >
           <Plus size={13} />
           Create Trip
@@ -286,10 +286,7 @@ function TripRow({ trip, onClick }: { trip: any; onClick: () => void }) {
     : null;
 
   return (
-    <button
-      onClick={onClick}
-      className="w-full text-left bg-surface-1 border border-line-soft rounded-md px-4 py-3 hover:bg-surface-2 transition-colors"
-    >
+    <button onClick={onClick} className="w-full text-left glass-strong  px-5 py-4 card-lift">
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
@@ -428,7 +425,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-4 mb-4">
+    <div className="glass  p-6 mb-5">
       <div className="text-[10px] uppercase tracking-wider text-ink-2 mb-3">New Trip</div>
 
       {/* =====================================================
@@ -461,14 +458,14 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={tripReference}
           onChange={e => setTripReference(e.target.value)}
           placeholder="Trip reference"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <input
           value={purpose}
           onChange={e => setPurpose(e.target.value)}
           placeholder="Purpose (e.g. delivery)"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
       </div>
 
@@ -482,7 +479,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={originAddress}
           onChange={e => setOriginAddress(e.target.value)}
           placeholder="Origin address *"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 col-span-2"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 col-span-2"
         />
 
         <input
@@ -491,7 +488,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Latitude"
           type="number"
           step="any"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <input
@@ -500,7 +497,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Longitude"
           type="number"
           step="any"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <PickOnMapButton
@@ -525,7 +522,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={destinationAddress}
           onChange={e => setDestinationAddress(e.target.value)}
           placeholder="Destination address *"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 col-span-2"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 col-span-2"
         />
 
         <input
@@ -534,7 +531,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Latitude"
           type="number"
           step="any"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <input
@@ -543,7 +540,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Longitude"
           type="number"
           step="any"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <PickOnMapButton
@@ -573,14 +570,14 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={plannedStartAt}
           onChange={e => setPlannedStartAt(e.target.value)}
           type="datetime-local"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <input
           value={plannedEndAt}
           onChange={e => setPlannedEndAt(e.target.value)}
           type="datetime-local"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <input
@@ -589,7 +586,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder={`Planned distance (${u.distance.label})`}
           type="number"
           step="any"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <input
@@ -598,7 +595,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder={`Starting odometer (${u.distance.label})`}
           type="number"
           step="any"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
         <textarea
@@ -606,7 +603,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           onChange={e => setNotes(e.target.value)}
           placeholder="Notes"
           rows={2}
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 col-span-2 resize-none"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 col-span-2 resize-none"
         />
       </div>
 

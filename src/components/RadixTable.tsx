@@ -346,9 +346,9 @@ const DataTable = ({
   );
 
   return (
-    <div className={`w-full bg-surface-1 ${className}`}>
+    <div className={`w-full bg-white/70 ${className}`}>
       {/* Controls Section */}
-      <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 p-3 bg-surface-2 border-b border-line relative z-50">
+      <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 p-3 bg-white/60 border-b border-line-soft relative z-50">
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full md:w-auto">
           {/* Search Input with Spinner */}
           {showSearch && (
@@ -406,11 +406,11 @@ const DataTable = ({
           <div className="min-w-full">
             {/* Table */}
             <table className={`w-full ${tableClassName} min-w-max`}>
-              <thead className={`border-b border-line ${headerClassName}`}>
+              <thead className={`bg-surface-2/60 border-b border-line-soft ${headerClassName}`}>
                 <tr>
                   {/* Select All Checkbox */}
                   {selectable && (
-                    <th className="text-left p-2.5 w-10 border-r border-line sticky left-0 bg-surface-2 z-10">
+                    <th className="text-left p-2.5 w-10 sticky left-0 bg-surface-2/90 z-10">
                       <Checkbox.Root
                         id={checkAllId}
                         checked={selectAll}
@@ -427,7 +427,7 @@ const DataTable = ({
                   {columns.map((column, index) => (
                     <th
                       key={column.key || index}
-                      className={`text-left p-0 text-[10px] uppercase tracking-wider border font-medium text-ink-2 border-r border-line whitespace-nowrap ${column.headerClassName || ''} ${
+                      className={`text-left p-0 text-[11px] uppercase tracking-[0.1em] font-medium text-ink-2 whitespace-nowrap ${column.headerClassName || ''} ${
                         index === 0 && !selectable ? 'sticky left-0 bg-surface-2' : ''
                       }`}
                       style={{
@@ -491,13 +491,13 @@ const DataTable = ({
                   getPaginationInfo.currentData.map((item, index) => (
                     <React.Fragment key={item.id}>
                       <tr
-                        className={`border-b border-line ${rowClassName} ${
+                        className={`border-b border-line-soft hover:bg-brand-wash/40 transition-colors ${rowClassName} ${
                           loading ? 'opacity-60 pointer-events-none' : ''
                         }`}
                         onClick={() => onRowClick(item)}
                       >
                         {selectable && (
-                          <td className="p-2.5 border-r  border-line sticky left-0 bg-surface-1 z-10">
+                          <td className="p-2.5 sticky left-0 bg-white/90 z-10">
                             <Checkbox.Root
                               checked={selectedRows.has(item.id)}
                               onCheckedChange={() => handleRowSelect(item.id)}
@@ -513,7 +513,7 @@ const DataTable = ({
                         {columns.map((column, colIndex) => (
                           <td
                             key={column.key || colIndex}
-                            className={`px-2.5 py-1.5 ${cellPadding} border-r border-line whitespace-nowrap ${column.cellClassName || ''} ${
+                            className={`px-3 py-3 ${cellPadding} whitespace-nowrap ${column.cellClassName || ''} ${
                               colIndex === 0 && !selectable ? 'sticky left-0 bg-surface-1 z-10' : ''
                             }`}
                             style={{
@@ -554,7 +554,7 @@ const DataTable = ({
 
         {/* Pagination */}
         {pagination && getPaginationInfo.totalItems > 0 && (
-          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-3 border-t border-line">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-4 border-t border-line-soft">
             <div className="flex items-center justify-between md:justify-start gap-2 text-sm text-ink-1">
               <span className="whitespace-nowrap">Rows per page</span>
               <GlobalSelect

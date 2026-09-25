@@ -7,7 +7,6 @@ const Modal = () => {
   if (!modal.isOpen) return null;
 
   const handleClose = (_event: object, reason: string) => {
-    console.log('aa', reason);
     if (modal.preventClose && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
       return;
     }
@@ -22,8 +21,8 @@ const Modal = () => {
       disableEscapeKeyDown={modal.preventClose}
       BackdropProps={{
         sx: {
-          backdropFilter: 'blur(8px)', //
-          backgroundColor: 'rgba(0, 0, 0, 0.45)',
+          backdropFilter: 'var(--backdrop-blur)',
+          backgroundColor: 'var(--backdrop-overlay)',
         },
       }}
       sx={{
@@ -33,12 +32,12 @@ const Modal = () => {
           maxWidth: 'fit-content',
           maxHeight: 'fit-content',
           overflow: 'visible',
-          backgroundColor: 'var(--color-surface-1)',
+          backgroundColor: 'var(--glass-bg-modal)',
           color: 'var(--color-ink-0)',
-          border: '1px solid var(--color-line)',
-          borderRadius: '14px',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.45)',
-          backgroundImage: 'none',
+          border: '1px solid #fff',
+          borderRadius: 'var(--radius-modal)',
+          boxShadow: 'var(--shadow-modal)',
+          backgroundImage: 'var(--gradient-modal-glow)',
         },
       }}
     >

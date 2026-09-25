@@ -199,7 +199,7 @@ export default function AddProductModal({ onClose, onComplete }) {
 
                 {/* Tooltip on hover for configured cards */}
                 {isConfigured && (
-                  <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#1a1f24] px-2 py-1 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#eee3d4] px-2 py-1 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity">
                     Already configured
                   </span>
                 )}

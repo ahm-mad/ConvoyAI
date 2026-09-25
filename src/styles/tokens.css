@@ -1,0 +1,183 @@
+/*
+  ConvoyAI DESIGN TOKENS — the single source of truth for the whole UI.
+  Change a value here and it restyles every screen. Never hardcode hex, px radii, font sizes, shadows or
+  gradients in components: use the Tailwind utilities generated from this @theme block (bg-brand, rounded-card,
+  text-title, font-serif, shadow-glow ...) or the semantic classes in components.css (glass, page-title, btn-brand ...).
+  Chart/map code (which needs real colour strings) reads these through src/lib/design/tokens.ts.
+  Docs: agent/architecture/design-tokens.md
+*/
+
+@theme static {
+  /* ------------------------------------------------------------------ Fonts (families) */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ------------------------------------------------------------------ Type scale (size / line-height) */
+  --text-display: clamp(2.5rem, 5vw, 3.75rem); /* hero greeting */
+  --text-display--line-height: 1;
+  --text-title: 2.5rem; /* page title (serif) */
+  --text-title--line-height: 2.75rem;
+  --text-kpi: 2.875rem; /* big KPI number (serif) */
+  --text-kpi--line-height: 1;
+  --text-heading: 1rem; /* card / widget title */
+  --text-heading--line-height: 1.5rem;
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.5rem;
+  --text-control: 0.8125rem; /* buttons, inputs, pills */
+  --text-control--line-height: 1.25rem;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.125rem;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1rem;
+
+  /* ------------------------------------------------------------------ Weights & tracking */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-strong: 600;
+  --font-weight-bold: 700;
+  --tracking-eyebrow: 0.12em;
+  --tracking-heading: -0.01em;
+  --tracking-display: -0.02em;
+
+  /* ------------------------------------------------------------------ Colours: surfaces & ink */
+  --color-surface-0: #fbf5ee; /* page */
+  --color-surface-1: #ffffff; /* raised */
+  --color-surface-2: #f7f0e7; /* subtle fill */
+  --color-surface-3: #eee3d4; /* strong fill */
+  --color-line: #e8dccb;
+  --color-line-soft: #f1e8db;
+  --color-ink-0: #0e1b1a;
+  --color-ink-1: #3a4a48;
+  --color-ink-2: #667572;
+
+  /* ------------------------------------------------------------------ Colours: brand (orange), gold, AI (indigo) */
+  --color-brand: #e8590c;
+  --color-brand-bright: #ff7a1a;
+  --color-brand-soft: #ffb36b;
+  --color-brand-wash: #ffe7d2;
+  --color-brand-ink: #7a2e05;
+  --color-gold: #f5b700;
+  --color-gold-wash: #fff3c4;
+  --color-gold-ink: #7a5600;
+  --color-ai: #5b5be6;
+  --color-ai-bright: #8b7cf6;
+  --color-ai-wash: #eceafe;
+  --color-ai-ink: #3b3bb0;
+
+  /* Historical names kept so the ~100 existing call sites re-skin automatically. */
+  --color-accent-cyan: var(--color-brand);
+  --color-accent-blue: var(--color-brand-bright);
+  --color-accent-green: var(--color-success);
+
+  /* ------------------------------------------------------------------ Colours: status */
+  --color-success: #2e9e5b;
+  --color-warning: #d98a00;
+  --color-danger: #e0523f;
+  --color-online-bg: rgba(46, 158, 91, 0.12);
+  --color-online-text: #1b6b3b;
+  --color-offline-bg: rgba(14, 27, 26, 0.07);
+  --color-offline-text: #3a4a48;
+
+  /* ------------------------------------------------------------------ Colours: data-viz (charts, maps) */
+  --color-chart-1: #e8590c;
+  --color-chart-2: #5b5be6;
+  --color-chart-3: #2e9e5b;
+  --color-chart-4: #f5b700;
+  --color-chart-5: #e0523f;
+  --color-chart-6: #0e9db3;
+  --color-chart-7: #8b7cf6;
+  --color-chart-8: #b45309;
+  --color-chart-neutral: #9aa7a4;
+  --color-chart-neutral-soft: #e3d8c8;
+  --color-chart-grid: #efe4d6;
+  --color-chart-axis: #667572;
+  --color-status-good: #2e9e5b;
+  --color-status-warning: #f5b700;
+  --color-status-serious: #ff7a1a;
+  --color-status-critical: #e0523f;
+
+  /* Legacy aliases (do not use in new code). */
+  --color-primary: var(--color-brand);
+  --color-primary-light: var(--color-brand);
+  --color-primary-dark: var(--color-brand);
+  --color-background-lightest: var(--color-surface-1);
+  --color-background-lighter: var(--color-surface-2);
+  --color-background: var(--color-surface-3);
+  --color-text-light: var(--color-ink-2);
+  --color-text-medium: var(--color-ink-1);
+  --color-text-dark: var(--color-ink-0);
+  --color-green-light: var(--color-success);
+  --color-green-dark: var(--color-success);
+  --color-purple-light: var(--color-ai-bright);
+  --color-purple-dark: var(--color-ai);
+
+  /* ------------------------------------------------------------------ Radii */
+  --radius-control: 0.75rem; /* inputs, small buttons */
+  --radius-card: 1.25rem; /* list rows, tiles, menus */
+  --radius-panel: 1.5rem; /* widgets, toolbars, large cards */
+  --radius-modal: 1.75rem; /* dialogs, copilot, map card */
+  --radius-pill: 999px;
+
+  /* ------------------------------------------------------------------ Shadows */
+  --shadow-card: 0 1px 2px rgba(14, 27, 26, 0.05), 0 8px 24px -8px rgba(14, 27, 26, 0.12);
+  --shadow-glass: 0 2px 4px rgba(14, 27, 26, 0.04), 0 14px 40px -8px rgba(14, 27, 26, 0.14);
+  --shadow-glow: 0 10px 28px -8px rgba(232, 89, 12, 0.6);
+  --shadow-ai: 0 8px 22px -6px rgba(91, 91, 230, 0.6);
+  --shadow-modal: 0 30px 90px -20px rgba(232, 89, 12, 0.35), 0 8px 30px rgba(14, 27, 26, 0.12);
+
+  /* ------------------------------------------------------------------ Layout */
+  --container-page: 92.5rem; /* 1480px content width */
+  --container-nav: 82.5rem; /* 1320px floating nav */
+}
+
+/* Non-utility tokens (used by components.css and base styles). */
+:root {
+  /* Gradients */
+  --gradient-brand: linear-gradient(135deg, var(--color-brand-bright), var(--color-brand));
+  --gradient-ai: linear-gradient(120deg, var(--color-ai), var(--color-ai-bright));
+  --gradient-avatar: linear-gradient(135deg, var(--color-gold), var(--color-danger));
+  --gradient-ai-orb: conic-gradient(
+    from 200deg,
+    var(--color-ai),
+    var(--color-brand-bright),
+    var(--color-gold),
+    var(--color-ai)
+  );
+  --gradient-page-glow:
+    radial-gradient(1000px 560px at 6% -10%, rgba(255, 122, 26, 0.3), transparent 60%),
+    radial-gradient(800px 520px at 98% 0%, rgba(245, 183, 0, 0.26), transparent 60%),
+    radial-gradient(900px 600px at 70% 100%, rgba(91, 91, 230, 0.1), transparent 60%);
+  --gradient-copilot: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(245, 244, 255, 0.88));
+  --gradient-copilot-glow:
+    radial-gradient(400px 160px at 20% 0%, rgba(139, 124, 246, 0.35), transparent 70%),
+    radial-gradient(300px 140px at 100% 0%, rgba(255, 179, 107, 0.45), transparent 70%);
+  --gradient-orb-core: radial-gradient(circle at 30% 25%, #fff, #e8e6ff 60%, #c9c5fa);
+  --gradient-modal-glow: radial-gradient(
+    500px 200px at 0% 0%,
+    rgba(255, 122, 26, 0.1),
+    transparent 70%
+  );
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.66);
+  --glass-bg-strong: rgba(255, 255, 255, 0.86);
+  --glass-bg-modal: rgba(255, 255, 255, 0.94);
+  --glass-blur: blur(22px) saturate(1.5);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.9);
+  --backdrop-overlay: rgba(14, 27, 26, 0.32);
+  --backdrop-blur: blur(10px);
+
+  /* Layout */
+  --page-gutter: 2rem;
+  --page-gutter-mobile: 1rem;
+
+  /* Motion */
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Focus ring */
+  --focus-ring: 2px solid var(--color-brand);
+}

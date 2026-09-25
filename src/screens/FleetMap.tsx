@@ -15,6 +15,7 @@ import TripRouteLayers, { FitRoute } from '@components/TripRouteLayers';
 import MapViewportWatcher from '@components/MapViewportWatcher';
 import { useViewportList } from '@hooks/useViewportList';
 import { bboxToParam, type Bbox } from '@utils/mapViewport';
+import { token } from '@lib/design/tokens';
 
 /**
  * Fleet Management — real map, real data. Consumes
@@ -136,11 +137,11 @@ export default function FleetMap() {
     : [31.4757729, 74.3399971];
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="px-4 py-2.5 border-b border-line-soft bg-surface-1 flex items-center justify-between flex-shrink-0">
+    <div className="glass flex flex-col h-[calc(100vh-300px)] min-h-[560px] overflow-hidden !rounded-modal mt-4 mb-8">
+      <div className="px-6 py-4 border-b border-line-soft bg-white/60 flex items-center justify-between flex-shrink-0">
         <div>
-          <h1 className="text-[13px] font-semibold text-ink-0">Fleet Management</h1>
-          <p className="text-[11px] text-ink-2">
+          <h1 className="page-title !text-[1.75rem] !leading-8">Live map</h1>
+          <p className="text-[12.5px] text-ink-2">
             {isLoading
               ? 'Loading…'
               : totalReporting > positions.length
@@ -152,7 +153,7 @@ export default function FleetMap() {
           <select
             value={selectedTripId}
             onChange={e => setSelectedTripId(e.target.value)}
-            className="bg-surface-2 border border-line rounded-md px-2 py-1 text-[11px] text-ink-0 max-w-[240px]"
+            className="bg-white border border-line rounded-xl px-2 py-1 text-[11px] text-ink-0 max-w-[240px]"
             aria-label="Show trip route"
           >
             <option value="">Show trip route…</option>
@@ -206,8 +207,8 @@ export default function FleetMap() {
                 center={[g.center_latitude, g.center_longitude] as [number, number]}
                 radius={g.radius_m}
                 pathOptions={{
-                  color: '#f5a623',
-                  fillColor: '#f5a623',
+                  color: token('--color-gold'),
+                  fillColor: token('--color-gold'),
                   fillOpacity: 0.08,
                   weight: 1.5,
                   dashArray: '4 3',
@@ -223,7 +224,7 @@ export default function FleetMap() {
             {trail.length > 1 && (
               <Polyline
                 positions={trail}
-                pathOptions={{ color: '#29d3ff', weight: 3, opacity: 0.75 }}
+                pathOptions={{ color: token('--color-brand'), weight: 3, opacity: 0.75 }}
               />
             )}
           </MapContainer>
@@ -233,7 +234,7 @@ export default function FleetMap() {
           <div
             role="status"
             data-testid="map-truncated"
-            className="absolute top-3 left-1/2 -translate-x-1/2 z-[1000] bg-surface-1 border border-line-soft rounded-md px-3 py-1.5 text-[11px] text-ink-1 shadow"
+            className="absolute top-3 left-1/2 -translate-x-1/2 z-[1000] glass-strong  px-3 py-1.5 text-[11px] text-ink-1 shadow"
           >
             Showing {truncated.join(', ')} in view — zoom in to see the rest.
           </div>
@@ -241,7 +242,7 @@ export default function FleetMap() {
 
         {!isLoading && !overviewLoading && positions.length === 0 && totalReporting === 0 && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="bg-surface-1 border border-line-soft rounded-md px-4 py-3 text-xs text-ink-2 text-center">
+            <div className="glass-strong  px-4 py-3 text-xs text-ink-2 text-center">
               No vehicles have reported a GPS position yet.
               <br />
               Assign a GPS tracker to a vehicle and send it a position to see it here.
@@ -251,7 +252,7 @@ export default function FleetMap() {
 
         {!isLoading && positions.length === 0 && totalReporting > 0 && (
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] pointer-events-none">
-            <div className="bg-surface-1 border border-line-soft rounded-md px-4 py-2 text-xs text-ink-1 text-center shadow">
+            <div className="glass-strong  px-4 py-2 text-xs text-ink-1 text-center shadow">
               No vehicles in this area — {totalReporting} reporting elsewhere. Zoom out or pan the
               map.
             </div>

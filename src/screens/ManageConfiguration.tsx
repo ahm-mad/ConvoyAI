@@ -442,7 +442,7 @@ export default function ManageDevice() {
           <button
             onClick={handleCancelEdit}
             disabled={isSaving}
-            className="px-4 py-2 text-xs font-medium text-ink-1 bg-surface-2 border border-line rounded-md hover:bg-surface-3 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed z-50"
+            className="px-4 py-2 text-xs font-medium text-ink-1 bg-white border border-line rounded-xl hover:bg-surface-3 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed z-50"
             title="Cancel"
           >
             Cancel

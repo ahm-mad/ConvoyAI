@@ -57,7 +57,7 @@ export default function SaveAsTemplateModal({ product, onSuccess }) {
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[440px] overflow-hidden">
+    <div className="glass-strong  w-[440px] overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">Save as Template</h2>
@@ -94,7 +94,7 @@ export default function SaveAsTemplateModal({ product, onSuccess }) {
             value={description}
             onChange={e => setDescription(e.target.value)}
             rows={2}
-            className="w-full mt-1.5 bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+            className="w-full mt-1.5 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
           />
         </div>
         {error && <div className="text-xs text-danger">{error}</div>}

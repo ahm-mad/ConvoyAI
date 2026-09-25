@@ -236,7 +236,7 @@ function ProtocolIntegration({ productID: propProductID }: ProtocolIntegrationPr
 
       {activeTab === 'http' && (
         <form onSubmit={handleHttpSubmit(onHttpSubmit)}>
-          <div className="bg-surface-1 border border-line-soft rounded-md p-6">
+          <div className="glass-strong  p-6">
             <h3 className="text-sm font-semibold text-ink-0 mb-5 flex items-center gap-2 uppercase tracking-wider">
               HTTP configuration
             </h3>
@@ -335,7 +335,7 @@ function ProtocolIntegration({ productID: propProductID }: ProtocolIntegrationPr
       {/* MQTT Tab Content */}
       {activeTab === 'mqtt' && (
         <form onSubmit={handleMqttSubmit(onMqttSubmit)}>
-          <div className="bg-surface-1 border border-line-soft rounded-md p-6">
+          <div className="glass-strong  p-6">
             <h3 className="text-sm font-semibold text-ink-0 mb-5 flex items-center gap-2 uppercase tracking-wider">
               MQTT configuration
             </h3>

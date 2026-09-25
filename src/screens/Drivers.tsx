@@ -136,11 +136,11 @@ export default function Drivers() {
     selection.allMatching ? `${verb} all ${selection.count} matching drivers?` : undefined;
 
   return (
-    <div className="flex flex-col p-5 h-full overflow-y-auto">
+    <div className="flex flex-col pt-3 pb-12">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-[15px] font-semibold text-ink-0 font-display">Drivers</h1>
-          <p className="text-xs text-ink-2 mt-0.5">
+          <h1 className="page-title">Drivers</h1>
+          <p className="text-[13.5px] text-ink-1 mt-1">
             {isLoading
               ? 'Loading…'
               : `${view.total} driver${view.total === 1 ? '' : 's'}${list.hasActiveFilters ? ' matching' : ''}`}
@@ -157,7 +157,7 @@ export default function Drivers() {
           </label>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 text-xs font-medium text-accent-cyan border border-line rounded-md px-3 py-1.5 hover:bg-surface-2"
+            className="flex items-center gap-1.5 btn-brand text-[13px] font-semibold rounded-full px-5 py-2.5 transition-transform hover:-translate-y-px"
           >
             <Plus size={13} /> Add Driver
           </button>
@@ -327,7 +327,7 @@ function DriverRow({ driver, onClick }: { driver: any; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left flex items-center justify-between bg-surface-1 border border-line-soft rounded-md px-4 py-3 hover:bg-surface-2 transition-colors ${
+      className={`w-full text-left flex items-center justify-between glass-strong  px-5 py-4 card-lift ${
         driver.status === 'inactive' ? 'opacity-60' : ''
       }`}
     >
@@ -392,7 +392,7 @@ function NewDriverForm({ onClose, onCreated }: { onClose?: () => void; onCreated
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-4 mb-4">
+    <div className="glass  p-6 mb-5">
       <DriverFields values={values} onChange={setValues} />
       <div className="flex gap-2">
         <button

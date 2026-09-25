@@ -11,6 +11,7 @@ import { useFleetSettings } from '@hooks/useFleetSettings';
 import { useUnits } from '@hooks/useUnits';
 import { useOverviewData } from '@hooks/useOverviewData';
 import FilterBar from '@components/analytics/FilterBar';
+import OverviewHero from '@components/fleet/OverviewHero';
 import { useKpiColumns } from '@components/analytics/useKpiColumns';
 import { useAnalyticsFilters } from '@components/analytics/useAnalyticsFilters';
 import WidgetCard from '@components/analytics/WidgetCard';
@@ -472,16 +473,16 @@ export default function FleetOverview() {
       className="a11y-muted overflow-y-auto overscroll-contain"
     >
       <div className="mx-auto w-full max-w-[1760px] px-6 py-6 flex flex-col gap-5">
-        {/* Header */}
-        <div>
-          <h1 className="text-[22px] leading-7 font-semibold text-ink-0 tracking-tight">
-            Overview
-          </h1>
-          <p className="text-[13px] text-ink-1 mt-1">
-            Fleet health at a glance · {f.label}
-            {f.compare ? ` · compared ${f.prevLabel.replace('vs ', 'with ')}` : ''}
-          </p>
-        </div>
+        <OverviewHero
+          vehicles={
+            d.vehicleCounts?.total ??
+            (Object.keys(counts).length
+              ? Object.values(counts).reduce((a: number, b: any) => a + Number(b || 0), 0)
+              : null)
+          }
+          inService={Object.keys(counts).length ? inService : null}
+          attention={d.attentionCounts?.total ?? null}
+        />
 
         <FilterBar
           preset={f.preset}

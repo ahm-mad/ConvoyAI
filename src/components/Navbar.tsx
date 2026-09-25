@@ -246,7 +246,7 @@ export default function Navbar(_props: NavbarProps = {}) {
                   </div>
 
                   {languageMenuOpen && (
-                    <div className="mt-1 ml-2 mr-2 bg-surface-2 border border-line rounded-md flex flex-col overflow-hidden">
+                    <div className="mt-1 ml-2 mr-2 bg-white border border-line rounded-xl flex flex-col overflow-hidden">
                       <div
                         className={`px-4 py-2 text-sm hover:bg-surface-3 cursor-pointer flex items-center transition-colors ${
                           i18n.language === 'en' ? 'text-accent-cyan font-medium' : 'text-ink-1'

@@ -152,8 +152,8 @@ export default function Geofences() {
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-[15px] font-semibold text-ink-0 font-display">Geofences</h1>
-            <p className="text-xs text-ink-2 mt-0.5">
+            <h1 className="page-title">Geofences</h1>
+            <p className="text-[13.5px] text-ink-1 mt-1">
               {isLoading
                 ? 'Loading…'
                 : `${view.total} geofence${view.total === 1 ? '' : 's'}${list.hasActiveFilters ? ' matching' : ''}`}
@@ -161,7 +161,7 @@ export default function Geofences() {
           </div>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 text-xs font-medium text-accent-cyan border border-line rounded-md px-3 py-1.5 hover:bg-surface-2"
+            className="flex items-center gap-1.5 btn-brand text-[13px] font-semibold rounded-full px-5 py-2.5 transition-transform hover:-translate-y-px"
           >
             <Plus size={13} /> New Geofence
           </button>
@@ -283,7 +283,7 @@ export default function Geofences() {
                 onToggle={() => selection.toggle(g.id, g, view.items)}
                 label={g.name}
               >
-                <div className="flex items-center justify-between bg-surface-1 border border-line-soft rounded-md px-4 py-3">
+                <div className="flex items-center justify-between glass-strong  px-5 py-4">
                   <div>
                     <div className="flex items-center gap-2">
                       <MapPin size={13} className="text-accent-cyan" />
@@ -365,13 +365,13 @@ export default function Geofences() {
             onChange={e => eventList.setSearch(e.target.value)}
             placeholder="Search geofence or vehicle…"
             aria-label="Search events"
-            className="flex-1 min-w-0 bg-surface-2 border border-line rounded-md px-2 py-1 text-[11px] text-ink-0"
+            className="flex-1 min-w-0 bg-white border border-line rounded-xl px-2 py-1 text-[11px] text-ink-0"
           />
           <select
             value={eventList.state.filters.event_type ?? ''}
             onChange={e => eventList.setFilter('event_type', e.target.value)}
             aria-label="Event type"
-            className="bg-surface-2 border border-line rounded-md px-1.5 py-1 text-[11px] text-ink-0"
+            className="bg-white border border-line rounded-xl px-1.5 py-1 text-[11px] text-ink-0"
           >
             <option value="">All</option>
             <option value="enter">Enter</option>
@@ -394,10 +394,7 @@ export default function Geofences() {
           </div>
         )}
         {events.items.map(e => (
-          <div
-            key={e.id}
-            className="bg-surface-1 border border-line-soft rounded-md px-3 py-2.5 mb-2 text-xs"
-          >
+          <div key={e.id} className="glass-strong  px-3 py-2.5 mb-2 text-xs">
             <div className="flex items-center gap-1.5">
               {e.event_type === 'enter' ? (
                 <LogIn size={12} className="text-accent-green" />
@@ -494,19 +491,19 @@ function NewGeofenceForm({
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-4 mb-4">
+    <div className="glass  p-6 mb-5">
       <input
         value={name}
         onChange={e => setName(e.target.value)}
         placeholder="Geofence name"
-        className="w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mb-2"
+        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mb-2"
       />
 
       <label className="text-[10px] uppercase text-ink-2">Center</label>
       <select
         value={yardId}
         onChange={e => setYardId(e.target.value)}
-        className="w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mt-1 mb-2"
+        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1 mb-2"
       >
         <option value="">Enter coordinates manually</option>
         {yards.map(y => (
@@ -522,13 +519,13 @@ function NewGeofenceForm({
             value={lat}
             onChange={e => setLat(e.target.value)}
             placeholder="Latitude"
-            className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+            className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
           />
           <input
             value={lng}
             onChange={e => setLng(e.target.value)}
             placeholder="Longitude"
-            className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+            className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
           />
           <PickOnMapButton
             latitude={lat}
@@ -550,7 +547,7 @@ function NewGeofenceForm({
             value={radius}
             onChange={e => setRadius(e.target.value)}
             type="number"
-            className="w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mt-1"
+            className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1"
           />
         </div>
         <div>
@@ -558,7 +555,7 @@ function NewGeofenceForm({
           <select
             value={alertOn}
             onChange={e => setAlertOn(e.target.value)}
-            className="w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mt-1"
+            className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1"
           >
             <option value="both">Enter &amp; Exit</option>
             <option value="enter">Enter only</option>

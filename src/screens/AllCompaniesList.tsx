@@ -286,7 +286,7 @@ const CompaniesListView = () => {
         {shouldShowSkeleton ? (
           <TableSkeleton />
         ) : (
-          <div className="bg-surface-1 border border-line-soft rounded-md overflow-hidden">
+          <div className="glass-strong  overflow-hidden">
             <DataTable
               data={tableData}
               columns={columns}

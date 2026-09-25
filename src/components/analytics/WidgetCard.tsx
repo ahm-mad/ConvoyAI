@@ -56,14 +56,11 @@ export default function WidgetCard({
   const [asTable, setAsTable] = useState(false);
 
   return (
-    <section
-      aria-label={title}
-      className={`bg-surface-1 border border-line-soft rounded-xl shadow-[0_1px_2px_rgba(16,24,40,0.04)] flex flex-col min-w-0 ${className}`}
-    >
-      <header className="flex items-start justify-between gap-3 px-5 pt-4">
+    <section aria-label={title} className={`glass flex flex-col min-w-0  ${className}`}>
+      <header className="flex items-start justify-between gap-3 px-6 pt-5">
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
-            <h2 className="text-[13px] font-semibold text-ink-0 truncate">{title}</h2>
+            <h2 className="card-title truncate">{title}</h2>
             {info && <MetricInfo title={info.title ?? title} {...info} />}
             {sample && (
               <span
@@ -74,7 +71,7 @@ export default function WidgetCard({
               </span>
             )}
           </div>
-          {subtitle && <p className="text-[11.5px] text-ink-2 mt-0.5 truncate">{subtitle}</p>}
+          {subtitle && <p className="text-[12.5px] text-ink-2 mt-0.5 truncate">{subtitle}</p>}
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           {right}
@@ -93,7 +90,7 @@ export default function WidgetCard({
         </div>
       </header>
 
-      <div className={`px-5 pb-4 pt-3 flex-1 min-h-0 flex flex-col ${bodyClassName}`}>
+      <div className={`px-6 pb-5 pt-3.5 flex-1 min-h-0 flex flex-col ${bodyClassName}`}>
         {loading ? (
           <div className="space-y-2.5" style={{ minHeight: skeletonHeight }}>
             <Skeleton className="h-3 w-1/3" />
@@ -115,7 +112,7 @@ export default function WidgetCard({
         )}
       </div>
 
-      {footer && <footer className="px-5 pb-4 -mt-1">{footer}</footer>}
+      {footer && <footer className="px-6 pb-5 -mt-1">{footer}</footer>}
     </section>
   );
 }

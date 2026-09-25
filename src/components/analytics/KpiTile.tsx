@@ -27,7 +27,7 @@ export function DeltaChip({
   const flat = Math.abs(pct) < NEUTRAL_BAND;
   const up = pct > 0;
   const good = polarity === 'neutral' || flat ? null : polarity === 'up-good' ? up : !up;
-  const tone = flat || good === null ? c.neutral : good ? '#0ca30c' : '#d03b3b';
+  const tone = flat || good === null ? c.neutral : good ? '#2e9e5b' : '#e0523f';
   const Icon = flat ? Minus : up ? ArrowUpRight : ArrowDownRight;
   const sign = flat ? '' : up ? '+' : '−';
 
@@ -49,8 +49,8 @@ export function DeltaChip({
 /** 12-point sparkline: the history in the de-emphasis grey, the latest point in the accent with a surface ring. */
 export function Sparkline({
   values,
-  width = 92,
-  height = 34,
+  width = 120,
+  height = 44,
 }: {
   values: (number | null)[];
   width?: number;
@@ -143,8 +143,12 @@ export default function KpiTile({
     <>
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          {icon && <span className="text-ink-2 shrink-0">{icon}</span>}
-          <span className="text-xs font-medium text-ink-1 truncate">{label}</span>
+          {icon && (
+            <span className="grid size-8 shrink-0 place-items-center rounded-[10px] bg-brand-wash text-brand">
+              {icon}
+            </span>
+          )}
+          <span className="text-[13px] font-medium text-ink-1 truncate">{label}</span>
         </div>
         <span className="flex items-center gap-1 shrink-0">
           {sample && (
@@ -158,16 +162,14 @@ export default function KpiTile({
         </span>
       </div>
 
-      <div className="mt-3 flex items-end justify-between gap-3">
+      <div className="mt-4 flex items-end justify-between gap-3">
         <div className="min-w-0">
           {loading ? (
             <Skeleton className="h-8 w-24" />
           ) : (
             <div className="flex items-baseline gap-1">
-              <span className="text-[28px] leading-8 font-semibold text-ink-0 tracking-tight">
-                {value}
-              </span>
-              {unit && <span className="text-sm text-ink-1 font-medium">{unit}</span>}
+              <span className="kpi-value">{value}</span>
+              {unit && <span className="text-sm text-ink-2 font-medium">{unit}</span>}
             </div>
           )}
         </div>
@@ -189,21 +191,20 @@ export default function KpiTile({
     </>
   );
 
-  const cls =
-    'text-left w-full bg-surface-1 border border-line-soft rounded-xl shadow-[0_1px_2px_rgba(16,24,40,0.04)] p-4 flex flex-col min-w-0 transition-all';
+  const cls = 'glass text-left w-full  p-5 flex flex-col min-w-0 transition-all';
 
   // A clickable tile is a card with a button laid over it — NOT a button wrapping the "how is this calculated"
   // button (nested interactive controls are unreachable for screen readers). The card content ignores the
   // pointer so a click lands on the overlay; the info control re-enables it.
   return onClick ? (
     <div
-      className={`${cls} relative cursor-pointer hover:border-line hover:shadow-md hover:-translate-y-px [&>*:not(button)]:pointer-events-none`}
+      className={`${cls} relative cursor-pointer card-lift [&>*:not(button)]:pointer-events-none`}
     >
       <button
         type="button"
         onClick={onClick}
         aria-label={`${label}: ${noValue ? 'no value' : `${value}${unit ? ` ${unit}` : ''}`}. Open details`}
-        className="absolute inset-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
+        className="absolute inset-0 rounded-3xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
       />
       {body}
     </div>

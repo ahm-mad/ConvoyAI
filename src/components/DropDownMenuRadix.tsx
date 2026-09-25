@@ -27,7 +27,7 @@ const DropdownMenuRadix = ({
           side={side}
           align={align}
           sideOffset={sideOffset}
-          className="min-w-[220px] max-h-60 overflow-y-auto bg-surface-2 border border-line rounded-md shadow-lg p-1 z-50"
+          className="min-w-[220px] max-h-60 overflow-y-auto bg-white border border-line rounded-xl shadow-lg p-1 z-50"
         >
           {options.map((option, idx) => (
             <DropdownMenu.Item

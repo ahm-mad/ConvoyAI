@@ -151,7 +151,7 @@ export default function PacketPayloadViewer({
           </span>
         )}
       </div>
-      <div className="bg-surface-1 border border-line-soft rounded-md p-2 max-h-96 overflow-auto">
+      <div className="glass-strong  p-2 max-h-96 overflow-auto">
         {isEmpty ? (
           <p className="text-xs text-ink-2 italic px-2 py-1">Empty payload.</p>
         ) : isTopLevelObject ? (

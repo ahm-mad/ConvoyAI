@@ -1,34 +1,21 @@
 @import 'tailwindcss';
+@import './styles/tokens.css';
+@import './styles/components.css';
 
-/*
-  ConvoyAI type system — revised for the NOC/industrial-console direction.
-  - IBM Plex Sans: UI chrome, labels, headings (no separate "display" face —
-    a dedicated headline font reads as marketing, not instrumentation).
-  - IBM Plex Mono: every number, ID, timestamp, protocol/signal value.
-    Tabular figures (font-feature-settings 'tnum') so columns of numbers
-    actually align — this is load-bearing for a data-dense console, not
-    a decorative choice.
-  Loaded via <link> in index.html (avoids a render-blocking @import here).
-*/
+/* Base typography: families/sizes come from tokens.css. */
 body {
-  font-family:
-    'IBM Plex Sans',
-    -apple-system,
-    BlinkMacSystemFont,
-    ui-sans-serif,
-    system-ui,
-    sans-serif;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
 }
 
+/* Historical class: sans heading weight. Prefer the semantic classes in styles/components.css. */
 .font-display {
-  /* Historical name — kept so call sites don't need updating. Renders as
-     the same UI sans at heading weight, not a separate display face. */
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-strong);
 }
 
 .font-mono {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-feature-settings:
     'tnum' 1,
     'zero' 1;
@@ -81,7 +68,7 @@ div.calendly-overlay *::-webkit-scrollbar {
 
 /* 📦 NProgress Bar */
 #nprogress .bar {
-  background: var(--color-accent-cyan) !important;
+  background: var(--color-brand) !important;
   height: 2px !important;
   position: fixed;
   top: 0;
@@ -122,188 +109,28 @@ div.calendly-overlay *::-webkit-scrollbar {
 }
 
 /*
-  ConvoyAI design tokens.
-  Dark is the default surface (operational/NOC-style product); `.light` on
-  <html> (see ThemeContext + the inline script in index.html) overrides every
-  value below. Components should always consume the @theme utility classes
-  (bg-surface-1, text-ink-0, border-line, etc.) or var(--color-*) directly —
-  never hardcode hex so both themes stay correct automatically.
-
-  Legacy --color-primary / --color-background-* / --color-text-* tokens are
-  kept temporarily for pages not yet migrated to the new system. Don't use
-  them in new or updated components — prefer the surface/ink/accent tokens.
-*/
-/*
-  ConvoyAI design tokens.
-  Dark is the default surface (operational/NOC-style product); `.light` on
-  <html> (see ThemeContext + the inline script in index.html) overrides every
-  value below. Components should always consume the @theme utility classes
-  (bg-surface-1, text-ink-0, border-line, etc.) or var(--color-*) directly —
-  never hardcode hex so both themes stay correct automatically.
-
-  Legacy --color-primary / --color-background-* / --color-text-* tokens are
-  kept for the ~17 files still using them, but they're ALIASED to the new
-  surface/ink system via var() rather than given their own fixed values.
-  (They previously had fixed light-mode hex values with no dark variant —
-  meaning text-text-dark rendered dark-gray-on-near-black in dark mode,
-  nearly invisible. Aliasing means they now track whichever theme is active
-  automatically, same as everything else.) Still prefer the new token names
-  directly in any component you touch.
-*/
-:root {
-  --color-primary: var(--color-accent-cyan);
-  --color-primary-light: var(--color-accent-cyan);
-  --color-primary-dark: var(--color-accent-cyan);
-  --color-background-lightest: var(--color-surface-1);
-  --color-background-lighter: var(--color-surface-2);
-  --color-background: var(--color-surface-3);
-  --color-text-light: var(--color-ink-2);
-  --color-text-medium: var(--color-ink-1);
-  --color-text-dark: var(--color-ink-0);
-  --color-green-light: var(--color-accent-green);
-  --color-green-dark: var(--color-accent-green);
-  --color-purple-light: #a78bfa;
-  --color-purple-dark: #7c5cdb;
-}
-
-@theme {
-  --color-primary: var(--color-accent-cyan);
-  --color-primary-light: var(--color-accent-cyan);
-  --color-primary-dark: var(--color-accent-cyan);
-  --color-background-lightest: var(--color-surface-1);
-  --color-background-lighter: var(--color-surface-2);
-  --color-background: var(--color-surface-3);
-  --color-text-light: var(--color-ink-2);
-  --color-text-medium: var(--color-ink-1);
-  --color-text-dark: var(--color-ink-0);
-  --color-green-light: var(--color-accent-green);
-  --color-green-dark: var(--color-accent-green);
-  --color-purple-light: #a78bfa;
-  --color-purple-dark: #7c5cdb;
-
-  /*
-    ---- Surfaces ----
-    NOC/cockpit panels don't jump in value between elevations — they creep.
-    Low-contrast gray steps, not "black card floating on black page."
-  */
-  --color-surface-0: #0a0c0f;
-  --color-surface-1: #0e1114;
-  --color-surface-2: #13171b;
-  --color-surface-3: #1a1f24;
-
-  /* ---- Borders ---- */
-  --color-line: #22282e;
-  --color-line-soft: #181c20;
-
-  /* ---- Text (ink) ---- */
-  --color-ink-0: #e8ebee;
-  --color-ink-1: #8b95a1;
-  --color-ink-2: #565f68;
-
-  /*
-    ---- Accents ----
-    Color discipline: cyan is the ONLY non-status accent, reserved for
-    "live / selected / primary action." It is not a brand gradient anymore —
-    --color-accent-blue is aliased to the same cyan so any leftover gradient
-    references render as a solid fill rather than a rainbow. Green is not a
-    decorative brand color here; it IS the "nominal/good" status color
-    (--color-success), used the same everywhere.
-  */
-  --color-accent-cyan: #29d3ff;
-  --color-accent-blue: #29d3ff;
-  --color-accent-green: #17d68c;
-
-  /* ---- Semantic status: the only place saturated color is allowed ---- */
-  --color-danger: #ff3b5c;
-  --color-warning: #f5a623;
-  --color-success: #17d68c;
-
-  /* ---- Status tint backgrounds (badges, pills) ---- */
-  --color-online-bg: rgba(23, 214, 140, 0.1);
-  --color-online-text: #17d68c;
-  --color-offline-bg: rgba(86, 95, 104, 0.16);
-  --color-offline-text: #8b95a1;
-
-  /* ---- Elevation shadow (near-invisible in dark, real in light) ---- */
-  --shadow-card: none;
-}
-
-/*
-  Light theme overrides — the "high-contrast laboratory" alternative to dark,
-  not a pastel inversion. Near-black ink on near-white surfaces; status
-  colors deepened for contrast, same discipline as dark mode.
-*/
-/*
   Fleet analytics pages (PageScroller): the muted text token is raised to WCAG AA (4.5:1) on every card and page
   surface in both themes. Scoped to this class on purpose — the app-wide --color-ink-2 is unchanged.
 */
 .a11y-muted {
-  --color-ink-2: #7f8994;
+  --color-ink-2: #5a6a67;
 }
 
 html.light .a11y-muted {
-  --color-ink-2: #5a6570;
+  --color-ink-2: #5a6a67;
 }
 
+/* Light-only product: html.light intentionally adds nothing beyond @theme. */
 html.light {
-  --color-surface-0: #f3f4f6;
-  --color-surface-1: #ffffff;
-  --color-surface-2: #eceef1;
-  --color-surface-3: #dfe3e7;
-
-  --color-line: #d3d8dd;
-  --color-line-soft: #e5e8eb;
-
-  --color-ink-0: #12151a;
-  --color-ink-1: #4c545c;
-  --color-ink-2: #838c94;
-
-  --color-accent-cyan: #0075a3;
-  --color-accent-blue: #0075a3;
-  --color-accent-green: #0a8a5c;
-
-  --color-danger: #d81b3f;
-  --color-warning: #a15c05;
-  --color-success: #0a8a5c;
-
-  --color-online-bg: rgba(10, 138, 92, 0.1);
-  --color-online-text: #0a8a5c;
-  --color-offline-bg: rgba(76, 84, 92, 0.12);
-  --color-offline-text: #4c545c;
-
-  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.07);
-
-  /* Legacy tokens need no re-declaration here — they're aliased via var()
-     to --color-surface---color-ink- above, which this block already
-     overrides, so they resolve correctly for light mode automatically. */
-}
-
-/*
-  Historical class names — kept so the 40+ files already using them don't
-  need touching. In the NOC redesign these render as a SOLID accent fill,
-  not a multi-hue gradient: color discipline means saturated color is spent
-  on status, not decoration. See --color-accent-* aliasing above.
-*/
-.brand-gradient-text {
-  color: var(--color-accent-cyan);
-}
-
-.brand-gradient-bg {
-  background: var(--color-accent-cyan);
-}
-
-/* Text color on top of a solid accent-cyan fill: dark navy reads well on
-   dark mode's brighter cyan; white reads well on light mode's deeper cyan. */
-.on-gradient {
-  color: #001820;
-}
-html.light .on-gradient {
-  color: #ffffff;
+  --color-surface-0: #fbf5ee;
 }
 
 body {
   background-color: var(--color-surface-0);
+  background-image: var(--gradient-page-glow);
+  background-attachment: fixed;
   color: var(--color-ink-0);
+  -webkit-font-smoothing: antialiased;
   transition:
     background-color 0.15s ease,
     color 0.15s ease;

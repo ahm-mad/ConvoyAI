@@ -79,7 +79,7 @@ export default function CreateTemplateModal({ onSuccess }) {
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[560px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[560px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">New Template</h2>
@@ -120,7 +120,7 @@ export default function CreateTemplateModal({ onSuccess }) {
             value={description}
             onChange={e => setDescription(e.target.value)}
             rows={2}
-            className="w-full mt-1.5 bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+            className="w-full mt-1.5 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
           />
         </div>
 
@@ -133,19 +133,19 @@ export default function CreateTemplateModal({ onSuccess }) {
                   value={field.attribute_key}
                   onChange={e => updateField(index, { attribute_key: e.target.value })}
                   placeholder="source key (e.g. objectJSON.temperature)"
-                  className="flex-1 bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs font-mono text-ink-0"
+                  className="flex-1 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs font-mono text-ink-0"
                 />
                 <input
                   value={field.label}
                   onChange={e => updateField(index, { label: e.target.value })}
                   placeholder="label"
-                  className="w-28 bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+                  className="w-28 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
                 />
                 <input
                   value={field.unit}
                   onChange={e => updateField(index, { unit: e.target.value })}
                   placeholder="unit"
-                  className="w-16 bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+                  className="w-16 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
                 />
                 <button
                   onClick={() => removeField(index)}

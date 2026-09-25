@@ -19,7 +19,7 @@ export default function OptionSelect({
   placeholder,
   emptyLabel,
   disabled,
-  className = 'w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0',
+  className = 'w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0',
   wrapperClassName = 'flex-1 min-w-0',
   ariaLabel,
   selectedLabel,
@@ -67,7 +67,7 @@ export default function OptionSelect({
           onChange={e => setSearch(e.target.value)}
           placeholder="More than 1,000 match — type to search…"
           aria-label="Search options"
-          className="w-full mb-1 bg-surface-2 border border-line rounded-md px-2.5 py-1 text-[11px] text-ink-0"
+          className="w-full mb-1 bg-white border border-line rounded-xl px-2.5 py-1 text-[11px] text-ink-0"
         />
       )}
       <select

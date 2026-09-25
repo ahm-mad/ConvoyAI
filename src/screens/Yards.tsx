@@ -123,11 +123,11 @@ export default function Yards() {
     selection.allMatching ? `${verb} all ${selection.count} matching yards?` : undefined;
 
   return (
-    <div className="flex flex-col p-5 h-full overflow-y-auto">
+    <div className="flex flex-col pt-3 pb-12">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-[15px] font-semibold text-ink-0 font-display">Yards</h1>
-          <p className="text-xs text-ink-2 mt-0.5">
+          <h1 className="page-title">Yards</h1>
+          <p className="text-[13.5px] text-ink-1 mt-1">
             {isLoading
               ? 'Loading…'
               : `${view.total} yard${view.total === 1 ? '' : 's'}${list.hasActiveFilters ? ' matching' : ''}`}
@@ -144,7 +144,7 @@ export default function Yards() {
           </label>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 text-xs font-medium text-accent-cyan border border-line rounded-md px-3 py-1.5 hover:bg-surface-2"
+            className="flex items-center gap-1.5 btn-brand text-[13px] font-semibold rounded-full px-5 py-2.5 transition-transform hover:-translate-y-px"
           >
             <Plus size={13} /> Add Yard
           </button>
@@ -274,7 +274,7 @@ export default function Yards() {
             >
               <button
                 onClick={() => openModal(<YardLayoutEditor yardId={y.id} yardName={y.name} />)}
-                className={`w-full text-left flex items-center justify-between bg-surface-1 border border-line-soft rounded-md px-4 py-3 hover:bg-surface-2 transition-colors ${
+                className={`w-full text-left flex items-center justify-between glass-strong  px-5 py-4 card-lift ${
                   y.is_active === false ? 'opacity-60' : ''
                 }`}
               >
@@ -362,31 +362,31 @@ function NewYardForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-4 mb-4">
+    <div className="glass  p-6 mb-5">
       <input
         value={name}
         onChange={e => setName(e.target.value)}
         placeholder="Yard name"
-        className="w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mb-2"
+        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mb-2"
       />
       <input
         value={address}
         onChange={e => setAddress(e.target.value)}
         placeholder="Address (optional)"
-        className="w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mb-2"
+        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mb-2"
       />
       <div className="grid grid-cols-2 gap-2 mb-3">
         <input
           value={lat}
           onChange={e => setLat(e.target.value)}
           placeholder="Latitude (optional)"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
         <input
           value={lng}
           onChange={e => setLng(e.target.value)}
           placeholder="Longitude (optional)"
-          className="bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
         <PickOnMapButton
           latitude={lat}
@@ -408,7 +408,7 @@ function NewYardForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
               onChange={e => setRadius(e.target.value)}
               type="number"
               min={10}
-              className="w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+              className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
             />
             <span className="block text-[10px] text-ink-2 mt-1">
               A geofence of this size is created for the yard, so sensors detect vehicles entering

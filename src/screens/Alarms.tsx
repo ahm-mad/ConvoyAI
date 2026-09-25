@@ -118,7 +118,7 @@ function AlarmRow({ alarm, onAcknowledge }: { alarm?: any; onAcknowledge: (id: a
   )[alarm.state];
 
   return (
-    <div className="flex items-center justify-between bg-surface-1 border border-line-soft rounded-md px-3.5 py-2.5">
+    <div className="flex items-center justify-between glass-strong  px-3.5 py-2.5">
       <div className="flex items-center gap-3 min-w-0">
         {stateIcon}
         <div className="min-w-0">
