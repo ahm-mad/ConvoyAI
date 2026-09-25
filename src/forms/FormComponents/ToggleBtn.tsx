@@ -4,7 +4,13 @@
  * On/off switch (replaces MUI Switch). Calls `onChange` with a checkbox-like event (`target.checked`) so
  * existing MUI / react-hook-form handlers keep working. Colours come from the design tokens.
  */
-export default function GlobalToggle({ checked, onChange, disabled, name, ...props }) {
+export default function GlobalToggle({
+  checked,
+  onChange,
+  disabled = false,
+  name = undefined,
+  ...props
+}) {
   const on = Boolean(checked);
 
   return (
@@ -18,7 +24,7 @@ export default function GlobalToggle({ checked, onChange, disabled, name, ...pro
       {...props}
     >
       <span
-        className={`absolute top-[2px] size-[21px] rounded-full bg-white shadow-card transition-transform ${on ? 'translate-x-[19px]' : 'translate-x-[2px]'}`}
+        className={`absolute left-0 top-[2px] size-[21px] rounded-full bg-white shadow-card transition-transform ${on ? 'translate-x-[19px]' : 'translate-x-[2px]'}`}
       />
     </button>
   );

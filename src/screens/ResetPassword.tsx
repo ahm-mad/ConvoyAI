@@ -137,7 +137,7 @@ export default function SetNewPassword() {
   // Loading state while verifying token
   if (verifyingToken) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-surface-0">
+      <div className="min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="glass-strong  p-8 text-center shadow-modal">
             <div className="mb-8">

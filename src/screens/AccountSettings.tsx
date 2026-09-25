@@ -77,12 +77,12 @@ const ScrollSidebar = ({ hidePasswordLink = false }: { hidePasswordLink?: boolea
   ];
 
   return (
-    <div className="  mt-8 top-31.5 hidden lg:block w-50 h-[calc(100vh-8rem)] overflow-visible pr-4 2xl:-ml-0 ml-5 text-xs z-50 bg-surface-0">
+    <div className="  mt-8 top-31.5 hidden lg:block w-50 h-[calc(100vh-8rem)] overflow-visible pr-4 2xl:-ml-0 ml-5 text-xs z-50">
       <div className="relative pl-8 pt-4">
         <div className="absolute left-3 top-4 bottom-0 w-[1px] bg-line"></div>
         <Scrollspy
           items={items}
-          currentClassName="relative text-accent-cyan font-medium !bg-surface-2 -ml-12 pl-12 rounded-md
+          currentClassName="relative text-brand font-medium !bg-brand-wash -ml-12 pl-12 rounded-full
                             before:content-[''] before:absolute before:left-6.5 before:top-1/2 before:-translate-y-1/2
                             before:w-1.5 before:h-1.5 before:bg-accent-cyan before:rounded-full before:z-100"
           offset={-300}
