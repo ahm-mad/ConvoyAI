@@ -173,6 +173,61 @@
     color: #fff;
   }
 
+  /* Checkbox / radio inputs (native, token-styled) */
+  .check,
+  .radio {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-grid;
+    place-content: center;
+    flex-shrink: 0;
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 1.5px solid var(--color-line);
+    background: var(--color-surface-1);
+    cursor: pointer;
+    transition:
+      background var(--motion-fast) var(--ease-standard),
+      border-color var(--motion-fast) var(--ease-standard),
+      box-shadow var(--motion-fast) var(--ease-standard);
+  }
+  .check {
+    border-radius: 0.375rem;
+  }
+  .radio {
+    border-radius: 50%;
+  }
+  .check:checked,
+  .radio:checked {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+  .check:checked::after {
+    content: '';
+    width: 0.3rem;
+    height: 0.55rem;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: translateY(-1px) rotate(45deg);
+  }
+  .radio:checked::after {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .check:focus-visible,
+  .radio:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .check:disabled,
+  .radio:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   /* ---- Layout ---- */
   .page-container {
     width: 100%;

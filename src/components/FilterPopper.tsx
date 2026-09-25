@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import Popper from '@mui/material/Popper';
-import Fade from '@mui/material/Fade';
-import Box from '@mui/material/Box';
 
+/** Controlled popover under a trigger (replaces MUI Popper). Panel size can be overridden via `sx` (width/height). */
 const FilterPopper = ({ id, openPopperId, setOpenPopperId, trigger, children, sx = {} }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const isOpen = openPopperId === id && Boolean(children) && Boolean(anchorEl);
+  const [open, setOpen] = useState(false);
+  const isOpen = openPopperId === id && Boolean(children) && open;
 
   const handleClick = event => {
     event.stopPropagation();
     if (isOpen) {
-      setAnchorEl(null);
+      setOpen(false);
       setOpenPopperId(null);
     } else {
-      setAnchorEl(event.currentTarget);
+      setOpen(true);
       setOpenPopperId(id);
     }
   };
@@ -25,33 +22,13 @@ const FilterPopper = ({ id, openPopperId, setOpenPopperId, trigger, children, sx
         {trigger}
       </div>
 
-      {isOpen && anchorEl && (
-        <Popper
-          open={isOpen}
-          anchorEl={anchorEl}
-          transition
-          placement="bottom-start"
-          sx={{ zIndex: 2000 }}
+      {isOpen && (
+        <div
+          className="glass-strong absolute left-0 top-full z-[2000] mt-2 h-96 w-80 overflow-hidden"
+          style={{ boxShadow: 'var(--shadow-glass)', ...sx }}
         >
-          {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={500}>
-              <Box
-                sx={{
-                  bgcolor: 'var(--color-surface-2)',
-                  boxShadow: 'var(--shadow-glass)',
-                  border: '1px solid var(--color-line)',
-                  borderRadius: '10px',
-                  height: '24rem',
-                  width: '20rem',
-                  overflow: 'hidden',
-                  ...sx,
-                }}
-              >
-                {children}
-              </Box>
-            </Fade>
-          )}
-        </Popper>
+          {children}
+        </div>
       )}
     </div>
   );

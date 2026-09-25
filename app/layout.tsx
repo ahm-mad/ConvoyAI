@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 // Global stylesheets (previously imported from src/main.jsx / src/App.jsx).
 // src/index.css is the real design-token source (dark-first CSS vars + @theme).
@@ -41,9 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
-        <AppRouterCacheProvider options={{ key: 'mui' }}>
-          <Providers>{children}</Providers>
-        </AppRouterCacheProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

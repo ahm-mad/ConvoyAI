@@ -1,26 +1,11 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 import React from 'react';
-import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-
-const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-  '& .MuiFormControlLabel-label': {
-    transition: 'color 0.3s ease',
-  },
-  '&.checked .MuiFormControlLabel-label': {
-    color: theme.palette.primary.main,
-  },
-}));
 
 const GlobalRadioGroup = ({
   options = [],
   name,
   value,
   onChange,
-  checked = undefined,
   className = '',
   labelClass = '',
   radioClass = '',
@@ -35,40 +20,25 @@ const GlobalRadioGroup = ({
   radioClass?: string;
 }) => {
   return (
-    <RadioGroup
-      name={name}
-      value={value}
-      checked={checked}
-      onChange={onChange}
-      className={className}
-    >
+    <div role="radiogroup" className={`flex flex-col gap-2 ${className}`}>
       {options.map(option => (
-        <StyledFormControlLabel
+        <label
           key={option.value}
-          value={option.value}
-          label={option.label}
-          control={<Radio className={radioClass} />}
-          className={value === option.value ? 'checked' : ''}
-          classes={{ label: labelClass }}
-        />
+          className={`inline-flex cursor-pointer items-center gap-2 text-body transition-colors ${value === option.value ? 'text-brand' : 'text-ink-1'} ${labelClass}`}
+        >
+          <input
+            type="radio"
+            className={`radio ${radioClass}`}
+            name={name}
+            value={option.value}
+            checked={value === option.value}
+            onChange={onChange}
+          />
+          {option.label}
+        </label>
       ))}
-    </RadioGroup>
+    </div>
   );
-};
-
-GlobalRadioGroup.propTypes = {
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  labelClass: PropTypes.string,
-  radioClass: PropTypes.string,
 };
 
 export default GlobalRadioGroup;

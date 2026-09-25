@@ -1,34 +1,31 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 import React from 'react';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 export default function GlobalCheckbox({
   defaultChecked = false,
   onChange,
   label = '',
-  size = 'medium',
-  color = 'primary',
   disabled = false,
   className = '',
   checked = undefined,
+  size: _size = undefined,
+  color: _color = undefined,
   ...props
 }) {
   return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          onChange={onChange}
-          size={size}
-          color={color}
-          disabled={disabled}
-          className={className}
-          inputProps={{ 'aria-label': 'global checkbox' }}
-          checked={checked}
-          {...props}
-        />
-      }
-      label={label}
-    />
+    <label
+      className={`inline-flex cursor-pointer items-center gap-2 text-body text-ink-1 ${className}`}
+    >
+      <input
+        type="checkbox"
+        className="check"
+        onChange={onChange}
+        disabled={disabled}
+        aria-label="global checkbox"
+        {...(checked === undefined ? { defaultChecked } : { checked })}
+        {...props}
+      />
+      {label}
+    </label>
   );
 }
