@@ -125,7 +125,7 @@ export default function FleetMap() {
     : [];
 
   // Switched from CartoDB — same correction as Map.jsx, same reasoning.
-  // const mapTilerKey = '8Ql9ZaPLK0hRSAGilSDk';
+  // const mapTilerKey = '<OLD_MAPTILER_KEY_REDACTED>';
   const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
   const tileUrl = `https://api.maptiler.com/maps/dataviz-${isLight ? 'light' : 'dark'}/{z}/{x}/{y}.png?key=${mapTilerKey}`;
 

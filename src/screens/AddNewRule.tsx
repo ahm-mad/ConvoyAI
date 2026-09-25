@@ -15,7 +15,7 @@ import { post, get, put } from '../utils/apiHelper';
 import AddNewRuleBuilderSkeleton from '../components/AddNewRuleSkeleton';
 import { useUser } from '@contexts/UserContext';
 
-import AddnewRuleDemo from '../ConvoyAIDemo/AddnewRuleDemo';
+import AddnewRuleDemo from '../ConvoyDemo/AddnewRuleDemo';
 import { isFirstDemo } from '../utils/DemoHelper';
 
 interface RuleCondition {

@@ -24,7 +24,7 @@ import DropdownMenuRadix from '../components/DropDownMenuRadix';
 import { IoShieldCheckmarkOutline, IoLocationOutline } from 'react-icons/io5';
 import ProductConfigurationSkeleton from '@components/ProductConfigurationSkeleton';
 import { fakeProductConfiguration } from '@root/src/utils/fakeBackend/Data';
-import ProductConfigurationDemo from '../ConvoyAIDemo/ProductConfigurationDemo';
+import ProductConfigurationDemo from '../ConvoyDemo/ProductConfigurationDemo';
 import { isFirstDemo } from '../utils/DemoHelper';
 
 interface ProductConfigurationProps {

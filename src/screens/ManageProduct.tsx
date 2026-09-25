@@ -16,7 +16,7 @@ import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useUser } from '@contexts/UserContext';
 import { Edit, Trash2, Mail, MessageSquare, Settings } from 'lucide-react';
-import ManageProductDemo from '../ConvoyAIDemo/ManageProductDemo';
+import ManageProductDemo from '../ConvoyDemo/ManageProductDemo';
 import { isFirstDemo } from '@utils/DemoHelper';
 import { post } from '../utils/apiHelper';
 import ConfirmModal from '../components/ConfirmActivationModal';

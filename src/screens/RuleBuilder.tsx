@@ -13,7 +13,7 @@ import { useSimpleQuery } from '../hooks/useSimpleQuery';
 import { get, del, post } from '../utils/apiHelper';
 import { useUser } from '../contexts/UserContext';
 
-import RuleBuilderDemo from '@root/src/ConvoyAIDemo/RuleBuilderDemo';
+import RuleBuilderDemo from '@root/src/ConvoyDemo/RuleBuilderDemo';
 import { isFirstDemo } from '../utils/DemoHelper';
 
 export default function Rule() {

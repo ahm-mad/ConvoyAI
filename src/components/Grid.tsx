@@ -17,7 +17,7 @@ import { useUser } from '@contexts/UserContext';
 import SpinLoader from './SpinLoader';
 import { Widgets, Forms, getWidgetConfig } from '@utils/DynamicImport';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import WidgetDashboardDemo from '../ConvoyAIDemo/WidgetDashboardDemo';
+import WidgetDashboardDemo from '../ConvoyDemo/WidgetDashboardDemo';
 import { isFirstDemo } from '@utils/DemoHelper';
 
 const sampleDevices = [

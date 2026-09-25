@@ -13,7 +13,7 @@ import Button from '@components/Button';
 import { post } from '@utils/apiHelper';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { StartModelDemo } from '../../ConvoyAIDemo/AddProductModelDemo';
+import { StartModelDemo } from '../../ConvoyDemo/AddProductModelDemo';
 import { isFirstDemo } from '@utils/DemoHelper';
 
 export default function AddDevice({

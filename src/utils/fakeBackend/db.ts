@@ -1,7 +1,7 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 import Dexie from 'dexie';
 
-export const demoDb = new Dexie('DemoConvoyAIDatabase');
+export const demoDb = new Dexie('DemoConvoyDatabase');
 
 demoDb.version(1).stores({
   company: 'id,name,email',

@@ -10,7 +10,7 @@ import { BatteryFormSchema } from '@validation/BatteryFormValidation';
 import ShowAndHide from '../FormComponents/ShowAndHide';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray } from 'react-hook-form';
-import FormDemo from '@root/src/ConvoyAIDemo/FormDemo';
+import FormDemo from '@root/src/ConvoyDemo/FormDemo';
 import { isFirstDemo } from '@utils/DemoHelper';
 
 export default function HumidityForm({
