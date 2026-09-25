@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo, useState } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
-import { baseOptions, crosshairPlugin } from './chartSetup';
-import { useVizColors } from './theme';
+import dynamic from 'next/dynamic';
+import type { ApexOptions } from 'apexcharts';
+import { useVizColors, type VizColors } from './theme';
+
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export interface ChartSeries {
   key: string;
@@ -69,12 +71,59 @@ const useHidden = () => {
   return { hidden, toggle };
 };
 
-const tooltipLabel = (series: ChartSeries[]) => (ctx: any) => {
-  const s = series[ctx.datasetIndex];
-  const v = ctx.parsed.y;
-
-  return `${v == null ? '—' : s.format ? s.format(v) : v.toLocaleString()}   ${s.label}`;
-};
+/** Shared chart chrome from the design tokens: hairline dashed grid, muted axis text, glass tooltip. */
+const baseApex = (
+  c: VizColors,
+  o: {
+    height: number;
+    type: 'bar' | 'area' | 'line';
+    stacked?: boolean;
+    yTickFormat?: (v: number) => string;
+    integer?: boolean;
+  }
+): ApexOptions => ({
+  chart: {
+    type: o.type,
+    height: o.height,
+    stacked: o.stacked,
+    toolbar: { show: false },
+    zoom: { enabled: false },
+    fontFamily: 'var(--font-sans)',
+    foreColor: c.axis,
+    background: 'transparent',
+    animations: {
+      enabled: true,
+      speed: 500,
+      animateGradually: { enabled: true, delay: 60 },
+      dynamicAnimation: { speed: 350 },
+    },
+  },
+  dataLabels: { enabled: false },
+  legend: { show: false },
+  grid: {
+    borderColor: c.grid,
+    strokeDashArray: 4,
+    padding: { left: 4, right: 8, top: 0, bottom: 0 },
+  },
+  xaxis: {
+    axisBorder: { show: false },
+    axisTicks: { show: false },
+    labels: { style: { colors: c.axis, fontSize: '11px' }, rotate: 0, hideOverlappingLabels: true },
+    crosshairs: { show: o.type !== 'bar', stroke: { color: c.axis, width: 1, dashArray: 0 } },
+    tooltip: { enabled: false },
+  },
+  yaxis: {
+    min: 0,
+    forceNiceScale: true,
+    tickAmount: 4,
+    labels: {
+      style: { colors: c.axis, fontSize: '11px' },
+      formatter: (v: number) =>
+        o.yTickFormat ? o.yTickFormat(v) : o.integer ? String(Math.round(v)) : String(v),
+    },
+  },
+  tooltip: { shared: true, intersect: false, theme: 'light', style: { fontSize: '12px' } },
+});
 
 /**
  * Counts per period, stacked. ≤ 24 px columns, 4 px rounded, a 2 px surface gap between segments (the gap —
@@ -100,52 +149,51 @@ export function StackedColumns({
   const { hidden, toggle } = useHidden();
   const visible = series.filter(s => !hidden.has(s.key));
 
-  const data = useMemo(
-    () => ({
-      labels,
-      datasets: visible.map(s => ({
-        label: s.label,
-        data: s.data,
-        backgroundColor: s.color,
-        borderColor: c.surface,
-        borderWidth: { top: 2, right: 0, bottom: 0, left: 0 },
-        borderRadius: 4,
-        borderSkipped: false,
-        maxBarThickness: 24,
-        categoryPercentage: 0.7,
-        barPercentage: 0.9,
-      })),
-    }),
-    [labels, visible, c.surface]
-  );
+  const options = useMemo<ApexOptions>(() => {
+    const o = baseApex(c, { height, type: 'bar', stacked: true, yTickFormat, integer });
 
-  const options = useMemo(() => {
-    const o: any = baseOptions(c, {
-      stacked: true,
-      yTickFormat,
-      integer,
-      suggestedMax: integer ? 3 : undefined,
-    });
-
-    o.plugins.tooltip.callbacks = {
-      label: tooltipLabel(visible),
-      labelColor: (ctx: any) => ({
-        borderColor: visible[ctx.datasetIndex].color,
-        backgroundColor: visible[ctx.datasetIndex].color,
-        borderWidth: 0,
-        borderRadius: 1,
-      }),
-      footer: (items: any[]) => {
-        const sum = items.reduce((a, i) => a + (i.parsed.y || 0), 0);
-
-        return items.length > 1 ? `${sum.toLocaleString()}   Total` : '';
+    return {
+      ...o,
+      colors: visible.map(s => s.color),
+      plotOptions: {
+        bar: {
+          columnWidth: '55%',
+          borderRadius: 6,
+          borderRadiusApplication: 'end',
+          borderRadiusWhenStacked: 'last',
+        },
+      },
+      stroke: { show: true, width: 2, colors: [c.surface] },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: 'vertical',
+          opacityFrom: 1,
+          opacityTo: 0.92,
+          stops: [0, 100],
+        },
+      },
+      xaxis: { ...o.xaxis, categories: labels },
+      yaxis: { ...(o.yaxis as object), max: integer ? undefined : undefined },
+      tooltip: {
+        ...o.tooltip,
+        y: {
+          formatter: (v: number, opts: any) =>
+            v == null
+              ? '—'
+              : visible[opts.seriesIndex]?.format
+                ? visible[opts.seriesIndex].format!(v)
+                : v.toLocaleString(),
+        },
       },
     };
-    o.plugins.tooltip.footerFont = { size: 11, weight: 'normal' };
-    o.plugins.tooltip.footerColor = '#9aa4af';
+  }, [c, visible, labels, height, yTickFormat, integer]);
 
-    return o;
-  }, [c, visible, yTickFormat, integer]);
+  const apexSeries = useMemo(
+    () => visible.map(s => ({ name: s.label, data: s.data.map(v => (v == null ? 0 : v)) })),
+    [visible]
+  );
 
   return (
     <div>
@@ -154,8 +202,8 @@ export function StackedColumns({
           <ChartLegend series={series} hidden={hidden} onToggle={toggle} />
         </div>
       )}
-      <div style={{ height }} role="img" aria-label={ariaLabel}>
-        <Bar data={data as any} options={options} role="presentation" />
+      <div style={{ minHeight: height }} role="img" aria-label={ariaLabel}>
+        <ReactApexChart type="bar" height={height} options={options} series={apexSeries} />
       </div>
     </div>
   );
@@ -186,65 +234,68 @@ export function TrendLine({
   const { hidden, toggle } = useHidden();
   const visible = series.filter(s => !hidden.has(s.key));
 
-  const data = useMemo(() => {
-    const ds: any[] = visible.map(s => {
-      const last = s.data.reduce<number>((idx, v, i) => (v !== null ? i : idx), -1);
+  const single = area && series.length === 1;
+  const options = useMemo<ApexOptions>(() => {
+    const o = baseApex(c, { height, type: single ? 'area' : 'line', yTickFormat });
+    const lastIdx = (s: ChartSeries) =>
+      s.data.reduce<number>((idx, v, i) => (v !== null ? i : idx), -1);
 
-      return {
-        label: s.label,
-        data: s.data,
-        borderColor: s.color,
-        backgroundColor: area && series.length === 1 ? `${s.color}1a` : 'transparent',
-        fill: area && series.length === 1,
-        tension: 0,
-        borderWidth: 2,
-        borderCapStyle: 'round',
-        borderJoinStyle: 'round',
-        pointRadius: s.data.map((_, i) => (i === last ? 4.5 : 0)),
-        pointHoverRadius: 5,
-        pointBackgroundColor: s.color,
-        pointBorderColor: c.surface,
-        pointBorderWidth: 2,
-        pointHitRadius: 24,
-        spanGaps: true,
-      };
-    });
-
-    if (target) {
-      ds.push({
-        label: target.label,
-        data: labels.map(() => target.value),
-        borderColor: c.neutral,
-        borderWidth: 1,
-        pointRadius: 0,
-        pointHitRadius: 0,
-        fill: false,
-      });
-    }
-
-    return { labels, datasets: ds };
-  }, [labels, visible, series.length, area, target, c]);
-
-  const options = useMemo(() => {
-    const o: any = baseOptions(c, { yTickFormat });
-
-    o.plugins.tooltip.callbacks = {
-      label: (ctx: any) => {
-        if (ctx.datasetIndex >= visible.length) return `${ctx.parsed.y}   ${target?.label}`;
-
-        return tooltipLabel(visible)(ctx);
+    return {
+      ...o,
+      colors: visible.map(s => s.color),
+      stroke: { curve: 'smooth', width: 3, lineCap: 'round' },
+      fill: single
+        ? {
+            type: 'gradient',
+            gradient: { shadeIntensity: 1, opacityFrom: 0.35, opacityTo: 0, stops: [0, 95, 100] },
+          }
+        : { type: 'solid', opacity: 1 },
+      markers: {
+        size: 0,
+        hover: { size: 5 },
+        discrete: visible
+          .map((s, i) => ({
+            seriesIndex: i,
+            dataPointIndex: lastIdx(s),
+            size: 5,
+            fillColor: s.color,
+            strokeColor: c.surface,
+          }))
+          .filter(m => m.dataPointIndex >= 0),
       },
-      labelColor: (ctx: any) => {
-        const col =
-          ctx.datasetIndex >= visible.length ? c.neutral : visible[ctx.datasetIndex].color;
-
-        return { borderColor: col, backgroundColor: col, borderWidth: 0, borderRadius: 1 };
+      xaxis: { ...o.xaxis, categories: labels },
+      annotations: target
+        ? {
+            yaxis: [
+              {
+                y: target.value,
+                borderColor: c.neutral,
+                strokeDashArray: 0,
+                label: {
+                  text: target.label,
+                  position: 'left',
+                  textAnchor: 'start',
+                  style: { color: c.axis, background: 'transparent', fontSize: '11px' },
+                },
+              },
+            ],
+          }
+        : {},
+      tooltip: {
+        ...o.tooltip,
+        y: {
+          formatter: (v: number, opts: any) =>
+            v == null
+              ? '—'
+              : visible[opts.seriesIndex]?.format
+                ? visible[opts.seriesIndex].format!(v)
+                : v.toLocaleString(),
+        },
       },
     };
-    o.plugins.tooltip.filter = (item: any) => item.datasetIndex < visible.length;
+  }, [c, visible, labels, height, yTickFormat, target, single]);
 
-    return o;
-  }, [c, visible, yTickFormat, target]);
+  const apexSeries = useMemo(() => visible.map(s => ({ name: s.label, data: s.data })), [visible]);
 
   return (
     <div>
@@ -260,12 +311,12 @@ export function TrendLine({
           )}
         </div>
       )}
-      <div style={{ height }} role="img" aria-label={ariaLabel}>
-        <Line
-          data={data as any}
+      <div style={{ minHeight: height }} role="img" aria-label={ariaLabel}>
+        <ReactApexChart
+          type={single ? 'area' : 'line'}
+          height={height}
           options={options}
-          plugins={[crosshairPlugin(c.axis)]}
-          role="presentation"
+          series={apexSeries}
         />
       </div>
     </div>

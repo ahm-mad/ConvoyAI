@@ -251,3 +251,23 @@
     color: #fff;
   }
 }
+
+/* ApexCharts chrome (tooltip / legend) on the design tokens */
+.apexcharts-tooltip {
+  border: 1px solid var(--color-line) !important;
+  border-radius: var(--radius-control) !important;
+  box-shadow: var(--shadow-glass) !important;
+  background: var(--glass-bg-strong) !important;
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: var(--color-ink-0) !important;
+}
+.apexcharts-tooltip-title {
+  background: transparent !important;
+  border-bottom: 1px solid var(--color-line-soft) !important;
+  font-family: var(--font-sans) !important;
+  color: var(--color-ink-2) !important;
+}
+.apexcharts-xaxistooltip {
+  display: none !important;
+}
