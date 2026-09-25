@@ -56,7 +56,7 @@ export default function WidgetCard({
   const [asTable, setAsTable] = useState(false);
 
   return (
-    <section aria-label={title} className={`glass flex flex-col min-w-0  ${className}`}>
+    <section aria-label={title} className={`glass spotlight flex flex-col min-w-0  ${className}`}>
       <header className="flex items-start justify-between gap-3 px-6 pt-5">
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">

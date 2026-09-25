@@ -192,6 +192,8 @@
     linear-gradient(to right, rgba(14, 27, 26, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(14, 27, 26, 0.05) 1px, transparent 1px);
   --pattern-grid-size: 44px;
+  --spotlight-color: rgba(255, 122, 26, 0.13);
+  --radar-color: rgba(255, 122, 26, 0.2);
 
   --focus-ring: 2px solid var(--color-brand);
 }

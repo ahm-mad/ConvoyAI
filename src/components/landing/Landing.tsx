@@ -15,6 +15,7 @@ import {
 import BrandMark from '@components/shell/BrandMark';
 import HeroVisual from './HeroVisual';
 import CountUp from '@components/ui/CountUp';
+import SpotlightTracker from '@components/ui/SpotlightTracker';
 
 const NAV = [
   ['Product', '#product'],
@@ -73,6 +74,7 @@ const ROLES = [
 export default function Landing() {
   return (
     <div className="min-h-screen scroll-smooth">
+      <SpotlightTracker />
       <header className="page-container sticky top-0 z-40 pt-3.5">
         <nav
           className="glass glass-pill mx-auto flex max-w-nav items-center gap-3 py-2.5 pl-5 pr-2.5"
@@ -176,7 +178,7 @@ export default function Landing() {
             {FEATURES.map(f => {
               const Icon = f.icon;
               return (
-                <article key={f.title} className="glass card-lift p-7">
+                <article key={f.title} className="glass card-lift spotlight p-7">
                   <span className="brand-gradient-bg motion-glow grid size-12 place-items-center rounded-card shadow-glow">
                     <Icon size={22} className="text-white" />
                   </span>

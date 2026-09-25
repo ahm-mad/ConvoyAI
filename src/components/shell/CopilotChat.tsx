@@ -51,6 +51,60 @@ function answer(q: string): Omit<Msg, 'id' | 'role'> {
   };
 }
 
+/** AI answer that types itself out, then reveals its chart bars and action chips. */
+function AiBubble({ m }: { m: Msg }) {
+  const [n, setN] = useState(0);
+  const reduced =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const done = reduced || n >= m.text.length;
+
+  useEffect(() => {
+    if (reduced) return;
+
+    const id = setInterval(() => setN(v => Math.min(m.text.length, v + 3)), 16);
+
+    return () => clearInterval(id);
+  }, [m.text, reduced]);
+
+  return (
+    <div className="self-start rounded-[18px_18px_18px_4px] border border-line-soft bg-white p-3.5 text-[13px] text-ink-1 shadow-card motion-rise">
+      <span className={done ? '' : 'typing-caret'}>{done ? m.text : m.text.slice(0, n)}</span>
+      {done && m.bars && (
+        <div className="motion-stagger mt-3 flex flex-col gap-2">
+          {m.bars.map(b => (
+            <div
+              key={b.label}
+              className="grid grid-cols-[72px_1fr_64px] items-center gap-2.5 text-xs"
+            >
+              <span>{b.label}</span>
+              <div className="h-2 rounded-full bg-ai-wash">
+                <i
+                  className="block h-full rounded-full"
+                  style={{ width: `${b.value}%`, background: 'var(--gradient-ai)' }}
+                />
+              </div>
+              <b className="text-right font-semibold tabular-nums text-ink-0">{b.display}</b>
+            </div>
+          ))}
+        </div>
+      )}
+      {done && m.chips && (
+        <div className="motion-stagger mt-3 flex flex-wrap gap-2">
+          {m.chips.map((c, i) => (
+            <span
+              key={c}
+              className={`rounded-full px-2.5 py-1 text-[11.5px] font-semibold ${i === 0 ? 'bg-brand-wash text-brand-ink' : 'bg-ai-wash text-ai-ink'}`}
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /** Chat body (messages + input) shared by the copilot side panel and the AI workspace page. Mock answers. */
 export default function CopilotChat({
   active = true,
@@ -119,45 +173,7 @@ export default function CopilotChat({
               {m.text}
             </div>
           ) : (
-            <div
-              key={m.id}
-              className="self-start rounded-[18px_18px_18px_4px] border border-line-soft bg-white p-3.5 text-[13px] text-ink-1 shadow-card"
-            >
-              {m.text}
-              {m.bars && (
-                <div className="mt-3 flex flex-col gap-2">
-                  {m.bars.map(b => (
-                    <div
-                      key={b.label}
-                      className="grid grid-cols-[72px_1fr_64px] items-center gap-2.5 text-xs"
-                    >
-                      <span>{b.label}</span>
-                      <div className="h-2 rounded-full bg-ai-wash">
-                        <i
-                          className="block h-full rounded-full"
-                          style={{ width: `${b.value}%`, background: 'var(--gradient-ai)' }}
-                        />
-                      </div>
-                      <b className="text-right font-semibold tabular-nums text-ink-0">
-                        {b.display}
-                      </b>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {m.chips && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {m.chips.map((c, i) => (
-                    <span
-                      key={c}
-                      className={`rounded-full px-2.5 py-1 text-[11.5px] font-semibold ${i === 0 ? 'bg-brand-wash text-brand-ink' : 'bg-ai-wash text-ai-ink'}`}
-                    >
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+            <AiBubble key={m.id} m={m} />
           )
         )}
         {thinking && (

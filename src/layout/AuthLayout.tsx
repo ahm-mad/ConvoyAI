@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import FloatingNav from '@components/shell/FloatingNav';
 import CommandPalette from '@components/shell/CommandPalette';
+import SpotlightTracker from '@components/ui/SpotlightTracker';
 import CopilotPanel from '@components/shell/CopilotPanel';
 import GlobalPacketListener from '@components/GlobalPacketListener';
 import { useUser } from '@contexts/UserContext';
@@ -56,6 +57,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <div className="max-w-screen min-h-screen overflow-x-hidden flex flex-col text-ink-0">
       <GlobalPacketListener />
+      <SpotlightTracker />
       <FloatingNav
         onOpenPalette={() => setPaletteOpen(true)}
         onOpenCopilot={() => setCopilotOpen(true)}

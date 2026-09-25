@@ -194,7 +194,7 @@ export default function KpiTile({
     </>
   );
 
-  const cls = 'glass text-left w-full  p-5 flex flex-col min-w-0 transition-all';
+  const cls = 'glass spotlight text-left w-full p-5 flex flex-col min-w-0 transition-all';
 
   // A clickable tile is a card with a button laid over it — NOT a button wrapping the "how is this calculated"
   // button (nested interactive controls are unreachable for screen readers). The card content ignores the

@@ -286,7 +286,10 @@ function TripRow({ trip, onClick }: { trip: any; onClick: () => void }) {
     : null;
 
   return (
-    <button onClick={onClick} className="w-full text-left glass-strong  px-5 py-4 card-lift">
+    <button
+      onClick={onClick}
+      className="w-full text-left glass-strong spotlight px-5 py-4 card-lift"
+    >
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
