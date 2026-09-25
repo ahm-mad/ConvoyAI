@@ -1,0 +1,1279 @@
+{
+  "chart_bar": {
+    "widgetSettings": "Widget Settings",
+    "mixChart": "Mix Chart",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "charts": "Charts",
+    "yAxisData": "Y Axis Data",
+    "yAxisLabelPlaceholder": "Y-axis Label",
+    "selectChartType": "Select Chart Type",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select device",
+    "selectAttributes": "Select attributes",
+    "data": "Data",
+    "addData": "+ Add data",
+    "unit": "Unit",
+    "xAxisData": "X Axis Data",
+    "labelPlaceholder": "Label",
+    "selectInterval": "Select Interval",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "none": "None",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "saving": "Saving...",
+    "removing": "Removing..."
+  },
+  "batteryForm": {
+    "widgetSettings": "Widget Settings",
+    "battery": "Battery",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name ",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "settings": "Settings",
+    "showTimestamp": "Show Timestamp",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select Device",
+    "selectAttributes": "Select Attributes",
+    "none": "None",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "device": "Device  is required",
+      "attributes": "Attribute is required"
+    }
+  },
+
+  "deviceDefaultForm": {
+    "widgetSettings": "Widget Settings",
+    "deviceDataDefault": "Device Data (default)",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "attributes": "Attribute is required",
+      "device": "Device selection is required"
+    }
+  },
+
+  "DeviceMultiForm": {
+    "widgetSettings": "Widget Settings",
+    "deviceDataMulti": "Device Data (Multi)",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "labelPlaceholder": "Label (Optional)",
+    "settings": "Settings",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select Device",
+    "selectAttribute": "Select Attribute",
+    "primaryRegion": "Primary Region",
+    "secondaryRegion": "Secondary Region",
+    "lowerRegion": "Lower Region",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "attributes": "Attribute is required",
+      "device": "Device selection is required",
+      "primaryIcon": "Please select primary icon",
+      "primaryUnit": "Please select primary unit",
+      "secondaryData": "Please select secondary data",
+      "secondaryIcon": "Please select secondary icon",
+      "secondaryUnit": "Please select secondary unit",
+      "lowerData": "Please select lower data",
+      "lowerIcon": "Please select lower icon",
+      "lowerUnit": "Please select lower unit",
+      "lowerDecimal": "Please select lower decimal"
+    },
+    "products": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "devices": {
+      "none": "None",
+      "battery": "Battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "attributes": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    }
+  },
+
+  "guageform": {
+    "widgetSettings": "Widget Settings",
+    "guageChart": "Gauge Chart",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "settings": "Settings",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select Device",
+    "selectAttribute": "Select Attribute",
+    "decimal": "Decimal",
+    "options": "Options",
+    "showTimestamp": "Show timestamp",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "products": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "devices": {
+      "none": "None",
+      "battery": "Battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "attributes": {
+      "none": "None",
+      "battery": "Battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "decimalOptions": {
+      "none": "None",
+      "acCurrent": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    }
+  },
+
+  "lineChart": {
+    "widgetSettings": "Widget Settings",
+    "lineChart": "Line Chart",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "charts": "Charts",
+    "yAxisData": "Y Axis Data",
+    "yAxisLabelPlaceholder": "Y-axis Label",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select Device",
+    "selectAttribute": "Select Attribute",
+    "dataLabel": "Data",
+    "unitPlaceholder": "Unit",
+    "xAxisData": "X Axis Data",
+    "xAxisLabelPlaceholder": "Label",
+    "selectInterval": "Select Interval",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "products": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "devices": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "attributes": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "dataOptions": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "intervalOptions": {
+      "none": "None",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    }
+  },
+
+  "MeterForm": {
+    "widgetSettings": "Widget Settings",
+    "meter": "Meter",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget name (optional)",
+    "settings": "Settings",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select device",
+    "selectAttribute": "Select Attributes",
+    "decimal": "Decimal",
+    "options": "Options",
+    "showTimestamp": "Show timestamp",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "device": "Device selection is required",
+      "attributes": "Attribute is required"
+    },
+
+    "products": {
+      "none": "None",
+      "usamaWaqas": "usama waqas",
+      "chirpTechnology": "chirp technology",
+      "sensorDevice": "sensor device"
+    },
+    "devices": {
+      "none": "None",
+      "battery": "battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "attributes": {
+      "none": "None",
+      "battery": "battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "decimals": {
+      "none": "None",
+      "zero": "0",
+      "one": "1",
+      "two": "2"
+    }
+  },
+
+  "OnlineStatusForm": {
+    "widget_settings": "Widget Settings",
+    "online_status": "Online Status",
+    "general": "General",
+    "widget_name_placeholder": "Widget Name (optional)",
+    "settings": "Settings",
+    "select_product": "Select Product",
+    "select_device": "Select device",
+    "select_attribute": "Select Attribute",
+    "icon": "Icon",
+    "options": "Options",
+    "show_timestamp": "Show timestamp",
+    "cancel": "Cancel",
+    "remove_widget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "device": "Device selection is required",
+      "icon": "Please select icon",
+      "attributes": "Attribute is required"
+    },
+    "products": {
+      "none": "None",
+      "usama_waqas": "usama waqas",
+      "chirp_technology": "chirp technology",
+      "sensor_device": "sensor device"
+    },
+    "devices": {
+      "none": "None",
+      "battery": "battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "attributes": {
+      "ac_current": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    },
+    "icons": {
+      "ac_current": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    }
+  },
+
+  "form": {
+    "widget_settings": "Widget Settings",
+    "progress_barchart": "Progress Barchart",
+    "general": "General",
+    "widget_name_placeholder": "Widget Name (optional)",
+    "settings": "Settings",
+    "select_product": "Select Product",
+    "select_device": "Select device",
+    "select_attribute": "Select Attribute",
+    "select_decimal": "Decimal",
+    "options": "Options",
+    "show_timestamp": "Show timestamp",
+    "cancel": "Cancel",
+    "remove_widget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing..."
+  },
+  "product": {
+    "none": "None",
+    "usama": "usama waqas",
+    "chirp": "chirp technology",
+    "sensor": "sensor device"
+  },
+  "device": {
+    "none": "None",
+    "battery": "battery",
+    "temperature": "Temperature",
+    "heat": "Heat"
+  },
+  "attribute": {
+    "none": "None",
+    "battery": "battery",
+    "temperature": "Temperature",
+    "heat": "Heat"
+  },
+  "decimal": {
+    "none": "None",
+    "ac_current": "AC Current",
+    "asset": "Asset",
+    "air": "Air"
+  },
+
+  "signalform": {
+    "widget_settings": "Widget Settings",
+    "Signal_strength": "Signal Strength",
+    "general": "General",
+    "widget_name_placeholder": "Widget Name (optional)",
+    "settings": "Settings",
+    "select_product": "Select Product",
+    "select_device": "Select Device",
+    "select_attribute": "Select Attribute",
+    "select_decimal": "Decimal",
+    "options": "Options",
+    "show_timestamp": "Show Timestamp",
+    "cancel": "Cancel",
+    "remove_widget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "device": "Device selection is required",
+      "attributes": "Attribute is required"
+    }
+  },
+
+  "TemperatureForm": {
+    "widgetSettings": "Widget Settings",
+    "temperature": "Temperature",
+    "widgetName": "Widget Name is Required",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name ",
+    "settings": "Settings",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select Device",
+    "selectAttribute": "Select Attribute",
+    "decimal": "Decimal",
+    "options": "Options",
+    "showTimestamp": "Show timestamp",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "none": "None",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "products": {
+      "usamaWaqas": "usama waqas",
+      "chirpTech": "chirp technology",
+      "sensorDevice": "sensor device"
+    },
+    "devices": {
+      "battery": "battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "attributes": {
+      "battery": "battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+
+    "decimals": {
+      "acCurrent": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    },
+    "validation": {
+      "product": "Product is required",
+      "device": "Device  is required",
+      "attributes": "Attribute is required",
+      "decimal": "Decimal is required"
+    }
+  },
+
+  "toggleForm": {
+    "widgetSettings": "Widget Settings",
+    "toggleButton": "Toggle Button",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "device": "Device selection is required",
+      "attributes": "Attribute is required"
+    }
+  },
+
+  "valueForm": {
+    "widgetSettings": "Widget Settings",
+    "value": "Value",
+    "general": "General",
+    "maxvalue": "Max Value",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "settings": "Settings",
+    "selectProduct": "Select Product",
+    "selectDevices": "Select devices",
+    "selectAttribute": "Select Attribute",
+    "showUnitDescription": "Show unit description",
+    "largeUnitLabel": "Large unit label",
+    "icon": "Select Icon",
+    "decimal": "Decimal",
+    "unit": "Select Unit",
+    "options": "Options",
+
+    "showTimestamp": "Show timestamp",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "product": "Product is required",
+      "device": "Device selection is required",
+      "attributes": "Attribute is required",
+      "icon": "Please select icon",
+      "decimal": "Please select Decimal"
+    },
+
+    "products": {
+      "none": "None",
+      "usamaWaqas": "usama waqas",
+      "chirpTechnology": "chirp technology",
+      "sensorDevice": "sensor device"
+    },
+    "devices": {
+      "none": "None",
+      "battery": "battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "attributes": {
+      "none": "None",
+      "battery": "battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "icons": {
+      "acCurrent": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    },
+    "decimals": {
+      "acCurrent": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    }
+  },
+
+  "showAndHide": {
+    "Setting": "Settings",
+    "color": "Color Settings",
+    "text": "Text",
+    "value": "Value",
+    "background": "Backg.",
+    "unit": "Select Unit",
+    "maxValue": "Max Value",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select Device",
+    "selectAttribute": "Select Attribute",
+    "options": "Options",
+    "alertSettingsExport": "Export this alert settings to rule builder",
+    "products": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "devices": {
+      "none": "None",
+      "battery": "Battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    },
+    "attributes": {
+      "none": "None",
+      "battery": "Battery",
+      "temperature": "Temperature",
+      "heat": "Heat"
+    }
+  },
+
+  "region": {
+    "dataLabel": "Data",
+    "iconLabel": "Icon",
+    "unitLabel": "Unit",
+    "dataOptions": {
+      "battery": "Battery",
+      "breakIn": "Break In",
+      "impact": "Impact"
+    },
+    "unitOptions": {
+      "energy": "Energy",
+      "breakIn": "Break In",
+      "impact": "Impact"
+    },
+    "iconOptions": {
+      "acCurrent": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    }
+  },
+
+  "lowerRegion": {
+    "dataLabel": "Data",
+    "unitLabel": "Unit",
+    "iconLabel": "Icon",
+    "decimalLabel": "Decimal Places",
+    "dataOptions": {
+      "battery": "Battery",
+      "breakIn": "Break In",
+      "impact": "Impact"
+    },
+    "unitOptions": {
+      "energy": "Energy",
+      "breakIn": "Break In",
+      "impact": "Impact"
+    },
+    "iconOptions": {
+      "acCurrent": "AC Current",
+      "asset": "Asset",
+      "air": "Air"
+    },
+    "decimalOptions": {
+      "one": "1",
+      "two": "2",
+      "three": "3"
+    }
+  },
+  "tankForm": {
+    "widgetSettings": "Widget Settings",
+    "tankLevel": "Tank/Level",
+    "tankType": "Tank Type",
+
+    "general": "General",
+    "widgetName": "Widget Name ",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "selected": "Selected:",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "validation": {
+      "widgetName": "Widget Name is Required",
+      "product": "Product is required",
+      "device": "Device  is required",
+      "attributes": "Attribute is required"
+    },
+    "rectangularTank": "Rectangular Tank",
+    "horizontalCylindricalTank": "Horizontal Cylindrical Tank",
+    "sphericalTank": "Spherical Tank",
+    "verticalCylindricalFlatTank": "Vertical Cylindrical Tank (Flat Bottom)",
+    "verticalCylindricalConicalTank": "Vertical Cylindrical Tank (Conical Bottom)"
+  },
+
+  "statusForm": {
+    "widgetSettings": "Widget Settings",
+    "status": "Status",
+    "general": "General",
+    "widgetName": "Widget Name (optional)",
+    "settings": "Settings",
+    "selectProduct": "Select Product",
+    "selectDevice": "Select Device",
+    "selectAttribute": "Select Attribute",
+    "icon": "Icon",
+    "decimal": "Decimal",
+    "options": "Options",
+    "showTimestamp": "Show timestamp",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "none": "None",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "usamaWaqas": "usama waqas",
+    "chirpTechnology": "chirp technology",
+    "sensorDevice": "sensor device",
+    "battery": "battery",
+    "temperature": "Temperature",
+    "heat": "Heat",
+    "acCurrent": "AC Current",
+    "asset": "Asset",
+    "air": "Air",
+    "validation": {
+      "product": "Product is required",
+      "device": "Device selection is required",
+      "attributes": "Attribute is required",
+      "icon": "Please select icon"
+    }
+  },
+
+  "donutchart": {
+    "widgetSettings": "Widget Settings",
+    "donutChart": "Donut Chart",
+    "general": "General",
+    "widgetNamePlaceholder": "Widget Name (optional)",
+    "charts": "Charts",
+    "donutChartLabelPlaceholder": "Donut Chart Label",
+    "selectProduct": "Select Product",
+    "selectInterval1": "Select Interval 1",
+    "selectInterval2": "Select Interval 2",
+    "addData": "Add data",
+    "cancel": "Cancel",
+    "removeWidget": "Remove Widget",
+    "save": "Save",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "products": {
+      "none": "None",
+      "usamaWaqas": "Usama Waqas",
+      "chirpTechnology": "Chirp Technology",
+      "sensorDevice": "Sensor Device"
+    },
+    "interval1Options": {
+      "none": "None",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "quarterly": "Quarterly"
+    },
+    "interval2Options": {
+      "none": "None",
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "night": "Night"
+    }
+  },
+
+  "status": {
+    "all": "All Assets",
+    "needsCorrection": "Needs Correction",
+    "withinRange": "Within Range",
+    "offline": "Offline"
+  },
+  "companyName": "Manage Products",
+  "menu": "Menu",
+  "addDeviceToProduct": "Add Device to {{productName}}",
+  "productSetting": "Product Setting",
+  "addProduct": "Add Product",
+  "popover": {
+    "addDevice": "Add Device",
+    "productConfiguration": "Product Configuration"
+  },
+
+  "filters": {
+    "company": "Company",
+    "location": "Location",
+    "device": "Device",
+    "status": "Status",
+    "deviceTemplate": "Device Template"
+  },
+
+  "companyFilterContent": {
+    "title": "Company",
+    "options": {
+      "usama": "Usama Waqas",
+      "ahmad": "Ahmad",
+      "ali": "Ali",
+      "osaman": "Osaman"
+    }
+  },
+
+  "filterContent": {
+    "select": "Select",
+    "deselect": "Deselect",
+    "all": "All",
+    "item": "{{count}} item selected",
+    "item_plural": "{{count}} items selected"
+  },
+
+  "filter": {
+    "location": "Location"
+  },
+  "options": {
+    "usama_waqas": "Usama Waqas",
+    "osman": "Osman",
+    "ahmad": "Ahmad",
+    "ali": "Ali"
+  },
+
+  "deviceFilterContent": {
+    "device": "Device",
+
+    "options": {
+      "usama_waqas": "Usama Waqas",
+      "ali": "Ali",
+      "ahmad": "Ahmad",
+      "osman": "Osman"
+    }
+  },
+
+  "statusFilterContent": {
+    "status": "Status",
+
+    "options": {
+      "first": "First",
+      "second": "Second",
+      "third": "Third",
+      "fourth": "Fourth"
+    }
+  },
+
+  "navbar": {
+    "manage": "Manage",
+    "assets": "Assets",
+    "companiesLocations": "Companies & Locations",
+    "integrations": "Integrations",
+    "rulesPermissions": "Rules & Permissions",
+    "language": "Language",
+    "accountSetting": "Account Settings",
+    "logout": "Logout",
+    "user": "User",
+    "pro": "Pro"
+  },
+
+  "sidebar": {
+    "add_new": "Add new...",
+    "dashboard": "Dashboard",
+    "list": "List",
+    "map": "Map"
+  },
+
+  "product-configuration": {
+    "product_name": "Product Name",
+    "webhook_link": "Webhook Link",
+    "webhook_token": "Webhook Token",
+    "packet-info": "No packet received yet",
+    "rawPacketMessage": "Your raw packet will be displayed here...",
+    "rawPacket": "Raw Packet:",
+
+    "validation": {
+      "product_name": "Product name is required"
+    },
+
+    "external_id": "External ID",
+    "device_use": "Device Use",
+    "device_template": "Device Template",
+    "change_template": "Change Template",
+    "replace_device": "Replace Device",
+    "copy": "Copy",
+    "attributes_displayed": "Attributes Displayed",
+    "uncheck_info_1": "Unchecked attributes will be hidden from Manage Device Screen, Device details, Sensor Maps and Reports.",
+    "uncheck_info_2": "Alerts for device readings unchecked will be deleted for this device.",
+    "location": "Location",
+    "remove_product": "Remove Product",
+    "action_undo_warning": "This action cannot be undone",
+    "save": "Save",
+
+    "none": "None",
+    "ac_switch": "AC Switch",
+    "temperature_sensor": "Temperature Sensor",
+    "motion_detector": "Motion Detector",
+
+    "acceleration": "Acceleration",
+    "humidity": "Humidity",
+    "luminosity": "Luminosity",
+    "temperature": "Temperature",
+    "select_device": "Select an device",
+    "address": "lahore, punjab 54700, Pakistan"
+  },
+
+  "AddDevice": {
+    "addDevices": "Add Devices",
+    "step": "Step",
+    "steps": {
+      "Connectivity": "Connectivity Type",
+      "1": "Product & Devices",
+      "2": "Network Protocol",
+      "3": "Network Protocol",
+      "4": "Plan"
+    },
+    "button": {
+      "Finish": "Finish",
+      "skip": "Skip",
+      "back": "Back",
+      "save": "Save",
+      "addDevice": "Add Device",
+      "next": "Next",
+      "acknowledge": "Acknowledge"
+    }
+  },
+
+  "FirstStep": {
+    "product_details_heading": "Product Details",
+    "product_details_info": "Give this product a name — you'll add its devices below.",
+    "product_name": "Product Name",
+    "enter_product_name": "Enter product name"
+  },
+  "secondStepForm": {
+    "title": "Add Device",
+    "instruction1": "Please provide one or multiple device unique identifiers (e.g. your IoT sensor's serial number or Dev EUI) along with the corresponding names they should have on ConvoyAI.",
+    "instruction2": "Alternatively, you can bulk-upload devices with a CSV file containing the device unique identifier, name, and location — one row per device. For the exact column format and a sample file, see",
+    "documentationLink": "our documentation"
+  },
+  "tagInput": {
+    "device_unique_identifier": "Device Unique Identifier",
+    "name": "Name",
+    "location": "Location",
+    "tags": "Add tag",
+    "addDevice": "+ Add Another Device"
+  },
+  "dropzone": {
+    "clickToUpload": "Click to upload",
+    "orDragAndDrop": "or drag and drop",
+    "fileTypes": "CSV file only (max. {{size}})",
+    "invalidType": "Please upload a .csv file.",
+    "tooLarge": "File is too large — max size is {{size}}.",
+    "remove": "Remove file"
+  },
+  "thirdStepForm": {
+    "title": "Network Protocol - ",
+    "warning": "Don't Skip",
+    "instructions": "Instructions:",
+    "box1Steps": [
+      "Select the network protocol your server will use to send packets to our backend.",
+      "Once selected, we will provide you with a webhook URL and token.",
+      "Configure your server with the webhook URL and token and send initial packet"
+    ],
+    "box2": "Please choose the Network Protocol that your devices are connected to.",
+    "textareaPlaceholder": "If you're unable to send the initial packet to our webhook link right now, feel free to copy and paste the entire packet here."
+  },
+  "FourthStepForm": {
+    "title": "Review & Submit",
+    "subtitle": "Check all details before submitting."
+  },
+  "IntegrationSubNav": {
+    "Destinations": "Destinations",
+    "MyIntegrations": "My Integrations"
+  },
+  "AccountSettingSubNav": {
+    "AccountSetting": "Account Setting",
+    "MyData": "My Data"
+  },
+  "RolespermissionSubNav": {
+    "RolePermission": "Role & Permission",
+    "AssignPermission": "Assign Permission"
+  },
+  "RulesPermission": {
+    "title": "Product Manager",
+    "loading": "Loading...",
+    "columns": {
+      "module": "Module",
+      "add": "Add",
+      "view": "View",
+      "update": "Update",
+      "delete": "Delete"
+    }
+  },
+  "rolePermission": {
+    "title": "Role & Permission",
+    "addRole": "Add New Role",
+    "role": "Role",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "addRole": {
+    "title": "Add New Role",
+    "roleName": "Role Name",
+    "selectRoleType": "Select Role Type",
+    "selectAnOption": "Select an option",
+
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "addCompany": {
+    "addLocation": "Add Location",
+    "name": "Name",
+    "country": "Country",
+    "city": "City",
+    "address": "Address",
+    "state": "State",
+    "zipCode": "Zip Code",
+    "primaryContact": "Company Email",
+    "externalId": "External ID",
+    "cancel": "Cancel",
+    "save": "Save",
+    "selectCountry": "Select Country",
+    "selectOption": "Select an option",
+    "validation": {
+      "name": "Name is required",
+      "country": "Country is required",
+      "address": "Address is required",
+      "city": "City is required",
+      "state": "State is required",
+      "zip_code": "Zip Code is required",
+      "email": "Company Email is required"
+    }
+  },
+  "widgets": {
+    "deviceData": "Device Data",
+    "deviceDefault": "Device Default",
+    "tankLevel": "Tank / Level",
+    "value": "Value",
+    "status": "Status",
+    "onlineStatus": "Online Status",
+    "toggleDevice": "Toggle Button",
+    "meter": "Meter",
+    "battery": "Battery",
+    "signalStrength": "Signal Strength",
+    "waterLeak": "Water Leak",
+    "temperatureDevice": "Temperature Device",
+    "barChart": "Bar Chart",
+    "mixChart": "Mix Chart",
+    "donutChart": "Donut Chart",
+    "guageChart": "Gauge Chart",
+    "lineChart": "Line Chart",
+    "progressBar": "Progress Bar"
+  },
+  "SideBar": {
+    "devices_tab": "Visualization",
+    "widgets_tab": "Widgets",
+    "device_search_placeholder": "Search Widgets",
+
+    "sections": {
+      "realtime_data": "Real-time",
+      "visualization": "Charts"
+    }
+  },
+  "realtime": {
+    "title": "Real-time Data"
+  },
+  "visualization": {
+    "title": "Visualization"
+  },
+  "accountSettings": {
+    "table": {
+      "firstName": "First Name:",
+      "lastName": "Last Name:",
+      "email": "Email:",
+      "mobile": "Mobile Number:",
+      "password": "Password:",
+      "language": "Language:",
+      "tos": "Terms of Service (ToS):",
+      "sla": "Service Level Agreement (SLA):",
+      "openInNewWindow": "Open in new Window"
+    }
+  },
+
+  "AccountProfile": {
+    "navigation": {
+      "basicSettings": "Basic Settings",
+      "password": "Password",
+      "address": "Add Location",
+      "deleteAccount": "Delete Account"
+    },
+    "profile": {
+      "firstName": "First Name:",
+      "lastName": "Last Name:",
+
+      "birthDate": "Birth Date",
+      "company": "Company",
+      "phone": "Phone number",
+      "email": "Email",
+      "profile": "Profile",
+      "imageHint": "150x150px JPEG, PNG image"
+    },
+    "table": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "mobile": "Mobile",
+      "password": "Password",
+      "language": "Language"
+    },
+    "passwordForm": {
+      "current": "Current Password",
+      "new": "New Password",
+      "confirm": "Confirm New Password",
+      "reset": "Reset Password"
+    },
+    "buttons": {
+      "saveChanges": "Save Changes",
+      "deleteAccount": "Delete Account"
+    },
+    "delete": {
+      "title": "Delete Account",
+      "text": "We regret to see you leave. Confirm account deletion below. Your data will be permanently removed. Thank you for being part of our community.",
+      "guideline": "Setup guidelines",
+      "confirm": "Confirm deleting account"
+    }
+  },
+
+  "attributeSettings": {
+    "title": "Attribute Settings",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Enter attribute description...",
+    "notificationTypeLabel": "Notification Type",
+    "thresholdValueLabel": "Threshold Value",
+    "thresholdValuePlaceholder": "Enter value...",
+    "comparisonTypeLabel": "Comparison Type",
+    "addMoreButton": "Add More",
+    "saveButton": "Save",
+    "applyToAllLabel": "Apply to all attributes",
+    "notificationOptions": {
+      "alarm": "Alarm",
+      "normal": "Normal"
+    },
+    "comparisonOptions": {
+      "greater_than": "Greater Than (>)",
+      "less_than": "Less Than (<)",
+      "equal_to": "Equal To (=)",
+      "not_equal": "Not Equal To (!=)"
+    }
+  },
+  "dashboardSection": "Dashboards",
+  "addNew": "Add New...",
+  "userSection": "User",
+  "home": "Home",
+  "manageProducts": "Manage Products",
+  "manageAssets": "Manage Assets",
+  "rulesPermissions": "Rules & Permissions",
+  "roleBuilder": "Rule Builder",
+  "untitled": "Untitled",
+  "map": "Map",
+
+  "confirmDelete": {
+    "title": "Are you sure?",
+    "message": "You are about to delete  {{item}}. This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "httpProtocol": {
+    "webhookUrl": "Webhook URL:",
+    "token": "Token:",
+    "copyTokenTitle": "Click to copy token",
+    "tokenPlaceholder": "Token will appear here after selecting a protocol"
+  },
+  "mqtt": {
+    "hostUrl": "Host URL",
+    "hostUrlPlaceholder": "Please enter your Host URL",
+    "port": "Port Number",
+    "portPlaceholder": "1883",
+    "username": "Username",
+    "usernamePlaceholder": "Enter username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter password",
+    "connect": "Connect",
+    "requiredFields": "Broker and Port are required fields"
+  },
+  "assets": {
+    "manageAssets": "Manage Assets",
+    "addAssets": "Add Assets",
+    "addChild": "Add Child",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+
+  "editChild": "Edit Child",
+  "addChild": "Add Child",
+  "editAsset": "Edit Asset",
+  "addAsset": "Add Asset",
+  "name": "Name",
+  "enterName": "Enter name",
+  "assetType": "Asset Type",
+  "componentType": "Component Type",
+  "enterAssetType": "Enter asset type",
+  "enterComponentType": "Enter component type",
+  "icon": "Icon",
+  "deviceAssignment": "Device Assignment",
+  "selectProduct": "Select Product",
+  "selectDevice": "Select Device",
+  "save": "Save",
+  "update": "Update",
+  "saving": "Saving...",
+  "newRule": {
+    "title": "New Rule",
+    "name": "Name",
+    "editTitle": "Edit Rule",
+    "updateRule": "Update Rule",
+    "namePlaceholder": "Enter rule name",
+    "nameRequired": "Rule name is required",
+    "nameMinLength": "Rule name must be at least 3 characters",
+    "conditions": "Conditions",
+    "if": "If",
+    "and": "And",
+    "or": "Or",
+    "pleaseChoose": "Please choose",
+    "device": "Device",
+    "field": "Field",
+    "back": "Back",
+    "product": "Select proudct",
+    "attribute": "Select attribute",
+    "selectCondition": "Select condition",
+    "attributeRequired": "Attribute is required",
+    "pleaseSelectDeviceFirst": "Please select a device first",
+    "is": "is",
+    "value": "Value",
+    "valueRequired": "Value is required",
+    "valuePositive": "Value must be positive",
+    "then": "Then",
+    "performActions": "Perform these actions at most once every",
+    "seconds": "seconds",
+    "executionIntervalRequired": "Execution interval is required",
+    "executionIntervalMin": "Must be at least 1 second",
+    "allowRetriggering": "Allow retriggering",
+    "createRule": "Create Rule",
+    "cancel": "Cancel"
+  },
+  "devices": {
+    "drndot": "drndot",
+    "homeSensor": "home sensor",
+    "homeSensorTest": "home sensor test",
+    "smartRoomLeak": "smart room leak"
+  },
+  "fields": {
+    "temperature": "temperature",
+    "humidity": "humidity",
+    "pressure": "pressure",
+    "motion": "motion",
+    "light": "light"
+  },
+  "conditions": {
+    "lessThan": "less than",
+    "lessThanOrEqual": "less than or equal to",
+    "equalTo": "equal to",
+    "notEqualTo": "not equal to",
+    "greaterThanOrEqual": "greater than or equal to",
+    "greaterThan": "greater than"
+  },
+  "logicalOperators": {
+    "and": "And",
+    "or": "Or"
+  },
+
+  "sms": {
+    "title": "Send SMS",
+    "toLabel": "To",
+    "messageLabel": "Message",
+    "recipientRequired": "At least one recipient is required",
+    "placeholder": {
+      "phone": "Enter phone number",
+      "message": "Enter SMS message (max 160 characters)"
+    },
+    "error": {
+      "invalidPhone": "Please enter a valid phone number",
+      "requiredMessage": "Message is required",
+      "maxLength": "SMS message must be 500 characters or less",
+      "minLength": "Message must be at least 5 characters"
+    },
+    "characterCount": "{{count}}/500 characters"
+  },
+
+  "email": {
+    "title": "Send Email",
+    "toLabel": "To",
+    "subjectLabel": "Subject",
+    "messageLabel": "Message",
+    "recipientRequired": "At least one recipient is required",
+    "placeholder": {
+      "email": "Enter email address",
+      "subject": "Enter email subject",
+      "message": "Enter email message"
+    },
+    "error": {
+      "invalidEmail": "Please enter a valid email address",
+      "requiredSubject": "Subject is required",
+      "minLengthSubject": "Subject must be at least 5 characters",
+      "requiredMessage": "Message is required",
+      "minLengthMessage": "Message must be at least 10 characters"
+    }
+  },
+  "notification": {
+    "title": "System Notification",
+    "messageLabel": "Message",
+    "placeholder": {
+      "message": "Enter notification message"
+    },
+    "error": {
+      "required": "Notification message is required",
+      "minLength": "Message must be at least 5 characters",
+      "maxLength": "Message must be 500 characters or less"
+    },
+    "characterCount": "{{count}}/500 characters"
+  },
+  "rule": {
+    "title": "Rules",
+    "addRule": "Add Rule",
+    "addMember": "Add Member",
+
+    "search": "Search",
+    "noRules": "No rules found.",
+    "loading": "Loading...",
+    "columns": {
+      "rule": "Rule",
+      "actions": "Actions"
+    },
+    "more": "More",
+    "items": {
+      "batteryLow": "Battery low",
+      "highTemperature": "High temperature",
+      "sendEmail": "Send an email"
+    },
+    "actions": {
+      "edit": "Edit Rule",
+      "deactivate": "Deactivate Rule",
+      "delete": "Delete Rule"
+    }
+  },
+
+  "Home": {
+    "title": "Device Status",
+    "totalDevices": "Total devices",
+    "onlineDevices": "Online devices",
+    "onlineDevicesHint": "Reporting right now",
+    "offlineDevices": "Offline devices",
+    "offlineDevicesHint": "Not reporting right now",
+    "activeInLast24h": "Active in last 24h",
+    "activeInLast24hHint": "Reported within 24h — may include offline devices",
+    "recentlyActiveDevices": "Recently Active Devices",
+    "offlineDevicesTitle": "Offline Devices",
+    "table": {
+      "device": "Device",
+      "lastHeard": "Last Heard"
+    }
+  },
+  "deleteAccountTitle": "Are you sure you want to delete your account?",
+  "enterPasswordLabel": "Enter your password to confirm:",
+  "cancelButton": "Cancel",
+  "deleteButton": "Delete"
+}

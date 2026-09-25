@@ -1,0 +1,6 @@
+<svg viewBox="0 0 100 100" focusable="false">
+  <path d="M74.9 24.1v52.8c0 4.5-11.2 8.1-25 8.1C36.2 85 25 81.4 25 76.9V24.1c0-4.5 11.2-8.1 25-8.1 13.7 0 24.9 3.6 24.9 8.1" fill="#399ACD" opacity="0.1"/>
+  <path d="M74.9 24.1v52.8c0 4.5-11.2 8.1-25 8.1C36.2 85 25 81.4 25 76.9V24.1c0-4.5 11.2-8.1 25-8.1 13.7 0 24.9 3.6 24.9 8.1z" stroke="#1263AD" stroke-width="1" fill="none"/>
+  <path d="M25 76.9c0-4.5 11.2-8.1 25-8.1s24.9 3.6 24.9 8.1" stroke="#1263AD" stroke-width="1" fill="none"/>
+  <path d="M25 24.1c0 4.5 11.2 8.1 25 8.1s24.9-3.6 24.9-8.1" stroke="#1263AD" stroke-width="1" fill="none" stroke-dasharray="1,1" opacity="0.5"/>
+</svg>

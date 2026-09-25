@@ -1,0 +1,4 @@
+device_unique_identifier,name,location
+A1B2C3D4E5F6,Temperature Sensor - Floor 1,Building A - Floor 1
+F6E5D4C3B2A1,Humidity Sensor - Floor 1,Building A - Floor 1
+1122334455AA,Door Contact - Main Entrance,Building A - Lobby

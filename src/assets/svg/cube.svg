@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" focusable="false">
+  <path d="M78.9 67.5V25H36.4L22 32.4v42.5h42.5z" fill="#399ACD" opacity="0.1"/>
+  <path stroke="#1263AD" stroke-width="1" fill="none" d="M78.9 67.5V25H36.4L22 32.4v42.5h42.5z"/>
+  <path d="M36.4 67.5V25" stroke="#1263AD" stroke-width="1" fill="none" stroke-dasharray="1,1" opacity="0.5"/>
+  <path stroke="#1263AD" stroke-width="1" fill="none" d="M78.9 25l-14.4 7.4v42.5M22 32.4h42.5"/>
+  <path d="M22 74.9l14.4-7.4M78.9 67.5H36.4" stroke="#1263AD" stroke-width="1" fill="none" stroke-dasharray="1,1" opacity="0.5"/>
+</svg>
