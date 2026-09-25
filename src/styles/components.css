@@ -94,6 +94,26 @@
     box-shadow: var(--shadow-modal);
     border-radius: var(--radius-modal);
   }
+  .spotlight {
+    position: relative;
+  }
+  .spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--motion-base) var(--ease-standard);
+    background: radial-gradient(
+      340px circle at var(--mx, 50%) var(--my, 50%),
+      var(--spotlight-color),
+      transparent 62%
+    );
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
   .card-lift {
     transition:
       box-shadow var(--motion-base) var(--ease-standard),
@@ -490,5 +510,76 @@
   .cv-draw {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
+  }
+}
+
+/* Radar sweep overlay for map hero areas */
+.radar-sweep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 190%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--radar-color) 38deg,
+    transparent 39deg
+  );
+  -webkit-mask-image: radial-gradient(circle, #000 0%, #000 45%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0%, #000 45%, transparent 70%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .radar-sweep {
+    animation: cv-spin 9s linear infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep {
+    display: none;
+  }
+}
+
+/* Empty-state orb */
+.empty-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--color-brand-wash);
+  color: var(--color-brand);
+}
+.empty-orb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-brand-soft);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .empty-orb {
+    animation: cv-float 5s ease-in-out infinite;
+  }
+  .empty-orb::after {
+    animation: cv-ping 2.6s ease-out infinite;
+  }
+}
+.typing-caret::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: var(--color-ai);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .typing-caret::after {
+    animation: cv-glow 0.9s steps(2) infinite;
   }
 }

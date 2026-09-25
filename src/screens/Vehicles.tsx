@@ -332,7 +332,7 @@ function VehicleRow({ vehicle, onClick }: { vehicle: Vehicle; onClick: () => voi
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left flex items-center justify-between glass-strong  px-5 py-4 card-lift ${
+      className={`w-full text-left flex items-center justify-between glass-strong spotlight px-5 py-4 card-lift ${
         vehicle.lifecycle_status === 'retired' || vehicle.lifecycle_status === 'sold'
           ? 'opacity-60'
           : ''

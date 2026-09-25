@@ -35,9 +35,7 @@ export function EmptyState({
     <div
       className={`flex flex-col items-center justify-center text-center gap-1.5 py-8 ${className}`}
     >
-      <div className="w-9 h-9 rounded-full bg-surface-2 text-ink-2 flex items-center justify-center mb-1">
-        {icon ?? <Inbox size={16} />}
-      </div>
+      <div className="empty-orb mb-2">{icon ?? <Inbox size={20} />}</div>
       <div className="text-[13px] font-medium text-ink-0">{title}</div>
       {hint && <div className="text-xs text-ink-1 max-w-[280px] leading-relaxed">{hint}</div>}
       {action && <div className="mt-2">{action}</div>}

@@ -40,6 +40,8 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
   const [userMenu, setUserMenu] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const rootRef = useRef<HTMLElement | null>(null);
+  const listRef = useRef<HTMLUListElement | null>(null);
+  const [hl, setHl] = useState<{ left: number; width: number } | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const groups = buildNav({ isSuperAdmin, isDemo: user?.isDemo, hasPermission });
@@ -107,7 +109,16 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
         <BrandMark />
       </Link>
 
-      <ul className="ml-1 hidden items-center gap-0.5 lg:flex">
+      <ul
+        ref={listRef}
+        className="relative ml-1 hidden items-center gap-0.5 lg:flex"
+        onMouseLeave={() => setHl(null)}
+      >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 rounded-full bg-brand-wash/70 transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+          style={{ left: hl?.left ?? 0, width: hl?.width ?? 0, opacity: hl ? 1 : 0 }}
+        />
         {groups.map(g => {
           const active = isActive(g);
           const Icon = g.icon;
@@ -117,14 +128,17 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
           const tone = active
             ? 'bg-ink-0 text-white'
             : open === g.key
-              ? 'bg-black/[0.06] text-ink-0'
-              : 'text-ink-1 hover:bg-black/[0.06]';
+              ? 'text-ink-0'
+              : 'text-ink-1';
 
           return (
             <li
               key={g.key}
               className="relative"
-              onMouseEnter={() => hasMenu && hoverOpen(g.key)}
+              onMouseEnter={e => {
+                setHl({ left: e.currentTarget.offsetLeft, width: e.currentTarget.offsetWidth });
+                if (hasMenu) hoverOpen(g.key);
+              }}
               onMouseLeave={hoverClose}
             >
               {hasMenu ? (

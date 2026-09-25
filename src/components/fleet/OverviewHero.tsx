@@ -187,6 +187,7 @@ export default function OverviewHero({
               </CircleMarker>
             ))}
           </MapContainer>
+          <div className="radar-sweep z-[450]" aria-hidden />
           <div className="pointer-events-none absolute left-4 top-4 z-[500] flex flex-wrap gap-2">
             <span className="glass-strong flex items-center gap-2 rounded-full px-3.5 py-2 text-[12.5px] font-medium">
               <i className="size-2 rounded-full bg-brand" />
