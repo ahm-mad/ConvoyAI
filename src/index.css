@@ -125,10 +125,18 @@ html.light {
   --color-surface-0: #fbf5ee;
 }
 
+/* Ambient page glow on a fixed layer (avoids background-attachment: fixed repaint/capture glitches). */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--gradient-page-glow);
+}
+
 body {
   background-color: var(--color-surface-0);
-  background-image: var(--gradient-page-glow);
-  background-attachment: fixed;
   color: var(--color-ink-0);
   -webkit-font-smoothing: antialiased;
   transition:
