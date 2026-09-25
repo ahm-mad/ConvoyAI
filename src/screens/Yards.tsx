@@ -279,14 +279,14 @@ export default function Yards() {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-md bg-surface-3 flex items-center justify-center flex-shrink-0">
+                  <div className="size-11 rounded-card bg-brand-wash text-brand flex items-center justify-center flex-shrink-0">
                     <Warehouse size={15} className="text-ink-2" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm text-ink-0">
                       {y.name}
                       {y.is_active === false && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-surface-3 text-ink-2">
+                        <span className="text-micro font-semibold px-2.5 py-0.5 rounded-full bg-surface-3 text-ink-2">
                           inactive
                         </span>
                       )}

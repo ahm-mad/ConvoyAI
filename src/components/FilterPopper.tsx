@@ -38,7 +38,7 @@ const FilterPopper = ({ id, openPopperId, setOpenPopperId, trigger, children, sx
               <Box
                 sx={{
                   bgcolor: 'var(--color-surface-2)',
-                  boxShadow: '0 12px 32px rgba(0,0,0,0.35)',
+                  boxShadow: 'var(--shadow-glass)',
                   border: '1px solid var(--color-line)',
                   borderRadius: '10px',
                   height: '24rem',

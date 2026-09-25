@@ -472,7 +472,7 @@ export default function FleetOverview() {
       style={{ height: scrollH }}
       className="a11y-muted overflow-y-auto overscroll-contain"
     >
-      <div className="mx-auto w-full max-w-[1760px] px-6 py-6 flex flex-col gap-5">
+      <div className="w-full pt-3 pb-12 flex flex-col gap-6">
         <OverviewHero
           vehicles={
             d.vehicleCounts?.total ??

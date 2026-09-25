@@ -13,7 +13,7 @@ const ConfirmModal = ({
 }) => {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="glass-strong  p-6 max-w-sm mx-4 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+      <div className="glass-strong  p-6 max-w-sm mx-4 shadow-modal">
         <h3 className="text-lg font-medium text-ink-0 mb-2 font-display">{title}</h3>
 
         <div className="text-ink-1 mb-6">

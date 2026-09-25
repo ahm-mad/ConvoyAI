@@ -337,7 +337,7 @@ function DriverRow({ driver, onClick }: { driver: any; onClick: () => void }) {
             {driver.first_name} {driver.last_name}
           </span>
           <span
-            className={`text-[10px] px-1.5 py-0.5 rounded ${statusColors[driver.status] || statusColors.inactive}`}
+            className={`text-micro font-semibold px-2.5 py-0.5 rounded-full ${statusColors[driver.status] || statusColors.inactive}`}
           >
             {driver.status}
           </span>

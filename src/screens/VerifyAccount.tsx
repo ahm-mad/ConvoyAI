@@ -66,7 +66,7 @@ export default function VerifyAccount() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-surface-0">
       <div className="w-full max-w-md">
         {/* Main Card */}
-        <div className="glass-strong  p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+        <div className="glass-strong  p-8 text-center shadow-modal">
           {/* Header */}
           <div className="mb-8">
             {!emailSent && (

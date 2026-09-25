@@ -295,7 +295,7 @@ function TripRow({ trip, onClick }: { trip: any; onClick: () => void }) {
             </span>
 
             <span
-              className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded capitalize ${config.className}`}
+              className={`inline-flex items-center gap-1 text-micro font-semibold px-2.5 py-0.5 rounded-full capitalize ${config.className}`}
             >
               {config.icon}
               {status.replace('_', ' ')}

@@ -91,7 +91,7 @@ export default function ImageCropModal({ file, onCancel, onComplete }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-1000">
-      <div className="glass-strong  p-4 w-[400px] h-[450px] flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+      <div className="glass-strong  p-4 w-[400px] h-[450px] flex flex-col shadow-modal">
         <div className="relative flex-1">
           <Cropper
             image={imageUrl}

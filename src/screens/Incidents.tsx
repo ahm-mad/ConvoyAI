@@ -66,7 +66,7 @@ export default function Incidents() {
   ];
 
   return (
-    <div className="flex flex-col p-5">
+    <div className="flex flex-col pt-3 pb-12">
       <div className="mb-4">
         <h1 className="page-title">Incidents</h1>
         <p className="text-[13.5px] text-ink-1 mt-1">

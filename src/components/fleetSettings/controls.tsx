@@ -296,7 +296,7 @@ export function TimezoneCombobox({
       </div>
 
       {open && (
-        <div className="absolute z-40 left-0 right-0 top-full mt-1.5 rounded-xl border border-line bg-surface-1 shadow-xl overflow-hidden">
+        <div className="absolute z-40 left-0 right-0 top-full mt-1.5 glass-strong shadow-glass overflow-hidden">
           <ul
             ref={list}
             id={listId}

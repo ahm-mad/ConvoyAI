@@ -139,7 +139,7 @@ export default function SetNewPassword() {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-surface-0">
         <div className="w-full max-w-md">
-          <div className="glass-strong  p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+          <div className="glass-strong  p-8 text-center shadow-modal">
             <div className="mb-8">
               <div className="mx-auto w-16 h-16 brand-gradient-bg rounded-full flex items-center justify-center mb-4">
                 <Lock className="w-8 h-8 on-gradient" />

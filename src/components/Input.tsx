@@ -112,11 +112,9 @@ const GlobalInput = ({
   }
 
   if (error) {
-    inputClasses +=
-      ' border-danger focus:border-danger focus:shadow-[0_0_0_2px_rgba(242,73,92,0.2)]';
+    inputClasses += ' border-danger focus:border-danger focus:shadow-focus-danger';
   } else {
-    inputClasses +=
-      ' border-line focus:border-accent-cyan focus:shadow-[0_0_0_2px_rgba(34,211,238,0.15)]';
+    inputClasses += ' border-line focus:border-accent-cyan focus:shadow-focus';
   }
 
   // Add padding for icons

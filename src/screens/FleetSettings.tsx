@@ -292,10 +292,7 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section
-      aria-label={title}
-      className="bg-surface-1 border border-line-soft rounded-xl shadow-[0_1px_2px_rgba(16,24,40,0.04)]"
-    >
+    <section aria-label={title} className="glass">
       <header className="flex items-start gap-3 px-6 pt-5 pb-4 border-b border-line-soft">
         <span className="mt-0.5 flex items-center justify-center w-8 h-8 rounded-lg bg-surface-2 border border-line-soft text-ink-1">
           {icon}
@@ -753,7 +750,7 @@ function SettingsForm({ settings, onReload }: { settings: FleetSettings; onReloa
         }`}
       >
         <div className="mx-auto max-w-[980px] px-6 pb-5">
-          <div className="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface-1 shadow-[0_8px_30px_rgba(0,0,0,0.18)] px-4 py-3">
+          <div className="flex items-center justify-between gap-4 glass-strong px-4 py-3">
             <div className="text-[13px] text-ink-0">
               <span className="font-semibold tabular-nums">{changed.length}</span> unsaved{' '}
               {changed.length === 1 ? 'change' : 'changes'}
