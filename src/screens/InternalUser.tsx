@@ -256,7 +256,7 @@ const UsersTable = () => {
     <div className="min-h-screen  ">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-[13px] font-semibold text-ink-0 mt-4 font-display">Internal users</h1>
+          <h1 className="page-title mt-4">Internal users</h1>
           {/* <p className="text-gray-600">Manage user accounts and credentials</p> */}
         </div>
 

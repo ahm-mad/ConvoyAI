@@ -385,7 +385,7 @@ export default function ManageProduct() {
         </div>
       </div>
 
-      <div className="bg-surface-1 border-line-soft border overflow-hidden rounded-md">
+      <div>
         <DataTable
           data={tableData}
           columns={columns}

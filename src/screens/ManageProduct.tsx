@@ -370,7 +370,7 @@ export default function ManageProduct({ passedUserId }: ManageProductProps) {
         <h1 className="page-title mt-1">Products &amp; devices</h1>
       </div>
 
-      <div className="glass overflow-hidden ">
+      <div>
         <DataTable
           data={tableData}
           columns={columns}

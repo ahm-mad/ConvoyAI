@@ -633,26 +633,20 @@ export default function ManageDevice() {
     ];
 
     return (
-      <div className="border-b border-line mb-4">
-        <nav className="flex  gap-6">
+      <div className="mb-5">
+        <nav className="flex gap-1.5">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => handleTabClick(tab.id)}
-              className={`py-2.5 px-0.5 border-b-2 font-medium cursor-pointer text-xs flex items-center gap-1.5 transition-colors ${
-                activeTab === tab.id
-                  ? 'border-accent-cyan text-ink-0'
-                  : 'border-transparent text-ink-2 hover:text-ink-1 hover:border-line'
-              }`}
+              className={`tab ${activeTab === tab.id ? 'tab-active' : ''}`}
             >
               {tab.icon}
               {tab.label}
               {tab.count !== undefined && (
                 <span
-                  className={`ml-1 py-0.5 px-1.5 rounded text-[10px] font-mono ${
-                    activeTab === tab.id
-                      ? 'bg-accent-cyan/10 text-accent-cyan'
-                      : 'bg-surface-2 text-ink-2'
+                  className={`ml-1 py-0.5 px-2 rounded-full text-micro font-mono ${
+                    activeTab === tab.id ? 'bg-white/25 text-white' : 'bg-black/[0.06] text-ink-1'
                   }`}
                 >
                   {tab.count}
@@ -968,9 +962,7 @@ export default function ManageDevice() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div>
-              <h1 className="text-[13px] font-semibold text-ink-0 font-display">
-                Devices for {productName}
-              </h1>
+              <h1 className="page-title">Devices for {productName}</h1>
               <p className="text-xs text-ink-2 mt-0.5">
                 Manage and monitor devices for this product
               </p>

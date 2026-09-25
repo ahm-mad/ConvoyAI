@@ -18,6 +18,7 @@ import {
   Building2,
   Boxes,
   Settings2,
+  Sparkles,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -124,6 +125,14 @@ export function buildNav({ isSuperAdmin, isDemo, hasPermission }: NavPermissions
             icon: Settings2,
           },
         ],
+      },
+      {
+        key: 'ai',
+        label: 'AI',
+        href: '/ai',
+        icon: Sparkles,
+        items: [],
+        match: ['/ai'],
       },
       {
         key: 'analytics',

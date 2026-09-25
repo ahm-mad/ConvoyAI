@@ -351,7 +351,7 @@ export default function ManageProduct({ passedUserId }: ManageProductProps) {
         <span className="text-lg font-semibold">{t('companyName')}</span>
       </div>
 
-      <div className="bg-surface-1 border-line-soft border overflow-hidden rounded-md">
+      <div>
         <DataTable
           data={tableData}
           columns={columns}

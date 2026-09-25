@@ -24,7 +24,7 @@ export default function ConnectorHealthPage() {
     <div className="flex flex-col p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-[15px] font-semibold text-ink-0 font-display">Connector Health</h1>
+          <h1 className="page-title">Connector Health</h1>
           <p className="text-xs text-ink-2 mt-0.5">
             Central platform connectors — not a specific product's own connection settings.
           </p>
