@@ -3,7 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, ChevronDown, LogOut, Search, Settings, Sparkles, Building } from 'lucide-react';
+import {
+  Bell,
+  ChevronDown,
+  LogOut,
+  Menu,
+  Search,
+  Settings,
+  Sparkles,
+  Building,
+  X,
+} from 'lucide-react';
 import { useUser } from '@contexts/UserContext';
 import { disconnectSocket } from '@contexts/SocketContext';
 import { buildNav, type NavGroup } from './nav-config';
@@ -28,6 +38,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
   const pathname = usePathname() ?? '';
   const [open, setOpen] = useState<string | null>(null);
   const [userMenu, setUserMenu] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const rootRef = useRef<HTMLElement | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -36,6 +47,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
   useEffect(() => {
     setOpen(null);
     setUserMenu(false);
+    setMobileOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -43,12 +55,14 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
         setOpen(null);
         setUserMenu(false);
+        setMobileOpen(false);
       }
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setOpen(null);
         setUserMenu(false);
+        setMobileOpen(false);
       }
     };
     document.addEventListener('mousedown', onDoc);
@@ -142,7 +156,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
               {hasMenu && open === g.key && (
                 <div
                   role="menu"
-                  className="glass-strong absolute left-0 top-[calc(100%+12px)] w-[380px] rounded-3xl p-2.5"
+                  className="glass-menu absolute left-0 top-[calc(100%+12px)] w-[380px] rounded-panel p-2.5"
                   style={{ boxShadow: 'var(--shadow-glass)' }}
                 >
                   <div className="px-3 pb-1.5 pt-2 eyebrow">{g.label}</div>
@@ -235,7 +249,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
         {userMenu && (
           <div
             role="menu"
-            className="glass-strong absolute right-0 top-[calc(100%+12px)] w-64 rounded-3xl p-2"
+            className="glass-menu absolute right-0 top-[calc(100%+12px)] w-64 rounded-panel p-2"
           >
             <div className="px-3 pb-2 pt-2.5">
               <div className="truncate text-sm font-semibold text-ink-0">{displayName}</div>
@@ -267,6 +281,79 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
           </div>
         )}
       </div>
+
+      <button
+        type="button"
+        aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={mobileOpen}
+        onClick={() => {
+          setOpen(null);
+          setUserMenu(false);
+          setMobileOpen(v => !v);
+        }}
+        className="grid size-[38px] place-items-center rounded-full border border-line bg-white text-ink-1 lg:hidden"
+      >
+        {mobileOpen ? <X size={17} /> : <Menu size={17} />}
+      </button>
+
+      {mobileOpen && (
+        <div
+          role="menu"
+          className="glass-menu absolute left-0 right-0 top-[calc(100%+12px)] max-h-[calc(100vh-110px)] overflow-y-auto rounded-panel p-3 lg:hidden"
+        >
+          <button
+            type="button"
+            onClick={() => {
+              setMobileOpen(false);
+              onOpenPalette();
+            }}
+            className="mb-2 flex w-full items-center gap-2.5 rounded-full bg-black/[0.05] px-4 py-3 text-control text-ink-2"
+          >
+            <Search size={15} /> Search fleet
+          </button>
+          {groups.map(g => {
+            const Icon = g.icon;
+
+            return g.items.length ? (
+              <div key={g.key} className="py-1">
+                <div className="eyebrow flex items-center gap-2 px-3 py-2">
+                  <Icon size={13} /> {g.label}
+                </div>
+                {g.items.map(item => {
+                  const ItemIcon = item.icon;
+                  const here = pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      role="menuitem"
+                      className={`flex items-center gap-3 rounded-card px-3 py-2.5 text-control font-medium text-ink-0 ${here ? 'bg-brand-wash' : 'hover:bg-black/[0.05]'}`}
+                    >
+                      <span className="grid size-8 place-items-center rounded-control bg-brand-wash text-brand">
+                        <ItemIcon size={15} />
+                      </span>
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : (
+              <Link
+                key={g.key}
+                href={g.href ?? '#'}
+                role="menuitem"
+                className={`flex items-center gap-3 rounded-card px-3 py-3 text-control font-semibold text-ink-0 ${isActive(g) ? 'bg-brand-wash' : 'hover:bg-black/[0.05]'}`}
+              >
+                <span className="grid size-8 place-items-center rounded-control bg-brand-wash text-brand">
+                  <Icon size={15} />
+                </span>
+                {g.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 }

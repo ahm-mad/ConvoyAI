@@ -38,7 +38,7 @@ export default function TimezoneNotice() {
   return (
     <div
       role="note"
-      className="shrink-0 flex items-center gap-3 px-4 py-2 text-xs bg-surface-2 border-b border-line-soft text-ink-1"
+      className="glass-strong my-3 flex shrink-0 items-center gap-3 px-4 py-2.5 text-caption text-ink-1"
     >
       <Globe size={13} className="shrink-0 text-ink-2" />
       <span className="min-w-0 flex-1">
@@ -48,7 +48,7 @@ export default function TimezoneNotice() {
       </span>
       <Link
         href="/fleet-management/settings"
-        className="shrink-0 font-medium text-accent-cyan hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
+        className="shrink-0 whitespace-nowrap font-semibold text-brand hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
       >
         Set timezone
       </Link>

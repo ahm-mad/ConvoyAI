@@ -77,6 +77,14 @@
     box-shadow: var(--shadow-card);
     border-radius: var(--radius-card);
   }
+  .glass-menu {
+    background: var(--glass-bg-menu);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid #fff;
+    box-shadow: var(--shadow-glass);
+    border-radius: var(--radius-card);
+  }
   .glass-pill {
     border-radius: var(--radius-pill);
   }

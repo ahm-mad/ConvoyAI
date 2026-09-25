@@ -143,7 +143,8 @@ export default function FleetNav() {
               : 'text-ink-1 hover:text-ink-0 border-transparent hover:bg-surface-2'
           }`}
         >
-          <Settings2 size={13} /> Fleet settings
+          <Settings2 size={13} />{' '}
+          <span className="hidden whitespace-nowrap sm:inline">Fleet settings</span>
         </Link>
       </div>
 
