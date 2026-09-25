@@ -1,5 +1,7 @@
 # TYPING_HANDOFF.md — resume doc for the "strict types for major screens" task
 
+> **Naming note (2026-09-26):** this project was renamed from ConvoyAI to **ConvoyAI** (task T-001). Older names in this document (ConvoyAI, FE-ConvoyAI, ConvoyAIFrontend, example.com hosts) are kept as history.
+
 > **Read this first if you're resuming the strict-typing work.** It's the detailed
 > companion to `task.md` (which has the higher-level migration history + this task's
 > summary under `## FOLLOW-UP TASK`). Everything you need to continue seamlessly is here.
@@ -232,7 +234,7 @@ count?: any }[]` (mixed-shape literal otherwise fails `.count` access).
 - **Shared-component work pulled in** (see §5 new rows): `RadixTable` public contract, `Button.sx?`,
   `useSimpleQuery` array key, plus one-line `@ts-nocheck` signature widenings on `AddDevices`
   (extra ignored props), `ConfirmActivationModal` (`itemName = ''`), `DropDownMenuRadix` (inline
-  param type, `id?`), `IntegrationContent` (`_props: { data?: any }`), `ConvoyAIDemo/
+  param type, `id?`), `IntegrationContent` (`_props: { data?: any }`), `ConvoyDemo/
 ProductConfigurationDemo.ts` (`return null;` so it's a valid component).
 - `AttributeModal.tsx` / `DeviceTable.tsx` / `DevicePointsModal` stay `@ts-nocheck` — their inferred
   props covered every call site.
@@ -251,7 +253,7 @@ Typed `screens/{RuleBuilder,AddNewRule}.tsx`.
   `onSubmit(data: RuleFormValues)`.
 - `@ts-nocheck` signature widenings: `ConfirmDelete` (inline param type — optional `itemName` +
   ignored `title`/`message`), `TableSkeleton` (`_props: { count?: number }`), `EmailAction` /
-  `SmsAction` (`inputStyles = undefined` — dead prop), `ConvoyAIDemo/RuleBuilderDemo.ts` (`return null`).
+  `SmsAction` (`inputStyles = undefined` — dead prop), `ConvoyDemo/RuleBuilderDemo.ts` (`return null`).
 - Removed dead imports from `AddNewRule` (`ConditionSelect`, `ConditionalDropdown`,
   `mapExtractedKeys`/`getKeyAfterLastDot`, `X`). **Deleted empty `screens/Rules.tsx`.**
 - `ConditionRow` / `EmailAction` / `SmsAction` / `SystemNotificationAction` / `CustomSelect` stay
@@ -373,7 +375,7 @@ over time (grep `@ts-nocheck -- TODO`).
 9. **Unit 6** — `screens/ProductConfiguration.tsx` `handleModal` calls
    `handleModalSave(data, selectedAttribute, productName)` with a 3rd arg the 2-param function
    ignored. Added an unused `_productName?` param so the call type-checks; behaviour unchanged.
-10. **Unit 6** — `ConvoyAIDemo/ProductConfigurationDemo.ts` had no `return` → typed as returning
+10. **Unit 6** — `ConvoyDemo/ProductConfigurationDemo.ts` had no `return` → typed as returning
     `void`, so `<ProductConfigurationDemo />` errored once its consumer was checked. Added
     `return null;` (matches `ManageProductDemo`). `components/Button.tsx` `sx` prop from Product/
     Device screens was always a no-op MUI leftover — now an accepted-and-ignored `ButtonProps.sx?`.
@@ -383,7 +385,7 @@ keepPreviousData: true })` (option removed in v5 → moved to `placeholderData: 
     removed. "Keep previous page while paginating" is gone until someone wires `placeholderData`.
 12. **Unit 7** — `components/ConfirmDelete.tsx` renders its title + message from i18n, but
     `RuleBuilder`'s bulk-delete path passes `title` / `message` props it never reads. Always a no-op.
-    Widened the `@ts-nocheck` signature to accept + ignore them; `ConvoyAIDemo/RuleBuilderDemo.ts`
+    Widened the `@ts-nocheck` signature to accept + ignore them; `ConvoyDemo/RuleBuilderDemo.ts`
     got `return null;` (same void-component issue as #10).
 13. **Unit 8** — see #3 (`AllUser.tsx` `onRefetch`). Also `RolesPermission.tsx` /
     `AllCompaniesList.tsx` read `user.id` / `user.roles[0].company_id` with `user: User | null`

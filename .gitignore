@@ -30,3 +30,11 @@ next-env.d.ts
 *.njsproj
 *.sln
 *.sw?
+.claude/scheduled_tasks.lock
+
+# Backend sync folder (backend is out of scope in this repo)
+backend_frontend_sync/
+
+# Local AI-assistant notes and workflow files (not part of the product repo)
+agent/
+CLAUDE.md

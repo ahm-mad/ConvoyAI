@@ -1,5 +1,7 @@
 # TASK.md — FE-ConvoyAI: React(Vite) → Next.js + TypeScript migration
 
+> **Naming note (2026-09-26):** this project was renamed from ConvoyAI to **ConvoyAI** (task T-001). Older names in this document (ConvoyAI, FE-ConvoyAI, ConvoyAIFrontend, example.com hosts) are kept as history.
+
 > **Working task tracker.** This file is the single source of truth for the current large task and its
 > progress. If a session runs out of context, the next session resumes from the **Progress Log** and the
 > **Phase status** markers below — do not re-plan from scratch, continue from the first unchecked item.
@@ -457,7 +459,7 @@ view.md` and `communication/findings.md`. **Feature is signed off — good to go
    later ("currently it is not user friendly nor beautiful") — no scope or timing given yet, just
    flagged here so it isn't lost.
 
-**Real seeded login for all live testing:** `junead@chaminade-hs.org` / `password123` against
+**Real seeded login for all live testing:** `junead@chaminade-hs.org` / `<test-password>` against
 `http://localhost:8080` (node-backend — run and managed by the _other_ Claude session, not this one).
 
 ---
@@ -997,7 +999,7 @@ trip form), fix blank geofence-event names fallback, stale copy on map/vehicle h
 datetime sending, use unused `GET /trips/{id}/gps-trail` + planned yards on the map.
 
 **Test data:** "ZZ …" vehicles 2,3; drivers 2,3; product 118 (devices 146,147); yards 1,2; geofences 1,2;
-trips 1–3 in company 2 (login junead@chaminade-hs.org / password123). Owner's own "truck 1"/"john" untouched.
+trips 1–3 in company 2 (login junead@chaminade-hs.org / <test-password>). Owner's own "truck 1"/"john" untouched.
 See memory `fleet-management-analysis` for the fuller list.
 
 ## ▶ NEXT SESSION — START HERE (handoff updated 2026-09-23, session ended on context limit — demo-readiness
@@ -1704,7 +1706,7 @@ therefore **N/A unless a runtime issue surfaces** in the manual pass.
 
 - [x] **`vercel.json` rewritten.** Removed the SPA catch-all `rewrites` (`/(.*) → /`) — App Router owns routing; leaving it would rewrite every URL to `/`. Kept the Unity `.gz` `Content-Encoding`/`Content-Type` header rules **and added the matching set for `/DiaryFarm/Build/*.gz`** (the `/webgl-farm` Unity build — the old `vercel.json` only covered `/unity/Build/`, so DiaryFarm's `.gz` files were served without `Content-Encoding: gzip` and Unity's loader was falling back to slow in-JS gunzip + a console warning; this is a fix, not a regression). Added `"framework": "nextjs"`. Kept headers in `vercel.json` (not `next.config`) — the `(.*)`-group source syntax is already proven on the current deploy, and mirroring into `next.config.headers()` risks double-applied headers.
 - [ ] **OWNER — Vercel project settings before the Preview deploy:**
-  - Set env vars (Preview **and** Production scope): `NEXT_PUBLIC_API_URL` (= `https://api.example.com/`), `NEXT_PUBLIC_PUSHER_KEY` (`098d674314cb128d59a1`), `NEXT_PUBLIC_PUSHER_CLUSTER` (`ap2`), `NEXT_PUBLIC_MAPTILER_KEY` (`YqZKyPcryZaCxduve1FH`). (The old `VITE_*` vars can stay or be removed — nothing reads them now.)
+  - Set env vars (Preview **and** Production scope): `NEXT_PUBLIC_API_URL` (= `https://api.example.com/`), `NEXT_PUBLIC_PUSHER_KEY` (`<PUSHER_KEY_REDACTED>`), `NEXT_PUBLIC_PUSHER_CLUSTER` (`ap2`), `NEXT_PUBLIC_MAPTILER_KEY` (`<MAPTILER_KEY_REDACTED>`). (The old `VITE_*` vars can stay or be removed — nothing reads them now.)
   - If the Vercel build OOMs (local needs `--max-old-space-size=6144`): add env var `NODE_OPTIONS = --max-old-space-size=8192`. Vercel's default build container may be fine without it — try first.
   - Framework preset should auto-detect **Next.js** (build `next build`, output `.next`). No "Output Directory" override, no custom install command.
 - [ ] **OWNER — deploy a Preview from `feat/next-ts-migration`** and verify on the deployed URL:

@@ -1,5 +1,7 @@
 # DEV_PERFORMANCE.md — `next dev` memory runaway: findings, tooling, next steps
 
+> **Naming note (2026-09-26):** this project was renamed from ConvoyAI to **ConvoyAI** (task T-001). Older names in this document (ConvoyAI, FE-ConvoyAI, ConvoyAIFrontend, example.com hosts) are kept as history.
+
 > **Read this first if you're resuming the dev-server memory / laptop-freeze investigation.**
 > Written 2026-09-18. Everything here concerns **local development only**. Production
 > (`next build` / Vercel) is unaffected — see §6.
