@@ -171,7 +171,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
                           role="menuitem"
                           className={`group flex items-center gap-3 rounded-2xl px-3 py-2.5 transition-colors hover:bg-brand-wash/60 ${here ? 'bg-brand-wash/70' : ''}`}
                         >
-                          <span className="grid size-9 place-items-center rounded-xl bg-brand-wash text-brand transition-transform group-hover:scale-105">
+                          <span className="grid size-9 place-items-center rounded-xl bg-brand-wash text-brand icon-gradient transition-transform group-hover:scale-105">
                             <ItemIcon size={17} />
                           </span>
                           <span className="min-w-0">
@@ -330,7 +330,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
                       role="menuitem"
                       className={`flex items-center gap-3 rounded-card px-3 py-2.5 text-control font-medium text-ink-0 ${here ? 'bg-brand-wash' : 'hover:bg-black/[0.05]'}`}
                     >
-                      <span className="grid size-8 place-items-center rounded-control bg-brand-wash text-brand">
+                      <span className="grid size-8 place-items-center rounded-control bg-brand-wash text-brand icon-gradient">
                         <ItemIcon size={15} />
                       </span>
                       {item.label}
@@ -345,7 +345,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
                 role="menuitem"
                 className={`flex items-center gap-3 rounded-card px-3 py-3 text-control font-semibold text-ink-0 ${isActive(g) ? 'bg-brand-wash' : 'hover:bg-black/[0.05]'}`}
               >
-                <span className="grid size-8 place-items-center rounded-control bg-brand-wash text-brand">
+                <span className="grid size-8 place-items-center rounded-control bg-brand-wash text-brand icon-gradient">
                   <Icon size={15} />
                 </span>
                 {g.label}

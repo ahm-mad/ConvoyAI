@@ -181,8 +181,17 @@
   --motion-fast: 120ms;
   --motion-base: 200ms;
   --motion-slow: 320ms;
+  --motion-rise: 640ms;
+  --motion-ambient: 26s;
+  --motion-stagger: 70ms;
   --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
 
   /* Focus ring */
+  /* Faint futuristic grid used behind hero areas */
+  --pattern-grid:
+    linear-gradient(to right, rgba(14, 27, 26, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 27, 26, 0.05) 1px, transparent 1px);
+  --pattern-grid-size: 44px;
+
   --focus-ring: 2px solid var(--color-brand);
 }

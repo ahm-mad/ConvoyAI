@@ -286,7 +286,7 @@ export default function Drivers() {
       )}
 
       {!isLoading && view.items.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-3 motion-stagger">
           {view.items.map(d => (
             <SelectableRow
               key={d.id}

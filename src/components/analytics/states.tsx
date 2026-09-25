@@ -13,7 +13,7 @@ export function Skeleton({
     <div
       aria-hidden="true"
       style={style}
-      className={`rounded-md bg-surface-3/70 animate-pulse ${className}`}
+      className={`rounded-md bg-surface-3/70 skeleton ${className}`}
     />
   );
 }

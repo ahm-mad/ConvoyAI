@@ -102,7 +102,7 @@ export default function AIWorkspace() {
           />
           <div className="relative flex items-center gap-3 px-6 pb-3 pt-5">
             <div
-              className="relative size-10 rounded-full shadow-ai"
+              className="relative size-10 rounded-full shadow-ai motion-spin-slow"
               style={{ background: 'var(--gradient-ai-orb)' }}
             >
               <span
@@ -163,7 +163,7 @@ export default function AIWorkspace() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 motion-stagger lg:grid-cols-3">
         <section className="glass p-6">
           <div className="flex items-center gap-2">
             <span className="grid size-9 place-items-center rounded-control bg-gold-wash text-gold-ink">
@@ -195,7 +195,7 @@ export default function AIWorkspace() {
 
         <section className="glass p-6">
           <div className="flex items-center gap-2">
-            <span className="grid size-9 place-items-center rounded-control bg-brand-wash text-brand">
+            <span className="grid size-9 place-items-center rounded-control bg-brand-wash text-brand icon-gradient">
               <CalendarClock size={17} />
             </span>
             <div>

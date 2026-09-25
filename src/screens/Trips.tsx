@@ -221,7 +221,7 @@ export default function Trips() {
       )}
 
       {!t.isLoading && t.items.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-3 motion-stagger">
           {t.items.map((trip: any) => (
             <SelectableRow
               key={trip.id}

@@ -3,6 +3,7 @@ import { ArrowDownRight, ArrowUpRight, Minus } from 'lucide-react';
 import MetricInfo from './MetricInfo';
 import { Skeleton } from './states';
 import { useVizColors } from './theme';
+import CountUp from '@components/ui/CountUp';
 
 /** Whether a rising value is good, bad, or neither — decides the delta's polarity colour. */
 export type Polarity = 'up-good' | 'down-good' | 'neutral';
@@ -89,6 +90,8 @@ export function Sparkline({
     >
       <path
         d={path}
+        pathLength={1}
+        className="cv-draw"
         fill="none"
         stroke={c.neutral}
         strokeOpacity={0.55}
@@ -144,7 +147,7 @@ export default function KpiTile({
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           {icon && (
-            <span className="grid size-8 shrink-0 place-items-center rounded-[10px] bg-brand-wash text-brand">
+            <span className="grid size-8 shrink-0 place-items-center rounded-[10px] bg-brand-wash text-brand icon-gradient">
               {icon}
             </span>
           )}
