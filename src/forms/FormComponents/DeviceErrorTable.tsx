@@ -49,7 +49,7 @@ export default function DeviceErrorTable({ errors }: DeviceErrorTableProps) {
       <button
         type="button"
         onClick={handleDownloadErrors}
-        className="inline-flex items-center gap-2 mt-3 px-3 py-1.5 rounded-md border border-line-soft text-xs text-ink-1 hover:bg-surface-2 transition-colors"
+        className="inline-flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-line-soft text-xs text-ink-1 hover:bg-surface-2 transition-colors"
       >
         <Download size={13} />
         Download error report (CSV)

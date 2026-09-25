@@ -18,7 +18,7 @@ import Pager from '@components/list/Pager';
  */
 export type AssignmentScope = 'vehicle' | 'driver' | 'company';
 
-const CONTROL = 'bg-white border border-line rounded-xl px-2 py-1.5 text-[11px] text-ink-0';
+const CONTROL = 'control max-w-[190px]';
 
 // The year is omitted for the current year (recent history reads shorter and fits narrow tables).
 const fmt = (iso?: string | null) => {
@@ -135,8 +135,8 @@ export default function AssignmentHistory({
       {tiles && (
         <div className="grid grid-cols-4 gap-2 mb-3">
           {tiles.map(([label, value]) => (
-            <div key={String(label)} className="bg-surface-2 rounded-md px-3 py-2">
-              <div className="text-[10px] uppercase tracking-wider text-ink-2">{label}</div>
+            <div key={String(label)} className="glass-strong px-4 py-3">
+              <div className="eyebrow">{label}</div>
               <div className="text-sm text-ink-0 mt-0.5">{value}</div>
             </div>
           ))}
@@ -242,25 +242,28 @@ export default function AssignmentHistory({
       )}
 
       {rows.length > 0 && (
-        <div className="overflow-x-auto border border-line-soft rounded-md">
-          <table className="w-full text-[11px]">
-            <thead className="bg-surface-2 text-ink-2 text-left">
+        <div className="glass overflow-x-auto">
+          <table className="w-full text-caption">
+            <thead className="bg-white/50 text-ink-2 text-left uppercase tracking-[0.08em]">
               <tr>
-                {scope !== 'driver' && <th className="px-2.5 py-2 font-medium">Driver</th>}
-                {scope !== 'vehicle' && <th className="px-2.5 py-2 font-medium">Vehicle</th>}
-                <th className="px-2.5 py-2 font-medium">Assigned</th>
-                <th className="px-2.5 py-2 font-medium">Unassigned</th>
-                <th className="px-2.5 py-2 font-medium">Duration</th>
-                <th className="px-2.5 py-2 font-medium text-right">Trips</th>
-                <th className="px-2.5 py-2 font-medium text-right">Distance</th>
-                {scope === 'company' && <th className="px-2.5 py-2 font-medium">By</th>}
+                {scope !== 'driver' && <th className="px-4 py-3 font-medium">Driver</th>}
+                {scope !== 'vehicle' && <th className="px-4 py-3 font-medium">Vehicle</th>}
+                <th className="px-4 py-3 font-medium">Assigned</th>
+                <th className="px-4 py-3 font-medium">Unassigned</th>
+                <th className="px-4 py-3 font-medium">Duration</th>
+                <th className="px-4 py-3 font-medium text-right">Trips</th>
+                <th className="px-4 py-3 font-medium text-right">Distance</th>
+                {scope === 'company' && <th className="px-4 py-3 font-medium">By</th>}
               </tr>
             </thead>
             <tbody>
               {rows.map(row => (
-                <tr key={row.id} className="border-t border-line-soft text-ink-1 align-top">
+                <tr
+                  key={row.id}
+                  className="border-t border-line-soft text-ink-1 align-top transition-colors hover:bg-brand-wash/40"
+                >
                   {scope !== 'driver' && (
-                    <td className="px-2.5 py-2 min-w-[120px]">
+                    <td className="px-4 py-3 min-w-[120px]">
                       <div className="text-ink-0">{personName(row.driver)}</div>
                       {row.driver?.license_number && (
                         <div className="text-[10px] text-ink-2">{row.driver.license_number}</div>
@@ -268,7 +271,7 @@ export default function AssignmentHistory({
                     </td>
                   )}
                   {scope !== 'vehicle' && (
-                    <td className="px-2.5 py-2 min-w-[120px]">
+                    <td className="px-4 py-3 min-w-[120px]">
                       <div className="text-ink-0">{row.vehicle?.name || `#${row.vehicle_id}`}</div>
                       {row.vehicle?.plate && (
                         <div className="text-[10px] text-ink-2">{row.vehicle.plate}</div>
@@ -276,7 +279,7 @@ export default function AssignmentHistory({
                     </td>
                   )}
                   <td
-                    className="px-2.5 py-2 whitespace-nowrap"
+                    className="px-4 py-3 whitespace-nowrap"
                     title={
                       row.assigned_by ? `Assigned by ${personName(row.assigned_by)}` : undefined
                     }
@@ -286,20 +289,20 @@ export default function AssignmentHistory({
                       <div className="text-[10px] italic text-ink-2">{row.notes}</div>
                     ) : null}
                   </td>
-                  <td className="px-2.5 py-2 whitespace-nowrap">
+                  <td className="px-4 py-3 whitespace-nowrap">
                     {row.is_active ? (
                       <span className="text-accent-cyan">Active</span>
                     ) : (
                       fmt(row.unassigned_at)
                     )}
                   </td>
-                  <td className="px-2.5 py-2 whitespace-nowrap">{duration(row)}</td>
-                  <td className="px-2.5 py-2 text-right">{row.trip_count ?? 0}</td>
-                  <td className="px-2.5 py-2 text-right whitespace-nowrap">
+                  <td className="px-4 py-3 whitespace-nowrap">{duration(row)}</td>
+                  <td className="px-4 py-3 text-right">{row.trip_count ?? 0}</td>
+                  <td className="px-4 py-3 text-right whitespace-nowrap">
                     {row.distance_km ?? 0} km
                   </td>
                   {scope === 'company' && (
-                    <td className="px-2.5 py-2 text-ink-2">
+                    <td className="px-4 py-3 text-ink-2">
                       {personName(row.assigned_by)}
                       {row.notes ? <div className="text-[10px] italic">{row.notes}</div> : null}
                     </td>

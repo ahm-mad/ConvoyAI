@@ -22,7 +22,7 @@ export default function ConflictBanner({
     <div
       role="alert"
       data-testid="conflict-banner"
-      className="flex items-start justify-between gap-3 text-xs bg-danger/10 text-danger border border-danger/30 rounded-md px-3 py-2 mb-3"
+      className="flex items-start justify-between gap-3 text-xs bg-danger/10 text-danger border border-danger/30 rounded-full px-3 py-2 mb-3"
     >
       <span>
         This record was changed by <strong>{who}</strong>

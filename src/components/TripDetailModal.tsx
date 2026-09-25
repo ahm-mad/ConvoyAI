@@ -248,7 +248,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
           <button
             type="button"
             onClick={() => setEditing(true)}
-            className="shrink-0 flex items-center gap-1 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 hover:bg-surface-2"
+            className="shrink-0 flex items-center gap-1 text-xs btn-brand border border-transparent rounded-full px-2.5 py-1.5 hover:bg-surface-2"
           >
             <Pencil size={11} />
             Edit trip
@@ -411,7 +411,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
           <button
             onClick={() => setShowCancel(v => !v)}
             disabled={submitting}
-            className="text-xs text-danger border border-danger/30 bg-danger/10 rounded-md px-4 py-2 disabled:opacity-40"
+            className="text-xs text-danger border border-danger/30 bg-danger/10 rounded-full px-4 py-2 disabled:opacity-40"
           >
             Cancel
           </button>
@@ -434,7 +434,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
               <button
                 onClick={() => setShowCancel(true)}
                 disabled={submitting}
-                className="text-xs text-danger border border-danger/30 bg-danger/10 rounded-md px-4 py-2"
+                className="text-xs text-danger border border-danger/30 bg-danger/10 rounded-full px-4 py-2"
               >
                 Cancel
               </button>
@@ -476,7 +476,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowComplete(false)}
-                  className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+                  className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
                 >
                   Back
                 </button>
@@ -484,7 +484,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
                 <button
                   onClick={handleComplete}
                   disabled={submitting}
-                  className="flex-1 text-xs text-accent-green border border-line rounded-md py-1.5 disabled:opacity-40"
+                  className="flex-1 text-xs text-accent-green border border-line bg-white hover:bg-surface-2 rounded-full py-1.5 disabled:opacity-40"
                 >
                   {submitting ? 'Saving…' : 'Complete'}
                 </button>
@@ -516,7 +516,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
                 type="button"
                 onClick={handleDelete}
                 disabled={submitting}
-                className="text-[11px] text-danger border border-danger/40 bg-danger/10 rounded px-2.5 py-1 disabled:opacity-40"
+                className="text-caption font-medium text-danger border border-danger/40 bg-danger/10 rounded-full px-2.5 py-1 disabled:opacity-40"
               >
                 {submitting ? 'Deleting…' : 'Delete trip'}
               </button>
@@ -1128,7 +1128,7 @@ function CancelForm({ value, onChange, onCancel, onSubmit, submitting }) {
       <div className="flex gap-2">
         <button
           onClick={onCancel}
-          className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+          className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
         >
           Back
         </button>
@@ -1136,7 +1136,7 @@ function CancelForm({ value, onChange, onCancel, onSubmit, submitting }) {
         <button
           onClick={onSubmit}
           disabled={submitting || !value.trim()}
-          className="flex-1 text-xs text-danger border border-line rounded-md py-1.5 disabled:opacity-40"
+          className="flex-1 text-xs text-danger border border-line bg-white hover:bg-surface-2 rounded-full py-1.5 disabled:opacity-40"
         >
           {submitting ? 'Cancelling…' : 'Cancel Trip'}
         </button>

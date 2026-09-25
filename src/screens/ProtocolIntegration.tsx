@@ -425,7 +425,7 @@ function ProtocolIntegration({ productID: propProductID }: ProtocolIntegrationPr
                       type="button"
                       onClick={handleTestConnection}
                       disabled={isTestingConnection || !mqttConfigId}
-                      className="px-3 py-2.5 bg-surface-2 border border-line cursor-pointer text-ink-1 font-medium text-xs rounded-md hover:bg-surface-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-3 py-2.5 bg-surface-2 border border-line cursor-pointer text-ink-1 font-medium text-xs rounded-full hover:bg-surface-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isTestingConnection ? 'Testing...' : 'Test Connection'}
                     </button>

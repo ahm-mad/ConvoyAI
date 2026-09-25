@@ -93,7 +93,7 @@ export default function StopActions({
           <button
             type="button"
             onClick={() => open('arrive')}
-            className="text-[10px] text-accent-cyan border border-line rounded px-2 py-1 hover:bg-surface-2"
+            className="text-caption font-medium btn-brand border border-transparent rounded-full px-2 py-1 hover:bg-surface-2"
           >
             {hasArrival ? 'Correct arrival' : 'Mark arrived'}
           </button>
@@ -102,7 +102,7 @@ export default function StopActions({
             <button
               type="button"
               onClick={() => open('depart')}
-              className="text-[10px] text-accent-green border border-line rounded px-2 py-1 hover:bg-surface-2"
+              className="text-caption font-medium text-accent-green border border-line rounded-full px-2 py-1 hover:bg-surface-2"
             >
               {hasDeparture ? 'Correct departure' : 'Mark departed'}
             </button>
@@ -152,7 +152,7 @@ export default function StopActions({
             <button
               type="button"
               onClick={() => setMode(null)}
-              className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+              className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
             >
               Cancel
             </button>
@@ -160,7 +160,7 @@ export default function StopActions({
               type="button"
               onClick={submit}
               disabled={submitting || !time || (replacing && !reason.trim())}
-              className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+              className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
             >
               {submitting ? 'Saving…' : 'Save'}
             </button>

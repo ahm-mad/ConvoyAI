@@ -864,7 +864,7 @@ export default function ManageDevice() {
             {ids.map(id => (
               <span
                 key={id}
-                className="font-mono text-[11px] text-ink-0 bg-surface-2 border border-line-soft rounded px-1.5 py-0.5"
+                className="font-mono text-caption font-medium text-ink-0 bg-surface-2 border border-line-soft rounded-full px-1.5 py-0.5"
               >
                 {id}
               </span>

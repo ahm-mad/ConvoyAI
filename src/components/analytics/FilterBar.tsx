@@ -245,7 +245,7 @@ export default function FilterBar({
           type="button"
           onClick={onRefresh}
           aria-label="Refresh"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-1 hover:text-ink-0 border border-line rounded-md px-2.5 py-1.5 hover:bg-surface-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-1 hover:text-ink-0 border border-line rounded-full px-2.5 py-1.5 hover:bg-surface-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
         >
           <RefreshCw size={12} className={fetching ? 'animate-spin' : ''} /> Refresh
         </button>

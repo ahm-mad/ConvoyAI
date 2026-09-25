@@ -425,14 +425,14 @@ function NewVehicleForm({ existingVehicles = [], onClose, onCreated }: NewVehicl
       <div className="flex gap-2">
         <button
           onClick={onClose}
-          className="text-xs text-ink-2 border border-line rounded-md px-3 py-1.5"
+          className="text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full px-3 py-1.5"
         >
           Cancel
         </button>
         <button
           onClick={handleCreate}
           disabled={submitting || !values.name.trim()}
-          className="text-xs text-accent-cyan border border-line rounded-md px-3 py-1.5 disabled:opacity-40"
+          className="text-xs btn-brand border border-transparent rounded-full px-3 py-1.5 disabled:opacity-40"
         >
           {submitting ? 'Saving…' : 'Add Vehicle'}
         </button>
