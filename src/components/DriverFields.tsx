@@ -107,7 +107,7 @@ export const driverToPayload = (values: DriverValues, original?: any): Record<st
   );
 };
 
-const INPUT = 'w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0';
+const INPUT = 'w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0';
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (

@@ -1,25 +1,34 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
-import LeftSidebar from '@components/LeftSidebar';
-import { useLocation } from '@lib/router-compat';
-import Navbar from '../components/Navbar';
-import DashboardSubNav from '../components/DashboardSubNav';
-import { useSimpleQuery } from '@hooks/useSimpleQuery';
+import FloatingNav from '@components/shell/FloatingNav';
+import CommandPalette from '@components/shell/CommandPalette';
+import CopilotPanel from '@components/shell/CopilotPanel';
 import GlobalPacketListener from '@components/GlobalPacketListener';
 import { useUser } from '@contexts/UserContext';
-import Breadcrumb from '@components/Breadcrumb';
 import { useModal } from '@contexts/ModalContext';
 import WelcomeIntroModal from '@components/WelcomeIntroModal';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  const location = useLocation();
   const { user } = useUser();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [copilotOpen, setCopilotOpen] = useState(false);
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const { openModal, closeModal } = useModal();
 
   const hasShownWelcome = useRef(false);
 
+  // Any screen can open the copilot with `window.dispatchEvent(new CustomEvent('convoy:copilot', { detail: { question } }))`.
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const q = (e as CustomEvent<{ question?: string }>).detail?.question;
+      if (q) setPendingQuestion(q);
+      setCopilotOpen(true);
+    };
+    window.addEventListener('convoy:copilot', onOpen);
+    return () => window.removeEventListener('convoy:copilot', onOpen);
+  }, []);
+
   const handleOpenTutorial = () => {
-    setIsExpanded(true);
+    // Tutorials lived in the old sidebar; the new shell has no sidebar to expand.
   };
 
   // Welcome/Demo intro modal — shows ONLY when it's the user's first login
@@ -42,43 +51,28 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  const {
-    data: dashboardData,
-    isLoading,
-    refetch,
-  } = useSimpleQuery('dashboardData', `/api/user/${user?.id}/dashboards`);
-
-  const isDashboardPage = location.pathname.includes('/dashboard');
-
   return (
-    <div className="max-w-screen min-h-screen overflow-x-hidden flex flex-col bg-surface-0 text-ink-0">
+    <div className="max-w-screen min-h-screen overflow-x-hidden flex flex-col text-ink-0">
       <GlobalPacketListener />
-
-      <div className="flex flex-1">
-        <LeftSidebar
-          isExpanded={isExpanded}
-          setIsExpanded={setIsExpanded}
-          dashboardData={dashboardData?.data}
-          refetch={refetch}
-        />
-        <div className="flex flex-col overflow-x-auto flex-1">
-          <Navbar dashboardData={dashboardData?.data} refetch={refetch} />
-
-          {(() => {
-            if (location.pathname.includes('/dashboard')) {
-              return <DashboardSubNav refetch={refetch} />;
-            }
-          })()}
-
-          {!isDashboardPage && (
-            <div className="">
-              <Breadcrumb />
-            </div>
-          )}
-
-          <div className="flex-1 bg-surface-0">{children}</div>
-        </div>
-      </div>
+      <FloatingNav
+        onOpenPalette={() => setPaletteOpen(true)}
+        onOpenCopilot={() => setCopilotOpen(true)}
+      />
+      <main className="page-container flex-1">{children}</main>
+      <CommandPalette
+        open={paletteOpen}
+        onOpenChange={setPaletteOpen}
+        onAsk={q => {
+          setPendingQuestion(q);
+          setCopilotOpen(true);
+        }}
+      />
+      <CopilotPanel
+        open={copilotOpen}
+        onClose={() => setCopilotOpen(false)}
+        pendingQuestion={pendingQuestion}
+        onConsumed={() => setPendingQuestion(null)}
+      />
     </div>
   );
 }

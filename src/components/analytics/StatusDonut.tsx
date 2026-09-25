@@ -71,7 +71,7 @@ export default function StatusDonut({
   const under = stacked || narrow;
   const cx = size / 2;
   const r = size / 2 - 14;
-  const stroke = 14;
+  const stroke = 18;
   const gap = 3; // degrees ≈ 2 px at this radius
 
   const arcs = useMemo(() => {
@@ -141,9 +141,7 @@ export default function StatusDonut({
           ))}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-6">
-          <div className="text-[30px] leading-8 font-semibold text-ink-0 tracking-tight">
-            {valueFormat(active ? active.value : total)}
-          </div>
+          <div className="kpi-value">{valueFormat(active ? active.value : total)}</div>
           <div className="text-[11px] text-ink-1 mt-0.5 truncate max-w-full">
             {active
               ? `${active.label} · ${pct(total ? (active.value / total) * 100 : 0, 0)}`

@@ -211,7 +211,7 @@ export default function CreateProductFromPayload({ onSuccess, initialProductId =
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[720px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[720px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">
@@ -394,7 +394,7 @@ function StepNameAndMap({
         <select
           value={deviceProtocolId}
           onChange={e => setDeviceProtocolId(e.target.value)}
-          className="w-full mt-1.5 mb-4 bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+          className="w-full mt-1.5 mb-4 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         >
           <option value="">Not set — configure later</option>
           {deviceProtocols.map(protocol => {

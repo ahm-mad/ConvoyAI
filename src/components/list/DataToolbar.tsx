@@ -14,8 +14,7 @@ export interface SortOption {
   label: string;
 }
 
-const CONTROL =
-  'bg-surface-2 border border-line rounded-md px-2 py-1.5 text-[11px] text-ink-0 max-w-[170px]';
+const CONTROL = 'control max-w-[190px]';
 
 /**
  * Search + filters + sort + actions row shared by every enterprise list (flows/06 §2). Purely
@@ -53,16 +52,16 @@ export default function DataToolbar({
   actions?: ReactNode;
 }) {
   return (
-    <div className="mb-3">
-      <div className="flex items-center gap-2 flex-wrap">
+    <div className="glass mb-4  p-4">
+      <div className="flex items-center gap-2.5 flex-wrap">
         <div className="relative">
-          <Search size={12} className="absolute left-2 top-1/2 -translate-y-1/2 text-ink-2" />
+          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-2" />
           <input
             value={search}
             onChange={e => onSearch(e.target.value)}
             placeholder={searchPlaceholder}
             aria-label="Search"
-            className="bg-surface-2 border border-line rounded-md pl-7 pr-2 py-1.5 text-[11px] text-ink-0 w-56"
+            className="control w-72 pl-9"
           />
         </div>
 
@@ -114,7 +113,7 @@ export default function DataToolbar({
               <button
                 type="button"
                 onClick={() => onSort(sortBy, sortDir === 'asc' ? 'desc' : 'asc')}
-                className="text-[11px] text-ink-1 border border-line rounded px-2 py-1.5 hover:bg-surface-2"
+                className="control hover:bg-surface-2"
                 title="Toggle sort direction"
               >
                 {sortDir === 'asc' ? '↑ Asc' : '↓ Desc'}
@@ -135,7 +134,7 @@ export default function DataToolbar({
       </div>
 
       {(summary || actions) && (
-        <div className="flex items-center justify-between mt-2 text-[11px] text-ink-2">
+        <div className="flex items-center justify-between mt-3 pt-3 border-t border-line-soft text-[12px] text-ink-1">
           <div>{summary}</div>
           <div className="flex items-center gap-3">{actions}</div>
         </div>

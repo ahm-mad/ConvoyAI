@@ -24,7 +24,7 @@ const MixChart = ({ widgetId, individualGraphData, isGraphLoading, fetchGraphDat
     const yAxisData = individualGraphData?.map(ws => ({
       name: ws?.yAxisTitle || ws?.attribute || '',
       type: ws?.graph_type || 'line',
-      color: ws?.text_color || '#29d3ff',
+      color: ws?.text_color || '#e8590c',
       yAxisId: ws?.widget_setting || '',
       yAxisTitle: `${ws?.yAxisTitle || ''} ${ws?.unit || ''}`.trim(),
       data: ws?.data ? Object.values(ws.data) : [],
@@ -75,7 +75,7 @@ const MixChart = ({ widgetId, individualGraphData, isGraphLoading, fetchGraphDat
       mode: isLight ? 'light' : 'dark',
     },
     grid: {
-      borderColor: isLight ? '#e5e8eb' : '#22282e',
+      borderColor: isLight ? '#e5e8eb' : '#e8dccb',
     },
     stroke: {
       width: backendData?.series?.map(s => (s.type === 'line' ? 3 : 0)),
@@ -91,13 +91,13 @@ const MixChart = ({ widgetId, individualGraphData, isGraphLoading, fetchGraphDat
       categories: backendData?.xAxis,
       labels: {
         rotate: -45,
-        style: { colors: isLight ? '#4c545c' : '#8b95a1' },
+        style: { colors: isLight ? '#4c545c' : '#667572' },
       },
     },
     yaxis: uniqueYAxis,
     legend: {
       position: 'top',
-      labels: { colors: isLight ? '#4c545c' : '#8b95a1' },
+      labels: { colors: isLight ? '#4c545c' : '#667572' },
     },
     tooltip: {
       shared: true,

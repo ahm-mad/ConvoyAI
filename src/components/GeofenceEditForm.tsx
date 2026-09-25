@@ -9,7 +9,7 @@ import { invalidateFleetQueries } from '@utils/fleetCache';
 import { useEditConflict } from '@hooks/useEditConflict';
 import PickOnMapButton from '@components/CoordinatePicker';
 
-const INPUT = 'w-full bg-surface-1 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0';
+const INPUT = 'w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0';
 
 const str = (v: unknown) => (v === null || v === undefined ? '' : String(v));
 

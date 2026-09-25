@@ -58,7 +58,7 @@ export default function ExpiringDocumentsPanel() {
     );
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-4">
+    <div className="glass-strong  p-4">
       <div className="flex items-center gap-2 mb-3">
         <FileWarning size={14} className="text-warning" />
         <span className="text-xs font-semibold text-ink-0">Expiring Documents</span>

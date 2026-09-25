@@ -16,7 +16,7 @@ import TripStopsEditor, {
   type StopDraft,
 } from '@components/TripStopsEditor';
 
-const inputCls = 'bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0';
+const inputCls = 'bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0';
 const labelCls = 'text-[10px] uppercase tracking-wider text-ink-2 mb-1';
 
 type Values = Record<string, string>;

@@ -95,7 +95,7 @@ const GlobalInput = ({
   };
 
   // Build input classes - simple approach
-  let inputClasses = `px-2.5 py-1.5 ${textSize} border rounded-md bg-surface-2 text-ink-0 placeholder:text-ink-2 transition-all duration-150 focus:outline-none`;
+  let inputClasses = `px-2.5 py-1.5 ${textSize} border rounded-xl bg-white text-ink-0 placeholder:text-ink-2 transition-all duration-150 focus:outline-none`;
 
   // Handle height - custom height takes priority over default
   if (height) {

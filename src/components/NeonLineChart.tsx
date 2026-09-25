@@ -2,6 +2,7 @@
 // src/components/NeonLineChart.jsx
 import React from 'react';
 import Chart from 'react-apexcharts';
+import { token } from '@lib/design/tokens';
 
 const NeonLineChart = ({ title = 'Line Chart', categories = [], series = [], min, max, unit }) => {
   const options = {
@@ -14,7 +15,7 @@ const NeonLineChart = ({ title = 'Line Chart', categories = [], series = [], min
       curve: 'smooth',
       width: 3,
     },
-    colors: ['#29d3ff', '#ff3b5c'], // You can pass this as prop too if needed
+    colors: [token('--color-brand'), token('--color-danger')], // You can pass this as prop too if needed
     grid: { show: false },
     xaxis: {
       categories,
@@ -40,7 +41,7 @@ const NeonLineChart = ({ title = 'Line Chart', categories = [], series = [], min
 
   return (
     <div>
-      <h3 className="text-sm text-[#29d3ff] ">{title}</h3>
+      <h3 className="text-sm text-brand ">{title}</h3>
       <Chart options={options} series={series} type="line" height={200} />
     </div>
   );

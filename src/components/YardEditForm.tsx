@@ -9,7 +9,7 @@ import { invalidateFleetQueries } from '@utils/fleetCache';
 import { useEditConflict } from '@hooks/useEditConflict';
 import PickOnMapButton from '@components/CoordinatePicker';
 
-const INPUT = 'w-full bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0';
+const INPUT = 'w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0';
 
 const str = (v: unknown) => (v === null || v === undefined ? '' : String(v));
 
@@ -96,7 +96,7 @@ export default function YardEditForm({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-surface-1 border border-line-soft rounded-md p-4">
+    <div className="w-full max-w-md mx-auto glass-strong  p-4">
       <div className="text-[10px] uppercase tracking-wider text-ink-2 mb-3">Edit yard</div>
       {conflict.banner}
       <input

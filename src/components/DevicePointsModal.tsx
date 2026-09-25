@@ -28,7 +28,7 @@ export default function DevicePointsModal({ deviceId, deviceName, onClose = null
   const lastReportedAt = data?.data?.last_reported_at;
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[560px] max-h-[80vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[560px] max-h-[80vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">Points — {deviceName}</h2>

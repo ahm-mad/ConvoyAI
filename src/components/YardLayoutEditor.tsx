@@ -13,6 +13,7 @@ import YardEditForm from '@components/YardEditForm';
 import DeactivateControls from '@components/DeactivateControls';
 import toast from 'react-hot-toast';
 import { conflictMessage, expectedUpdatedAt } from '@utils/fleetConflict';
+import { token } from '@lib/design/tokens';
 
 /**
  * Real yard layout editor — same interaction pattern as FloorPlanEditor
@@ -238,7 +239,7 @@ export default function YardLayoutEditor({
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[900px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[900px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">Yard — {yardName}</h2>
@@ -362,7 +363,7 @@ export default function YardLayoutEditor({
                         left: `${s.position_x * 100}%`,
                         top: `${s.position_y * 100}%`,
                         background: occupied ? 'rgba(41,211,255,0.3)' : 'rgba(23,214,140,0.15)',
-                        borderColor: occupied ? '#29d3ff' : '#17d68c',
+                        borderColor: occupied ? token('--color-brand') : token('--color-success'),
                         color: 'var(--color-ink-0)',
                       }}
                     />

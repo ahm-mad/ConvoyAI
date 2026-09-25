@@ -1,4 +1,4 @@
-import { useTheme } from '@contexts/ThemeContext';
+import { token } from '@lib/design/tokens';
 
 /**
  * Colours for the Fleet analytics widgets (flows/07, FLEET_ANALYTICS_DESIGN.md §0). Every categorical
@@ -14,16 +14,16 @@ import { useTheme } from '@contexts/ThemeContext';
 export type VizMode = 'light' | 'dark';
 
 const CATEGORICAL: Record<VizMode, string[]> = {
-  light: ['#0b7fb0', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#4a3aa7', '#e34948'],
+  light: ['#e8590c', '#5b5be6', '#2e9e5b', '#f5b700', '#e0523f', '#0e9db3', '#8b7cf6', '#b45309'],
   dark: ['#2c9fd0', '#d95926', '#199e70', '#c98500', '#d55181', '#008300', '#9085e9', '#e66767'],
 };
 
 /** Fixed status scale (dataviz palette): good / warning / serious / critical. */
 export const STATUS = {
-  good: '#0ca30c',
-  warning: '#fab219',
-  serious: '#ec835a',
-  critical: '#d03b3b',
+  good: '#2e9e5b',
+  warning: '#f5b700',
+  serious: '#ff7a1a',
+  critical: '#e0523f',
 } as const;
 
 /** One-hue sequential ramp (heatmaps, magnitude), light → dark. */
@@ -44,10 +44,10 @@ export const SEQUENTIAL_BLUE = [
 ];
 
 const SURFACE: Record<VizMode, string> = { light: '#ffffff', dark: '#0e1114' };
-const GRID: Record<VizMode, string> = { light: '#e5e8eb', dark: '#1a1f24' };
-const AXIS: Record<VizMode, string> = { light: '#838c94', dark: '#7c8692' };
-const NEUTRAL: Record<VizMode, string> = { light: '#8b95a1', dark: '#6b7580' };
-const NEUTRAL_SOFT: Record<VizMode, string> = { light: '#c9ced4', dark: '#2a3138' };
+const GRID: Record<VizMode, string> = { light: '#efe4d6', dark: '#1a1f24' };
+const AXIS: Record<VizMode, string> = { light: '#667572', dark: '#7c8692' };
+const NEUTRAL: Record<VizMode, string> = { light: '#9aa7a4', dark: '#6b7580' };
+const NEUTRAL_SOFT: Record<VizMode, string> = { light: '#e3d8c8', dark: '#2a3138' };
 
 export interface VizColors {
   mode: VizMode;
@@ -79,7 +79,7 @@ export const buildVizColors = (mode: VizMode): VizColors => {
     fleetStatus: {
       moving: STATUS.good,
       idle: STATUS.warning,
-      parked: cat[0],
+      parked: cat[1],
       offline: STATUS.serious,
       no_tracker: NEUTRAL[mode],
     },
@@ -106,8 +106,40 @@ export const buildVizColors = (mode: VizMode): VizColors => {
   };
 };
 
+/**
+ * Reads the chart palette from the design tokens (src/styles/tokens.css), so a token change restyles every
+ * chart. Falls back to the defaults above on the server. ConvoyAI is light-only.
+ */
 export const useVizColors = (): VizColors => {
-  const { isLight } = useTheme();
+  const base = buildVizColors('light');
+  const t = (name: string, fb: string) => token(name, fb);
+  const cat = Array.from({ length: 8 }, (_, i) =>
+    t(`--color-chart-${i + 1}`, CATEGORICAL.light[i])
+  );
+  const good = t('--color-status-good', STATUS.good);
+  const warning = t('--color-status-warning', STATUS.warning);
+  const serious = t('--color-status-serious', STATUS.serious);
+  const critical = t('--color-status-critical', STATUS.critical);
+  const neutral = t('--color-chart-neutral', base.neutral);
 
-  return buildVizColors(isLight ? 'light' : 'dark');
+  return {
+    ...base,
+    surface: t('--color-surface-1', base.surface),
+    grid: t('--color-chart-grid', base.grid),
+    axis: t('--color-chart-axis', base.axis),
+    neutral,
+    neutralSoft: t('--color-chart-neutral-soft', base.neutralSoft),
+    series: i => cat[i % cat.length],
+    fleetStatus: {
+      moving: good,
+      idle: warning,
+      parked: cat[1],
+      offline: serious,
+      no_tracker: neutral,
+    },
+    tripStatus: { completed: good, in_progress: cat[0], planned: neutral, cancelled: critical },
+    severity: { minor: neutral, moderate: warning, severe: critical },
+    cost: { fuel: cat[0], maintenance: cat[1], driver: cat[2], tolls: cat[3], other: neutral },
+    bucket: { overdue: critical, soon: warning, upcoming: cat[0], ok: good },
+  };
 };

@@ -89,7 +89,7 @@ const CardRole = ({
   ];
 
   return (
-    <div className="flex flex-col gap-3 sm:gap-3.5 md:gap-4 p-3.5 sm:p-4 lg:p-5 min-h-[180px] sm:min-h-[200px] md:h-52 rounded-md sm:rounded-lg border-line-soft border hover:border-line transition-colors bg-surface-1">
+    <div className="flex flex-col gap-3 sm:gap-3.5 md:gap-4 p-3.5 sm:p-4 lg:p-5 min-h-[180px] sm:min-h-[200px] md:h-52 glass-strong  card-lift">
       <div className="flex items-start sm:items-center flex-wrap justify-between gap-2">
         <div className="flex items-start sm:items-center gap-2 sm:gap-2.5 flex-1 min-w-0">
           <div className="flex-shrink-0">

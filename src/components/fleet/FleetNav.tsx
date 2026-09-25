@@ -109,10 +109,10 @@ export default function FleetNav() {
   ];
 
   return (
-    <header className="shrink-0 bg-surface-1 border-b border-line-soft">
-      <div className="flex items-center justify-between gap-3 px-4 pt-2.5">
+    <header className="shrink-0">
+      <div className="flex items-center justify-between gap-3 pt-1">
         <nav aria-label="Fleet sections">
-          <div className="inline-flex items-center gap-0.5 bg-surface-2 border border-line-soft rounded-lg p-0.5">
+          <div className="glass-strong inline-flex items-center gap-0.5 rounded-full p-1">
             {segments.map(s => {
               const on = !inSettings && segment === s.key;
               const Icon = s.icon;
@@ -122,9 +122,9 @@ export default function FleetNav() {
                   key={s.key}
                   href={withFilters(s.href)}
                   aria-current={on ? 'page' : undefined}
-                  className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
+                  className={`inline-flex items-center gap-1.5 text-[13px] font-semibold px-4 py-2 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
                     on
-                      ? 'bg-surface-1 text-ink-0 shadow-sm border border-line-soft'
+                      ? 'btn-brand border border-transparent'
                       : 'text-ink-1 hover:text-ink-0 border border-transparent'
                   }`}
                 >
@@ -148,11 +148,11 @@ export default function FleetNav() {
       </div>
 
       {inSettings ? (
-        <div className="h-2.5" />
+        <div className="h-1" />
       ) : (
         <nav
           aria-label={segment === 'analytics' ? 'Analytics pages' : 'Operations pages'}
-          className="flex gap-1 px-4 pt-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-1.5 pt-3 pb-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {items.map(t => {
             const on = pathname === t.href || pathname.startsWith(`${t.href}/`);
@@ -163,10 +163,8 @@ export default function FleetNav() {
                 key={t.href}
                 href={withFilters(t.href)}
                 aria-current={on ? 'page' : undefined}
-                className={`flex shrink-0 items-center gap-1.5 text-xs font-medium px-3 py-2 border-b-2 -mb-px transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded-t ${
-                  on
-                    ? 'text-ink-0 border-accent-cyan'
-                    : 'text-ink-2 border-transparent hover:text-ink-1'
+                className={`flex shrink-0 items-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
+                  on ? 'bg-ink-0 text-white' : 'text-ink-1 hover:bg-black/[0.06]'
                 }`}
               >
                 <Icon size={13} /> {t.label}

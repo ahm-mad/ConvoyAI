@@ -69,7 +69,7 @@ function ConnectorCard({ name, health }: { name: string; health?: any }) {
   const dotClass = connected ? 'bg-accent-green' : state === 'error' ? 'bg-danger' : 'bg-ink-2';
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md p-4">
+    <div className="glass-strong  p-4">
       <div className="flex items-center justify-between mb-3">
         <span className="text-sm font-semibold text-ink-0">
           {CONNECTOR_LABELS[name] || name.charAt(0).toUpperCase() + name.slice(1)}

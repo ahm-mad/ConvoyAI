@@ -52,7 +52,7 @@ export default function TripDetailModal({ tripId, onListChanged }) {
   };
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[600px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[600px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">
@@ -453,7 +453,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
                 placeholder={`Ending odometer (${u.distance.label}, optional)`}
                 type="number"
                 step="any"
-                className="w-full bg-surface-1 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mb-2"
+                className="w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0 mb-2"
               />
 
               <input
@@ -462,7 +462,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
                 placeholder={`Fuel used (${u.volume.label === 'L' ? 'liters' : 'gallons'})`}
                 type="number"
                 step="any"
-                className="w-full bg-surface-1 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mb-2"
+                className="w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0 mb-2"
               />
 
               <textarea
@@ -470,7 +470,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
                 onChange={e => setCompleteNotes(e.target.value)}
                 placeholder="Completion notes"
                 rows={2}
-                className="w-full bg-surface-1 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mb-2 resize-none"
+                className="w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0 mb-2 resize-none"
               />
 
               <div className="flex gap-2">
@@ -1126,7 +1126,7 @@ function CancelForm({ value, onChange, onCancel, onSubmit, submitting }) {
         onChange={e => onChange(e.target.value)}
         placeholder="Cancellation reason *"
         rows={2}
-        className="w-full bg-surface-1 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 mb-2 resize-none"
+        className="w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0 mb-2 resize-none"
       />
 
       <div className="flex gap-2">

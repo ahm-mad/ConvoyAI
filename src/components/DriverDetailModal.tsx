@@ -35,7 +35,7 @@ export default function DriverDetailModal({
   const driver: any = data?.success ? data.data : null;
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[600px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[600px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">

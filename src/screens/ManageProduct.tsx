@@ -365,11 +365,12 @@ export default function ManageProduct({ passedUserId }: ManageProductProps) {
     <div className="flex flex-col p-5">
       {/* Company Name Header */}
       {demoStart && <ManageProductDemo />}
-      <div className="text-ink-0 mb-3">
-        <span className="text-[13px] font-semibold font-display">{t('companyName')}</span>
+      <div className="text-ink-0 mb-5 mt-2">
+        <div className="eyebrow">{t('companyName')}</div>
+        <h1 className="page-title mt-1">Products &amp; devices</h1>
       </div>
 
-      <div className="bg-surface-1 border-line-soft border overflow-hidden rounded-md">
+      <div className="glass overflow-hidden ">
         <DataTable
           data={tableData}
           columns={columns}

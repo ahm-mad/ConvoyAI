@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
+import { token } from '@lib/design/tokens';
 
 /**
  * Same custom-icon pattern as VehicleMarker/MarkerIcon, but a square
@@ -10,9 +11,9 @@ import L from 'leaflet';
 function yardIcon() {
   const svg = `
     <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
-      <rect x="1" y="1" width="24" height="24" rx="4" fill="#1a1f24" stroke="#29d3ff" stroke-width="2"/>
-      <path d="M7 17V11l6-4 6 4v6" stroke="#29d3ff" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
-      <rect x="10" y="13" width="6" height="4" fill="#29d3ff"/>
+      <rect x="1" y="1" width="24" height="24" rx="4" fill="${token('--color-surface-3')}" stroke="${token('--color-brand')}" stroke-width="2"/>
+      <path d="M7 17V11l6-4 6 4v6" stroke="${token('--color-brand')}" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+      <rect x="10" y="13" width="6" height="4" fill="${token('--color-brand')}"/>
     </svg>`;
 
   return new L.DivIcon({

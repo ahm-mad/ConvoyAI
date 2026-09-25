@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { AlertOctagon, AlertTriangle, ChevronRight, CheckCircle2, Info } from 'lucide-react';
 import { STATUS } from './theme';
 import { ago, isNum } from './format';
+import { token } from '@lib/design/tokens';
 
 export type Severity = 'critical' | 'warning' | 'info';
 
@@ -18,7 +19,7 @@ export interface WorkItem {
 const META: Record<Severity, { label: string; color: string; Icon: typeof Info }> = {
   critical: { label: 'Critical', color: STATUS.critical, Icon: AlertOctagon },
   warning: { label: 'Warning', color: STATUS.warning, Icon: AlertTriangle },
-  info: { label: 'Info', color: '#2c9fd0', Icon: Info },
+  info: { label: 'Info', color: token('--color-brand'), Icon: Info },
 };
 
 /**

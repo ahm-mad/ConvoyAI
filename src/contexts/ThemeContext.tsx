@@ -15,11 +15,9 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 const STORAGE_KEY = 'convoyai-theme';
 
+// ConvoyAI is a light-only product: the stored preference is ignored (kept only for API compatibility).
 function getInitialTheme(): Theme {
-  if (typeof window === 'undefined') return 'dark';
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved === 'light' || saved === 'dark') return saved;
-  return 'dark';
+  return 'light';
 }
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
@@ -39,7 +37,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [theme]);
 
-  const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  const toggleTheme = () => setTheme('light');
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme, isLight: theme === 'light' }}>

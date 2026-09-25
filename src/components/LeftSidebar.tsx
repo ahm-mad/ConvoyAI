@@ -403,7 +403,7 @@ export default function LeftSidebar({
         {!isMobileMenuOpen && (
           <button
             onClick={handleMobileMenuToggle}
-            className="absolute top-4 left-4 z-50 p-2 bg-surface-1 border border-line rounded-lg shadow-xs hover:bg-surface-2 transition-colors duration-200"
+            className="absolute top-4 left-4 z-50 p-2 glass-strong  hover:bg-surface-2 transition-colors duration-200"
           >
             <Menu size={20} className="text-ink-1" />
           </button>

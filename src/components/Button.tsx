@@ -55,11 +55,11 @@ export default function Button({
   const resolvedVariant = LEGACY_VARIANT_MAP[variant] || variant;
 
   const base =
-    'inline-flex items-center justify-center rounded-md font-medium font-sans tracking-wide transition-colors duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-cyan/60 disabled:cursor-not-allowed disabled:opacity-50';
+    'inline-flex items-center justify-center rounded-full font-semibold font-sans tracking-wide transition-colors duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-accent-cyan/60 disabled:cursor-not-allowed disabled:opacity-50';
 
   const variantClasses: Record<string, string> = {
-    primary: 'brand-gradient-bg on-gradient hover:brightness-110 shadow-none',
-    secondary: 'bg-surface-2 border border-line text-ink-0 hover:bg-surface-3',
+    primary: 'brand-gradient-bg on-gradient hover:brightness-110 shadow-glow',
+    secondary: 'bg-white border border-line text-ink-0 hover:bg-surface-2 shadow-card',
     ghost: 'bg-transparent text-ink-1 hover:bg-surface-2 hover:text-ink-0',
     danger: 'bg-danger text-white hover:brightness-110',
   };

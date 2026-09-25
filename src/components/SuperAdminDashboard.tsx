@@ -22,7 +22,7 @@ const Skeleton = ({ className = '' }) => (
 );
 
 const StatCardSkeleton = () => (
-  <div className="bg-surface-1 border border-line-soft rounded-md p-4 sm:p-6">
+  <div className="glass-strong  p-4 sm:p-6">
     <Skeleton className="w-10 h-10 sm:w-12 sm:h-12 rounded-md mb-3 sm:mb-4" />
     <Skeleton className="h-8 sm:h-10 w-20 mb-2" />
     <Skeleton className="h-4 w-16" />
@@ -338,7 +338,7 @@ export default function Dashboard() {
               statCards.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="bg-surface-1 border border-line-soft rounded-md p-4 sm:p-6 hover:border-line transition-colors"
+                  className="glass-strong  p-4 sm:p-6 hover:border-line transition-colors"
                 >
                   <div
                     className={`w-10 h-10 sm:w-12 sm:h-12 ${stat.color} rounded-md flex items-center justify-center on-gradient text-xl mb-3 sm:mb-4`}
@@ -367,7 +367,7 @@ export default function Dashboard() {
             {monthlyLoading ? (
               <ChartSkeleton />
             ) : (
-              <div className="bg-surface-1 border border-line-soft rounded-md overflow-hidden">
+              <div className="glass-strong  overflow-hidden">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-2 mt-2 px-4">
                   <h2 className="text-sm sm:text-base font-semibold text-ink-0">
                     User Acquisition Insights

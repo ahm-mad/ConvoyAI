@@ -46,7 +46,7 @@ const GlobalSelect = ({
             inline-flex items-center justify-between 
             ${getWidthClass()} 
             ${sizeClasses[size]}
-            bg-surface-2 border border-line rounded-md text-ink-0
+            bg-white border border-line rounded-xl text-ink-0
             hover:bg-surface-3 focus:outline-none 
             
             disabled:bg-surface-1 disabled:text-ink-2 disabled:cursor-not-allowed disabled:opacity-60
@@ -63,7 +63,7 @@ const GlobalSelect = ({
         <Select.Portal>
           <Select.Content
             className={`
-              bg-surface-2 border border-line rounded-md shadow-lg z-50 
+              bg-white border border-line rounded-xl shadow-lg z-50 
               min-w-[var(--radix-select-trigger-width)]
               ${contentClassName}
             `}

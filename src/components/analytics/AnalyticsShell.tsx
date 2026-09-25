@@ -46,7 +46,7 @@ export default function AnalyticsShell({
     <PageScroller>
       <div className="mx-auto w-full max-w-[1760px] px-6 py-6 flex flex-col gap-5">
         <div>
-          <h1 className="text-[22px] leading-7 font-semibold text-ink-0 tracking-tight">{title}</h1>
+          <h1 className="page-title">{title}</h1>
           <p className="text-[13px] text-ink-1 mt-1">
             {subtitle}
             {f ? ` · ${f.label}` : ''}

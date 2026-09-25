@@ -1,0 +1,143 @@
+/*
+  ConvoyAI SEMANTIC CLASSES — built only from tokens.css variables. Use these in components instead of
+  repeating utility strings, so a change here (or in tokens.css) applies project-wide.
+*/
+
+/* ---- Typography roles ---- */
+.font-serif-display {
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--tracking-display);
+}
+.page-display {
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--tracking-display);
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  color: var(--color-ink-0);
+}
+.page-title {
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--tracking-display);
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  color: var(--color-ink-0);
+}
+.page-subtitle {
+  font-size: var(--text-control);
+  line-height: var(--text-control--line-height);
+  color: var(--color-ink-1);
+}
+.eyebrow {
+  font-size: var(--text-micro);
+  line-height: var(--text-micro--line-height);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+.card-title {
+  font-size: var(--text-heading);
+  line-height: var(--text-heading--line-height);
+  font-weight: var(--font-weight-strong);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-ink-0);
+}
+.card-subtitle {
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  color: var(--color-ink-2);
+}
+.kpi-value {
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--text-kpi);
+  line-height: var(--text-kpi--line-height);
+  color: var(--color-ink-0);
+}
+
+/* ---- Surfaces ---- */
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  border-radius: var(--radius-panel);
+}
+.glass-strong {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid #fff;
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-card);
+}
+.glass-pill {
+  border-radius: var(--radius-pill);
+}
+.glass-modal {
+  background: var(--glass-bg-modal);
+  border: 1px solid #fff;
+  box-shadow: var(--shadow-modal);
+  border-radius: var(--radius-modal);
+}
+.card-lift {
+  transition:
+    box-shadow var(--motion-base) var(--ease-standard),
+    transform var(--motion-base) var(--ease-standard);
+}
+.card-lift:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+/* ---- Controls ---- */
+.btn-brand {
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+}
+.btn-ai {
+  background: var(--gradient-ai);
+  color: #fff;
+  box-shadow: var(--shadow-ai);
+}
+.control {
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card);
+  color: var(--color-ink-0);
+  font-size: var(--text-control);
+  line-height: var(--text-control--line-height);
+  padding: 0.5rem 0.875rem;
+}
+.control:focus-visible {
+  outline: var(--focus-ring);
+}
+
+/* ---- Layout ---- */
+.page-container {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter-mobile);
+}
+@media (min-width: 640px) {
+  .page-container {
+    padding-inline: var(--page-gutter);
+  }
+}
+
+.brand-gradient-text {
+  color: var(--color-brand);
+}
+.brand-gradient-bg {
+  background: var(--gradient-brand);
+}
+.on-gradient {
+  color: #fff;
+}

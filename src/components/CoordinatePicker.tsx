@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { MapPin, X } from 'lucide-react';
 import { useModal } from '@contexts/ModalContext';
 import { useTheme } from '@contexts/ThemeContext';
+import { token } from '@lib/design/tokens';
 
 // Same fallback the Fleet map uses when nothing is known yet.
 const FALLBACK_CENTER: [number, number] = [31.4757729, 74.3399971];
@@ -22,8 +23,8 @@ function pinIcon() {
   const svg = `
     <svg width="26" height="34" viewBox="0 0 26 34" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 1C6.4 1 1 6.3 1 12.8 1 21.6 13 33 13 33s12-11.4 12-20.2C25 6.3 19.6 1 13 1z"
-        fill="#1a1f24" stroke="#29d3ff" stroke-width="2"/>
-      <circle cx="13" cy="12.5" r="4.5" fill="#29d3ff"/>
+        fill="${token('--color-surface-3')}" stroke="${token('--color-brand')}" stroke-width="2"/>
+      <circle cx="13" cy="12.5" r="4.5" fill="${token('--color-brand')}"/>
     </svg>`;
 
   return new L.DivIcon({
@@ -80,7 +81,7 @@ function CoordinatePickerModal({
   const center: [number, number] = pin ?? FALLBACK_CENTER;
 
   return (
-    <div className="bg-surface-1 border border-line-soft rounded-md w-[640px] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[640px] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">{title}</h2>

@@ -110,8 +110,7 @@ export const stopsToCreatePayload = (stops: StopDraft[]) =>
       notes: s.notes.trim() || null,
     }));
 
-const inputCls =
-  'bg-surface-1 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 min-w-0';
+const inputCls = 'glass-strong  px-2.5 py-1.5 text-xs text-ink-0 min-w-0';
 const iconBtn =
   'p-1 text-ink-2 hover:text-ink-0 disabled:opacity-30 disabled:hover:text-ink-2 rounded';
 
@@ -235,7 +234,7 @@ export default function TripStopsEditor({
                 placeholder="Select yard"
                 emptyLabel="No yards available"
                 wrapperClassName="col-span-2"
-                className="w-full bg-surface-1 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0"
+                className="w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0"
                 getOption={y => ({ label: y.name || `Yard #${y.id}` })}
                 selectedLabel={stop.yard_name || `Yard #${stop.yard_id}`}
                 ariaLabel={`Yard for stop ${index + 1}`}

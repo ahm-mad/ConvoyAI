@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { Marker, Polyline, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
+import { token } from '@lib/design/tokens';
 
 /**
  * Draws one trip on a Leaflet map from GET /trips/{id}/route (flows/05 §5): the planned path through
@@ -11,15 +12,15 @@ import L from 'leaflet';
  */
 
 const STATUS_COLOR: Record<string, string> = {
-  planned: '#8a94a0',
-  arrived: '#29d3ff',
-  departed: '#17d68c',
-  missed: '#f5a623',
+  planned: token('--color-chart-neutral'),
+  arrived: token('--color-brand'),
+  departed: token('--color-success'),
+  missed: token('--color-gold'),
 };
 
 const numberIcon = (label: string, color: string, size = 26) =>
   new L.DivIcon({
-    html: `<div style="width:${size}px;height:${size}px;border-radius:50%;background:#0a0c0f;border:2px solid ${color};color:${color};display:flex;align-items:center;justify-content:center;font:600 11px/1 ui-monospace,monospace">${label}</div>`,
+    html: `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${token('--color-ink-0')};border:2px solid ${color};color:${color};display:flex;align-items:center;justify-content:center;font:600 11px/1 ui-monospace,monospace">${label}</div>`,
     className: '',
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
@@ -29,8 +30,8 @@ const numberIcon = (label: string, color: string, size = 26) =>
 const vehicleIcon = () =>
   new L.DivIcon({
     html: `<svg width="26" height="34" viewBox="0 0 26 34" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13 0C5.8 0 0 5.8 0 13c0 9.5 13 21 13 21s13-11.5 13-21C26 5.8 20.2 0 13 0z" fill="#17d68c" stroke="#0a0c0f" stroke-width="1"/>
-      <circle cx="13" cy="13" r="5.5" fill="#0a0c0f"/>
+      <path d="M13 0C5.8 0 0 5.8 0 13c0 9.5 13 21 13 21s13-11.5 13-21C26 5.8 20.2 0 13 0z" fill="${token('--color-success')}" stroke="${token('--color-ink-0')}" stroke-width="1"/>
+      <circle cx="13" cy="13" r="5.5" fill="${token('--color-ink-0')}"/>
     </svg>`,
     className: '',
     iconSize: [26, 34],
@@ -133,18 +134,26 @@ export default function TripRouteLayers({ route }: { route: any }) {
       {planned.length > 1 && (
         <Polyline
           positions={planned}
-          pathOptions={{ color: '#8a94a0', weight: 2, opacity: 0.7, dashArray: '6 6' }}
+          pathOptions={{
+            color: token('--color-chart-neutral'),
+            weight: 2,
+            opacity: 0.7,
+            dashArray: '6 6',
+          }}
         />
       )}
 
       {trail.length > 1 && (
-        <Polyline positions={trail} pathOptions={{ color: '#29d3ff', weight: 3, opacity: 0.85 }} />
+        <Polyline
+          positions={trail}
+          pathOptions={{ color: token('--color-brand'), weight: 3, opacity: 0.85 }}
+        />
       )}
 
       {isCoord(route.origin?.latitude, route.origin?.longitude) && (
         <Marker
           position={[Number(route.origin.latitude), Number(route.origin.longitude)]}
-          icon={numberIcon('S', '#17d68c')}
+          icon={numberIcon('S', token('--color-success'))}
         >
           <Popup>
             <strong>Origin</strong>
@@ -179,7 +188,10 @@ export default function TripRouteLayers({ route }: { route: any }) {
       {isCoord(route.destination?.latitude, route.destination?.longitude) && (
         <Marker
           position={[Number(route.destination.latitude), Number(route.destination.longitude)]}
-          icon={numberIcon('D', route.trip?.destination_reached_at ? '#17d68c' : '#f5a623')}
+          icon={numberIcon(
+            'D',
+            route.trip?.destination_reached_at ? token('--color-success') : token('--color-gold')
+          )}
         >
           <Popup>
             <strong>Destination</strong>

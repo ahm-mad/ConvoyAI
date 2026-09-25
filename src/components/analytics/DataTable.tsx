@@ -188,7 +188,7 @@ export default function DataTable<T>({
                 setQuery(e.target.value);
                 if (!server) setPage(1);
               }}
-              className="h-8 w-[240px] bg-surface-2 border border-line rounded-md pl-8 pr-2.5 text-xs text-ink-0 placeholder:text-ink-2 hover:border-ink-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
+              className="h-8 w-[240px] bg-white border border-line rounded-xl pl-8 pr-2.5 text-xs text-ink-0 placeholder:text-ink-2 hover:border-ink-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
             />
           </div>
         )}
@@ -368,7 +368,7 @@ function PageJump({
           onBlur={commit}
           onKeyDown={e => e.key === 'Enter' && (e.currentTarget.blur(), commit())}
           style={{ width: `${Math.max(2, String(pages).length) + 1.5}ch` }}
-          className="h-7 text-center bg-surface-2 border border-line rounded-md text-xs text-ink-0 tabular-nums focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
+          className="h-7 text-center bg-white border border-line rounded-xl text-xs text-ink-0 tabular-nums focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
         />
         of {pages.toLocaleString()}
       </span>

@@ -95,7 +95,7 @@ export default function FilterBar({
   }, [open]);
 
   const input =
-    'bg-surface-2 border border-line rounded-md px-2.5 py-1.5 text-xs text-ink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan';
+    'bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan';
 
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5">
@@ -103,7 +103,7 @@ export default function FilterBar({
         <div
           role="group"
           aria-label="Date range"
-          className="inline-flex items-center gap-0.5 bg-surface-2 border border-line-soft rounded-lg p-0.5"
+          className="glass-strong inline-flex items-center gap-0.5 glass-pill p-1"
         >
           {OPTIONS.map(o => (
             <button
@@ -114,9 +114,9 @@ export default function FilterBar({
                 if (o.key === 'custom') setOpen(v => !v);
                 else onPreset(o.key);
               }}
-              className={`text-xs font-medium px-3 py-1.5 rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
+              className={`text-[13px] font-medium px-4 py-2 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
                 preset === o.key
-                  ? 'bg-surface-1 text-ink-0 shadow-sm border border-line-soft'
+                  ? 'btn-brand border border-transparent'
                   : 'text-ink-1 hover:text-ink-0 border border-transparent'
               }`}
             >

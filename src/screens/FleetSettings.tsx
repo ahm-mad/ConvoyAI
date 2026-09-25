@@ -797,9 +797,7 @@ export default function FleetSettings() {
       <div className="mx-auto w-full max-w-[980px] px-6 pt-6">
         <div className="flex items-end justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-[22px] leading-7 font-semibold text-ink-0 tracking-tight">
-              Fleet settings
-            </h1>
+            <h1 className="page-title">Fleet settings</h1>
             <p className="text-[13px] text-ink-1 mt-1">
               Company-wide rules that every Fleet dashboard and report reads.
             </p>
