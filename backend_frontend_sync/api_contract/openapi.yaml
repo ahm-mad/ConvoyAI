@@ -1,0 +1,185 @@
+# ConvoyAI API contract — INDEX (OpenAPI 3.1) — GENERATED FILE, do not edit by hand.
+#
+# This file has no `paths` — it's the entry point. Every operation lives in one of the per-module files
+# under openapi/ (see `x-modules` below, or API_CONTRACT.md's endpoint index, which links each module
+# section to its file). Source of truth: node-backend/src/platform/openapi/ (Zod registry + mounted
+# routes + traced errors + contract/ data) in the backend repo. Change the code/data there, then run
+# `npm run openapi:write` in node-backend/ and copy this whole api_contract/ folder into
+# backend_frontend_sync/ (see that folder's own README.md); `npm run openapi:check` (CI, backend repo)
+# fails if these files drift from the code. Human-readable companion: API_CONTRACT.md (this folder).
+openapi: 3.1.0
+info:
+  title: ConvoyAI API
+  version: 1.0.0
+  description: |-
+    Contract for the ConvoyAI Node/TypeScript backend, as consumed by the web frontend.
+
+    **This file is generated from the code** (`npm run openapi:write` in `node-backend/`) and verified in CI (`npm run openapi:check`). Route set, auth guards, request schemas, error messages and response shapes are all derived from the running code, so what is written here is what the server does. The human-readable companion with the realtime (Socket.IO) API, conventions, known gaps and quirks is `API_CONTRACT.md` (same folder).
+
+    ## Conventions
+    - **Base URL:** every path is relative to `/api` (e.g. `POST /api/login`). Unversioned; the contract version is `info.version`.
+    - **Auth:** `Authorization: Bearer <token>`; `token` from `POST /login` (identical to `access_token`), valid **7 days**. Operations marked `x-auth: public` need no token. `x-required-roles` / `x-required-permissions` list the guard on the operation (checked against the roles/permissions embedded in the token at login).
+    - **Envelope:** almost every response is `{ "success": boolean, "message"?: string, ...payload }`. Errors are `{ "success": false, "message": string, "errors"?: { field: string[] } }`. Validation failures are HTTP **422**, unauthenticated **401**, forbidden **403**, missing **404**, unexpected **500** (`"Internal server error"`, never any detail).
+    - **Some business "failures" are HTTP 200 with `success:false`** (a Laravel-parity quirk the frontend relies on); such variants appear as an `anyOf` branch of the 200 response.
+    - **Ids are JSON integers** everywhere except the operations annotated `x-quirks` (a few asset endpoints still emit string ids).
+    - **Timestamps** come in two formats depending on the endpoint: ISO-8601 (`2026-09-21T12:00:00.000Z`, `format: date-time`) and Laravel's `Y-m-d H:i:s` (`x-format`). Each schema says which.
+    - **Pagination** has three styles: the Laravel paginator (`current_page`, `data`, `links`, …), a custom `{ items, pagination }`, and the offset-style `page` on `GET /products` (see that operation).
+    - **Requests are lenient like Laravel's:** numeric strings are accepted for ids, `"0"`/`"1"`/`0`/`1` for booleans, `""` becomes `null`, unknown keys are ignored. The request schemas below already express these unions.
+    - **Response shape provenance:** `x-shape-source: typescript` = derived from the handler's return type; `curated` = hand-written override. A property with no `type` is one whose value type the code does not establish (`any`/JSON).
+    - **Not covered here:** realtime events (Socket.IO) and operations that are not implemented — see `API_CONTRACT.md` (same folder).
+servers:
+  - url: /api
+    description: All routes are mounted under /api
+security:
+  - bearerAuth: []
+tags:
+  - name: auth
+    description: Login, registration, verification, password reset, Google popup login, token refresh/logout.
+  - name: users
+    description: Profile, members, settings.
+  - name: rbac
+    description: Companies, roles, permissions, modules.
+  - name: products
+    description: Products, product settings, attribute preferences, preconfigure templates, ingestion tokens.
+  - name: devices
+    description: Devices, commands, user devices.
+  - name: peripheral
+    description: Ingestion webhook, protocols and MQTT configurations.
+  - name: connectivity
+    description: Connector health.
+  - name: dashboards
+    description: Dashboards, widgets, widget settings, packet history, statistics, alarms.
+  - name: rules
+    description: Rule builder.
+  - name: assets
+    description: Assets, components, floor plans.
+  - name: fleet
+    description: Fleet positions.
+  - name: fleet-vehicles-drivers
+    description: Vehicles, drivers, assignments.
+  - name: fleet-trips
+    description: Trips.
+  - name: fleet-geofences
+    description: Geofences and their events.
+  - name: fleet-yards
+    description: Yards, slots, layouts.
+  - name: fleet-fuel-maintenance-compliance
+    description: Fuel logs, maintenance, compliance documents.
+  - name: fleet-dashboard
+    description: Fleet dashboards.
+  - name: fleet-crm-billing
+    description: Fleet customers, contracts, rate cards, invoices.
+  - name: billing
+    description: Billing gateways and events.
+  - name: onboarding
+    description: Plans/modules onboarding.
+  - name: superadmin
+    description: Platform-operator views.
+x-modules:
+  assets:
+    file: openapi/assets.yaml
+    operations: 18
+  auth:
+    file: openapi/auth.yaml
+    operations: 10
+  billing:
+    file: openapi/billing.yaml
+    operations: 5
+  connectivity:
+    file: openapi/connectivity.yaml
+    operations: 10
+  dashboards:
+    file: openapi/dashboards.yaml
+    operations: 28
+  devices:
+    file: openapi/devices.yaml
+    operations: 14
+  fleet:
+    file: openapi/fleet.yaml
+    operations: 2
+  fleet-analytics:
+    file: openapi/fleet-analytics.yaml
+    operations: 11
+  fleet-crm-billing:
+    file: openapi/fleet-crm-billing.yaml
+    operations: 23
+  fleet-dashboard:
+    file: openapi/fleet-dashboard.yaml
+    operations: 7
+  fleet-fuel-maintenance-compliance:
+    file: openapi/fleet-fuel-maintenance-compliance.yaml
+    operations: 14
+  fleet-geofences:
+    file: openapi/fleet-geofences.yaml
+    operations: 11
+  fleet-maintenance-due:
+    file: openapi/fleet-maintenance-due.yaml
+    operations: 2
+  fleet-records:
+    file: openapi/fleet-records.yaml
+    operations: 5
+  fleet-settings:
+    file: openapi/fleet-settings.yaml
+    operations: 2
+  fleet-trips:
+    file: openapi/fleet-trips.yaml
+    operations: 15
+  fleet-vehicles-drivers:
+    file: openapi/fleet-vehicles-drivers.yaml
+    operations: 46
+  fleet-yards:
+    file: openapi/fleet-yards.yaml
+    operations: 19
+  onboarding:
+    file: openapi/onboarding.yaml
+    operations: 2
+  peripheral:
+    file: openapi/peripheral.yaml
+    operations: 12
+  products:
+    file: openapi/products.yaml
+    operations: 31
+  rbac:
+    file: openapi/rbac.yaml
+    operations: 17
+  rules:
+    file: openapi/rules.yaml
+    operations: 11
+  superadmin:
+    file: openapi/superadmin.yaml
+    operations: 2
+  users:
+    file: openapi/users.yaml
+    operations: 7
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "`Authorization: Bearer <token>` where the token is `token` (== `access_token`) from `POST /login`. Valid 7 days; revoked by `POST /logout`."
+  responses:
+    Unauthenticated:
+      description: "Unauthenticated. Missing, malformed, expired or logged-out bearer token. Possible messages: `Authentication required`"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          examples:
+            m1:
+              summary: Authentication required
+              value:
+                success: false
+                message: Authentication required
+    InternalServerError:
+      description: "Internal server error. Unexpected failure; no detail is leaked to the client. Possible messages: `Internal server error`"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          examples:
+            m1:
+              summary: Internal server error
+              value:
+                success: false
+                message: Internal server error

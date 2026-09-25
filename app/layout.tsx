@@ -1,0 +1,51 @@
+import type { Metadata, Viewport } from 'next';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+
+// Global stylesheets (previously imported from src/main.jsx / src/App.jsx).
+// src/index.css is the real design-token source (dark-first CSS vars + @theme).
+import '../src/index.css';
+import 'driver.js/dist/driver.css';
+import 'nprogress/nprogress.css';
+
+import Providers from './providers';
+
+export const metadata: Metadata = {
+  title: 'ConvoyAI',
+  icons: { icon: '/favicon.png' },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
+// Anti-FOUC theme script — ported verbatim from index.html <head>.
+// Runs before first paint so a light-mode user never flashes the dark default.
+const themeInitScript = `(function () {
+  try {
+    var saved = localStorage.getItem('convoyai-theme');
+    var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+    if (theme === 'light') document.documentElement.classList.add('light');
+  } catch (e) {}
+})();`;
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body>
+        <AppRouterCacheProvider options={{ key: 'mui' }}>
+          <Providers>{children}</Providers>
+        </AppRouterCacheProvider>
+      </body>
+    </html>
+  );
+}

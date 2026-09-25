@@ -1,0 +1,154 @@
+@import 'tailwindcss';
+
+/* Self-hosted fonts */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/inter/800.css';
+@import '@fontsource/jetbrains-mono/500.css';
+
+@theme {
+  /* Surfaces */
+  --color-surface-0: #05070d; /* page background */
+  --color-surface-1: #090d17; /* section background */
+  --color-surface-2: #0c1220; /* card background */
+  --color-surface-3: #10182a; /* raised card / inner panel */
+
+  /* Borders */
+  --color-line: #1b2436;
+  --color-line-soft: #141c2c;
+
+  /* Text */
+  --color-ink-0: #f5f7fb;
+  --color-ink-1: #9aa5b8;
+  --color-ink-2: #67728a;
+
+  /* Accents */
+  --color-accent-cyan: #22d3ee;
+  --color-accent-blue: #3b82f6;
+  --color-accent-green: #34d399;
+
+  /* Fonts */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  /* ---------------------------------------------------------------
+   Calendly iframe scrollbar-clip trick.
+   Cross-origin iframe ke andar ka scrollbar CSS se style nahi ho
+   sakta (Same-Origin Policy). Isliye parent container ko overflow:
+   hidden dete hain aur iframe ko thora wider bana kar uska native
+   scrollbar container ke bahar clip kar dete hain. Scroll (wheel/
+   touch) normal kaam karta rehta hai.
+------------------------------------------------------------------ */
+  .calendly-popup {
+    overflow: hidden !important;
+    border-radius: 12px;
+  }
+
+  .calendly-popup iframe {
+    width: calc(100% + 20px) !important;
+    margin-right: -20px;
+    border: 0;
+  }
+
+  /* Safari/older browsers ke liye scrollbar width thori zyada rakhni
+   pad sakti hai; agar bar phir bhi dikhe to 20px ko 24px kar dein */
+
+  body {
+    background-color: var(--color-surface-0);
+    color: var(--color-ink-0);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-cyan);
+    color: var(--color-surface-0);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-cyan);
+    outline-offset: 2px;
+  }
+
+  /* Dark themed scrollbar — Firefox */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) var(--color-surface-0);
+  }
+
+  /* Dark themed scrollbar — Chrome, Edge, Safari (webkit) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-0);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-line);
+    border-radius: 8px;
+    border: 2px solid var(--color-surface-0);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-ink-2);
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--color-line-soft) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-line-soft) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .text-gradient-cyan {
+    background-image: linear-gradient(90deg, #67e8f9 0%, #22d3ee 45%, #3b82f6 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Calendly popup ka apna scroll wrapper — dark theme ke sath match karayein */
+.calendly-overlay,
+.calendly-popup {
+  overflow: hidden !important;
+}
+
+.calendly-popup-content {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) var(--color-surface-0);
+}
+
+.calendly-popup-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.calendly-popup-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-line);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

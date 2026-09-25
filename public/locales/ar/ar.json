@@ -1,0 +1,1271 @@
+{
+  "chart_bar": {
+    "widgetSettings": "إعدادات الأداة",
+    "barChart": "مخطط شريطي",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الأداة (اختياري)",
+    "selectChartType": "اختر نوع الرسم البياني",
+    "addData": "+ أضف بيانات",
+    "charts": "الرسوم البيانية",
+    "yAxisData": "بيانات المحور Y",
+    "yAxisLabelPlaceholder": "تسمية المحور Y",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttributes": "اختر الخصائص",
+    "data": "البيانات",
+    "unit": "الوحدة",
+    "xAxisData": "بيانات المحور X",
+    "labelPlaceholder": "التسمية",
+    "selectInterval": "اختر الفاصل الزمني",
+    "cancel": "إلغاء",
+    "removeWidget": "إزالة الأداة",
+    "save": "حفظ",
+    "none": "لا شيء",
+    "daily": "يومي",
+    "weekly": "أسبوعي",
+    "monthly": "شهري",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ..."
+  },
+
+  "batteryForm": {
+    "widgetSettings": "إعدادات الأداة",
+    "battery": "بطارية",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الأداة (اختياري)",
+    "cancel": "إلغاء",
+    "removeWidget": "إزالة الأداة",
+    "save": "حفظ",
+    "settings": "الإعدادات",
+    "showTimestamp": "إظهار الطابع الزمني",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttributes": "اختر الخصائص",
+    "none": "لا شيء",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "device": "اختيار الجهاز مطلوب",
+      "attributes": "السمة مطلوبة"
+    }
+  },
+
+  "deviceDefaultForm": {
+    "widgetSettings": "إعدادات الودجت",
+    "deviceDataDefault": "بيانات الجهاز (الافتراضي)",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الودجت (اختياري)",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "attributes": "السمة مطلوبة",
+      "device": "اختيار الجهاز مطلوب"
+    }
+  },
+  "DeviceMultiForm": {
+    "widgetSettings": "إعدادات الودجت",
+    "deviceDataMulti": "بيانات الجهاز (متعدد)",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الودجت (اختياري)",
+    "labelPlaceholder": "التسمية (اختياري)",
+    "settings": "الإعدادات",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttribute": "اختر السمة",
+    "primaryRegion": "المنطقة الرئيسية",
+    "secondaryRegion": "المنطقة الثانوية",
+    "lowerRegion": "المنطقة السفلى",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "attributes": "الخاصية مطلوبة",
+      "device": "اختيار الجهاز مطلوب",
+      "primaryIcon": "يرجى اختيار الأيقونة الأساسية",
+      "primaryUnit": "يرجى اختيار الوحدة الأساسية",
+      "secondaryData": "يرجى اختيار البيانات الثانوية",
+      "secondaryIcon": "يرجى اختيار الأيقونة الثانوية",
+      "secondaryUnit": "يرجى اختيار الوحدة الثانوية",
+      "lowerData": "يرجى اختيار البيانات السفلية",
+      "lowerIcon": "يرجى اختيار الأيقونة السفلية",
+      "lowerUnit": "يرجى اختيار الوحدة السفلية",
+      "lowerDecimal": "يرجى اختيار العلامة العشرية السفلية"
+    },
+
+    "products": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "devices": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "حرارة"
+    },
+    "attributes": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    }
+  },
+
+  "guageform": {
+    "widgetSettings": "إعدادات الودجت",
+    "guageChart": "رسم العداد",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الودجت (اختياري)",
+    "settings": "الإعدادات",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttribute": "اختر السمة",
+    "decimal": "المنزلة العشرية",
+    "options": "الخيارات",
+    "showTimestamp": "عرض الطابع الزمني",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+
+    "products": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "devices": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "حرارة"
+    },
+    "attributes": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "حرارة"
+    },
+    "decimalOptions": {
+      "none": "لا شيء",
+      "acCurrent": "التيار المتردد",
+      "asset": "موجود",
+      "air": "هواء"
+    }
+  },
+
+  "linechart": {
+    "widgetSettings": "إعدادات الودجت",
+    "lineChart": "الرسم البياني الخطي",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الودجت (اختياري)",
+    "charts": "الرسوم البيانية",
+    "yAxisData": "بيانات المحور Y",
+    "yAxisLabelPlaceholder": "تسمية المحور Y",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttribute": "اختر السمة",
+    "dataLabel": "البيانات",
+    "unitPlaceholder": "الوحدة",
+    "xAxisData": "بيانات المحور X",
+    "xAxisLabelPlaceholder": "التسمية",
+    "selectInterval": "اختر الفاصل الزمني",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "products": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "devices": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "attributes": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "dataOptions": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "intervalOptions": {
+      "none": "لا شيء",
+      "daily": "يومي",
+      "weekly": "أسبوعي",
+      "monthly": "شهري"
+    }
+  },
+  "MeterForm": {
+    "widgetSettings": "إعدادات الأداة",
+    "meter": "عداد",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الأداة (اختياري)",
+    "settings": "الإعدادات",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttribute": "اختر الخاصية",
+    "decimal": "العدد العشري",
+    "options": "الخيارات",
+    "showTimestamp": "إظهار الطابع الزمني",
+    "cancel": "إلغاء",
+    "removeWidget": "إزالة الأداة",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "device": "اختيار الجهاز مطلوب",
+      "attributes": "السمة مطلوبة"
+    },
+
+    "products": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "تقنية تشيرب",
+      "sensorDevice": "جهاز الاستشعار"
+    },
+    "devices": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "الحرارة"
+    },
+    "attributes": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "الحرارة"
+    },
+    "decimals": {
+      "none": "لا شيء",
+      "zero": "0",
+      "one": "2",
+      "two": "3"
+    }
+  },
+
+  "OnlineStatusForm": {
+    "widget_settings": "إعدادات الأداة",
+    "online_status": "الحالة على الإنترنت",
+    "general": "عام",
+    "widget_name_placeholder": "اسم الأداة (اختياري)",
+    "settings": "الإعدادات",
+    "select_product": "اختر المنتج",
+    "select_device": "اختر الجهاز",
+    "select_attribute": "اختر السمة",
+    "icon": "الأيقونة",
+    "options": "الخيارات",
+    "show_timestamp": "عرض الطابع الزمني",
+    "cancel": "إلغاء",
+    "remove_widget": "إزالة الأداة",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "device": "اختيار الجهاز مطلوب",
+      "icon": "يرجى تحديد الرمز",
+      "attributes": "السمة مطلوبة"
+    },
+    "products": {
+      "none": "لا شيء",
+      "usama_waqas": "أسامة وقاص",
+      "chirp_technology": "تقنية تشيرب",
+      "sensor_device": "جهاز الاستشعار"
+    },
+    "devices": {
+      "none": "لا شيء",
+      "battery": "البطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "الحرارة"
+    },
+    "attributes": {
+      "ac_current": "تيار متردد",
+      "asset": "أصل",
+      "air": "هواء"
+    },
+    "icons": {
+      "ac_current": "تيار متردد",
+      "asset": "أصل",
+      "air": "هواء"
+    }
+  },
+
+  "form": {
+    "widget_settings": "إعدادات الودجت",
+    "progress_barchart": "مخطط شريطي للتقدم",
+    "general": "عام",
+    "widget_name_placeholder": "اسم الودجت (اختياري)",
+    "settings": "الإعدادات",
+    "select_product": "اختر المنتج",
+    "select_device": "اختر الجهاز",
+    "select_attribute": "اختر السمة",
+    "select_decimal": "العدد العشري",
+    "options": "الخيارات",
+    "show_timestamp": "عرض الطابع الزمني",
+    "cancel": "إلغاء",
+    "remove_widget": "إزالة الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ..."
+  },
+  "product": {
+    "none": "لا شيء",
+    "usama": "أسامة وقاص",
+    "chirp": "تقنية تشيرب",
+    "sensor": "جهاز الاستشعار"
+  },
+  "device": {
+    "none": "لا شيء",
+    "battery": "البطارية",
+    "temperature": "درجة الحرارة",
+    "heat": "الحرارة"
+  },
+  "attribute": {
+    "none": "لا شيء",
+    "battery": "البطارية",
+    "temperature": "درجة الحرارة",
+    "heat": "الحرارة"
+  },
+  "decimal": {
+    "none": "لا شيء",
+    "ac_current": "تيار متردد",
+    "asset": "الأصل",
+    "air": "الهواء"
+  },
+
+  "signalform": {
+    "widget_settings": "إعدادات الأداة",
+    "Signal_strength": "قوة الإشارة",
+    "general": "عام",
+    "widget_name_placeholder": "اسم الأداة (اختياري)",
+    "settings": "الإعدادات",
+    "select_product": "اختر المنتج",
+    "select_device": "اختر الجهاز",
+    "select_attribute": "اختر الخاصية",
+    "select_decimal": "الفاصلة العشرية",
+    "options": "الخيارات",
+    "show_timestamp": "عرض الطابع الزمني",
+    "cancel": "إلغاء",
+    "remove_widget": "حذف الأداة",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "device": "اختيار الجهاز مطلوب",
+      "attributes": "السمة مطلوبة"
+    }
+  },
+
+  "TemperatureForm": {
+    "widgetSettings": "إعدادات الأداة",
+    "temperature": "درجة الحرارة",
+    "widgetName": "اسم الودجت مطلوب",
+    "decimal": "القيمة العشرية مطلوبة",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الأداة (اختياري)",
+    "settings": "الإعدادات",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttribute": "اختر الخاصية",
+    "options": "الخيارات",
+    "showTimestamp": "عرض الطابع الزمني",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الأداة",
+    "save": "حفظ",
+    "none": "لا شيء",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "products": {
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTech": "تشيرب تكنولوجي",
+      "sensorDevice": "جهاز الاستشعار"
+    },
+    "devices": {
+      "battery": "البطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "الحرارة"
+    },
+    "attributes": {
+      "battery": "البطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "الحرارة"
+    },
+    "decimals": {
+      "acCurrent": "تيار متردد",
+      "asset": "الأصل",
+      "air": "الهواء"
+    },
+    "validation": {
+      "product": "المنتج مطلوب",
+      "device": "اختيار الجهاز مطلوب",
+      "attributes": "السمة مطلوبة"
+    }
+  },
+
+  "toggleForm": {
+    "widgetSettings": "إعدادات الودجت",
+    "toggleButton": "زر التبديل",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الودجت (اختياري)",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "device": "اختيار الجهاز مطلوب",
+      "attributes": "السمة مطلوبة"
+    }
+  },
+
+  "valueForm": {
+    "widgetSettings": "إعدادات الأداة",
+    "value": "القيمة",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الأداة (اختياري)",
+    "settings": "الإعدادات",
+    "selectProduct": "اختر المنتج",
+    "selectDevices": "اختر الجهاز",
+    "selectAttribute": "اختر السمة",
+    "showUnitDescription": "عرض وصف الوحدة",
+    "largeUnitLabel": "تسمية وحدة كبيرة",
+    "icon": "أيقونة",
+    "decimal": "الفاصلة العشرية",
+    "options": "الخيارات",
+    "showTimestamp": "عرض الطابع الزمني",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الأداة",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "product": "مطلوب المنتج",
+      "device": "مطلوب اختيار الجهاز",
+      "attributes": "مطلوب الخاصية",
+      "icon": "يرجى اختيار الرمز",
+      "decimal": "يرجى اختيار النظام العشري"
+    },
+
+    "products": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز الاستشعار"
+    },
+    "devices": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "حرارة"
+    },
+    "attributes": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "حرارة"
+    },
+    "icons": {
+      "acCurrent": "تيار متردد",
+      "asset": "أصل",
+      "air": "هواء"
+    },
+    "decimals": {
+      "acCurrent": "تيار متردد",
+      "asset": "أصل",
+      "air": "هواء"
+    }
+  },
+
+  "showAndHide": {
+    "Setting": "الإعدادات",
+    "color": "إعدادات اللون",
+    "text": "نص",
+    "value": "قيمة",
+    "background": "الخلفية",
+    "maxValue": "القيمة القصوى",
+    "selectProduct": "اختر المنتج",
+    "unit": "اختر الوحدة",
+    "selectDevice": "اختر الجهاز",
+    "selectAttribute": "اختر السمة",
+    "options": "الخيارات",
+    "showTimestamp": "عرض الطابع الزمني",
+    "products": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "devices": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "حرارة"
+    },
+    "attributes": {
+      "none": "لا شيء",
+      "battery": "بطارية",
+      "temperature": "درجة الحرارة",
+      "heat": "حرارة"
+    }
+  },
+
+  "region": {
+    "dataLabel": "البيانات",
+    "iconLabel": "الأيقونة",
+    "unitLabel": "الوحدة",
+    "dataOptions": {
+      "battery": "بطارية",
+      "breakIn": "اختراق",
+      "impact": "تأثير"
+    },
+    "unitOptions": {
+      "energy": "طاقة",
+      "breakIn": "اختراق",
+      "impact": "تأثير"
+    },
+    "iconOptions": {
+      "acCurrent": "التيار المتردد",
+      "asset": "موجود",
+      "air": "هواء"
+    }
+  },
+
+  "lowerRegion": {
+    "dataLabel": "البيانات",
+    "unitLabel": "الوحدة",
+    "iconLabel": "الأيقونة",
+    "decimalLabel": "عدد المنازل العشرية",
+    "dataOptions": {
+      "battery": "بطارية",
+      "breakIn": "اختراق",
+      "impact": "تأثير"
+    },
+    "unitOptions": {
+      "energy": "طاقة",
+      "breakIn": "اختراق",
+      "impact": "تأثير"
+    },
+    "iconOptions": {
+      "acCurrent": "التيار المتردد",
+      "asset": "موجود",
+      "air": "هواء"
+    },
+    "decimalOptions": {
+      "one": "1",
+      "two": "2",
+      "three": "3"
+    }
+  },
+
+  "tankForm": {
+    "widgetSettings": "إعدادات الودجت",
+    "tankLevel": "الخزان/المستوى",
+    "tankType": "نوع الخزان",
+    "general": "عام",
+    "widgetName": "اسم الودجت (اختياري)",
+    "cancel": "إلغاء",
+    "removeWidget": "إزالة الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "selected": "المحدد:",
+
+    "saving": "جارٍ الحفظ...",
+    "validation": {
+      "widgetName": "اسم الأداة مطلوب",
+      "product": "المنتج مطلوب",
+      "device": "يجب اختيار الجهاز",
+      "attributes": "الخاصية مطلوبة"
+    },
+    "rectangularTank": "خزان مستطيل",
+    "horizontalCylindricalTank": "خزان أسطواني أفقي",
+    "sphericalTank": "خزان كروي",
+    "verticalCylindricalFlatTank": "خزان أسطواني عمودي (قاع مسطح)",
+    "verticalCylindricalConicalTank": "خزان أسطواني عمودي (قاع مخروطي)"
+  },
+
+  "statusForm": {
+    "widgetSettings": "إعدادات الودجت",
+    "status": "الحالة",
+    "general": "عام",
+    "widgetName": "اسم الودجت (اختياري)",
+    "settings": "الإعدادات",
+    "selectProduct": "اختر المنتج",
+    "selectDevice": "اختر الجهاز",
+    "selectAttribute": "اختر السمة",
+    "icon": "رمز",
+    "decimal": "عشري",
+    "options": "الخيارات",
+    "showTimestamp": "عرض الطابع الزمني",
+    "cancel": "إلغاء",
+    "removeWidget": "إزالة الودجت",
+    "save": "حفظ",
+    "none": "لا شيء",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "usamaWaqas": "وسامة وقاص",
+    "chirpTechnology": "تكنولوجيا الطيور",
+    "sensorDevice": "جهاز الاستشعار",
+    "battery": "بطارية",
+    "temperature": "درجة الحرارة",
+    "heat": "حرارة",
+    "acCurrent": "التيار المتردد",
+    "asset": "الأصل",
+    "air": "الهواء",
+    "validation": {
+      "product": "المنتج مطلوب",
+      "device": "اختيار الجهاز مطلوب",
+      "attributes": "السمة مطلوبة",
+      "icon": "يرجى اختيار الأيقونة"
+    }
+  },
+
+  "donutchart": {
+    "widgetSettings": "إعدادات الودجت",
+    "donutChart": "رسم الدونات",
+    "general": "عام",
+    "widgetNamePlaceholder": "اسم الودجت (اختياري)",
+    "charts": "الرسوم البيانية",
+    "donutChartLabelPlaceholder": "تسمية رسم الدونات",
+    "selectProduct": "اختر المنتج",
+    "selectInterval1": "اختر الفاصل 1",
+    "selectInterval2": "اختر الفاصل 2",
+    "addData": "إضافة بيانات",
+    "cancel": "إلغاء",
+    "removeWidget": "حذف الودجت",
+    "save": "حفظ",
+    "removing": "جارٍ الإزالة...",
+    "saving": "جارٍ الحفظ...",
+    "products": {
+      "none": "لا شيء",
+      "usamaWaqas": "أسامة وقاص",
+      "chirpTechnology": "شيرب تكنولوجي",
+      "sensorDevice": "جهاز استشعار"
+    },
+    "interval1Options": {
+      "none": "لا شيء",
+      "daily": "يومي",
+      "weekly": "أسبوعي",
+      "monthly": "شهري",
+      "quarterly": "ربع سنوي"
+    },
+    "interval2Options": {
+      "none": "لا شيء",
+      "morning": "صباحًا",
+      "afternoon": "بعد الظهر",
+      "evening": "مساءً",
+      "night": "ليلًا"
+    }
+  },
+
+  "status": {
+    "all": "جميع الأصول",
+    "needsCorrection": "يحتاج إلى تصحيح",
+    "withinRange": "ضمن النطاق",
+    "offline": "غير متصل"
+  },
+
+  "companyName": "اسم الشركة",
+  "menu": "القائمة",
+  "addDevice": "إضافة جهاز",
+  "productConfiguration": "ضبط المنتج",
+  "addProduct": "إضافة منتج",
+  "popover": {
+    "addDevice": "إضافة جهاز",
+    "productConfiguration": "ضبط المنتج"
+  },
+
+  "filters": {
+    "company": "الشركة",
+    "location": "الموقع",
+    "device": "الجهاز",
+    "status": "الحالة",
+    "deviceTemplate": "قالب الجهاز"
+  },
+  "companyFilterContent": {
+    "title": "الشركة",
+    "options": {
+      "usama": "أسامة وقاص",
+      "ahmad": "أحمد",
+      "ali": "علي",
+      "osaman": "عثمان"
+    }
+  },
+
+  "filterContent": {
+    "select": "تحديد",
+    "deselect": "إلغاء التحديد",
+    "all": "الكل",
+    "item": "تم تحديد {{count}} عنصر",
+    "item_plural": "تم تحديد {{count}} عناصر"
+  },
+
+  "filter": {
+    "location": "الموقع"
+  },
+  "options": {
+    "usama_waqas": "أسامة وقاص",
+    "osman": "عثمان",
+    "ahmad": "أحمد",
+    "ali": "علي"
+  },
+
+  "deviceFilterContent": {
+    "device": "الجهاز",
+
+    "options": {
+      "usama_waqas": "أسامة وقاص",
+      "ali": "علي",
+      "ahmad": "أحمد",
+      "osman": "عثمان"
+    }
+  },
+
+  "statusFilterContent": {
+    "status": "الحالة",
+
+    "options": {
+      "first": "الأول",
+      "second": "الثاني",
+      "third": "الثالث",
+      "fourth": "الرابع"
+    }
+  },
+
+  "navbar": {
+    "manage": "الإدارة",
+    "assets": "الأصول",
+    "companiesLocations": "الشركات والمواقع",
+    "integrations": "التكاملات",
+    "rulesPermissions": "القواعد والصلاحيات",
+    "language": "اللغة",
+    "accountSetting": "إعدادات الحساب",
+    "logout": "تسجيل الخروج",
+    "user": "المستخدم",
+    "pro": "محترف"
+  },
+
+  "sidebar": {
+    "add_new": "أضف جديد...",
+    "dashboard": "لوحة القيادة",
+    "list": "قائمة",
+    "map": "خريطة"
+  },
+
+  "product-configuration": {
+    "product_name": " اسم المنتج",
+    "webhook_link": "رابط Webhook",
+    "packet-info": "لم يتم استلام أي حزمة بعد",
+    "rawPacketMessage": "سيتم عرض الحزمة الخام هنا...",
+    "rawPacket": "الحزمة الخام:",
+    "validation": {
+      "product_name": "اسم المنتج مطلوب"
+    },
+    "webhook_token": "رمز Webhook",
+    "device_id": "معرّف الجهاز",
+    "external_id": "معرّف خارجي",
+    "device_use": "استخدام الجهاز",
+    "device_template": "قالب الجهاز",
+    "change_template": "تغيير القالب",
+    "replace_device": "استبدال الجهاز",
+    "copy": "نسخ",
+    "attributes_displayed": "القراءات المعروضة",
+    "uncheck_info_1": "لن تظهر القراءات غير المحددة في شاشة إدارة الجهاز، تفاصيل الجهاز، خرائط المستشعرات والتقارير.",
+    "uncheck_info_2": "سيتم حذف التنبيهات الخاصة بالقراءات غير المحددة لهذا الجهاز.",
+    "location": "الموقع",
+    "remove_product": "حذف الجهاز",
+    "action_undo_warning": "لا يمكن التراجع عن هذا الإجراء",
+    "save": "حفظ",
+
+    "none": "لا شيء",
+    "ac_switch": "مفتاح التيار المتردد",
+    "temperature_sensor": "مستشعر درجة الحرارة",
+    "motion_detector": "كاشف الحركة",
+
+    "acceleration": "التسارع",
+    "humidity": "الرطوبة",
+    "luminosity": "السطوع",
+    "temperature": "درجة الحرارة",
+    "select_device": "اختر جهازًا",
+    "address": "أ لاهور، البنجاب 54700، باكستان"
+  },
+
+  "AddDevice": {
+    "addDevices": "إضافة أجهزة",
+    "step": "الخطوة",
+    "steps": {
+      "1": "المنتج والأجهزة",
+      "Connectivity": "نوع الاتصال",
+      "2": "بروتوكول الشبكة",
+      "3": "خادم الشبكة",
+      "4": "الخطة"
+    },
+    "button": {
+      "Finish": "إنهاء",
+      "skip": "تخطي",
+      "back": "رجوع",
+      "save": "حفظ",
+      "next": "التالي",
+      "acknowledge": "إقرار"
+    }
+  },
+
+  "FirstStep": {
+    "product_details_heading": "تفاصيل المنتج",
+    "product_details_info": "أعط هذا المنتج اسمًا — ستضيف أجهزته أدناه.",
+    "product_name": "اسم المنتج",
+    "enter_product_name": "أدخل اسم المنتج"
+  },
+  "secondStepForm": {
+    "title": "أضف جهاز",
+    "instruction1": "يرجى تقديم معرّف فريد واحد أو أكثر لأجهزتك (مثل الرقم التسلسلي لمستشعر إنترنت الأشياء أو Dev EUI) مع الأسماء المقابلة لها كما يجب أن تظهر في ConvoyAI.",
+    "instruction2": "بدلاً من ذلك، يمكنك تحميل الأجهزة دفعة واحدة عبر ملف CSV يحتوي على معرّف الجهاز الفريد والاسم والموقع — صف واحد لكل جهاز. للاطلاع على تنسيق الأعمدة الدقيق وملف نموذجي، راجع",
+    "documentationLink": "توثيقنا"
+  },
+  "tagInput": {
+    "device_unique_identifier": "معرّف الجهاز الفريد",
+    "name": "الاسم",
+    "location": "الموقع",
+    "tags": "إضافة وسم",
+    "addDevice": "+ إضافة جهاز آخر"
+  },
+  "dropzone": {
+    "clickToUpload": "انقر للتحميل",
+    "orDragAndDrop": "أو اسحب الملف وأفلته",
+    "fileTypes": "ملف CSV فقط (بحد أقصى {{size}})",
+    "invalidType": "يرجى تحميل ملف بصيغة .csv فقط.",
+    "tooLarge": "الملف كبير جدًا — الحد الأقصى للحجم هو {{size}}.",
+    "remove": "إزالة الملف"
+  },
+  "thirdStepForm": {
+    "title": "خادم الشبكة",
+    "box1": "يرجى اختيار خادم شبكة LoRaWAN الذي تتصل به أجهزتك.",
+    "box2": "يرجى اختيار خادم شبكة LoRaWAN الذي تتصل به أجهزتك.",
+    "textareaPlaceholder": "يرجى إضافة جهازك...",
+    "warning": "لا تتخطى",
+    "instructions": "التعليمات",
+    "box1Steps": [
+      "حدد بروتوكول الشبكة الذي سيستخدمه الخادم الخاص بك لإرسال الحزم إلى الواجهة الخلفية لدينا.",
+      "بمجرد التحديد، سنزودك بعنوان URL ورمز Webhook.",
+      "قم بتهيئة الخادم باستخدام عنوان URL ورمز Webhook ثم أرسل الحزمة الأولية."
+    ]
+  },
+  "FourthStepForm": {
+    "title": "مراجعة وإرسال",
+    "subtitle": "تحقق من جميع التفاصيل قبل الإرسال."
+  },
+  "IntegrationSubNav": {
+    "Destinations": "الوجهات",
+    "MyIntegrations": "تكاملي"
+  },
+  "AccountSettingSubNav": {
+    "AccountSetting": "إعدادات الحساب",
+    "MyData": "بياناتي"
+  },
+  "RolespermissionSubNav": {
+    "RolePermission": "الأدوار والأذونات",
+    "AssignPermission": "تعيين الأذونات"
+  },
+  "RulesPermission": {
+    "title": "مدير المنتج",
+    "loading": "جارٍ التحميل...",
+    "columns": {
+      "module": "الوحدة",
+      "add": "إضافة",
+      "view": "عرض",
+      "update": "تحديث",
+      "delete": "حذف"
+    }
+  },
+  "rolePermission": {
+    "title": "الدور والصلاحيات",
+    "addRole": "إضافة دور جديد",
+    "role": "الدور",
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
+  "addRole": {
+    "title": "إضافة دور جديد",
+    "roleName": "اسم الدور",
+    "selectRoleType": "اختر نوع الدور",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "selectAnOption": "اختر خيارًا"
+  },
+
+  "addCompany": {
+    "addLocation": "إضافة موقع",
+    "name": "الاسم",
+    "country": "الدولة",
+    "city": "المدينة",
+    "address": "العنوان",
+    "state": "الولاية",
+    "zipCode": "الرمز البريدي",
+    "primaryContact": "البريد الإلكتروني للشركة",
+    "externalId": "المعرف الخارجي",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "selectCountry": "اختر الدولة",
+    "selectOption": "اختر خيارًا",
+    "validation": {
+      "name": "الاسم مطلوب",
+      "country": "الدولة مطلوبة",
+      "address": "العنوان مطلوب",
+      "city": "المدينة مطلوبة",
+      "state": "الولاية مطلوبة",
+      "zip_code": "الرمز البريدي مطلوب",
+      "email": "البريد الإلكتروني للشركة مطلوب"
+    }
+  },
+  "widgets": {
+    "deviceData": "بيانات الجهاز",
+    "deviceDefault": "الجهاز الافتراضي",
+    "tankLevel": "مستوى الخزان",
+    "value": "القيمة",
+    "status": "الحالة",
+    "onlineStatus": "الحالة عبر الإنترنت",
+    "toggleDevice": "زر التبديل",
+    "meter": "عداد",
+    "battery": "البطارية",
+    "signalStrength": "قوة الإشارة",
+    "waterLeak": "تسرب المياه",
+    "temperatureDevice": "جهاز درجة الحرارة",
+    "barChart": "مخطط الأعمدة",
+    "mixChart": "الرسم البياني المختلط",
+    "donutChart": "مخطط الدونات",
+    "guageChart": "مخطط المقياس",
+    "lineChart": "المخطط الخطي",
+    "progressBar": "شريط التقدم"
+  },
+  "SideBar": {
+    "devices_tab": "التصور",
+    "widgets_tab": "الودجات",
+
+    "device_search_placeholder": "ابحث عن الويدجتات",
+
+    "sections": {
+      "realtime_data": "البيانات اللحظية",
+      "visualization": "الرسوم"
+    }
+  },
+  "realtime": {
+    "title": "البيانات اللحظية"
+  },
+  "visualization": {
+    "title": "التصوير البياني"
+  },
+  "accountSettings": {
+    "table": {
+      "firstName": "الاسم الأول:",
+      "lastName": "اسم العائلة:",
+      "email": "البريد الإلكتروني:",
+      "mobile": "رقم الهاتف:",
+      "password": "كلمة المرور:",
+      "language": "اللغة:",
+      "tos": "شروط الخدمة (ToS):",
+      "sla": "اتفاقية مستوى الخدمة (SLA):",
+      "openInNewWindow": "افتح في نافذة جديدة"
+    }
+  },
+
+  "AccountProfile": {
+    "navigation": {
+      "basicSettings": "الإعدادات الأساسية",
+      "password": "كلمة المرور",
+      "address": "إضافة موقع",
+      "deleteAccount": "حذف الحساب"
+    },
+    "profile": {
+      "firstName": "الاسم الأول:",
+      "lastName": "اسم العائلة:",
+      "birthDate": "تاريخ الميلاد",
+      "company": "الشركة",
+      "phone": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "profile": "الملف الشخصي",
+      "imageHint": "صورة 150x150 بكسل بصيغة JPEG أو PNG"
+    },
+    "table": {
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "mobile": "الجوال",
+      "password": "كلمة المرور",
+      "language": "اللغة"
+    },
+    "passwordForm": {
+      "current": "كلمة المرور الحالية",
+      "new": "كلمة مرور جديدة",
+      "confirm": "تأكيد كلمة المرور الجديدة",
+      "reset": "إعادة تعيين كلمة المرور"
+    },
+    "buttons": {
+      "saveChanges": "حفظ التغييرات",
+      "deleteAccount": "حذف الحساب"
+    },
+    "delete": {
+      "title": "حذف الحساب",
+      "text": "نأسف لرؤيتك تغادر. يرجى تأكيد حذف الحساب أدناه. سيتم حذف بياناتك نهائيًا. شكرًا لكونك جزءًا من مجتمعنا.",
+      "guideline": "إرشادات الإعداد",
+      "confirm": "تأكيد حذف الحساب"
+    }
+  },
+  "attributeSettings": {
+    "title": "إعدادات السمات",
+    "descriptionLabel": "الوصف",
+    "descriptionPlaceholder": "أدخل وصف السمة...",
+    "notificationTypeLabel": "نوع الإشعار",
+    "thresholdValueLabel": "قيمة الحد",
+    "thresholdValuePlaceholder": "أدخل القيمة...",
+    "comparisonTypeLabel": "نوع المقارنة",
+    "addMoreButton": "أضف المزيد",
+    "saveButton": "حفظ",
+    "applyToAllLabel": "تطبيق على جميع السمات",
+    "notificationOptions": {
+      "alarm": "إنذار",
+      "normal": "عادي"
+    },
+    "comparisonOptions": {
+      "greater_than": "أكبر من (>)",
+      "less_than": "أقل من (<)",
+      "equal_to": "يساوي (=)",
+      "not_equal": "لا يساوي (!=)"
+    }
+  },
+
+  "dashboardSection": "لوحات المعلومات",
+  "addNew": "إضافة جديد...",
+  "userSection": "المستخدم",
+  "home": "الصفحة الرئيسية",
+  "manageProducts": "إدارة المنتجات",
+  "manageAssets": "إدارة الأصول",
+  "rulesPermissions": "القواعد والصلاحيات",
+  "roleBuilder": "منشئ الأدوار",
+  "untitled": "بدون عنوان",
+  "map": "الخريطة",
+  "confirmDelete": {
+    "title": "هل أنت متأكد؟",
+    "message": "أنت على وشك حذف {{item}}. لا يمكن التراجع عن هذا الإجراء.",
+    "cancel": "إلغاء",
+    "delete": "حذف"
+  },
+  "httpProtocol": {
+    "webhookUrl": "عنوان Webhook:",
+    "token": "رمز التوكن:",
+    "copyTokenTitle": "انقر لنسخ التوكن",
+    "tokenPlaceholder": "سيظهر التوكن هنا بعد اختيار البروتوكول"
+  },
+  "mqtt": {
+    "hostUrl": "عنوان المضيف",
+    "hostUrlPlaceholder": "يرجى إدخال عنوان المضيف",
+    "port": "رقم المنفذ",
+    "portPlaceholder": "1883",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "أدخل اسم المستخدم",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "connect": "اتصال",
+    "requiredFields": "المضيف والمنفذ حقول مطلوبة"
+  },
+  "assets": {
+    "manageAssets": "إدارة الأصول",
+    "addAssets": "إضافة أصول",
+    "addChild": "إضافة فرع",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
+
+  "editChild": "تعديل الفرع",
+  "addChild": "إضافة فرع",
+  "editAsset": "تعديل الأصل",
+  "addAsset": "إضافة أصل",
+  "name": "الاسم",
+  "enterName": "أدخل الاسم",
+  "assetType": "نوع الأصل",
+  "componentType": "نوع المكون",
+  "enterAssetType": "أدخل نوع الأصل",
+  "enterComponentType": "أدخل نوع المكون",
+  "icon": "أيقونة",
+  "deviceAssignment": "تعيين الجهاز",
+  "selectProduct": "اختر المنتج",
+  "selectDevice": "اختر الجهاز",
+  "save": "حفظ",
+  "update": "تحديث",
+  "saving": "جارٍ الحفظ...",
+
+  "newRule": {
+    "title": "قاعدة جديدة",
+    "name": "الاسم",
+    "namePlaceholder": "أدخل اسم القاعدة",
+    "nameRequired": "اسم القاعدة مطلوب",
+    "nameMinLength": "يجب أن يكون اسم القاعدة 3 أحرف على الأقل",
+    "conditions": "الشروط",
+    "if": "إذا",
+    "and": "و",
+    "or": "أو",
+    "pleaseChoose": "الرجاء الاختيار",
+    "device": "الجهاز",
+    "field": "الحقل",
+    "back": "رجوع",
+    "product": "اختر المنتج",
+    "attribute": "اختر السمة",
+    "attributeRequired": "ایٹریبیوٹ ضروری ہے",
+    "selectCondition": "اختر الشرط",
+    "pleaseSelectDeviceFirst": "الرجاء اختيار الجهاز أولاً",
+    "is": "هو",
+    "value": "القيمة",
+    "valueRequired": "القيمة مطلوبة",
+    "valuePositive": "يجب أن تكون القيمة موجبة",
+    "then": "ثم",
+    "performActions": "تنفيذ هذه الإجراءات على الأكثر مرة واحدة كل",
+    "seconds": "ثانية",
+    "executionIntervalRequired": "فترة التنفيذ مطلوبة",
+    "executionIntervalMin": "يجب أن تكون ثانية واحدة على الأقل",
+    "allowRetriggering": "السماح بإعادة التشغيل",
+    "createRule": "إنشاء قاعدة",
+    "cancel": "إلغاء"
+  },
+  "devices": {
+    "drndot": "دي آر إن دوت",
+    "homeSensor": "حساس المنزل",
+    "homeSensorTest": "اختبار حساس المنزل",
+    "smartRoomLeak": "تسريب الغرفة الذكية"
+  },
+  "fields": {
+    "temperature": "درجة الحرارة",
+    "humidity": "الرطوبة",
+    "pressure": "الضغط",
+    "motion": "الحركة",
+    "light": "الضوء"
+  },
+  "conditions": {
+    "lessThan": "أقل من",
+    "lessThanOrEqual": "أقل من أو يساوي",
+    "equalTo": "يساوي",
+    "notEqualTo": "لا يساوي",
+    "greaterThanOrEqual": "أكبر من أو يساوي",
+    "greaterThan": "أكبر من"
+  },
+  "logicalOperators": {
+    "and": "و",
+    "or": "أو"
+  },
+
+  "sms": {
+    "title": "إرسال رسالة نصية",
+    "toLabel": "إلى",
+    "messageLabel": "الرسالة",
+    "recipientRequired": "مطلوب مستلم واحد على الأقل",
+    "placeholder": {
+      "phone": "أدخل رقم الهاتف",
+      "message": "أدخل رسالة SMS (160 حرفًا كحد أقصى)"
+    },
+    "error": {
+      "invalidPhone": "يرجى إدخال رقم هاتف صالح",
+      "requiredMessage": "الرسالة مطلوبة",
+      "maxLength": "يجب ألا تزيد الرسالة عن 160 حرفًا",
+      "minLength": "يجب أن تحتوي الرسالة على 5 أحرف على الأقل"
+    },
+    "characterCount": "{{count}}/160 حرفًا"
+  },
+
+  "email": {
+    "title": "إرسال بريد إلكتروني",
+    "toLabel": "إلى",
+    "subjectLabel": "الموضوع",
+    "messageLabel": "الرسالة",
+    "recipientRequired": "مطلوب مستلم واحد على الأقل",
+    "placeholder": {
+      "email": "أدخل عنوان البريد الإلكتروني",
+      "subject": "أدخل موضوع البريد الإلكتروني",
+      "message": "أدخل رسالة البريد الإلكتروني"
+    },
+    "error": {
+      "invalidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح",
+      "requiredSubject": "الموضوع مطلوب",
+      "minLengthSubject": "يجب أن يحتوي الموضوع على 5 أحرف على الأقل",
+      "requiredMessage": "الرسالة مطلوبة",
+      "minLengthMessage": "يجب أن تحتوي الرسالة على 10 أحرف على الأقل"
+    }
+  },
+
+  "notification": {
+    "title": "إشعار النظام",
+    "messageLabel": "الرسالة",
+    "placeholder": {
+      "message": "أدخل رسالة الإشعار"
+    },
+    "error": {
+      "required": "رسالة الإشعار مطلوبة",
+      "minLength": "يجب أن تحتوي الرسالة على 5 أحرف على الأقل",
+      "maxLength": "يجب ألا تتجاوز الرسالة 500 حرف"
+    },
+    "characterCount": "{{count}}/500 حرف"
+  },
+
+  "rule": {
+    "title": "القواعد",
+    "addRule": "إضافة قاعدة",
+    "search": "بحث",
+    "loading": "جار التحميل...",
+    "columns": {
+      "rule": "القاعدة",
+      "actions": "الإجراءات"
+    },
+    "more": "المزيد",
+    "items": {
+      "batteryLow": "البطارية منخفضة",
+      "highTemperature": "درجة حرارة مرتفعة",
+      "sendEmail": "إرسال بريد إلكتروني"
+    },
+    "actions": {
+      "edit": "تعديل القاعدة",
+      "deactivate": "تعطيل القاعدة",
+      "delete": "حذف القاعدة"
+    }
+  },
+  "Home": {
+    "title": "حالة الجهاز",
+    "totalDevices": "إجمالي الأجهزة",
+    "onlineDevices": "الأجهزة المتصلة",
+    "onlineDevicesHint": "تُبلغ الآن",
+    "offlineDevices": "الأجهزة غير المتصلة",
+    "offlineDevicesHint": "لا تُبلغ الآن",
+    "activeInLast24h": "نشط خلال آخر 24 ساعة",
+    "activeInLast24hHint": "أبلغت خلال 24 ساعة — قد تشمل أجهزة غير متصلة",
+    "recentlyActiveDevices": "الأجهزة النشطة مؤخراً",
+    "offlineDevicesTitle": "الأجهزة غير المتصلة",
+    "table": {
+      "device": "الجهاز",
+      "lastHeard": "آخر سماع"
+    }
+  },
+  "deleteAccountTitle": "هل أنت متأكد أنك تريد حذف حسابك؟",
+  "enterPasswordLabel": "أدخل كلمة المرور للتأكيد:",
+  "cancelButton": "إلغاء",
+  "deleteButton": "حذف"
+}

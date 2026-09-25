@@ -1,0 +1,6 @@
+<svg viewBox="0 0 100 100" focusable="false">
+  <path d="M74.9 50A25 25 0 1125 50a25 25 0 0149.9 0z" fill="#399ACD" opacity="0.1"/>
+  <path d="M74.9 50A25 25 0 1125 50a25 25 0 0149.9 0z" stroke="#1263AD" fill="none" stroke-width="1"/>
+  <path d="M74.9 50c0-4.6-11.2-8.2-25-8.2-13.7 0-24.9 3.6-24.9 8.1" stroke="#1263AD" fill="none" stroke-width="1" stroke-dasharray="1,1" opacity="0.5"/>
+  <path d="M74.9 50c0 4.4-11.2 8-25 8C36.2 58 25 54.5 25 50" stroke="#1263AD" fill="none" stroke-width="1"/>
+</svg>
