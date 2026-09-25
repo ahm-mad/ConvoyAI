@@ -621,7 +621,7 @@ const Grid = () => {
                     placeholder={t('SideBar.device_search_placeholder')}
                     value={searchText ?? ''}
                     onChange={e => setSearchText(e.target.value)}
-                    className="h-[34px] w-[268px] max-sm:w-[90vw] text-sm rounded-md border border-line bg-surface-2 px-2.5 py-1.5 text-ink-0 placeholder:text-xs placeholder:text-ink-2 placeholder:opacity-100 transition-all duration-200 ease-in-out outline-none focus:border-accent-cyan focus:ring-2 focus:ring-accent-cyan/15 focus:ring-offset-0"
+                    className="h-[34px] w-[268px] max-sm:w-[90vw] text-sm rounded-full border border-line bg-surface-2 px-2.5 py-1.5 text-ink-0 placeholder:text-xs placeholder:text-ink-2 placeholder:opacity-100 transition-all duration-200 ease-in-out outline-none focus:border-accent-cyan focus:ring-2 focus:ring-accent-cyan/15 focus:ring-offset-0"
                   />
                   {searchText && (
                     <button

@@ -253,7 +253,7 @@ function OverviewTab({ detail, vehicleId, onChanged }) {
               onChanged?.();
             }}
             disabled={assigningDriver}
-            className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-md py-1.5"
+            className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-full py-1.5"
           >
             {assigningDriver ? 'Unassigning…' : 'Unassign Driver'}
           </button>
@@ -302,7 +302,7 @@ function OverviewTab({ detail, vehicleId, onChanged }) {
                 onChanged?.();
               }}
               disabled={assigningDriver || !driverId}
-              className="text-xs text-accent-cyan border border-line rounded-md px-3 py-1.5 disabled:opacity-40"
+              className="text-xs btn-brand border border-transparent rounded-full px-3 py-1.5 disabled:opacity-40"
             >
               Assign
             </button>
@@ -443,7 +443,7 @@ function TrackerTab({ vehicleId, vehicle, onChanged }) {
           <button
             onClick={handleUnassign}
             disabled={submitting}
-            className="w-full mt-3 text-xs text-danger border border-danger/40 bg-danger/10 rounded-md py-1.5"
+            className="w-full mt-3 text-xs text-danger border border-danger/40 bg-danger/10 rounded-full py-1.5"
           >
             {submitting ? 'Unassigning…' : 'Unassign Tracker'}
           </button>
@@ -478,7 +478,7 @@ function TrackerTab({ vehicleId, vehicle, onChanged }) {
             <button
               onClick={handleAssign}
               disabled={submitting || !deviceId}
-              className="text-xs text-accent-cyan border border-line rounded-md px-3 py-1.5 disabled:opacity-40"
+              className="text-xs btn-brand border border-transparent rounded-full px-3 py-1.5 disabled:opacity-40"
             >
               Assign
             </button>
@@ -635,14 +635,14 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
           <div className="flex gap-2">
             <button
               onClick={() => setShowForm(false)}
-              className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+              className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
             >
               Cancel
             </button>
             <button
               onClick={handleCreate}
               disabled={submitting || !serviceType.trim()}
-              className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+              className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
             >
               {submitting ? 'Saving…' : 'Save'}
             </button>
@@ -651,7 +651,7 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
       ) : (
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 mt-2"
+          className="flex items-center gap-1.5 text-xs btn-brand border border-transparent rounded-full px-2.5 py-1.5 mt-2"
         >
           <Plus size={12} /> Add Schedule
         </button>
@@ -745,14 +745,14 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
           <div className="flex gap-2">
             <button
               onClick={() => setShowLogForm(false)}
-              className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+              className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
             >
               Cancel
             </button>
             <button
               onClick={handleLogService}
               disabled={logSubmitting || !logType.trim() || !logDate}
-              className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+              className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
             >
               {logSubmitting ? 'Saving…' : 'Log Service'}
             </button>
@@ -761,7 +761,7 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
       ) : (
         <button
           onClick={() => setShowLogForm(true)}
-          className="flex items-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 mt-3"
+          className="flex items-center gap-1.5 text-xs btn-brand border border-transparent rounded-full px-2.5 py-1.5 mt-3"
         >
           <Plus size={12} /> Log Completed Service
         </button>
@@ -910,14 +910,14 @@ function FuelTab({ vehicleId, economy, onCreated }) {
           <div className="flex gap-2">
             <button
               onClick={() => setShowForm(false)}
-              className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+              className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
             >
               Cancel
             </button>
             <button
               onClick={handleCreate}
               disabled={submitting || !fillDate || !volume}
-              className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+              className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
             >
               {submitting ? 'Saving…' : 'Log Fuel'}
             </button>
@@ -926,7 +926,7 @@ function FuelTab({ vehicleId, economy, onCreated }) {
       ) : (
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 mt-3"
+          className="flex items-center gap-1.5 text-xs btn-brand border border-transparent rounded-full px-2.5 py-1.5 mt-3"
         >
           <Plus size={12} /> Log Fuel Fill-up
         </button>
@@ -996,7 +996,7 @@ function VehicleHistoryTab({ vehicleId, yardHistory = [], onChanged }) {
           <button
             onClick={() => handleCheckOut(currentYard.slot?.id)}
             disabled={submitting}
-            className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-md py-1.5"
+            className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-full py-1.5"
           >
             {submitting ? 'Checking out…' : 'Check Out'}
           </button>

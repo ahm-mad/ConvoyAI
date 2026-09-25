@@ -278,7 +278,7 @@ export default function TripEditForm({
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+          className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
         >
           Cancel
         </button>
@@ -286,7 +286,7 @@ export default function TripEditForm({
           type="button"
           onClick={save}
           disabled={!canSave || invalidRange || stopsInvalid || conflict.conflicted}
-          className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+          className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
         >
           {submitting ? 'Saving…' : 'Save changes'}
         </button>

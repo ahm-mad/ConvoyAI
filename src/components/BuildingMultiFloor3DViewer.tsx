@@ -244,7 +244,7 @@ export default function BuildingMultiFloor3DViewer({ assetId, buildingName }) {
                 <>
                   <button
                     onClick={() => setSelectedFloorId(null)}
-                    className="absolute top-2 left-2 z-10 flex items-center gap-1 text-[11px] font-medium text-ink-0 bg-surface-1/90 border border-line-soft rounded-md px-2.5 py-1.5 hover:bg-surface-2 transition-colors"
+                    className="absolute top-2 left-2 z-10 flex items-center gap-1 text-caption font-medium font-medium text-ink-0 bg-surface-1/90 border border-line-soft rounded-full px-2.5 py-1.5 hover:bg-surface-2 transition-colors"
                   >
                     <ArrowLeft size={12} /> Back to stacked view
                   </button>
@@ -252,7 +252,7 @@ export default function BuildingMultiFloor3DViewer({ assetId, buildingName }) {
                       floor plan image, read as clutter once that floor is
                       the only thing on screen — a normal 2D breadcrumb
                       overlay (same treatment as the back button) instead. */}
-                  <div className="absolute top-2 right-2 z-10 text-[11px] font-medium text-ink-1 bg-surface-1/90 border border-line-soft rounded-md px-2.5 py-1.5">
+                  <div className="absolute top-2 right-2 z-10 text-caption font-medium font-medium text-ink-1 bg-surface-1/90 border border-line-soft rounded-full px-2.5 py-1.5">
                     {buildingName} <span className="text-ink-2">/</span>{' '}
                     {componentNameById[selectedFloor.asset_component_id] ||
                       `Level ${selectedFloor.floor_level}`}

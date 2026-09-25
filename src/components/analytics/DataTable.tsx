@@ -204,7 +204,7 @@ export default function DataTable<T>({
             type="button"
             onClick={exportCsv}
             disabled={loading || total === 0 || server?.exporting}
-            className="ml-auto inline-flex items-center gap-1.5 h-8 text-xs font-medium text-ink-1 hover:text-ink-0 border border-line rounded-md px-2.5 hover:bg-surface-2 transition-colors disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
+            className="ml-auto inline-flex items-center gap-1.5 h-8 text-xs font-medium text-ink-1 hover:text-ink-0 border border-line rounded-full px-2.5 hover:bg-surface-2 transition-colors disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan"
           >
             <Download size={12} /> {server?.exporting ? 'Exporting…' : 'Export CSV'}
           </button>

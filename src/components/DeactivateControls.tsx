@@ -63,7 +63,7 @@ export default function DeactivateControls({
             type="button"
             onClick={() => run('reactivate')}
             disabled={submitting}
-            className="text-[11px] text-accent-green border border-line rounded px-2.5 py-1 disabled:opacity-40"
+            className="text-caption font-medium text-accent-green border border-line bg-white rounded-full px-2.5 py-1 disabled:opacity-40"
           >
             {submitting ? 'Reactivating…' : 'Reactivate'}
           </button>
@@ -81,7 +81,7 @@ export default function DeactivateControls({
           type="button"
           onClick={() => run('deactivate')}
           disabled={submitting}
-          className="text-[11px] text-danger border border-danger/40 bg-danger/10 rounded px-2.5 py-1 disabled:opacity-40"
+          className="text-caption font-medium text-danger border border-danger/40 bg-danger/10 rounded-full px-2.5 py-1 disabled:opacity-40"
         >
           {submitting ? 'Deactivating…' : 'Confirm'}
         </button>
@@ -97,7 +97,7 @@ export default function DeactivateControls({
       <button
         type="button"
         onClick={() => setConfirming(true)}
-        className="text-[11px] text-danger border border-danger/30 rounded px-2.5 py-1 hover:bg-danger/10"
+        className="text-caption font-medium text-danger border border-danger/30 rounded-full px-2.5 py-1 hover:bg-danger/10"
       >
         Deactivate
       </button>

@@ -372,13 +372,13 @@ export default function ManageProduct() {
         <div className="flex items-center gap-2">
           <button
             onClick={handleCreateTemplate}
-            className="text-xs font-medium text-ink-1 border border-line rounded-md px-3 py-1.5 hover:bg-surface-2 transition-colors"
+            className="text-xs font-medium text-ink-1 border border-line rounded-full px-3 py-1.5 hover:bg-surface-2 transition-colors"
           >
             + New Template
           </button>
           <button
             onClick={handleCreateFromPayload}
-            className="text-xs font-medium text-accent-cyan border border-line rounded-md px-3 py-1.5 hover:bg-surface-2 transition-colors"
+            className="text-xs font-medium btn-brand border border-transparent rounded-full px-3 py-1.5 hover:bg-surface-2 transition-colors"
           >
             + Create from Payload
           </button>

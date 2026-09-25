@@ -380,7 +380,7 @@ export default function YardLayoutEditor({
           {layout && !placingSlot && (
             <button
               onClick={() => setPlacingSlot(true)}
-              className="flex items-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 mb-3 w-full justify-center hover:bg-surface-2"
+              className="flex items-center gap-1.5 text-xs btn-brand border border-transparent rounded-full px-2.5 py-1.5 mb-3 w-full justify-center hover:bg-surface-2"
             >
               <Plus size={12} /> Add Slot
             </button>
@@ -475,7 +475,7 @@ export default function YardLayoutEditor({
                       setSlotMaxEdit(toDisplayString(u.length, selectedSlot.max_length_m, 2));
                       setEditingSlot(true);
                     }}
-                    className="text-[10px] text-accent-cyan border border-line rounded px-2 py-1 hover:bg-surface-2"
+                    className="text-caption font-medium btn-brand border border-transparent rounded-full px-2 py-1 hover:bg-surface-2"
                   >
                     Edit slot
                   </button>
@@ -483,7 +483,7 @@ export default function YardLayoutEditor({
                     <button
                       type="button"
                       onClick={() => setMovingSlot(v => !v)}
-                      className="text-[10px] text-accent-cyan border border-line rounded px-2 py-1 hover:bg-surface-2"
+                      className="text-caption font-medium btn-brand border border-transparent rounded-full px-2 py-1 hover:bg-surface-2"
                     >
                       {movingSlot ? 'Cancel move' : 'Move slot'}
                     </button>
@@ -510,7 +510,7 @@ export default function YardLayoutEditor({
                   </div>
                   <button
                     onClick={handleCheckOut}
-                    className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-md py-1.5"
+                    className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-full py-1.5"
                   >
                     Check Out
                   </button>
@@ -542,7 +542,7 @@ export default function YardLayoutEditor({
                   <button
                     onClick={handleCheckIn}
                     disabled={!checkInVehicleId}
-                    className="w-full mt-2 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+                    className="w-full mt-2 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
                   >
                     Check In
                   </button>

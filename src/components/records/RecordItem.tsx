@@ -22,7 +22,7 @@ export default function RecordItem({
   deleteQuestion,
   onChanged,
   children,
-  className = 'bg-surface-2 rounded-md p-3 mb-2',
+  className = 'glass-strong p-4 mb-3',
 }: {
   resource: string;
   record: any;
@@ -78,7 +78,7 @@ export default function RecordItem({
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className="text-[10px] px-2 py-0.5 text-accent-cyan border border-line rounded hover:bg-surface-1"
+          className="text-caption font-medium px-2 py-0.5 btn-brand border border-transparent rounded-full hover:bg-surface-1"
         >
           Edit
         </button>

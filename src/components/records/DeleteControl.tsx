@@ -17,14 +17,14 @@ export default function DeleteControl({
 }) {
   const [asking, setAsking] = useState(false);
   const [busy, setBusy] = useState(false);
-  const size = compact ? 'text-[10px] px-2 py-0.5' : 'text-[11px] px-2.5 py-1';
+  const size = compact ? 'text-micro px-2.5 py-0.5' : 'text-caption font-medium px-3 py-1';
 
   if (!asking) {
     return (
       <button
         type="button"
         onClick={() => setAsking(true)}
-        className={`${size} text-danger border border-danger/30 rounded hover:bg-danger/10`}
+        className={`${size} text-danger border border-danger/30 rounded-full hover:bg-danger/10`}
       >
         {label}
       </button>
@@ -47,14 +47,14 @@ export default function DeleteControl({
             setAsking(false);
           }
         }}
-        className={`${size} text-danger border border-danger/40 bg-danger/10 rounded disabled:opacity-40`}
+        className={`${size} text-danger border border-danger/40 bg-danger/10 rounded-full disabled:opacity-40`}
       >
         {busy ? 'Deleting…' : `Yes, ${label.toLowerCase()}`}
       </button>
       <button
         type="button"
         onClick={() => setAsking(false)}
-        className={`${size} text-ink-2 border border-line rounded`}
+        className={`${size} text-ink-2 border border-line bg-white rounded-full`}
       >
         Keep
       </button>

@@ -37,7 +37,7 @@ export default function BulkBar({
   return (
     <div className="mb-3">
       {count > 0 && (
-        <div className="flex items-center gap-3 flex-wrap bg-accent-cyan/10 border border-accent-cyan/30 rounded-md px-3 py-2 text-[11px]">
+        <div className="flex items-center gap-3 flex-wrap bg-accent-cyan/10 border border-accent-cyan/30 rounded-full px-3 py-2 text-caption font-medium">
           <span className="text-accent-cyan font-medium">
             {allMatching ? `All ${count} matching selected` : `${count} selected`}
           </span>

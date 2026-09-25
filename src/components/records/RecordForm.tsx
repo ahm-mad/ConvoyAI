@@ -118,7 +118,7 @@ export default function RecordForm({
   };
 
   return (
-    <div className="bg-surface-2 rounded-md p-3 mb-2">
+    <div className="glass-strong p-4 mb-3">
       {conflict.banner}
       <div className="grid grid-cols-2 gap-2 mb-2">
         {fields.map(f => (
@@ -179,7 +179,7 @@ export default function RecordForm({
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+          className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
         >
           Cancel
         </button>
@@ -187,7 +187,7 @@ export default function RecordForm({
           type="button"
           onClick={save}
           disabled={saving || missing || conflict.conflicted}
-          className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+          className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
         >
           {saving ? 'Saving…' : 'Save changes'}
         </button>

@@ -85,7 +85,7 @@ export default function ComplianceTab({
       ) : (
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 mt-2"
+          className="flex items-center gap-1.5 text-xs btn-brand border border-transparent rounded-full px-2.5 py-1.5 mt-2"
         >
           <Plus size={12} /> Add Document
         </button>
@@ -162,14 +162,14 @@ function NewDocumentForm({
       <div className="flex gap-2">
         <button
           onClick={onClose}
-          className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+          className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
         >
           Cancel
         </button>
         <button
           onClick={handleCreate}
           disabled={submitting || !type.trim()}
-          className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+          className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
         >
           {submitting ? 'Saving…' : 'Save'}
         </button>

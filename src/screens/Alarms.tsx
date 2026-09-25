@@ -134,7 +134,7 @@ function AlarmRow({ alarm, onAcknowledge }: { alarm?: any; onAcknowledge: (id: a
       {alarm.state === 'active' && (
         <button
           onClick={() => onAcknowledge(alarm.id)}
-          className="text-xs font-medium text-accent-cyan border border-line rounded-md px-3 py-1.5 hover:bg-surface-2 transition-colors flex-shrink-0"
+          className="text-xs font-medium btn-brand border border-transparent rounded-full px-3 py-1.5 hover:bg-surface-2 transition-colors flex-shrink-0"
         >
           Acknowledge
         </button>

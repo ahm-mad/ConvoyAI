@@ -27,10 +27,10 @@ export default function Pager({
   }
 
   const btn =
-    'min-w-[26px] h-[26px] px-1.5 text-[11px] rounded border border-line text-ink-1 hover:bg-surface-2 disabled:opacity-40 disabled:hover:bg-transparent';
+    'grid h-9 min-w-9 place-items-center rounded-full px-2 text-control font-medium text-ink-1 transition-colors hover:bg-black/[0.06] disabled:opacity-40 disabled:hover:bg-transparent';
 
   return (
-    <div className="flex items-center justify-between gap-3 flex-wrap mt-4 text-[11px] text-ink-2">
+    <div className="flex items-center justify-between gap-3 flex-wrap mt-5 text-caption text-ink-2">
       <span>{total === 0 ? 'No results' : `${from}–${to} of ${total}`}</span>
 
       <div className="flex items-center gap-1">
@@ -45,7 +45,7 @@ export default function Pager({
           ) : (
             <button
               key={p}
-              className={`${btn} ${p === page ? 'bg-accent-cyan/10 text-accent-cyan border-accent-cyan/40' : ''}`}
+              className={`${btn} ${p === page ? 'btn-brand !text-white hover:!bg-transparent' : ''}`}
               onClick={() => onPage(p)}
               aria-current={p === page ? 'page' : undefined}
             >
@@ -64,7 +64,7 @@ export default function Pager({
           <select
             value={pageSize}
             onChange={e => onPageSize(Number(e.target.value))}
-            className="bg-surface-2 border border-line rounded px-1.5 py-1 text-[11px] text-ink-0"
+            className="control !py-1"
           >
             {pageSizes.map(s => (
               <option key={s} value={s}>

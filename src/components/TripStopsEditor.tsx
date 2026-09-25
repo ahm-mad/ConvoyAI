@@ -158,7 +158,7 @@ export default function TripStopsEditor({
           type="button"
           onClick={() => onChange([...stops, emptyStop()])}
           disabled={disabled}
-          className="flex items-center gap-1 text-[10px] text-accent-cyan border border-line rounded-md px-2 py-1 hover:bg-surface-2 disabled:opacity-40"
+          className="flex items-center gap-1 text-caption font-medium btn-brand border border-transparent rounded-full px-2 py-1 hover:bg-surface-2 disabled:opacity-40"
         >
           <Plus size={11} />
           Add Yard

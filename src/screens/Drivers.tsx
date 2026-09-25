@@ -331,30 +331,39 @@ function DriverRow({ driver, onClick }: { driver: any; onClick: () => void }) {
         driver.status === 'inactive' ? 'opacity-60' : ''
       }`}
     >
-      <div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-ink-0">
-            {driver.first_name} {driver.last_name}
-          </span>
-          <span
-            className={`text-micro font-semibold px-2.5 py-0.5 rounded-full ${statusColors[driver.status] || statusColors.inactive}`}
-          >
-            {driver.status}
-          </span>
-          {driver.is_license_expired && (
-            <span className="flex items-center gap-1 text-[10px] text-danger">
-              <AlertTriangle size={10} /> License expired
+      <div className="flex min-w-0 items-center gap-3">
+        <span
+          className="grid size-11 shrink-0 place-items-center rounded-card text-body font-semibold text-white"
+          style={{ background: 'var(--gradient-avatar)' }}
+          aria-hidden
+        >
+          {`${driver.first_name?.[0] ?? ''}${driver.last_name?.[0] ?? ''}`.toUpperCase() || '?'}
+        </span>
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[15px] font-semibold text-ink-0">
+              {driver.first_name} {driver.last_name}
             </span>
-          )}
-          {!driver.is_license_expired && driver.is_license_expiring_soon && (
-            <span className="flex items-center gap-1 text-[10px] text-warning">
-              <AlertTriangle size={10} /> License expiring soon
+            <span
+              className={`text-micro font-semibold px-2.5 py-0.5 rounded-full ${statusColors[driver.status] || statusColors.inactive}`}
+            >
+              {driver.status}
             </span>
-          )}
-        </div>
-        <div className="text-[11px] text-ink-2 mt-1">
-          {driver.license_class || 'No license class set'}
-          {driver.license_number && ` · ${driver.license_number}`}
+            {driver.is_license_expired && (
+              <span className="flex items-center gap-1 text-[10px] text-danger">
+                <AlertTriangle size={10} /> License expired
+              </span>
+            )}
+            {!driver.is_license_expired && driver.is_license_expiring_soon && (
+              <span className="flex items-center gap-1 text-[10px] text-warning">
+                <AlertTriangle size={10} /> License expiring soon
+              </span>
+            )}
+          </div>
+          <div className="text-[11px] text-ink-2 mt-1">
+            {driver.license_class || 'No license class set'}
+            {driver.license_number && ` · ${driver.license_number}`}
+          </div>
         </div>
       </div>
       <div className="text-[11px] text-ink-2 text-right">
@@ -397,14 +406,14 @@ function NewDriverForm({ onClose, onCreated }: { onClose?: () => void; onCreated
       <div className="flex gap-2">
         <button
           onClick={onClose}
-          className="text-xs text-ink-2 border border-line rounded-md px-3 py-1.5"
+          className="text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full px-3 py-1.5"
         >
           Cancel
         </button>
         <button
           onClick={handleCreate}
           disabled={submitting || !valid}
-          className="text-xs text-accent-cyan border border-line rounded-md px-3 py-1.5 disabled:opacity-40"
+          className="text-xs btn-brand border border-transparent rounded-full px-3 py-1.5 disabled:opacity-40"
         >
           {submitting ? 'Saving…' : 'Add Driver'}
         </button>

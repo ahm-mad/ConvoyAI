@@ -167,7 +167,7 @@ export default function FleetMap() {
           {selectedDeviceId && (
             <button
               onClick={() => setSelectedDeviceId(null)}
-              className="text-[11px] text-ink-2 hover:text-ink-0 border border-line rounded-md px-2.5 py-1"
+              className="text-caption font-medium text-ink-2 hover:text-ink-0 border border-line bg-white rounded-full px-2.5 py-1"
             >
               Clear trail
             </button>

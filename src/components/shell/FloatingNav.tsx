@@ -212,12 +212,12 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
       <button
         type="button"
         onClick={onOpenPalette}
-        className="hidden min-w-[210px] items-center gap-2.5 rounded-full bg-black/[0.05] px-3.5 py-2 text-[13px] text-ink-2 transition-colors hover:bg-black/[0.08] md:flex"
+        className="hidden shrink-0 items-center gap-2.5 rounded-full bg-black/[0.05] px-3 py-2 text-[13px] text-ink-2 transition-colors hover:bg-black/[0.08] md:flex min-[1720px]:min-w-[210px] min-[1720px]:px-3.5"
         aria-label="Open command palette"
       >
         <Search size={15} />
-        Search fleet
-        <kbd className="ml-auto rounded-md border border-line bg-white px-1.5 py-px font-mono text-[11px] text-ink-1">
+        <span className="hidden min-[1720px]:inline">Search fleet</span>
+        <kbd className="ml-auto hidden min-[1720px]:inline rounded-md border border-line bg-white px-1.5 py-px font-mono text-[11px] text-ink-1">
           ⌘K
         </kbd>
       </button>
@@ -225,16 +225,16 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
       <button
         type="button"
         onClick={onOpenCopilot}
-        className="btn-ai flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-semibold transition-transform hover:-translate-y-px"
+        className="btn-ai flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-semibold"
       >
         <Sparkles size={15} fill="currentColor" />
-        <span className="hidden sm:inline">Ask Convoy</span>
+        <span className="hidden whitespace-nowrap sm:inline">Ask Convoy</span>
       </button>
 
       <button
         type="button"
         aria-label="Notifications"
-        className="relative grid size-[38px] place-items-center rounded-full border border-line bg-white text-ink-1 transition-colors hover:bg-surface-2"
+        className="relative grid size-[38px] shrink-0 place-items-center rounded-full border border-line bg-white text-ink-1 transition-colors hover:bg-surface-2"
       >
         <Bell size={16} />
         <span className="absolute right-2 top-2 size-2 rounded-full border-2 border-white bg-gold" />
@@ -250,7 +250,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
           aria-haspopup="menu"
           aria-expanded={userMenu}
           aria-label="Account menu"
-          className="grid size-[38px] place-items-center overflow-hidden rounded-full border-2 border-white text-[13px] font-semibold text-white shadow-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
+          className="grid size-[38px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white text-[13px] font-semibold text-white shadow-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
           style={{ background: 'var(--gradient-avatar)' }}
         >
           {uploadedImage ? (
@@ -305,7 +305,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
           setUserMenu(false);
           setMobileOpen(v => !v);
         }}
-        className="grid size-[38px] place-items-center rounded-full border border-line bg-white text-ink-1 lg:hidden"
+        className="grid size-[38px] shrink-0 place-items-center rounded-full border border-line bg-white text-ink-1 lg:hidden"
       >
         {mobileOpen ? <X size={17} /> : <Menu size={17} />}
       </button>

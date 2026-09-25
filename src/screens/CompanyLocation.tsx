@@ -152,7 +152,7 @@ function CompanyLocation() {
               // Show Cancel button when checkbox is checked
               <button
                 onClick={handleCheckboxChange}
-                className="px-3 h-7 text-xs font-medium rounded-md bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
+                className="px-3 h-7 text-xs font-medium rounded-full bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
               >
                 Cancel
               </button>

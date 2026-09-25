@@ -221,7 +221,7 @@ function OverviewTab({ driver, onChanged }: { driver: any; onChanged?: () => voi
           <button
             onClick={handleUnassign}
             disabled={submitting}
-            className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-md py-1.5"
+            className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-full py-1.5"
           >
             Unassign
           </button>
@@ -243,7 +243,7 @@ function OverviewTab({ driver, onChanged }: { driver: any; onChanged?: () => voi
           <button
             onClick={handleAssign}
             disabled={submitting || !vehicleId}
-            className="text-xs text-accent-cyan border border-line rounded-md px-3 py-1.5 disabled:opacity-40"
+            className="text-xs btn-brand border border-transparent rounded-full px-3 py-1.5 disabled:opacity-40"
           >
             Assign
           </button>
@@ -357,14 +357,14 @@ function IncidentsTab({
           <div className="flex gap-2">
             <button
               onClick={() => setShowForm(false)}
-              className="flex-1 text-xs text-ink-2 border border-line rounded-md py-1.5"
+              className="flex-1 text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full py-1.5"
             >
               Cancel
             </button>
             <button
               onClick={handleLog}
               disabled={submitting || !type.trim() || !date}
-              className="flex-1 text-xs text-accent-cyan border border-line rounded-md py-1.5 disabled:opacity-40"
+              className="flex-1 text-xs btn-brand border border-transparent rounded-full py-1.5 disabled:opacity-40"
             >
               {submitting ? 'Saving…' : 'Log Incident'}
             </button>
@@ -373,7 +373,7 @@ function IncidentsTab({
       ) : (
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 mt-3"
+          className="flex items-center gap-1.5 text-xs btn-brand border border-transparent rounded-full px-2.5 py-1.5 mt-3"
         >
           <Plus size={12} /> Log Incident
         </button>
