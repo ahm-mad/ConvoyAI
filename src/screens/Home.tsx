@@ -22,7 +22,7 @@ const SkeletonCard = () => (
 );
 
 const SkeletonTableHeader = () => (
-  <div className="px-4 py-2.5 border-b border-line-soft bg-surface-2">
+  <div className="px-4 py-3 border-b border-line-soft bg-white/50">
     <div className="grid grid-cols-2 gap-x-4">
       <div className="h-2.5 bg-surface-3 rounded w-16 animate-pulse"></div>
       <div className="h-2.5 bg-surface-3 rounded w-20 ml-auto animate-pulse"></div>
@@ -45,7 +45,7 @@ const SkeletonTableRow = () => (
 );
 
 const SkeletonTable = ({ rows = 5 }: { rows?: number }) => (
-  <div className="bg-surface-1 rounded-md border border-line-soft overflow-hidden">
+  <div className="glass overflow-hidden">
     <SkeletonTableHeader />
     <div>
       {Array.from({ length: rows }).map((_, index) => (
@@ -186,46 +186,32 @@ const Home = () => {
       <div className="w-full space-y-6">
         {/* Instrument strip */}
         <div>
-          <h1 className="text-[13px] font-semibold text-ink-0 mb-3 font-display">
-            {t('Home.title')}
-          </h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-line-soft rounded-md overflow-hidden bg-surface-1">
-            <div className="p-3 border-r border-line-soft last:border-r-0">
-              <div className="text-[10px] uppercase tracking-wider text-ink-2 mb-1.5">
-                {t('Home.totalDevices')}
-              </div>
-              <div className="text-xl font-mono font-medium text-ink-0">
-                {dashboardData.total_devices}
-              </div>
+          <h1 className="page-title mb-5">{t('Home.title')}</h1>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <div className="glass p-5">
+              <div className="eyebrow mb-2">{t('Home.totalDevices')}</div>
+              <div className="kpi-value text-ink-0">{dashboardData.total_devices}</div>
             </div>
-            <div className="p-3 border-r border-line-soft last:border-r-0">
-              <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-ink-2 mb-1">
+            <div className="glass p-5">
+              <div className="flex items-center gap-1.5 eyebrow mb-2">
                 <div className="w-1.5 h-1.5 bg-accent-green rounded-full shadow-[0_0_4px_var(--color-accent-green)]"></div>
                 {t('Home.onlineDevices')}
               </div>
-              <div className="text-xl font-mono font-medium text-accent-green">
-                {dashboardData.online_devices}
-              </div>
-              <div className="text-[10px] text-ink-2 mt-0.5">{t('Home.onlineDevicesHint')}</div>
+              <div className="kpi-value text-accent-green">{dashboardData.online_devices}</div>
+              <div className="card-subtitle mt-1">{t('Home.onlineDevicesHint')}</div>
             </div>
-            <div className="p-3 border-r border-line-soft last:border-r-0">
-              <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-ink-2 mb-1">
+            <div className="glass p-5">
+              <div className="flex items-center gap-1.5 eyebrow mb-2">
                 <div className="w-1.5 h-1.5 bg-ink-2 rounded-full"></div>
                 {t('Home.offlineDevices')}
               </div>
-              <div className="text-xl font-mono font-medium text-ink-0">
-                {dashboardData.offline_devices}
-              </div>
-              <div className="text-[10px] text-ink-2 mt-0.5">{t('Home.offlineDevicesHint')}</div>
+              <div className="kpi-value text-ink-0">{dashboardData.offline_devices}</div>
+              <div className="card-subtitle mt-1">{t('Home.offlineDevicesHint')}</div>
             </div>
-            <div className="p-3">
-              <div className="text-[10px] uppercase tracking-wider text-ink-2 mb-1">
-                {t('Home.activeInLast24h')}
-              </div>
-              <div className="text-xl font-mono font-medium text-accent-cyan">
-                {dashboardData.active_in_last_24h}
-              </div>
-              <div className="text-[10px] text-ink-2 mt-0.5">{t('Home.activeInLast24hHint')}</div>
+            <div className="glass p-5">
+              <div className="eyebrow mb-2">{t('Home.activeInLast24h')}</div>
+              <div className="kpi-value text-accent-cyan">{dashboardData.active_in_last_24h}</div>
+              <div className="card-subtitle mt-1">{t('Home.activeInLast24hHint')}</div>
             </div>
           </div>
         </div>
@@ -235,12 +221,10 @@ const Home = () => {
           {/* Recently Active Devices */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <h3 className="text-xs font-semibold text-ink-0 uppercase tracking-wider">
-                {t('Home.recentlyActiveDevices')}
-              </h3>
+              <h3 className="card-title">{t('Home.recentlyActiveDevices')}</h3>
             </div>
-            <div className="bg-surface-1 rounded-md border border-line-soft overflow-hidden">
-              <div className="px-4 py-2.5 border-b border-line-soft bg-surface-2">
+            <div className="glass overflow-hidden">
+              <div className="px-4 py-3 border-b border-line-soft bg-white/50">
                 <div className="grid grid-cols-2 gap-x-4">
                   <div className="text-[10px] font-medium text-ink-2 uppercase tracking-wider">
                     {t('Home.table.device')}
@@ -254,7 +238,7 @@ const Home = () => {
                 data={dashboardData.recently_active_devices}
                 columns={columns}
                 enablePagination={false}
-                className="border-0 rounded-none"
+                className="!rounded-none !border-0 !bg-transparent !shadow-none"
                 renderCell={renderDeviceCell}
               />
             </div>
@@ -262,11 +246,9 @@ const Home = () => {
 
           {/* Offline Devices */}
           <div>
-            <h3 className="text-xs font-semibold text-ink-0 uppercase tracking-wider mb-3">
-              {t('Home.offlineDevicesTitle')}
-            </h3>
-            <div className="bg-surface-1 rounded-md border border-line-soft overflow-hidden">
-              <div className="px-4 py-2.5 border-b border-line-soft bg-surface-2">
+            <h3 className="card-title mb-3">{t('Home.offlineDevicesTitle')}</h3>
+            <div className="glass overflow-hidden">
+              <div className="px-4 py-3 border-b border-line-soft bg-white/50">
                 <div className="grid grid-cols-2 gap-x-4">
                   <div className="text-[10px] font-medium text-ink-2 uppercase tracking-wider">
                     {t('Home.table.device')}
@@ -281,7 +263,7 @@ const Home = () => {
                 columns={columns}
                 enablePagination={true}
                 itemsPerPage={4}
-                className="border-0 rounded-none"
+                className="!rounded-none !border-0 !bg-transparent !shadow-none"
                 renderCell={renderDeviceCell}
               />
             </div>

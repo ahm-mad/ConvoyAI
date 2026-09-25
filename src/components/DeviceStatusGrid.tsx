@@ -75,8 +75,8 @@ export default function DeviceStatusGrid() {
     <div className="flex flex-col p-5 h-full">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-[15px] font-semibold text-ink-0 font-display">Device Status</h1>
-          <p className="text-xs text-ink-2 mt-0.5">
+          <h1 className="page-title">Device Status</h1>
+          <p className="page-subtitle mt-1">
             {pagination.total ?? devices.length} devices · showing status, not individual attribute
             widgets
           </p>
