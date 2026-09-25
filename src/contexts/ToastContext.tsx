@@ -17,10 +17,12 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             wordBreak: 'break-word', // breaks long words
             whiteSpace: 'normal', // allows wrapping
             maxWidth: '400px', // prevent toast being too wide
-            background: 'var(--color-surface-2)',
+            background: 'var(--glass-bg-strong)',
+            backdropFilter: 'var(--glass-blur)',
+            borderRadius: 'var(--radius-card)',
             color: 'var(--color-ink-0)',
             border: '1px solid var(--color-line)',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+            boxShadow: 'var(--shadow-glass)',
           },
           success: {
             iconTheme: {

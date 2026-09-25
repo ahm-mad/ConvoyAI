@@ -260,11 +260,7 @@ export default function YardLayoutEditor({
       {yard && (
         <div className="flex items-center justify-between gap-3 px-5 py-2 border-b border-line-soft">
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setEditingYard(v => !v)}
-              className="text-[11px] text-accent-cyan border border-line rounded px-2.5 py-1 hover:bg-surface-2"
-            >
+            <button type="button" onClick={() => setEditingYard(v => !v)} className="btn-soft">
               {editingYard ? 'Back to layout' : 'Edit yard'}
             </button>
             {yard.radius_m != null && (
@@ -278,7 +274,7 @@ export default function YardLayoutEditor({
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="text-[11px] text-accent-cyan border border-line rounded px-2.5 py-1 hover:bg-surface-2 disabled:opacity-40"
+                  className="btn-soft disabled:opacity-40"
                 >
                   {uploading ? 'Uploading…' : 'Replace layout image'}
                 </button>

@@ -121,6 +121,33 @@
     outline: var(--focus-ring);
   }
 
+  /* Small pill action buttons used in list rows (Edit / Disable / Delete ...). */
+  .btn-soft {
+    border: 1px solid var(--color-line);
+    background: var(--color-surface-1);
+    color: var(--color-ink-1);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    font-weight: var(--font-weight-medium);
+    padding: 0.25rem 0.75rem;
+    transition:
+      background var(--motion-fast) var(--ease-standard),
+      color var(--motion-fast) var(--ease-standard);
+  }
+  .btn-soft:hover {
+    background: var(--color-brand-wash);
+    color: var(--color-brand-ink);
+  }
+  .btn-soft-danger {
+    color: var(--color-danger);
+    border-color: color-mix(in srgb, var(--color-danger) 35%, transparent);
+  }
+  .btn-soft-danger:hover {
+    background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+    color: var(--color-danger);
+  }
+
   /* ---- Layout ---- */
   .page-container {
     width: 100%;

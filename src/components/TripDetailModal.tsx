@@ -520,11 +520,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
               >
                 {submitting ? 'Deleting…' : 'Delete trip'}
               </button>
-              <button
-                type="button"
-                onClick={() => setConfirmDelete(false)}
-                className="text-[11px] text-ink-2 border border-line rounded px-2.5 py-1"
-              >
+              <button type="button" onClick={() => setConfirmDelete(false)} className="btn-soft">
                 Keep
               </button>
             </div>

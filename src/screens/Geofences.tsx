@@ -148,8 +148,8 @@ export default function Geofences() {
   ];
 
   return (
-    <div className="flex p-5 h-full gap-5">
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+    <div className="flex pt-3 pb-12 gap-6">
+      <div className="flex-1 flex flex-col min-w-0">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="page-title">Geofences</h1>
@@ -289,7 +289,7 @@ export default function Geofences() {
                       <MapPin size={13} className="text-accent-cyan" />
                       <span className="text-sm text-ink-0">{g.name}</span>
                       {!g.is_active && (
-                        <span className="text-[10px] text-ink-2 bg-surface-3 px-1.5 py-0.5 rounded">
+                        <span className="text-micro font-semibold text-ink-1 bg-surface-2 px-2.5 py-0.5 rounded-full">
                           inactive
                         </span>
                       )}
@@ -303,20 +303,14 @@ export default function Geofences() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setEditingId(editingId === g.id ? null : g.id)}
-                      className="text-[11px] text-accent-cyan border border-line rounded-md px-2.5 py-1"
+                      className="btn-soft"
                     >
                       {editingId === g.id ? 'Close' : 'Edit'}
                     </button>
-                    <button
-                      onClick={() => handleToggleActive(g)}
-                      className="text-[11px] text-ink-2 border border-line rounded-md px-2.5 py-1"
-                    >
+                    <button onClick={() => handleToggleActive(g)} className="btn-soft">
                       {g.is_active ? 'Disable' : 'Enable'}
                     </button>
-                    <button
-                      onClick={() => handleDelete(g)}
-                      className="text-[11px] text-danger border border-danger/40 rounded-md px-2.5 py-1"
-                    >
+                    <button onClick={() => handleDelete(g)} className="btn-soft btn-soft-danger">
                       Delete
                     </button>
                   </div>

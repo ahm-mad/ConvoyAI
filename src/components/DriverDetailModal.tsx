@@ -164,7 +164,7 @@ function OverviewTab({ driver, onChanged }: { driver: any; onChanged?: () => voi
           <button
             type="button"
             onClick={() => setEditing(true)}
-            className="shrink-0 whitespace-nowrap text-[11px] text-accent-cyan border border-line rounded px-2.5 py-1 hover:bg-surface-2"
+            className="shrink-0 whitespace-nowrap btn-soft"
           >
             Edit driver
           </button>

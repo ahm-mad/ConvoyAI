@@ -85,11 +85,7 @@ export default function DeactivateControls({
         >
           {submitting ? 'Deactivating…' : 'Confirm'}
         </button>
-        <button
-          type="button"
-          onClick={() => setConfirming(false)}
-          className="text-[11px] text-ink-2 border border-line rounded px-2.5 py-1"
-        >
+        <button type="button" onClick={() => setConfirming(false)} className="btn-soft">
           Cancel
         </button>
       </div>
