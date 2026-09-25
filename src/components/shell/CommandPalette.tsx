@@ -107,7 +107,7 @@ export default function CommandPalette({ open, onOpenChange, onAsk }: Props) {
                       }}
                       className="flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-[13.5px] text-ink-0 data-[selected=true]:bg-brand-wash/70"
                     >
-                      <span className="grid size-8 place-items-center rounded-xl bg-brand-wash text-brand">
+                      <span className="grid size-8 place-items-center rounded-xl bg-brand-wash text-brand icon-gradient">
                         <Icon size={16} />
                       </span>
                       <span className="font-medium">{l.label}</span>

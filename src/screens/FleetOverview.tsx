@@ -503,7 +503,7 @@ export default function FleetOverview() {
         {/* KPI row */}
         <div
           ref={kpiGrid.ref}
-          className="grid gap-4"
+          className="grid gap-4 motion-stagger"
           style={{ gridTemplateColumns: `repeat(${kpiGrid.cols}, minmax(0, 1fr))` }}
         >
           {kpis.map(k => (

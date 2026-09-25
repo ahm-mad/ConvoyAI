@@ -139,6 +139,7 @@ export default function TripRouteLayers({ route }: { route: any }) {
             weight: 2,
             opacity: 0.7,
             dashArray: '6 6',
+            className: 'cv-route-flow',
           }}
         />
       )}

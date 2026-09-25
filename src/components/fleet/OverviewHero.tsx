@@ -159,6 +159,20 @@ export default function OverviewHero({
             ))}
             {fresh.map((p, i) => (
               <CircleMarker
+                key={`ping${i}`}
+                center={[Number(p.latitude), Number(p.longitude)]}
+                radius={12}
+                className="cv-ping"
+                pathOptions={{
+                  stroke: false,
+                  fillColor: token('--color-brand'),
+                  fillOpacity: 0.4,
+                  interactive: false,
+                }}
+              />
+            ))}
+            {fresh.map((p, i) => (
+              <CircleMarker
                 key={`f${i}`}
                 center={[Number(p.latitude), Number(p.longitude)]}
                 radius={9}

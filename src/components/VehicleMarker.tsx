@@ -10,9 +10,12 @@ import { token } from '@lib/design/tokens';
  * real position freshness (recorded_at recency), not a generic pin for
  * every vehicle regardless of state.
  */
-function vehicleIcon(color: string) {
+function vehicleIcon(color: string, live = false) {
+  const ring = live
+    ? `<span class="cv-ping" style="position:absolute;left:1px;bottom:-4px;width:24px;height:24px;border-radius:50%;background:${color};opacity:.35;pointer-events:none"></span>`
+    : '';
   const svg = `
-    <svg width="26" height="34" viewBox="0 0 26 34" xmlns="http://www.w3.org/2000/svg">
+    ${ring}<svg width="26" height="34" viewBox="0 0 26 34" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 0C5.8 0 0 5.8 0 13c0 9.5 13 21 13 21s13-11.5 13-21C26 5.8 20.2 0 13 0z" fill="${color}" stroke="${token('--color-surface-1')}" stroke-width="1"/>
       <circle cx="13" cy="13" r="5.5" fill="${token('--color-surface-1')}"/>
       <path d="M9.5 13.5l2.2 2.2 4.3-4.7" stroke="${color}" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -69,7 +72,7 @@ export default function VehicleMarker({
   return (
     <Marker
       position={[position.latitude, position.longitude] as [number, number]}
-      icon={vehicleIcon(color)}
+      icon={vehicleIcon(color, fresh)}
       eventHandlers={{ click: () => onClick?.(position) }}
     >
       <Popup>

@@ -264,7 +264,7 @@ export default function Yards() {
       )}
 
       {!isLoading && view.items.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-3 motion-stagger">
           {view.items.map(y => (
             <SelectableRow
               key={y.id}
@@ -279,7 +279,7 @@ export default function Yards() {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="size-11 rounded-card bg-brand-wash text-brand flex items-center justify-center flex-shrink-0">
+                  <div className="size-11 rounded-card bg-brand-wash text-brand icon-gradient flex items-center justify-center flex-shrink-0">
                     <Warehouse size={15} className="text-ink-2" />
                   </div>
                   <div>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import FloatingNav from '@components/shell/FloatingNav';
 import CommandPalette from '@components/shell/CommandPalette';
 import CopilotPanel from '@components/shell/CopilotPanel';
@@ -9,6 +10,7 @@ import WelcomeIntroModal from '@components/WelcomeIntroModal';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const { user } = useUser();
+  const pathname = usePathname();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [copilotOpen, setCopilotOpen] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
@@ -58,7 +60,9 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         onOpenPalette={() => setPaletteOpen(true)}
         onOpenCopilot={() => setCopilotOpen(true)}
       />
-      <main className="page-container flex-1">{children}</main>
+      <main key={(pathname ?? '').split('/')[1]} className="page-container motion-rise flex-1">
+        {children}
+      </main>
       <CommandPalette
         open={paletteOpen}
         onOpenChange={setPaletteOpen}

@@ -40,6 +40,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
+        <svg width="0" height="0" aria-hidden focusable="false" style={{ position: 'absolute' }}>
+          <defs>
+            <linearGradient id="cv-grad-brand" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" style={{ stopColor: 'var(--color-brand-bright)' }} />
+              <stop offset="1" style={{ stopColor: 'var(--color-gold)' }} />
+            </linearGradient>
+            <linearGradient id="cv-grad-ai" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" style={{ stopColor: 'var(--color-ai)' }} />
+              <stop offset="1" style={{ stopColor: 'var(--color-ai-bright)' }} />
+            </linearGradient>
+          </defs>
+        </svg>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -34,7 +34,7 @@ export default function AuthShell({ children }: { children: ReactNode }) {
 
               return (
                 <li key={p.text} className="flex items-center gap-3 text-body text-ink-1">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-control bg-brand-wash text-brand">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-control bg-brand-wash text-brand icon-gradient">
                     <Icon size={17} />
                   </span>
                   {p.text}
@@ -45,9 +45,9 @@ export default function AuthShell({ children }: { children: ReactNode }) {
         </div>
 
         <div className="relative flex items-end gap-4">
-          <div className="glass w-56 p-5">
+          <div className="glass motion-float w-56 p-5">
             <div className="flex items-center gap-2 text-caption text-ink-2">
-              <span className="grid size-7 place-items-center rounded-control bg-brand-wash text-brand">
+              <span className="grid size-7 place-items-center rounded-control bg-brand-wash text-brand icon-gradient">
                 <RouteIcon size={14} />
               </span>
               Fleet utilisation
@@ -57,7 +57,10 @@ export default function AuthShell({ children }: { children: ReactNode }) {
             </div>
             <div className="mt-2 text-caption font-semibold text-success">▲ 4.2% vs last week</div>
           </div>
-          <div className="glass-strong w-64 p-4">
+          <div
+            className="glass-strong motion-float w-64 p-4"
+            style={{ ['--delay' as string]: '1.2s' }}
+          >
             <div className="flex items-center gap-2 text-caption font-semibold text-ai-ink">
               <span className="btn-ai grid size-7 place-items-center rounded-control">
                 <Sparkles size={13} fill="currentColor" />

@@ -41,7 +41,7 @@ export default function CopilotPanel({ open, onClose, pendingQuestion, onConsume
         />
         <header className="relative flex items-center gap-3 px-5 pb-3 pt-5">
           <div
-            className="relative size-10 rounded-full shadow-ai"
+            className="relative size-10 rounded-full shadow-ai motion-spin-slow"
             style={{ background: 'var(--gradient-ai-orb)' }}
           >
             <span

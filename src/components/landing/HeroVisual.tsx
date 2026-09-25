@@ -106,7 +106,10 @@ export default function HeroVisual() {
             ))}
           </div>
 
-          <div className="glass absolute bottom-5 left-5 hidden w-[300px] p-4 sm:block">
+          <div
+            className="glass motion-float absolute bottom-5 left-5 hidden w-[300px] p-4 sm:block"
+            style={{ ['--delay' as string]: '0.7s' }}
+          >
             <div className="flex items-center justify-between">
               <b className="text-control text-ink-0">KHI-2291 · Hino 500</b>
               <span className="rounded-full bg-success/15 px-2.5 py-0.5 text-micro font-semibold text-online-text">
@@ -130,7 +133,7 @@ export default function HeroVisual() {
             </div>
           </div>
 
-          <div className="glass absolute right-5 top-5 hidden w-[230px] p-5 md:block">
+          <div className="glass motion-float absolute right-5 top-5 hidden w-[230px] p-5 md:block">
             <div className="text-caption text-ink-2">Fleet utilisation</div>
             <div className="kpi-value mt-2">
               87.4<span className="text-body text-ink-2">%</span>
@@ -138,7 +141,10 @@ export default function HeroVisual() {
             <div className="mt-1 text-caption font-semibold text-success">▲ 4.2% vs last week</div>
           </div>
 
-          <div className="glass-strong absolute bottom-5 right-5 hidden w-[300px] p-4 md:block">
+          <div
+            className="glass-strong motion-float absolute bottom-5 right-5 hidden w-[300px] p-4 md:block"
+            style={{ ['--delay' as string]: '1.4s' }}
+          >
             <div className="flex items-center gap-2 text-caption font-semibold text-ai-ink">
               <span className="btn-ai grid size-7 place-items-center rounded-control">
                 <Sparkles size={13} fill="currentColor" />

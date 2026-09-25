@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import BrandMark from '@components/shell/BrandMark';
 import HeroVisual from './HeroVisual';
+import CountUp from '@components/ui/CountUp';
 
 const NAV = [
   ['Product', '#product'],
@@ -107,21 +108,34 @@ export default function Landing() {
       </header>
 
       <main>
-        <section className="page-container pb-16 pt-16 text-center md:pt-24">
-          <div className="glass-strong glass-pill mx-auto inline-flex items-center gap-2 px-4 py-2 text-caption font-medium text-ink-1">
+        <section className="page-container relative pb-16 pt-16 text-center md:pt-24">
+          <div
+            className="bg-grid-fade pointer-events-none absolute inset-x-0 top-0 h-[560px]"
+            aria-hidden
+          />
+          <div className="glass-strong glass-pill motion-rise relative mx-auto inline-flex items-center gap-2 px-4 py-2 text-caption font-medium text-ink-1">
             <span className="btn-ai grid size-5 place-items-center rounded-full">
               <Sparkles size={11} fill="currentColor" />
             </span>
             Automated fleet management with an AI co-pilot
           </div>
-          <h1 className="page-display mx-auto mt-6 max-w-[900px]">
+          <h1
+            className="page-display motion-rise relative mx-auto mt-6 max-w-[900px]"
+            style={{ ['--delay' as string]: '90ms' }}
+          >
             Fleet management that <i className="text-brand">thinks ahead.</i>
           </h1>
-          <p className="mx-auto mt-6 max-w-[620px] text-[1.0625rem] leading-7 text-ink-1">
+          <p
+            className="motion-rise relative mx-auto mt-6 max-w-[620px] text-[1.0625rem] leading-7 text-ink-1"
+            style={{ ['--delay' as string]: '180ms' }}
+          >
             Track vehicles, dispatch trips and control costs in one beautiful workspace, while
             ConvoyAI spots risk, waste and maintenance before they cost you.
           </p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <div
+            className="motion-rise relative mt-9 flex flex-wrap items-center justify-center gap-3"
+            style={{ ['--delay' as string]: '270ms' }}
+          >
             <Link
               href="/register"
               className="btn-brand inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-body font-semibold transition-transform hover:-translate-y-0.5"
@@ -144,7 +158,9 @@ export default function Landing() {
           <div className="glass grid grid-cols-2 gap-y-8 p-8 md:grid-cols-4">
             {STATS.map(([v, l]) => (
               <div key={l} className="text-center">
-                <div className="kpi-value">{v}</div>
+                <div className="kpi-value">
+                  <CountUp value={v} />
+                </div>
                 <div className="mt-2 text-caption text-ink-2">{l}</div>
               </div>
             ))}
@@ -156,12 +172,12 @@ export default function Landing() {
             <div className="eyebrow">Everything in one place</div>
             <h2 className="page-title mt-3">One workspace for your whole fleet</h2>
           </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="motion-stagger mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map(f => {
               const Icon = f.icon;
               return (
                 <article key={f.title} className="glass card-lift p-7">
-                  <span className="brand-gradient-bg grid size-12 place-items-center rounded-card shadow-glow">
+                  <span className="brand-gradient-bg motion-glow grid size-12 place-items-center rounded-card shadow-glow">
                     <Icon size={22} className="text-white" />
                   </span>
                   <h3 className="card-title mt-5">{f.title}</h3>
