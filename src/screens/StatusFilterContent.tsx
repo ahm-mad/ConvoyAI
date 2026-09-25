@@ -1,7 +1,7 @@
+import { Close as CloseIcon } from '@components/ui/icons';
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
 import GlobalRadioGroup from '../components/GlobalRadioGroup';
-import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
 
 interface StatusFilterContentProps {

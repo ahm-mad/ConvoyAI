@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  CheckCircleOutline as CheckCircleOutlineIcon,
+  HighlightOff as HighlightOffIcon,
+} from '@components/ui/icons';
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@lib/router-compat';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import GlobalInput from '../components/Input';
 import TextArea from '../forms/FormComponents/TextArea';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Buttton from '../components/Button';
 import { ProductConfigurationSchema } from '../validation/ProductConfigurationValidation';
 import { useToast } from '@contexts/ToastContext';

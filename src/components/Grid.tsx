@@ -1,4 +1,5 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { DragIndicator as DragIndicatorIcon } from '@components/ui/icons';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { GridStack } from 'gridstack';
 import 'gridstack/dist/gridstack.min.css';
@@ -16,7 +17,6 @@ import { useSocket } from '@contexts/SocketContext';
 import { useUser } from '@contexts/UserContext';
 import SpinLoader from './SpinLoader';
 import { Widgets, Forms, getWidgetConfig } from '@utils/DynamicImport';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import WidgetDashboardDemo from '../ConvoyDemo/WidgetDashboardDemo';
 import { isFirstDemo } from '@utils/DemoHelper';
 

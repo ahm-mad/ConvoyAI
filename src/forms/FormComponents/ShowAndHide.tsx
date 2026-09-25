@@ -1,4 +1,5 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { Delete as DeleteIcon } from '@components/ui/icons';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import GlobalInput from '../../components/Input';
@@ -8,7 +9,6 @@ import SelectRadix from '@components/Select';
 import GlobalToggle from './ToggleBtn';
 import { useTranslation } from 'react-i18next';
 import { get } from '@utils/apiHelper';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { mapExtractedKeys } from '@utils/mapExtractedKeys';
 import IconWrapper, { iconMap } from '@utils/ReactIconDynamicImport';
 import AddBtnIcon from '../../assets/icons/MUIicons/AddBtnIcon';

@@ -1,7 +1,7 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { Close as CloseIcon } from '@components/ui/icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CloseIcon from '@mui/icons-material/Close';
 import SearchField from './SearchField';
 import CheckBox from './CheckBox';
 

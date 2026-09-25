@@ -1,4 +1,5 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { Delete as DeleteIcon } from '@components/ui/icons';
 import React, { useState, useEffect, Fragment } from 'react';
 
 // import CancelIcon from '@assets/icons/ReactIcon/CloesIcon';
@@ -14,7 +15,6 @@ import { Controller, useForm, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ValueValidation } from '../../validation/ValueValidation';
 import ShowAndHide from '../FormComponents/ShowAndHide';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddBtnIcon from '../../assets/icons/MUIicons/AddBtnIcon';
 
 import { useTranslation } from 'react-i18next';

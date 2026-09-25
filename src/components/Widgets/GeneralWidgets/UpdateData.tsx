@@ -1,5 +1,5 @@
+import { Analytics as AnalyticsIcon } from '@components/ui/icons';
 import React from 'react';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
 
 const UpdateData = ({
   border_And_bg_color,

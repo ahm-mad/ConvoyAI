@@ -1,4 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  ChevronRight as ChevronRightIcon,
+  ExpandMore as ExpandMoreIcon,
+  Add as AddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Map as MapIcon,
+  Layers as LayersIcon,
+} from '@components/ui/icons';
 import { useEffect, useState } from 'react';
 import { Tree, ConfigProvider, theme as antdTheme } from 'antd';
 import { useModal } from '@contexts/ModalContext';
@@ -8,13 +17,6 @@ import CustomButton from '@components/Button';
 import AddEditEntityModal from '@components/AddEditEntityModal';
 import { transformForAntdTree, transformForWebglBuilding } from '@utils/DataFormatter';
 import { IconMapper } from '@utils/IconMapper';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MapIcon from '@mui/icons-material/Map';
-import LayersIcon from '@mui/icons-material/Layers';
 import FloorPlanEditor from '@components/FloorPlanEditor';
 import BuildingMultiFloor3DViewer from '@components/BuildingMultiFloor3DViewer';
 import FlowChart from '@components/FlowChart';
