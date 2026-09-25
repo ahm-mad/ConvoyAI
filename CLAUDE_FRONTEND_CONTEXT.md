@@ -1,5 +1,7 @@
 # CLAUDE_FRONTEND_CONTEXT.md — FE-ConvoyAI Handoff Document
 
+> **Naming note (2026-09-26):** this project was renamed from ConvoyAI to **ConvoyAI** (task T-001). Older names in this document (ConvoyAI, FE-ConvoyAI, ConvoyAIFrontend, example.com hosts) are kept as history.
+
 > ## ⚠️ ADDENDUM (2026-09-09): this doc predates the Next.js + TypeScript migration
 >
 > The project was migrated from **React 19 + Vite 6 (SPA, react-router)** to
@@ -103,9 +105,9 @@ Full dependency list verified directly from `package.json` at the time of writin
 
 ```
 VITE_API_URL=https://api.example.com/          # real Laravel backend base URL (trailing slash matters, see §5)
-VITE_PUSHER_KEY=098d674314cb128d59a1
+VITE_PUSHER_KEY=<PUSHER_KEY_REDACTED>
 VITE_PUSHER_CLUSTER=ap2
-VITE_MAPTILER_KEY=YqZKyPcryZaCxduve1FH
+VITE_MAPTILER_KEY=<MAPTILER_KEY_REDACTED>
 ```
 
 A commented-out line shows a local backend option: `# VITE_API_URL=http://localhost:8800/`.
@@ -520,7 +522,7 @@ Single guard point: `AuthWrapper.jsx` (`isLoggedIn` check → redirect `/login`)
 - **Demo-mode bootstrap** (`main.jsx`, before React renders): if `localStorage.user.isDemo === true`, calls `setupDemoMode(true)` (starts the MSW worker + seeds Dexie if empty) then `SimulationEngine.resumeAll()` — this all happens **before** `root.render()`, so the fake backend is guaranteed to be intercepting requests before any component mounts and fires its first query.
 - **Global state**: no Redux/Zustand store actually observed in use despite `zustand` being a dependency — Context + local component `useState` covers everything this session encountered. If you find an actual zustand store somewhere, that would update this note.
 - **TanStack Query cache**: default `QueryClient` (from `reactQueryConfig.js`), no custom cache times/staleTime overrides observed globally; individual queries override via the `options` param to `useSimpleQuery` (e.g. `refetchInterval`, `enabled`).
-- **Persistence/localStorage keys observed**: `token`, `user` (JSON), `convoyai-theme`. Fake-backend/demo state itself lives in **IndexedDB** (`DemoConvoyAIDatabase`, via Dexie), not localStorage — clearing localStorage (e.g. logout) does **not** clear the demo IndexedDB, so demo data persists across logout/login cycles for the same browser profile unless IndexedDB is explicitly cleared. Worth knowing if a "demo data looks stale/weird" bug report comes in — the fix might be clearing IndexedDB (dev tools → Application → IndexedDB → delete `DemoConvoyAIDatabase`), not a code bug.
+- **Persistence/localStorage keys observed**: `token`, `user` (JSON), `convoyai-theme`. Fake-backend/demo state itself lives in **IndexedDB** (`DemoConvoyDatabase`, via Dexie), not localStorage — clearing localStorage (e.g. logout) does **not** clear the demo IndexedDB, so demo data persists across logout/login cycles for the same browser profile unless IndexedDB is explicitly cleared. Worth knowing if a "demo data looks stale/weird" bug report comes in — the fix might be clearing IndexedDB (dev tools → Application → IndexedDB → delete `DemoConvoyDatabase`), not a code bug.
 - **Important state dependency**: `LeftSidebar.jsx` receives `dashboardData` as a prop (the per-user dashboard list for the Dashboard section) — this implies some parent component (likely `AuthLayout.jsx`) fetches the dashboard list and passes it down; not traced further in this session.
 
 ---
@@ -609,7 +611,7 @@ A practical map — not exhaustive, but the highest-leverage files for orienting
 - **Don't edit `styles/global.css` expecting it to affect the live theme.** It won't (mostly). Edit `src/index.css`.
 - **Vite path aliases live in two files.** `vite.config.js` and `jsconfig.json`. Adding an alias to only one will cause a mismatch between what the editor resolves and what actually builds.
 - **The demo fake backend must stay in sync with real endpoint shapes.** If the real backend's response shape for an endpoint changes, the corresponding MSW handler in `handlers.js`/`fleetControllers.js`/`controllers.js` needs a matching update, or demo mode will silently diverge from reality. There is no automated contract test enforcing this — it's manual discipline only.
-- **IndexedDB demo data persists across logout/login.** If a demo-mode bug report doesn't make sense given the current code, check whether the browser's `DemoConvoyAIDatabase` IndexedDB is stale (e.g. from before a schema change) before assuming it's a code bug. A Dexie version bump (§8) handles schema _additions_ gracefully, but if you ever need to change an _existing_ field's meaning, you may need a version-upgrade migration function (Dexie supports `.upgrade()` callbacks) — none exist yet in this codebase, so there's no established pattern to copy; you'd be introducing one for the first time.
+- **IndexedDB demo data persists across logout/login.** If a demo-mode bug report doesn't make sense given the current code, check whether the browser's `DemoConvoyDatabase` IndexedDB is stale (e.g. from before a schema change) before assuming it's a code bug. A Dexie version bump (§8) handles schema _additions_ gracefully, but if you ever need to change an _existing_ field's meaning, you may need a version-upgrade migration function (Dexie supports `.upgrade()` callbacks) — none exist yet in this codebase, so there's no established pattern to copy; you'd be introducing one for the first time.
 - **`react-query`'s cache-busting pattern here is manual `refetch()`, not `invalidateQueries`.** Introducing `invalidateQueries` in one place while everything else uses passed-down `refetch` callbacks will create inconsistent refresh behavior. Match the existing pattern.
 - **MSW route registration order can matter** for overlapping dynamic/static paths at the same depth (§8) — not currently an actual bug anywhere in this repo, but a real class of mistake to watch for when adding new mock routes.
 - **`npm run build` may need a larger Node heap in constrained environments** (this session needed `--max-old-space-size=6144` in its sandbox). If you hit an OOM during build and your machine has plenty of RAM, this is a Vite/Rollup memory-tuning issue, not a code problem — try `node --max-old-space-size=<N> node_modules/.bin/vite build`.
