@@ -1,11 +1,14 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 //assets icons
-import BuildingIcon from '@mui/icons-material/Business';
-import FactoryIcon from '@mui/icons-material/Factory';
-import AgricultureIcon from '@mui/icons-material/Agriculture';
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
-import CategoryIcon from '@mui/icons-material/Category'; // Fallback general icon
+import {
+  Business as BuildingIcon,
+  Factory as FactoryIcon,
+  PrecisionManufacturing as PrecisionManufacturingIcon,
+  DirectionsBoat as DirectionsBoatIcon,
+  Agriculture as AgricultureIcon,
+  Category as CategoryIcon,
+} from '@components/ui/icons';
+// Fallback general icon
 //widget icons
 import waterleak from '@assets/images/waterLeak.webp';
 import temperature from '@assets/images/temperature.webp';

@@ -1,9 +1,8 @@
+import { Analytics as AnalyticsIcon, NotificationsActive as ErrorIcon } from '@components/ui/icons';
 import React from 'react';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { IoSettingsOutline } from 'react-icons/io5';
 // import WarningIcon from '@mui/icons-material/Warning';
 // import ErrorIcon from '@mui/icons-material/Error';
-import ErrorIcon from '@mui/icons-material/NotificationsActive';
 
 const WidgetInitialDiv = ({
   InitialDivClassName = 'h-full w-full border border-line-soft bg-surface-1 rounded-md overflow-hidden  p-2',

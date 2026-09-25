@@ -1,11 +1,13 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import {
+  Fingerprint as FingerprintIcon,
+  DeleteOutline as DeleteOutlineIcon,
+  Badge as BadgeIcon,
+} from '@components/ui/icons';
 import React, { useState, useEffect } from 'react';
 // import { Trash2 } from "lucide-react"; // Delete icon
 import { TextField, InputAdornment, IconButton } from '@mui/material';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
-import BadgeIcon from '@mui/icons-material/Badge';
 import GlobalInput from '@components/Input';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

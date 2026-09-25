@@ -1,6 +1,6 @@
+import { Bolt as BoltIcon } from '@components/ui/icons';
 import React from 'react';
 import { getKeyAfterLastDot } from '@utils/mapExtractedKeys';
-import BoltIcon from '@mui/icons-material/Bolt';
 
 const Battery = ({ liveValue = [], isAlert = false, widgetSettings = [] }) => {
   console.log('data-battery-widget', widgetSettings, liveValue);

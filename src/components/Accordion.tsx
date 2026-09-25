@@ -1,12 +1,12 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 /* eslint-disable react/prop-types */
+import { ExpandMore as ExpandMoreIcon } from '@components/ui/icons';
 import { useState } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 
 const GlobalAccordion = ({

@@ -1,7 +1,7 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { Person as PersonIcon } from '@components/ui/icons';
 import React, { useRef, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-import PersonIcon from '@mui/icons-material/Person';
 import { getAvatarInitial } from '@utils/avatar';
 
 export default function CustomAvatar({

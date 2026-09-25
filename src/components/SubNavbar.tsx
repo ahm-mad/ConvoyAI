@@ -1,6 +1,6 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { FilterList as FilterListIcon } from '@components/ui/icons';
 import React, { useState } from 'react';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import FilterPopper from './FilterPopper';
 import CompanyFilterContent from '../screens/CompanyFilterContent';
 import LocationFilterContent from '../screens/LocationFilterContent';

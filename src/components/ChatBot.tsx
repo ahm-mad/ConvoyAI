@@ -1,8 +1,6 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { Close as CloseIcon, Send as SendIcon, Chat as ChatIcon } from '@components/ui/icons';
 import React, { useState, useEffect } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
 import GlobalInput from './Input';
 // import sendTune from '@assets/sounds/send.mp3';
 

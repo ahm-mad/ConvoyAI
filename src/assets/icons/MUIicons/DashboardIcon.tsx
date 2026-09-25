@@ -1,6 +1,6 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { Dashboard as DashboardIcon } from '@components/ui/icons';
 import React from 'react';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export default function DashboardIconWrapper({
   size = 'medium',

@@ -12,6 +12,8 @@ interface Props extends Omit<L.LucideProps, 'ref'> {
   fontSize?: MuiFontSize;
   /** Only `color` and `fontSize` from MUI's sx are honoured; everything else is ignored. */
   sx?: Record<string, unknown>;
+  /** MUI's tooltip/accessible name prop. */
+  titleAccess?: string;
   style?: CSSProperties;
 }
 
@@ -23,7 +25,14 @@ const SIZE: Record<MuiFontSize, number | string> = {
 };
 
 function wrap(Icon: ComponentType<L.LucideProps>) {
-  return function MuiCompatIcon({ fontSize = 'medium', sx, size, style, ...rest }: Props) {
+  return function MuiCompatIcon({
+    fontSize = 'medium',
+    sx,
+    size,
+    style,
+    titleAccess,
+    ...rest
+  }: Props) {
     const color = typeof sx?.color === 'string' ? sx.color : undefined;
     const sxSize =
       typeof sx?.fontSize === 'number' || typeof sx?.fontSize === 'string'
@@ -34,6 +43,7 @@ function wrap(Icon: ComponentType<L.LucideProps>) {
       <Icon
         size={size ?? (sxSize as number | string | undefined) ?? SIZE[fontSize]}
         style={{ ...(color ? { color } : {}), ...style }}
+        {...(titleAccess ? { 'aria-label': titleAccess } : {})}
         {...rest}
       />
     );
@@ -90,3 +100,13 @@ export const DragIndicator = wrap(L.GripVertical);
 export const DirectionsBoat = wrap(L.Ship);
 export const Dashboard = wrap(L.LayoutDashboard);
 export const ContactEmergency = wrap(L.IdCard);
+export const Agriculture = wrap(L.Tractor);
+export const AutoAwesomeSharp = wrap(L.Sparkles);
+export const Battery90Outlined = wrap(L.BatteryFull);
+export const Chat = wrap(L.MessageSquare);
+export const SignalWifiStatusbar4Bar = wrap(L.Wifi);
+export const Category = wrap(L.Shapes);
+export const AccountCircle = wrap(L.UserCircle);
+export const Badge = wrap(L.BadgeCheck);
+export const CheckCircle = wrap(L.CheckCircle2);
+export const Bolt = wrap(L.Zap);

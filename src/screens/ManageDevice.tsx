@@ -1,4 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  ListAlt as ListAltIcon,
+  SignalWifiOff as SignalWifiOffIcon,
+  Devices as DevicesIcon,
+  Tune as TuneIcon,
+  IntegrationInstructions as IntegrationInstructionsIcon,
+  History as HistoryIcon,
+  Edit as EditIcon,
+  Check as CheckIcon,
+  Close as CloseIcon,
+  SignalWifiStatusbar4Bar as SignalWifiStatusbar4BarIcon,
+} from '@components/ui/icons';
 import React, { useState, useEffect } from 'react';
 import DataTable, { type DataTableColumn } from '@components/RadixTable';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
@@ -14,17 +26,7 @@ import GlobalInput from '../components/Input';
 import ProductConfiguration from './ProductConfiguration';
 import TableSkeleton from '@components/TableSkeleton';
 import { useToast } from '@contexts/ToastContext';
-import SignalWifiStatusbar4BarIcon from '@mui/icons-material/SignalWifiStatusbar4Bar';
-import ListAltIcon from '@mui/icons-material/ListAlt';
 import DevicePointsModal from '@components/DevicePointsModal';
-import SignalWifiOffIcon from '@mui/icons-material/SignalWifiOff';
-import DevicesIcon from '@mui/icons-material/Devices';
-import TuneIcon from '@mui/icons-material/Tune';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
-import HistoryIcon from '@mui/icons-material/History';
-import EditIcon from '@mui/icons-material/Edit';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
 import ProtocolIntegration from './ProtocolIntegration';
 import SelectRadix from '@components/Select';
 import PacketPayloadViewer from '@components/PacketPayloadViewer';

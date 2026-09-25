@@ -1,4 +1,5 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
+import { Delete as DeleteIcon } from '@components/ui/icons';
 import React, { useState, useEffect } from 'react';
 import { SlidersHorizontal, ListChecks, Tag, X, Trash2, AlertTriangle } from 'lucide-react';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
@@ -7,7 +8,6 @@ import SelectReuseAble from './Select';
 import SelectRadix from './Select';
 import Button from './Button';
 import { useTranslation } from 'react-i18next';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddBtnIcon from '../assets/icons/MUIicons/AddBtnIcon';
 // Widget-type selection UI removed from this modal (2026-09-22, owner) — the widget/grid dashboard and
 // 3D building view are redundant for now. We keep sending the backend a widget_type so the payload shape

@@ -1,6 +1,8 @@
+import {
+  CheckCircleOutline as CheckCircleOutlineIcon,
+  HighlightOff as HighlightOffIcon,
+} from '@components/ui/icons';
 import React, { useState, useEffect } from 'react';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useTranslation } from 'react-i18next';
 export default function FourthStepForm({ formData, setFormData }) {
   const { t } = useTranslation();

@@ -1,4 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  SignalWifiOff as SignalWifiOffIcon,
+  Devices as DevicesIcon,
+  Tune as TuneIcon,
+  IntegrationInstructions as IntegrationInstructionsIcon,
+  Edit as EditIcon,
+  Check as CheckIcon,
+  Close as CloseIcon,
+  SignalWifiStatusbar4Bar as SignalWifiStatusbar4BarIcon,
+} from '@components/ui/icons';
 import React, { useState, useEffect } from 'react';
 import DataTable, { type DataTableColumn } from '@components/RadixTable';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
@@ -13,14 +23,6 @@ import { useToast } from '@contexts/ToastContext';
 import ProductConfiguration from './ProductConfiguration';
 import TableSkeleton from '@components/TableSkeleton';
 
-import SignalWifiStatusbar4BarIcon from '@mui/icons-material/SignalWifiStatusbar4Bar';
-import SignalWifiOffIcon from '@mui/icons-material/SignalWifiOff';
-import DevicesIcon from '@mui/icons-material/Devices';
-import TuneIcon from '@mui/icons-material/Tune';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
-import EditIcon from '@mui/icons-material/Edit';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
 import ProtocolIntegration from './ProtocolIntegration';
 
 interface EditingCell {
