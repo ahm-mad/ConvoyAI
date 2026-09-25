@@ -46,7 +46,7 @@ export default function CommandPalette({ open, onOpenChange, onAsk }: Props) {
     >
       <Command
         label="Command palette"
-        className="glass-strong w-full max-w-[640px] overflow-hidden rounded-modal"
+        className="glass-menu w-full max-w-[640px] overflow-hidden rounded-modal"
         style={{ boxShadow: 'var(--shadow-modal)' }}
       >
         <div className="flex items-center gap-3 border-b border-line-soft px-5 py-4">
