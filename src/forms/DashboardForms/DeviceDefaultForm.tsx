@@ -2,7 +2,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Modal from '@mui/material/Modal';
 import IconWrapper from '@utils/ReactIconDynamicImport';
 import InputField from '@components/Input';
 import ShowAndHide from '../FormComponents/ShowAndHide';

@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import type { ChangeEvent, MouseEvent } from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Button from '../components/Button';
-import Typography from '@mui/material/Typography';
 import InputField from '@components/Input';
 import { useTranslation } from 'react-i18next';
 import CustomAvatar from '@components/CustomAvatar';
@@ -22,20 +17,14 @@ import { get, post, del } from '@utils/apiHelper';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from '@lib/router-compat';
 import { BasicFormSchema, PasswordFormSchema } from '../validation/AccountSettingFormsValidation';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useModal } from '@contexts/ModalContext';
+import { Card, CardActions, CardContent } from '@components/ui/Card';
 import ImageCropModal from '@components/ImageCropModal';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { Eye, EyeOff } from 'lucide-react';
 
-const bull = (
-  <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>
-    •
-  </Box>
-);
+const bull = <span className="mx-0.5 inline-block scale-[0.8]">•</span>;
 
 const DEFAULT_DIAL_CODE = '92';
 

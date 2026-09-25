@@ -2,7 +2,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 // import CancelIcon from '@assets/icons/ReactIcon/CloesIcon';
 import IconWrapper from '@utils/ReactIconDynamicImport';
-import Modal from '@mui/material/Modal';
 import InputField from '@components/Input';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

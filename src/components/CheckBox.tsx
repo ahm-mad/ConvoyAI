@@ -1,25 +1,11 @@
 import React from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 
 const CheckBox = ({ label, checked, onChange }) => {
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={checked}
-            onChange={onChange}
-            sx={{
-              color: 'var(--color-line)',
-              '&.Mui-checked': { color: 'var(--color-accent-cyan)' },
-            }}
-          />
-        }
-        label={<span className="text-sm text-ink-1">{label}</span>}
-      />
-    </FormGroup>
+    <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-ink-1">
+      <input type="checkbox" className="check" checked={checked} onChange={onChange} />
+      {label}
+    </label>
   );
 };
 

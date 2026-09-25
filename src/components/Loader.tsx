@@ -1,6 +1,16 @@
-// @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
-import { CircularProgress } from '@mui/material';
+import { Loader2 } from 'lucide-react';
 
-export default function Loader({ size = 18, className = '', sx = {}, ...props }) {
-  return <CircularProgress size={18} fontSize={size} className={className} sx={sx} {...props} />;
+/** Small spinner (replaces MUI CircularProgress). */
+export default function Loader({
+  size = 18,
+  className = '',
+}: {
+  size?: number;
+  className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}) {
+  return (
+    <Loader2 size={size} className={`animate-spin text-brand ${className}`} aria-label="Loading" />
+  );
 }

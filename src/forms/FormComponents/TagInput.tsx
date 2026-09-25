@@ -6,7 +6,6 @@ import {
 } from '@components/ui/icons';
 import React, { useState, useEffect } from 'react';
 // import { Trash2 } from "lucide-react"; // Delete icon
-import { TextField, InputAdornment, IconButton } from '@mui/material';
 import GlobalInput from '@components/Input';
 import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -159,15 +158,15 @@ const TagInput = ({ formData, setFormData }) => {
                   <td className="p-2 text-center align-top">
                     {/* Delete Button */}
                     {formData.step2.data.length > 1 && (
-                      <IconButton
+                      <button
+                        type="button"
                         id="delete-device"
                         onClick={() => removeDevice(device.id)}
-                        color="error"
-                        size="small"
-                        className="hover:bg-danger/10"
+                        aria-label="Remove device"
+                        className="grid size-8 place-items-center rounded-full text-danger hover:bg-danger/10"
                       >
                         <DeleteOutlineIcon fontSize="small" />
-                      </IconButton>
+                      </button>
                     )}
                   </td>
                 </tr>

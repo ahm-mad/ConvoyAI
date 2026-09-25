@@ -1,14 +1,5 @@
-import { useEffect, useState, type ChangeEvent, type ReactNode } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Pagination,
-  Stack,
-  Radio,
-} from '@mui/material';
+import { useEffect, useState, type ReactNode } from 'react';
+import Pagination from '@components/ui/Pagination';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // `Row` / `TableColumn` describe dynamic, endpoint-shaped data — kept `any`
@@ -53,7 +44,7 @@ const Tables = ({
   const totalPages = Math.ceil(data.length / itemsPerPage) || 1;
   const currentItems = data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
-  const handlePageChange = (_event: ChangeEvent<unknown>, value: number) => setPage(value);
+  const handlePageChange = (_event: unknown, value: number) => setPage(value);
 
   const handleRowClick = (row: Row) => {
     if (!enableSelection) return;
@@ -72,83 +63,62 @@ const Tables = ({
   }, [defaultlSelectedRow, data]);
 
   return (
-    <div className={` ${className} border border-line-soft rounded-md overflow-hidden`}>
-      <TableContainer component="div" className="p-0  ">
-        <Table>
-          <TableBody>
+    <div className={`${className} glass-strong overflow-hidden`}>
+      <div className="overflow-x-auto p-0">
+        <table className="w-full border-collapse text-left">
+          <tbody>
             {currentItems.length > 0 ? (
               currentItems.map((row, index) => (
-                <TableRow
+                <tr
                   key={index}
                   onClick={() => handleRowClick(row)}
                   onMouseEnter={() => setHoveredRow(index)}
                   onMouseLeave={() => setHoveredRow(null)}
-                  style={{
-                    backgroundColor:
-                      selectedValue?.id === row.id
-                        ? 'var(--color-surface-3)'
-                        : hoveredRow === index
-                          ? 'var(--color-surface-2)'
-                          : 'var(--color-surface-1)',
-                    cursor: enableSelection ? 'pointer' : 'default',
-                    transition: 'background-color 0.15s ease-in-out',
-                    borderBottom: '1px solid var(--color-line-soft)',
-                  }}
+                  className={`border-b border-line-soft transition-colors ${
+                    selectedValue?.id === row.id
+                      ? 'bg-brand-wash'
+                      : hoveredRow === index
+                        ? 'bg-brand-wash/40'
+                        : ''
+                  } ${enableSelection ? 'cursor-pointer' : ''}`}
                 >
                   {enableSelection && (
-                    <TableCell className="p-2 ">
-                      <Radio
+                    <td className="p-2">
+                      <input
+                        type="radio"
+                        className="radio"
                         checked={selectedValue?.id === row.id}
                         onChange={() => handleRowClick(row)}
-                        sx={{
-                          color: 'var(--color-line)',
-                          '&.Mui-checked': { color: 'var(--color-accent-cyan)' },
-                        }}
+                        aria-label="Select row"
                       />
-                    </TableCell>
+                    </td>
                   )}
                   {columns.map((column, colIndex) => (
-                    <TableCell
+                    <td
                       key={colIndex}
-                      className={`${columnClass} ${column.className || ' '}  p-2`}
-                      sx={{ color: 'var(--color-ink-0)', borderColor: 'var(--color-line-soft)' }}
+                      className={`${columnClass} ${column.className || ' '} p-3 text-body text-ink-0`}
                     >
                       {renderCell ? renderCell(row[column.field], column, row) : row[column.field]}
-                    </TableCell>
+                    </td>
                   ))}
-                </TableRow>
+                </tr>
               ))
             ) : (
-              <TableRow>
-                <TableCell
+              <tr>
+                <td
                   colSpan={columns.length + (enableSelection ? 1 : 0)}
-                  className="text-center p-4"
-                  sx={{ color: 'var(--color-ink-2)', borderColor: 'var(--color-line-soft)' }}
+                  className="p-4 text-center text-body text-ink-2"
                 >
                   No data available
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
 
       {enablePagination && data.length > itemsPerPage && (
-        <Stack spacing={2} alignItems="center" className="mt-4 ">
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            size="large"
-            sx={{
-              '& .MuiPaginationItem-root': { color: 'var(--color-ink-1)' },
-              '& .MuiPaginationItem-root.Mui-selected': {
-                backgroundColor: 'var(--color-accent-cyan)',
-                color: '#001820',
-              },
-            }}
-          />
-        </Stack>
+        <Pagination count={totalPages} page={page} onChange={handlePageChange} className="py-4" />
       )}
     </div>
   );

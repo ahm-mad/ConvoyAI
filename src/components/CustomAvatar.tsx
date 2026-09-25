@@ -1,7 +1,6 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 import { Person as PersonIcon } from '@components/ui/icons';
 import React, { useRef, useState } from 'react';
-import Avatar from '@mui/material/Avatar';
 import { getAvatarInitial } from '@utils/avatar';
 
 export default function CustomAvatar({
@@ -41,28 +40,25 @@ export default function CustomAvatar({
 
   return (
     <div className="relative inline-block">
-      <Avatar
-        alt={alt}
-        src={src || undefined}
-        variant={variant}
+      <div
+        role={onClick !== noop || canUpload ? 'button' : undefined}
         onClick={handleAvatarClick}
-        sx={{
+        className={`grid shrink-0 select-none place-items-center overflow-hidden font-semibold text-white ${variant === 'circular' ? 'rounded-full' : 'rounded-card'} ${onClick !== noop || canUpload ? 'cursor-pointer' : ''} ${className}`}
+        style={{
           width: size,
           height: size,
-          cursor: onClick !== noop ? 'pointer' : 'default',
-          ...(initial && {
-            bgcolor: 'var(--color-accent-cyan)',
-            color: 'var(--color-surface-0)',
-            fontWeight: 600,
-            fontSize: Math.round(size * 0.45),
-          }),
+          fontSize: Math.round(size * 0.45),
+          background: initial || !src ? 'var(--gradient-avatar)' : undefined,
           ...sx,
         }}
-        className={className}
       >
-        {/* never let MUI fall back to alt[0] ("U") — initial, else a generic person glyph */}
-        {initial || <PersonIcon sx={{ fontSize: Math.round(size * 0.65) }} />}
-      </Avatar>
+        {src ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={src} alt={alt} className="size-full object-cover" />
+        ) : (
+          initial || <PersonIcon sx={{ fontSize: Math.round(size * 0.65) }} />
+        )}
+      </div>
       {canUpload && (
         <input
           type="file"
