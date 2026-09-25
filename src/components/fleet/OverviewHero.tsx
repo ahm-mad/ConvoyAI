@@ -127,7 +127,7 @@ export default function OverviewHero({
       </div>
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_400px]">
-        <div className="glass relative h-[460px] overflow-hidden !rounded-modal p-0">
+        <div className="glass relative h-[460px] overflow-hidden rounded-modal p-0">
           <MapContainer
             center={center}
             zoom={11}

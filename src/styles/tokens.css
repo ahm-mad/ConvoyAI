@@ -18,6 +18,8 @@
   --text-display--line-height: 1;
   --text-title: 2.5rem; /* page title (serif) */
   --text-title--line-height: 2.75rem;
+  --text-title-sm: 1.75rem; /* compact page title */
+  --text-title-sm--line-height: 2rem;
   --text-kpi: 2.875rem; /* big KPI number (serif) */
   --text-kpi--line-height: 1;
   --text-heading: 1rem; /* card / widget title */
