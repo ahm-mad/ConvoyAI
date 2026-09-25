@@ -894,7 +894,7 @@
     "AssignPermission": "Assign Permission"
   },
   "RulesPermission": {
-    "title": "Product Manager",
+    "title": "Roles & permissions",
     "loading": "Loading...",
     "columns": {
       "module": "Module",

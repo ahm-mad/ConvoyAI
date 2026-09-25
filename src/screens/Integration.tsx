@@ -1,7 +1,9 @@
 import type { MouseEvent } from 'react';
 import Tables from '../components/Tables';
 // import img from '../assets/images/img.png';
-import img from '../GuestHomeComponents/assets/convoyai-logo.png';
+// Generic placeholder mark (the old ConvoyAI logo image was removed with the rebrand).
+const img =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' rx='12' fill='%23ffe7d2'/><path d='M14 26V14m12 12V14M12 20h16' stroke='%23e8590c' stroke-width='3' stroke-linecap='round' fill='none'/></svg>";
 import { useModal } from '@contexts/ModalContext';
 import AddLocation from '../components/AddLocation';
 import IntegrationContent from '../components/IntegrationContent';
