@@ -11,7 +11,7 @@ import Providers from './providers';
 
 export const metadata: Metadata = {
   title: 'ConvoyAI',
-  icons: { icon: '/favicon.png' },
+  icons: { icon: '/favicon.svg' },
 };
 
 export const viewport: Viewport = {
