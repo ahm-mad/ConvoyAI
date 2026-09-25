@@ -3,19 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  Bell,
-  ChevronDown,
-  LogOut,
-  Search,
-  Settings,
-  Sparkles,
-  Building,
-  Route as RouteIcon,
-} from 'lucide-react';
+import { Bell, ChevronDown, LogOut, Search, Settings, Sparkles, Building } from 'lucide-react';
 import { useUser } from '@contexts/UserContext';
 import { disconnectSocket } from '@contexts/SocketContext';
 import { buildNav, type NavGroup } from './nav-config';
+import BrandMark from './BrandMark';
 
 interface Props {
   onOpenPalette: () => void;
@@ -97,16 +89,8 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
       aria-label="Main"
       className="glass sticky top-3.5 z-40 mx-auto mb-6 mt-3.5 flex w-[calc(100%-32px)] max-w-nav items-center gap-3 glass-pill py-2.5 pl-4 pr-2.5"
     >
-      <Link
-        href="/fleet-management/operations/overview"
-        className="flex shrink-0 items-center gap-2.5 pr-2"
-      >
-        <span className="brand-gradient-bg grid size-8 place-items-center rounded-[10px] shadow-glow">
-          <RouteIcon size={17} className="text-white" strokeWidth={2.4} />
-        </span>
-        <span className="card-title">
-          Convoy<em className="font-serif-display pl-0.5 text-[19px] italic text-brand">AI</em>
-        </span>
+      <Link href="/fleet-management/operations/overview" className="pr-2">
+        <BrandMark />
       </Link>
 
       <ul className="ml-1 hidden items-center gap-0.5 lg:flex">

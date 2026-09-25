@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { post } from '@utils/apiHelper';
 import { CheckCircle, XCircle, Loader2, Lock } from 'lucide-react';
 import GlobalInput from '../components/Input';
+import AuthShell from '@components/auth/AuthShell';
 
 interface SetNewPasswordFormValues {
   newPassword: string;
@@ -165,9 +166,9 @@ export default function SetNewPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-surface-0">
+    <AuthShell>
       <div className="w-full max-w-md">
-        <div className="glass-strong  p-8 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+        <div className="glass-modal p-8">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto w-16 h-16 brand-gradient-bg rounded-full flex items-center justify-center mb-4">
@@ -335,6 +336,6 @@ export default function SetNewPassword() {
           </div>
         </div>
       </div>
-    </div>
+    </AuthShell>
   );
 }
