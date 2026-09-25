@@ -36,11 +36,7 @@ const TabNavigation = ({ activeTab, companyId, companyName }: TabNavigationProps
           <button
             key={tab.id}
             onClick={() => handleTabClick(tab.id)}
-            className={`py-2.5 px-0.5 border-b-2 font-medium cursor-pointer text-xs flex items-center gap-1.5 transition-colors ${
-              activeTab === tab.id
-                ? 'border-accent-cyan text-ink-0'
-                : 'border-transparent text-ink-2 hover:text-ink-1 hover:border-line'
-            }`}
+            className={`tab ${activeTab === tab.id ? 'tab-active' : ''}`}
           >
             {tab.icon}
             {tab.label}

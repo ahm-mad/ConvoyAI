@@ -304,20 +304,14 @@ const RolesPermission = () => {
             <button
               key={tab.id}
               onClick={() => handleTabClick(tab.id)}
-              className={`py-2 md:py-2.5 px-0.5 border-b-2 font-medium cursor-pointer text-xs flex items-center gap-1 md:gap-1.5 transition-colors whitespace-nowrap ${
-                activeTab === tab.id
-                  ? 'border-accent-cyan text-ink-0'
-                  : 'border-transparent text-ink-2 hover:text-ink-1 hover:border-line'
-              }`}
+              className={`tab whitespace-nowrap ${activeTab === tab.id ? 'tab-active' : ''}`}
             >
               {tab.icon}
               <span>{tab.label}</span>
               {tab.count !== undefined && (
                 <span
-                  className={`ml-1 py-0.5 px-1.5 md:px-2 rounded text-[10px] font-mono ${
-                    activeTab === tab.id
-                      ? 'bg-accent-cyan/10 text-accent-cyan'
-                      : 'bg-surface-2 text-ink-2'
+                  className={`ml-1 py-0.5 px-2 rounded-full text-micro font-mono ${
+                    activeTab === tab.id ? 'bg-white/25 text-white' : 'bg-black/[0.06] text-ink-1'
                   }`}
                 >
                   {tab.count}

@@ -12,7 +12,7 @@ const ReuseAbleSetting = ({ className, children }) => {
   return (
     <div>
       <div
-        className={` ${className} bg-surface-1 border-line-soft border  rounded-md p-3  w-auto h-auto "
+        className={` ${className} glass  rounded-md p-3  w-auto h-auto "
         } mt-2 transition-all duration-300`}
       >
         {isExpanded ? (

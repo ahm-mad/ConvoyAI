@@ -346,7 +346,9 @@ const DataTable = ({
   );
 
   return (
-    <div className={`w-full bg-white/70 ${className}`}>
+    <div
+      className={`w-full overflow-hidden rounded-panel border border-white bg-white/70 shadow-glass ${className}`}
+    >
       {/* Controls Section */}
       <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 p-3 bg-white/60 border-b border-line-soft relative z-50">
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full md:w-auto">

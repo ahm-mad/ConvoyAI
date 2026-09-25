@@ -148,6 +148,31 @@
     color: var(--color-danger);
   }
 
+  /* Pill tabs (page-level tab bars). Active state: add .tab-active */
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: var(--radius-pill);
+    padding: 0.5rem 0.875rem;
+    font-size: var(--text-control);
+    line-height: var(--text-control--line-height);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-ink-1);
+    cursor: pointer;
+    transition:
+      background var(--motion-fast) var(--ease-standard),
+      color var(--motion-fast) var(--ease-standard);
+  }
+  .tab:hover {
+    background: color-mix(in srgb, var(--color-ink-0) 6%, transparent);
+  }
+  .tab-active,
+  .tab-active:hover {
+    background: var(--color-ink-0);
+    color: #fff;
+  }
+
   /* ---- Layout ---- */
   .page-container {
     width: 100%;
