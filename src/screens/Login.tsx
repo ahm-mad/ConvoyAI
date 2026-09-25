@@ -8,7 +8,7 @@ import { useNavigate, useLocation, Link } from '@lib/router-compat';
 import { post, get } from '@utils/apiHelper';
 import { useTranslation } from 'react-i18next';
 import { useUser } from '@contexts/UserContext';
-import minilog from '../GuestHomeComponents/assets/convoyainew.png';
+import AuthShell from '@components/auth/AuthShell';
 // import convoyaiLogo from '../../assets/convoyai-logo.png';
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
 import { setupDemoMode } from '@utils/fakeBackend/browser';
@@ -262,221 +262,185 @@ export default function Login() {
   }, []);
 
   return (
-    <div className="h-screen bg-surface-0 flex overflow-hidden">
-      <div
-        className="hidden md:flex md:w-1/2 items-center mt-4 mr-2 justify-center relative overflow-hidden"
-        style={{
-          backgroundImage:
-            'linear-gradient(var(--color-line-soft) 1px, transparent 1px), linear-gradient(90deg, var(--color-line-soft) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
-      >
-        <div className="absolute top-24 left-20 flex flex-col items-start gap-4 text-3xl font-bold">
-          <img src={minilog} className="h-[64px] max-w-none" alt="Logo" />
+    <AuthShell>
+      <div className="glass-modal w-full max-w-[420px] p-8">
+        <form onSubmit={handleSubmit(handleLoginClick)} className="space-y-4">
+          {/* Header */}
+          <div className="text-center space-y-1 pb-4">
+            <h1 className="text-2xl font-semibold tracking-tight text-ink-0 font-display">
+              Sign in
+            </h1>
+            <p className="text-sm text-ink-2">Welcome back. Log in with your credentials.</p>
+          </div>
 
-          <h3 className="text-xl -mt-4 text-ink-0 font-semibold font-display">
-            Secure dashboard access
-          </h3>
-          <p className="text-base font-medium text-ink-1 w-80 text-wrap">
-            A robust authentication gateway ensuring secure
-            <span className="font-semibold text-ink-0"> efficient user access </span>
-            to the ConvoyAI Dashboard and Digital Twin.
-          </p>
-        </div>
-      </div>
-
-      <div className="w-full md:w-1/2 bg-surface-0 flex flex-col items-center justify-center p-4">
-        <div className="md:hidden w-full max-w-[400px] flex flex-col items-center mb-8 mt-4">
-          <img src={minilog} className="h-[64px] mb-4" alt="Logo" />
-          <h3 className="text-lg text-ink-0 font-semibold text-center mb-2 font-display">
-            Secure dashboard access
-          </h3>
-          <p className="text-sm text-ink-1 font-medium text-center max-w-sm">
-            A robust authentication gateway ensuring secure
-            <span className="font-semibold text-ink-0"> efficient user access </span>
-            to the ConvoyAI Dashboard and Digital Twin.
-          </p>
-        </div>
-
-        <div className="max-w-[400px] w-full rounded-xl border border-line p-6 bg-surface-1 max-h-[95vh] overflow-hidden overflow-y-hidden shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-          <form onSubmit={handleSubmit(handleLoginClick)} className="space-y-4">
-            {/* Header */}
-            <div className="text-center space-y-1 pb-4">
-              <h1 className="text-2xl font-semibold tracking-tight text-ink-0 font-display">
-                Sign in
-              </h1>
-              <p className="text-sm text-ink-2">Welcome back. Log in with your credentials.</p>
+          {loginSuccess && (
+            <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-md px-3 py-2">
+              <CheckCircle2 className="h-4 w-4 text-green-400 flex-shrink-0" />
+              <span className="text-xs text-green-400">{loginSuccess}</span>
             </div>
+          )}
 
-            {loginSuccess && (
-              <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-md px-3 py-2">
-                <CheckCircle2 className="h-4 w-4 text-green-400 flex-shrink-0" />
-                <span className="text-xs text-green-400">{loginSuccess}</span>
-              </div>
+          {loginError && (
+            <div className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-md px-3 py-2">
+              <AlertCircle className="h-4 w-4 text-danger flex-shrink-0" />
+              <span className="text-xs text-danger">{loginError}</span>
+            </div>
+          )}
+
+          {googleSuccess && (
+            <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-md px-3 py-2">
+              <CheckCircle2 className="h-4 w-4 text-green-400 flex-shrink-0" />
+              <span className="text-xs text-green-400">{googleSuccess}</span>
+            </div>
+          )}
+
+          {googleError && (
+            <div className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-md px-3 py-2">
+              <AlertCircle className="h-4 w-4 text-danger flex-shrink-0" />
+              <span className="text-xs text-danger">{googleError}</span>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+            className="w-full bg-white border border-line rounded-full h-10 shadow-card py-[6px] px-4 flex items-center justify-center gap-3 cursor-pointer transition-colors mb-6 hover:bg-surface-3 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {googleLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin text-ink-0" />
+            ) : (
+              <svg viewBox="0 0 32 32" fill="none" role="img" className="w-5 h-5">
+                <path
+                  d="M16.2449 13.8184V18.4657H22.8349C22.5455 19.9602 21.6771 21.2257 20.3747 22.0766L24.3487 25.0985C26.6642 23.004 28 19.9276 28 16.273C28 15.4221 27.9221 14.6039 27.7773 13.8185L16.2449 13.8184Z"
+                  fill="#4285F4"
+                />
+                <path
+                  d="M5.3137 10.6221C4.47886 12.2366 4.00024 14.0584 4.00024 16.0002C4.00024 17.942 4.47886 19.7639 5.3137 21.3784C5.3137 21.3892 9.388 18.2802 9.388 18.2802C9.14311 17.5602 8.99835 16.7966 8.99835 16.0001C8.99835 15.2036 9.14311 14.44 9.388 13.72L5.3137 10.6221Z"
+                  fill="#FBBC05"
+                />
+                <path
+                  d="M16.2448 8.77821C18.0482 8.77821 19.6511 9.3891 20.9313 10.5673L24.4378 7.13097C22.3116 5.18917 19.551 4 16.2448 4C11.4582 4 7.32833 6.69456 5.31348 10.6219L9.38766 13.7201C10.3561 10.8837 13.0611 8.77821 16.2448 8.77821Z"
+                  fill="#EA4335"
+                />
+                <path
+                  d="M9.38238 18.2842L8.48609 18.9566L5.31348 21.3784C7.32833 25.2947 11.4579 28.0002 16.2445 28.0002C19.5506 28.0002 22.3224 26.9311 24.3484 25.0984L20.3744 22.0766C19.2835 22.7966 17.892 23.233 16.2445 23.233C13.0609 23.233 10.3559 21.1275 9.38739 18.2911L9.38238 18.2842Z"
+                  fill="#34A853"
+                />
+              </svg>
             )}
+            <span className="text-ink-0 text-[13px] font-medium">
+              {googleLoading ? 'Connecting...' : 'Sign in with Google'}
+            </span>
+          </button>
 
-            {loginError && (
-              <div className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-md px-3 py-2">
-                <AlertCircle className="h-4 w-4 text-danger flex-shrink-0" />
-                <span className="text-xs text-danger">{loginError}</span>
-              </div>
-            )}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-line"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-surface-1 text-[12px] text-ink-2">OR</span>
+            </div>
+          </div>
 
-            {googleSuccess && (
-              <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-md px-3 py-2">
-                <CheckCircle2 className="h-4 w-4 text-green-400 flex-shrink-0" />
-                <span className="text-xs text-green-400">{googleSuccess}</span>
-              </div>
-            )}
+          <div>
+            <label className="block text-sm font-medium text-ink-1 mb-1">Email</label>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <GlobalInput
+                  {...field}
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  size="small"
+                  height="h-9"
+                  type="email"
+                  placeholder="Enter your email"
+                />
+              )}
+            />
+          </div>
 
-            {googleError && (
-              <div className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-md px-3 py-2">
-                <AlertCircle className="h-4 w-4 text-danger flex-shrink-0" />
-                <span className="text-xs text-danger">{googleError}</span>
-              </div>
-            )}
-
+          <div className="relative">
+            <label className="block text-sm font-medium text-ink-1 mb-1">Password</label>
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <GlobalInput
+                  {...field}
+                  type={showPassword ? 'text' : 'password'}
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                  size="small"
+                  height="h-9"
+                  placeholder="Password"
+                />
+              )}
+            />
             <button
               type="button"
-              onClick={handleGoogleLogin}
-              disabled={googleLoading}
-              className="w-full bg-surface-2 border border-line rounded-lg h-[34px] py-[6px] px-4 flex items-center justify-center gap-3 cursor-pointer transition-colors mb-6 hover:bg-surface-3 disabled:opacity-60 disabled:cursor-not-allowed"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 cursor-pointer top-[22px] flex items-center h-10"
             >
-              {googleLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin text-ink-0" />
+              {showPassword ? (
+                <EyeOff className="h-4 w-4 text-ink-2" />
               ) : (
-                <svg viewBox="0 0 32 32" fill="none" role="img" className="w-5 h-5">
-                  <path
-                    d="M16.2449 13.8184V18.4657H22.8349C22.5455 19.9602 21.6771 21.2257 20.3747 22.0766L24.3487 25.0985C26.6642 23.004 28 19.9276 28 16.273C28 15.4221 27.9221 14.6039 27.7773 13.8185L16.2449 13.8184Z"
-                    fill="#4285F4"
-                  />
-                  <path
-                    d="M5.3137 10.6221C4.47886 12.2366 4.00024 14.0584 4.00024 16.0002C4.00024 17.942 4.47886 19.7639 5.3137 21.3784C5.3137 21.3892 9.388 18.2802 9.388 18.2802C9.14311 17.5602 8.99835 16.7966 8.99835 16.0001C8.99835 15.2036 9.14311 14.44 9.388 13.72L5.3137 10.6221Z"
-                    fill="#FBBC05"
-                  />
-                  <path
-                    d="M16.2448 8.77821C18.0482 8.77821 19.6511 9.3891 20.9313 10.5673L24.4378 7.13097C22.3116 5.18917 19.551 4 16.2448 4C11.4582 4 7.32833 6.69456 5.31348 10.6219L9.38766 13.7201C10.3561 10.8837 13.0611 8.77821 16.2448 8.77821Z"
-                    fill="#EA4335"
-                  />
-                  <path
-                    d="M9.38238 18.2842L8.48609 18.9566L5.31348 21.3784C7.32833 25.2947 11.4579 28.0002 16.2445 28.0002C19.5506 28.0002 22.3224 26.9311 24.3484 25.0984L20.3744 22.0766C19.2835 22.7966 17.892 23.233 16.2445 23.233C13.0609 23.233 10.3559 21.1275 9.38739 18.2911L9.38238 18.2842Z"
-                    fill="#34A853"
-                  />
-                </svg>
+                <Eye className="h-4 w-4 text-ink-2" />
               )}
-              <span className="text-ink-0 text-[13px] font-medium">
-                {googleLoading ? 'Connecting...' : 'Sign in with Google'}
-              </span>
             </button>
+          </div>
 
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-line"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-surface-1 text-[12px] text-ink-2">OR</span>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-ink-1 mb-1">Email</label>
+          <div className="flex items-center justify-between">
+            <div className="flex items-start space-x-2">
               <Controller
-                name="email"
+                name="rememberMe"
                 control={control}
                 render={({ field }) => (
-                  <GlobalInput
-                    {...field}
-                    error={!!errors.email}
-                    helperText={errors.email?.message}
-                    size="small"
-                    height="h-9"
-                    type="email"
-                    placeholder="Enter your email"
-                  />
+                  <RadixCheckbox.Root
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    className="flex h-[20px] w-[20px] appearance-none items-center justify-center rounded-md border border-line bg-white data-[state=checked]:bg-accent-cyan data-[state=checked]:border-accent-cyan focus:outline-none cursor-pointer"
+                  >
+                    <RadixCheckbox.Indicator className="text-white">
+                      <Check className="h-3 w-3" />
+                    </RadixCheckbox.Indicator>
+                  </RadixCheckbox.Root>
                 )}
               />
+              <span className="text-sm text-ink-1">Remember me</span>
             </div>
-
-            <div className="relative">
-              <label className="block text-sm font-medium text-ink-1 mb-1">Password</label>
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <GlobalInput
-                    {...field}
-                    type={showPassword ? 'text' : 'password'}
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                    size="small"
-                    height="h-9"
-                    placeholder="Password"
-                  />
-                )}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 cursor-pointer top-[22px] flex items-center h-10"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4 text-ink-2" />
-                ) : (
-                  <Eye className="h-4 w-4 text-ink-2" />
-                )}
-              </button>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-start space-x-2">
-                <Controller
-                  name="rememberMe"
-                  control={control}
-                  render={({ field }) => (
-                    <RadixCheckbox.Root
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      className="flex h-[20px] w-[20px] appearance-none items-center justify-center rounded-md border border-line bg-surface-2 data-[state=checked]:bg-accent-cyan data-[state=checked]:border-accent-cyan focus:outline-none cursor-pointer"
-                    >
-                      <RadixCheckbox.Indicator className="text-[#04121a]">
-                        <Check className="h-3 w-3" />
-                      </RadixCheckbox.Indicator>
-                    </RadixCheckbox.Root>
-                  )}
-                />
-                <span className="text-sm text-ink-1">Remember me</span>
-              </div>
-              <Link
-                to="/forget-password"
-                className="text-sm text-ink-1 cursor-pointer hover:text-accent-cyan font-semibold"
-              >
-                Forgot password?
-              </Link>
-            </div>
-
-            <button
-              type="submit"
-              disabled={!isValid || isSubmitting}
-              className="w-full brand-gradient-bg on-gradient py-1 h-[34px] text-[13px] px-4 cursor-pointer rounded-lg font-semibold focus:outline-none transition-all hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            <Link
+              to="/forget-password"
+              className="text-sm text-ink-1 cursor-pointer hover:text-accent-cyan font-semibold"
             >
-              {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isSubmitting ? 'Signing in...' : 'Sign in'}
-            </button>
+              Forgot password?
+            </Link>
+          </div>
 
-            <div className="text-center text-sm">
-              <span className="text-ink-1 font-medium">
-                Don't have an account?{' '}
-                <Link
-                  to="/register"
-                  className="text-ink-0 hover:text-accent-cyan font-bold cursor-pointer"
-                >
-                  Sign up
-                </Link>
-              </span>
-            </div>
-          </form>
-        </div>
+          <button
+            type="submit"
+            disabled={!isValid || isSubmitting}
+            className="w-full brand-gradient-bg on-gradient py-1 h-10 text-control px-4 cursor-pointer rounded-full font-semibold shadow-glow focus:outline-none transition-all hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+            {isSubmitting ? 'Signing in...' : 'Sign in'}
+          </button>
+
+          <div className="text-center text-sm">
+            <span className="text-ink-1 font-medium">
+              Don't have an account?{' '}
+              <Link
+                to="/register"
+                className="text-ink-0 hover:text-accent-cyan font-bold cursor-pointer"
+              >
+                Sign up
+              </Link>
+            </span>
+          </div>
+        </form>
       </div>
-    </div>
+    </AuthShell>
   );
 }
