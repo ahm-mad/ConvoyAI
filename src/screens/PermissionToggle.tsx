@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import GlobalToggle from '@forms/FormComponents/ToggleBtn';
 import { useState, useEffect } from 'react';
 import type { ComponentType, FormEvent, ReactNode } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -57,29 +58,17 @@ const PermissionCard = ({
   enabled,
   onChange,
 }: PermissionCardProps) => (
-  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-3.5 bg-surface-1 rounded-md border border-line-soft gap-3 sm:gap-4">
+  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 glass-strong card-lift gap-3 sm:gap-4">
     <div className="flex items-start gap-3 sm:gap-4 w-full sm:w-auto">
       <HexagonBadge>
         <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-accent-cyan" />
       </HexagonBadge>
       <div className="flex-1 min-w-0">
-        <h3 className="text-xs sm:text-sm font-semibold text-ink-0 mb-1">{title}</h3>
-        <p className="text-[11px] sm:text-xs text-ink-2 leading-relaxed">{description}</p>
+        <h3 className="card-title mb-1">{title}</h3>
+        <p className="card-subtitle leading-relaxed">{description}</p>
       </div>
     </div>
-    <button
-      onClick={onChange}
-      className={`relative inline-flex cursor-pointer h-5 w-9 items-center rounded-full transition-colors shrink-0 ml-auto sm:ml-0 ${
-        enabled ? 'bg-accent-cyan' : 'bg-surface-3'
-      }`}
-      aria-label={`Toggle ${title}`}
-    >
-      <span
-        className={`inline-block h-4 w-4 transform rounded-full bg-[#eef1f4] transition-transform ${
-          enabled ? 'translate-x-[18px]' : 'translate-x-[2px]'
-        }`}
-      />
-    </button>
+    <GlobalToggle checked={enabled} onChange={onChange} />
   </div>
 );
 
@@ -250,7 +239,7 @@ export default function RolePermissions() {
       <div className="max-w-7xl">
         {/* Header */}
         <div className="px-3 sm:px-4 lg:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4">
-          <h2 className="text-sm sm:text-base font-semibold text-ink-0 mb-3 sm:mb-4 font-display">
+          <h2 className="page-title mb-3 sm:mb-4">
             {isEditMode ? 'Edit Role' : 'Create New Role'}
           </h2>
         </div>
