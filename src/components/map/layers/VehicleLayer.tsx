@@ -14,6 +14,8 @@ interface Entry {
   el: HTMLDivElement;
   cur: { lat: number; lon: number; h: number };
   tgt: { lat: number; lon: number; h: number };
+  /** km/h of the last fix while moving — used to keep gliding between reports (dead reckoning). */
+  kmh: number;
 }
 
 /** Shortest signed angle from a to b, degrees. */
@@ -31,6 +33,7 @@ export default function VehicleLayer({
   onSelect,
   speedLabel,
   onOpen,
+  motionScale = 1,
 }: {
   vehicles: LiveVehicle[];
   iconStyle: VehicleIconStyle;
@@ -38,6 +41,8 @@ export default function VehicleLayer({
   onSelect: (id: string | null) => void;
   speedLabel: (v: LiveVehicle) => string;
   onOpen?: (v: LiveVehicle) => void;
+  /** Demo time-warp (×1 real time); scales the dead-reckoning speed. */
+  motionScale?: number;
 }) {
   const { map } = useConvoyMap();
   const store = useRef(new Map<string, Entry>());
@@ -46,7 +51,10 @@ export default function VehicleLayer({
   const [cardEl, setCardEl] = useState<HTMLDivElement | null>(null);
   const latest = useRef({ selectedId, onSelect });
 
+  const scaleRef = useRef(motionScale);
+
   latest.current = { selectedId, onSelect };
+  scaleRef.current = motionScale;
 
   // Create / update / remove markers to match `vehicles`.
   useEffect(() => {
@@ -97,10 +105,12 @@ export default function VehicleLayer({
             el,
             cur: { lat: v.lat, lon: v.lon, h: v.heading },
             tgt: { lat: v.lat, lon: v.lon, h: v.heading },
+            kmh: 0,
           };
           store.current.set(v.id, e);
         }
         e.tgt = { lat: v.lat, lon: v.lon, h: v.heading };
+        e.kmh = v.state === 'moving' ? v.speed : 0;
         // A far jump (new session, filter change) snaps instead of gliding across the country.
         if (Math.abs(e.cur.lat - v.lat) + Math.abs(e.cur.lon - v.lon) > 0.6) e.cur = { ...e.tgt };
         e.el.setAttribute('aria-label', `${v.name}, ${v.state}`);
@@ -136,6 +146,15 @@ export default function VehicleLayer({
 
       last = now;
       store.current.forEach((e, id) => {
+        if (e.kmh > 1) {
+          // keep gliding along the heading between position reports
+          const dKm = (e.kmh * scaleRef.current * dt) / 3600;
+          const hr = (e.tgt.h * Math.PI) / 180;
+
+          e.tgt.lat += (dKm * Math.cos(hr)) / 111.2;
+          e.tgt.lon +=
+            (dKm * Math.sin(hr)) / (111.2 * Math.max(0.2, Math.cos((e.tgt.lat * Math.PI) / 180)));
+        }
         e.cur.lat += (e.tgt.lat - e.cur.lat) * k;
         e.cur.lon += (e.tgt.lon - e.cur.lon) * k;
         e.cur.h += dAngle(e.cur.h, e.tgt.h) * k;

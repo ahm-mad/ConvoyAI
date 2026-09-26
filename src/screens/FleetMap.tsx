@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Polyline, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTheme } from '@contexts/ThemeContext';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
+import { get } from '@utils/apiHelper';
 import { useModal } from '@contexts/ModalContext';
 import VehicleMarker from '@components/VehicleMarker';
 import YardMarker from '@components/YardMarker';
@@ -20,6 +21,9 @@ import dynamic from 'next/dynamic';
 import VehicleLayer from '@components/map/layers/VehicleLayer';
 import { vehicleFromPosition, type LiveVehicle } from '@components/map/vehicle/vehicleKinds';
 import { formatQty } from '@utils/units';
+import { isShowcase } from '@utils/showcase';
+import { getDemoSpeed, setDemoSpeed } from '@utils/showcase/simulation';
+import { Gauge } from 'lucide-react';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import MapToolbar from '@components/map/MapToolbar';
 import { useMapPrefs } from '@components/map/useMapPrefs';
@@ -53,13 +57,20 @@ export default function FleetMap() {
   const [mapPrefs, setMapPrefs] = useMapPrefs();
   const [glMap, setGlMap] = useState<any>(null);
   const [glSelected, setGlSelected] = useState<string | null>(null);
+  const [demoSpeed, setDemoSpeedState] = useState(20);
 
-  const fitFleet = () => {
-    const pts = positions
+  useEffect(() => setDemoSpeedState(getDemoSpeed()), []);
+
+  // Fit to every reporting vehicle (not only the ones in the current view).
+  const fitFleet = async () => {
+    if (!glMap) return;
+
+    const res: any = await get('/api/fleet/positions', { limit: 500 });
+    const pts = (res?.success ? res.data : [])
       .map((p: any) => [Number(p.longitude), Number(p.latitude)])
       .filter(([x, y]: number[]) => Number.isFinite(x) && Number.isFinite(y));
 
-    if (!glMap || !pts.length) return;
+    if (!pts.length) return;
 
     const xs = pts.map(([x]: number[]) => x);
     const ys = pts.map(([, y]: number[]) => y);
@@ -72,6 +83,12 @@ export default function FleetMap() {
       { padding: 90, maxZoom: 12, duration: 1400 }
     );
   };
+
+  // Open on the whole fleet the first time the GL map is ready.
+  useEffect(() => {
+    if (glMap) fitFleet();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per map instance
+  }, [glMap]);
 
   useEffect(() => setGl(new URLSearchParams(window.location.search).get('gl') === '1'), []);
 
@@ -95,7 +112,11 @@ export default function FleetMap() {
     '/api/fleet/positions',
     { bbox: bboxParam, limit: POSITION_LIMIT },
     // Slow safety poll only: fleet:position moves markers live, reconnect/focus refetch cover gaps.
-    { refetchInterval: 120000, enabled: !!bboxParam, placeholderData: keepPreviousData }
+    {
+      refetchInterval: isShowcase() ? 2000 : 120000,
+      enabled: !!bboxParam,
+      placeholderData: keepPreviousData,
+    }
   );
   const isLoading = overviewLoading || (!!bboxParam && positionsLoading) || !bboxParam;
 
@@ -244,6 +265,7 @@ export default function FleetMap() {
                   setSelectedDeviceId(v ? (v.raw?.device_id ?? null) : null);
                 }}
                 speedLabel={v => formatQty(u.speed, v.speed, 0)}
+                motionScale={isShowcase() ? demoSpeed : 1}
                 onOpen={v => openModal(<VehicleDetailModal vehicleId={v.id} />)}
               />
             </ConvoyMap>
@@ -252,7 +274,31 @@ export default function FleetMap() {
               onChange={setMapPrefs}
               onFit={fitFleet}
               className="absolute right-4 top-4 z-10"
-            />
+            >
+              {isShowcase() && (
+                <div
+                  role="group"
+                  aria-label="Demo speed"
+                  className="flex items-center gap-0.5 rounded-full bg-white/70 p-0.5"
+                >
+                  <Gauge size={14} className="ml-2 text-ink-2" aria-hidden />
+                  {[1, 10, 20, 60].map(x => (
+                    <button
+                      key={x}
+                      type="button"
+                      aria-pressed={demoSpeed === x}
+                      onClick={() => {
+                        setDemoSpeed(x);
+                        setDemoSpeedState(x);
+                      }}
+                      className="grid h-8 min-w-8 place-items-center rounded-full px-2 text-[11px] font-semibold text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
+                    >
+                      {x}×
+                    </button>
+                  ))}
+                </div>
+              )}
+            </MapToolbar>
           </>
         ) : (
           <MapContainer center={defaultCenter} zoom={11} style={{ height: '100%', width: '100%' }}>
