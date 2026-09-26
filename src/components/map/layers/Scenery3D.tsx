@@ -16,7 +16,7 @@ export default function Scenery3D() {
 
     const key = process.env.NEXT_PUBLIC_MAPTILER_KEY ?? '';
     const on = mode === '3d';
-    const t = (n: string) => token(`--map-${look === 'night' ? 'night' : 'light'}-${n}`, '#888888');
+    const t = (n: string) => token(`--map-${look === 'night' ? 'night' : 'light'}-${n}`);
 
     try {
       if (on) {
@@ -35,7 +35,7 @@ export default function Scenery3D() {
               source: 'cv-dem',
               paint: {
                 'hillshade-shadow-color': t('hillshade'),
-                'hillshade-highlight-color': look === 'night' ? '#3a3260' : '#ffffff',
+                'hillshade-highlight-color': t('hillshade-highlight'),
                 'hillshade-accent-color': t('hillshade'),
                 'hillshade-exaggeration': look === 'night' ? 0.35 : 0.28,
               },

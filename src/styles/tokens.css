@@ -226,6 +226,7 @@
   --map-light-horizon: #fdeee0;
   --map-light-fog: #f6efe4;
   --map-light-hillshade: #b9a58c;
+  --map-light-hillshade-highlight: #ffffff;
   /* Night look: deep indigo-charcoal, amber neon roads */
   --map-night-land: #14121f;
   --map-night-land-alt: #191726;
@@ -254,6 +255,7 @@
   --map-night-horizon: #3a2453;
   --map-night-fog: #14121f;
   --map-night-hillshade: #05040a;
+  --map-night-hillshade-highlight: #3a3260;
 
   --focus-ring: 2px solid var(--color-brand);
 }
