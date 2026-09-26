@@ -242,7 +242,7 @@ export default function YardLayoutEditor({
     <div className="glass-strong  w-[900px] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
-          <h2 className="text-sm font-semibold text-ink-0">Yard — {yardName}</h2>
+          <h2 className="text-sm font-semibold text-ink-0">Yard — {yard?.name ?? yardName}</h2>
           <p className="text-xs text-ink-2 mt-0.5">
             {placingSlot
               ? 'Click anywhere on the layout to place this slot.'
