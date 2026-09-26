@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useUnits } from '@hooks/useUnits';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { keepPreviousData } from '@tanstack/react-query';
 import { MapContainer, TileLayer, Polyline, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -23,7 +23,8 @@ import { vehicleFromPosition, type LiveVehicle } from '@components/map/vehicle/v
 import { formatQty } from '@utils/units';
 import { isShowcase } from '@utils/showcase';
 import { getDemoSpeed, setDemoSpeed } from '@utils/showcase/simulation';
-import { Gauge } from 'lucide-react';
+import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair } from 'lucide-react';
+import MapHud from '@components/map/MapHud';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import RouteLayer from '@components/map/layers/RouteLayer';
 import GeofenceLayer from '@components/map/layers/GeofenceLayer';
@@ -83,7 +84,7 @@ export default function FleetMap() {
         [Math.min(...xs), Math.min(...ys)],
         [Math.max(...xs), Math.max(...ys)],
       ],
-      { padding: 90, maxZoom: 12, duration: 1400 }
+      { padding: 55, maxZoom: 12, duration: 1400 }
     );
   };
 
@@ -93,7 +94,23 @@ export default function FleetMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per map instance
   }, [glMap]);
 
-  useEffect(() => setGl(new URLSearchParams(window.location.search).get('gl') === '1'), []);
+  const [follow, setFollow] = useState(false);
+  const [tour, setTour] = useState(false);
+  const [clean, setClean] = useState(false);
+  const stage = useRef<HTMLDivElement>(null);
+
+  // GL map by default; `?gl=0` (or a device without WebGL) falls back to the old Leaflet map.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('gl');
+    let ok = false;
+
+    try {
+      ok = !!document.createElement('canvas').getContext('webgl2');
+    } catch {
+      ok = false;
+    }
+    setGl(q !== '0' && ok);
+  }, []);
 
   // The visible box; set by MapViewportWatcher once the map exists and after every pan / zoom.
   const [bbox, setBbox] = useState<Bbox | null>(null);
@@ -113,10 +130,11 @@ export default function FleetMap() {
   const { data: positionsData, isLoading: positionsLoading } = useSimpleQuery<any>(
     'fleet-positions',
     '/api/fleet/positions',
-    { bbox: bboxParam, limit: POSITION_LIMIT },
+    // While following a vehicle / touring, ask for the whole fleet so the followed vehicle never leaves the list.
+    { bbox: follow || tour ? undefined : bboxParam, limit: POSITION_LIMIT },
     // Slow safety poll only: fleet:position moves markers live, reconnect/focus refetch cover gaps.
     {
-      refetchInterval: isShowcase() ? 2000 : 120000,
+      refetchInterval: isShowcase() ? 700 : 120000,
       enabled: !!bboxParam,
       placeholderData: keepPreviousData,
     }
@@ -180,6 +198,43 @@ export default function FleetMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- positions identity follows the query data
     [positionsData]
   );
+  const glVehiclesRef = useRef(glVehicles);
+
+  if (process.env.NODE_ENV !== 'production') (window as any).__cvGlVehicles = glVehicles;
+
+  glVehiclesRef.current = glVehicles;
+
+  // Fleet tour: every few seconds select the next moving vehicle, follow it and fly in.
+  useEffect(() => {
+    if (!tour || !glMap) return;
+
+    let i = 0;
+    const step = () => {
+      const moving = glVehiclesRef.current.filter(v => v.state === 'moving');
+
+      if (!moving.length) return;
+
+      const v = moving[i++ % moving.length];
+
+      setGlSelected(v.id);
+      setSelectedDeviceId(v.raw?.device_id ?? null);
+      setFollow(true);
+      glMap.easeTo({
+        center: [v.lon, v.lat],
+        zoom: 12.6,
+        pitch: mapPrefs.mode === '3d' ? 58 : 0,
+        duration: 2600,
+      });
+    };
+
+    step();
+
+    const t = setInterval(step, 9000);
+
+    return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- vehicles are read through a ref
+  }, [tour, glMap]);
+
   // `meta` exists because we send bbox + limit: total = trackers in view before the cap.
   const inView: number = positionsData?.success
     ? (positionsData.meta?.total ?? positions.length)
@@ -243,7 +298,7 @@ export default function FleetMap() {
         </div>
       </div>
 
-      <div className="flex-1 relative">
+      <div ref={stage} className="flex-1 relative bg-surface-0">
         {overviewLoading ? (
           <div className="h-full flex items-center justify-center text-xs text-ink-2">
             Loading map…
@@ -280,39 +335,107 @@ export default function FleetMap() {
                 }}
                 speedLabel={v => formatQty(u.speed, v.speed, 0)}
                 motionScale={isShowcase() ? demoSpeed : 1}
+                followId={follow ? glSelected : null}
+                onFollowLost={() => {
+                  setFollow(false);
+                  setTour(false);
+                }}
                 onOpen={v => openModal(<VehicleDetailModal vehicleId={v.id} />)}
               />
             </ConvoyMap>
-            <MapToolbar
-              prefs={mapPrefs}
-              onChange={setMapPrefs}
-              onFit={fitFleet}
-              className="absolute right-4 top-4 z-10"
-            >
-              {isShowcase() && (
+            {!clean && <MapHud vehicles={glVehicles} className="absolute left-4 top-4 z-10" />}
+            {clean && (
+              <button
+                type="button"
+                onClick={() => setClean(false)}
+                className="glass-strong absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold text-ink-1 opacity-60 hover:opacity-100"
+              >
+                <Eye size={13} /> Show controls
+              </button>
+            )}
+            {!clean && (
+              <MapToolbar
+                prefs={mapPrefs}
+                onChange={setMapPrefs}
+                onFit={fitFleet}
+                className="absolute right-4 top-4 z-10"
+              >
+                {isShowcase() && (
+                  <div
+                    role="group"
+                    aria-label="Demo speed"
+                    className="flex items-center gap-0.5 rounded-full bg-white/70 p-0.5"
+                  >
+                    <Gauge size={14} className="ml-2 text-ink-2" aria-hidden />
+                    {[1, 10, 20, 60].map(x => (
+                      <button
+                        key={x}
+                        type="button"
+                        aria-pressed={demoSpeed === x}
+                        onClick={() => {
+                          setDemoSpeed(x);
+                          setDemoSpeedState(x);
+                        }}
+                        className="grid h-8 min-w-8 place-items-center rounded-full px-2 text-[11px] font-semibold text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
+                      >
+                        {x}×
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div
                   role="group"
-                  aria-label="Demo speed"
+                  aria-label="Cinematic tools"
                   className="flex items-center gap-0.5 rounded-full bg-white/70 p-0.5"
                 >
-                  <Gauge size={14} className="ml-2 text-ink-2" aria-hidden />
-                  {[1, 10, 20, 60].map(x => (
-                    <button
-                      key={x}
-                      type="button"
-                      aria-pressed={demoSpeed === x}
-                      onClick={() => {
-                        setDemoSpeed(x);
-                        setDemoSpeedState(x);
-                      }}
-                      className="grid h-8 min-w-8 place-items-center rounded-full px-2 text-[11px] font-semibold text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
-                    >
-                      {x}×
-                    </button>
-                  ))}
+                  <button
+                    type="button"
+                    disabled={!glSelected}
+                    aria-pressed={follow}
+                    aria-label="Follow the selected vehicle"
+                    title={
+                      glSelected ? 'Follow the selected vehicle' : 'Select a vehicle to follow it'
+                    }
+                    onClick={() => setFollow(f => !f)}
+                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05] disabled:opacity-40 aria-pressed:bg-brand aria-pressed:text-white"
+                  >
+                    <Crosshair size={15} />
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={tour}
+                    aria-label={tour ? 'Stop the fleet tour' : 'Start the fleet tour'}
+                    title="Fleet tour — the camera visits moving vehicles"
+                    onClick={() => setTour(t => !t)}
+                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
+                  >
+                    {tour ? <Pause size={15} /> : <Play size={15} />}
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Hide the controls (clean view for recording)"
+                    title="Clean view"
+                    onClick={() => setClean(true)}
+                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05]"
+                  >
+                    <EyeOff size={15} />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Full screen"
+                    title="Full screen"
+                    onClick={() =>
+                      document.fullscreenElement
+                        ? document.exitFullscreen()
+                        : stage.current?.requestFullscreen?.()
+                    }
+                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05]"
+                  >
+                    <Maximize2 size={15} />
+                  </button>
                 </div>
-              )}
-            </MapToolbar>
+              </MapToolbar>
+            )}
           </>
         ) : (
           <MapContainer center={defaultCenter} zoom={11} style={{ height: '100%', width: '100%' }}>
@@ -367,7 +490,7 @@ export default function FleetMap() {
           </MapContainer>
         )}
 
-        {!overviewLoading && (
+        {!overviewLoading && !(gl && clean) && (
           <div
             className="absolute bottom-4 left-4 z-[1000] w-56 glass-strong p-3 shadow"
             role="group"
