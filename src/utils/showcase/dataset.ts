@@ -451,7 +451,11 @@ for (let i = 0; i < 160; i++) {
         : NOW - rng.int(1, 45) * DAY - rng.int(0, 12) * HOUR;
   const done = state === 'completed';
   const actualKm = done ? Math.round(km * rng.float(0.98, 1.08)) : null;
-  const delayMin = done ? Math.round(rng.float(-30, 95)) : 0;
+  const ageFrac = Math.min(1, Math.max(0, (NOW - startMs) / (45 * DAY)));
+  // Punctuality improves over time: older trips run late more often.
+  const delayMin = done
+    ? Math.round(rng.chance(0.14 + 0.2 * ageFrac) ? rng.float(20, 110) : rng.float(-25, 12))
+    : 0;
   const ref = `TRP-${String(2400 + i)}`;
 
   tripModels.push({
@@ -614,9 +618,9 @@ vehicleModels
     for (let k = 0; k < 2; k++) {
       const [svc, days, km] = SERVICES[(vehicleModels.indexOf(v) + k * 2) % SERVICES.length];
       const daysLeft = rng.weighted([
-        [rng.int(-25, -1), 2],
-        [rng.int(0, 14), 2],
-        [rng.int(15, 160), 6],
+        [rng.int(-25, -1), 1],
+        [rng.int(0, 14), 1],
+        [rng.int(15, 160), 14],
       ] as const);
       const kmLeft = Math.round(daysLeft * rng.float(60, 140));
       const status =
@@ -675,6 +679,11 @@ vehicleModels
       age = rng.int(3600, 40_000); // offline
     } else if (i % 4 === 0) {
       speed = rng.int(0, 4); // idling
+    } else if (i % 3 === 0) {
+      // Local delivery run near the home yard.
+      lat = home.latitude + rng.float(-0.12, 0.12);
+      lon = home.longitude + rng.float(-0.12, 0.12);
+      speed = rng.int(28, 64);
     }
 
     positionModels.push({
@@ -700,3 +709,123 @@ vehicleModels
       _vehicleId: v.id,
     });
   });
+
+// ── Fuel + maintenance logs (feed cost and analytics) ────────────────────
+const VENDORS = ['PSO', 'Shell Pakistan', 'Attock Petroleum', 'Total Parco', 'Hascol'];
+export const FUEL_PRICE = { diesel: 272, petrol: 268 } as Record<string, number>;
+
+export const fuelLogModels: any[] = [];
+tripModels
+  .filter(t => t.status === 'completed')
+  .forEach((t, i) => {
+    if (i % 5 === 4) return;
+    const v = vehicleModels.find(x => x.id === t.vehicle_id)!;
+    const liters = Math.round(t.fuel_used_liters * rng.float(0.9, 1.2)) || 40;
+    const price = Math.round(FUEL_PRICE[v.raw.fuel_type] + rng.float(-6, 6));
+
+    fuelLogModels.push({
+      id: String(2000 + fuelLogModels.length),
+      vehicle_id: v.id,
+      vehicle: { id: v.id, name: v.raw.name, plate: v.raw.plate, vehicle_category: v.category },
+      filled_at: t.actual_end_at,
+      liters,
+      price_per_liter: price,
+      total_cost: liters * price,
+      vendor: rng.pick(VENDORS),
+      odometer_km: t.odometer_end_km,
+      full_tank: rng.chance(0.75),
+    });
+  });
+
+const MAINT_TYPES = [
+  'Oil & filter change',
+  'Brake pad replacement',
+  'Tyre replacement',
+  'Full service',
+  'Battery replacement',
+  'AC repair',
+  'Suspension repair',
+];
+
+export const maintenanceLogModels: any[] = Array.from({ length: 46 }, (_, i) => {
+  const v = eligible[(i * 7) % eligible.length];
+  const service = MAINT_TYPES[i % MAINT_TYPES.length];
+  const date = NOW - rng.float(0.5, 88) * DAY;
+
+  return {
+    id: String(3000 + i),
+    vehicle_id: v.id,
+    vehicle: { id: v.id, name: v.raw.name, plate: v.raw.plate, vehicle_category: v.category },
+    service_type: service,
+    serviced_at: iso(date),
+    cost: Math.round(rng.float(6, 140)) * 1000,
+    vendor: rng.pick([
+      'Al-Fatah Motors',
+      'Hino Service Centre',
+      'Karachi Auto Works',
+      'Lahore Fleet Care',
+    ]),
+    odometer_km: v.raw.odometer_km - rng.int(500, 9000),
+    notes: null,
+  };
+});
+
+// ── Compliance documents (vehicle papers + driver medicals) ──────────────
+const docRng = makeRng(77);
+
+const docExpiry = () =>
+  NOW +
+  docRng.weighted([
+    [docRng.int(-40, -1), 1],
+    [docRng.int(0, 30), 2],
+    [docRng.int(31, 60), 2],
+    [docRng.int(61, 400), 12],
+  ] as const) *
+    DAY;
+
+export const complianceDocs: any[] = [
+  ...vehicleModels
+    .filter(v => v.status !== 'sold')
+    .flatMap(v =>
+      ['Insurance', 'Fitness certificate', 'Route permit'].map(t => ({
+        owner: 'vehicle',
+        ownerId: v.id,
+        ownerName: v.raw.name,
+        type: t,
+      }))
+    ),
+  ...driverModels.map(d => ({
+    owner: 'driver',
+    ownerId: d.id,
+    ownerName: d.name,
+    type: 'Medical certificate',
+  })),
+].map((d, i) => {
+  const exp = docExpiry();
+
+  return {
+    id: String(4000 + i),
+    documentable_type: d.owner,
+    documentable_id: d.ownerId,
+    owner_name: d.ownerName,
+    document_type: d.type,
+    document_number: `DOC-${10000 + i}`,
+    issue_date: ymd(exp - 365 * DAY),
+    expiry_date: ymd(exp),
+    created_at: iso(NOW - 200 * DAY),
+    updated_at: iso(NOW - 20 * DAY),
+  };
+});
+
+// The map centres on the newest report: make it a Lahore-based vehicle so the default view is central Pakistan.
+const lead = positionModels.find(p => {
+  const v = vehicleModels.find(x => x.id === p._vehicleId)!;
+
+  return v.yardIdx === 1 && p.age_seconds < 900;
+});
+
+if (lead) {
+  lead.age_seconds = 2;
+  lead.recorded_at = iso(NOW - 2000);
+  lead.fresh = true;
+}
