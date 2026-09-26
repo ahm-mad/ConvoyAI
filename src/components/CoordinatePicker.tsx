@@ -46,7 +46,7 @@ function CoordinatePickerModal({
   const center: [number, number] = pin ?? FALLBACK_CENTER;
 
   return (
-    <div className="glass-strong flex w-[min(640px,calc(100vw-2rem))] flex-col overflow-hidden">
+    <div className="glass-strong flex w-[min(640px,calc(100vw_-_1.5rem))] flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">{title}</h2>
@@ -76,14 +76,14 @@ function CoordinatePickerModal({
         </ConvoyMap>
       </div>
 
-      <div className="flex items-center justify-between gap-3 px-5 py-3 border-t border-line">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 py-3 border-t border-line">
         <div className="text-[11px] font-mono text-ink-2">
           {pin ? `${pin[0].toFixed(6)}, ${pin[1].toFixed(6)}` : 'No location chosen yet'}
         </div>
         <div className="flex gap-2">
           <button
             onClick={closeModal}
-            className="text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full px-3 py-1.5"
+            className="whitespace-nowrap text-xs text-ink-2 border border-line bg-white hover:bg-surface-2 rounded-full px-3 py-1.5"
           >
             Cancel
           </button>
@@ -94,7 +94,7 @@ function CoordinatePickerModal({
               closeModal();
             }}
             disabled={!pin}
-            className="text-xs btn-brand border border-transparent rounded-full px-3 py-1.5 disabled:opacity-40"
+            className="whitespace-nowrap text-xs btn-brand border border-transparent rounded-full px-3 py-1.5 disabled:opacity-40"
           >
             Use this location
           </button>

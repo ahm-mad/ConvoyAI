@@ -601,6 +601,12 @@
     box-shadow: var(--shadow-glass) !important;
     background: var(--glass-bg-menu) !important;
   }
+  /* One focus ring for every map control (toolbar, cinematic tools, zoom); offset so it stays visible on the orange pressed state */
+  [role='toolbar'] button:focus-visible,
+  [role='group'][aria-label='Zoom'] button:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+  }
   /* Vehicle, cluster and yard markers are the focusable elements themselves (role=button) */
   .maplibregl-marker:focus-visible {
     outline: var(--focus-ring);

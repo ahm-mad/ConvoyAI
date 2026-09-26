@@ -15,6 +15,7 @@ import { isShowcase } from '@utils/showcase';
 import { getDemoSpeed } from '@utils/showcase/simulation';
 import { formatQty } from '@utils/units';
 import { useUnits } from '@hooks/useUnits';
+import { useCompanyMoney } from '@hooks/useCompanyMoney';
 
 const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false });
 
@@ -67,6 +68,7 @@ export default function OverviewHero({
   attention?: number | null;
 }) {
   const { user } = useUser();
+  const money = useCompanyMoney();
   const { data } = useSimpleQuery<any>(
     'fleet-positions-hero',
     '/api/fleet/positions',
@@ -152,7 +154,7 @@ export default function OverviewHero({
               'Your fleet at a glance.'
             )}{' '}
             Convoy AI has <b className="text-ink-0">3 suggestions</b> that could save about{' '}
-            <b className="text-ink-0">PKR 412k</b> this week.
+            <b className="text-ink-0">{money(412_000)}</b> this week.
           </p>
         </div>
         <button

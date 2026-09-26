@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useCompanyMoney } from '@hooks/useCompanyMoney';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface Msg {
@@ -16,7 +17,7 @@ const STARTERS = ['Predict maintenance', 'HOS breach risks', 'Summarise yesterda
 /** Answers for the action chips under an answer (matched on the lower-cased chip text). */
 const FOLLOW_UPS: Record<string, Omit<Msg, 'id' | 'role'>> = {
   'create idle-reduction plan': {
-    text: 'Drafted a plan: cap idling at 10 minutes on the two worst vehicles, nudge their drivers after 8, and review the result on Friday. Projected saving is PKR 38k per week.',
+    text: 'Drafted a plan: cap idling at 10 minutes on the two worst vehicles, nudge their drivers after 8, and review the result on Friday. Projected saving is [[38000]] per week.',
     chips: ['Open trips report', 'Coach drivers'],
   },
   'see route options': {
@@ -49,6 +50,20 @@ const FOLLOW_UPS: Record<string, Omit<Msg, 'id' | 'role'>> = {
   },
 };
 
+/** Fills the `[[amount]]` placeholders of a mock answer with the company's currency. */
+const withMoney = (
+  m: Omit<Msg, 'id' | 'role'>,
+  money: (n: number) => string
+): Omit<Msg, 'id' | 'role'> => {
+  const fill = (t: string) => t.replace(/\[\[(\d+)\]\]/g, (_, n) => money(Number(n)));
+
+  return {
+    ...m,
+    text: fill(m.text),
+    bars: m.bars?.map(b => ({ ...b, display: fill(b.display) })),
+  };
+};
+
 /** Mock AI answers (no backend, on purpose): believable fleet insights keyed on the question. */
 function answer(q: string): Omit<Msg, 'id' | 'role'> {
   const s = q.toLowerCase();
@@ -59,10 +74,10 @@ function answer(q: string): Omit<Msg, 'id' | 'role'> {
     return {
       text: 'Five vehicles account for 38% of projected fuel spend this week. Two of them idle for more than 22% of engine time.',
       bars: [
-        { label: 'KHI-2291', value: 92, display: 'PKR 84k' },
-        { label: 'LHE-1180', value: 78, display: 'PKR 71k' },
-        { label: 'KHI-0764', value: 66, display: 'PKR 60k' },
-        { label: 'ISB-3302', value: 51, display: 'PKR 47k' },
+        { label: 'KHI-2291', value: 92, display: '[[84000]]' },
+        { label: 'LHE-1180', value: 78, display: '[[71000]]' },
+        { label: 'KHI-0764', value: 66, display: '[[60000]]' },
+        { label: 'ISB-3302', value: 51, display: '[[47000]]' },
       ],
       chips: ['Create idle-reduction plan', 'See route options'],
     };
@@ -159,6 +174,7 @@ export default function CopilotChat({
   onConsumed?: () => void;
   className?: string;
 }) {
+  const money = useCompanyMoney();
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState(false);
@@ -173,7 +189,7 @@ export default function CopilotChat({
     setInput('');
     setThinking(true);
     setTimeout(() => {
-      setMsgs(m => [...m, { id: ++idRef.current, role: 'ai', ...answer(text) }]);
+      setMsgs(m => [...m, { id: ++idRef.current, role: 'ai', ...withMoney(answer(text), money) }]);
       setThinking(false);
     }, 900);
   };

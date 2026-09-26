@@ -99,6 +99,15 @@ export default function FleetMap() {
 
   const [clean, setClean] = useState(false);
   const stage = useRef<HTMLDivElement>(null);
+  const [fullscreen, setFullscreen] = useState(false);
+
+  useEffect(() => {
+    const sync = () => setFullscreen(document.fullscreenElement === stage.current);
+
+    document.addEventListener('fullscreenchange', sync);
+
+    return () => document.removeEventListener('fullscreenchange', sync);
+  }, []);
 
   // `?gl=0` forces the no-WebGL message (for testing the fallback).
   useEffect(() => {
@@ -262,7 +271,7 @@ export default function FleetMap() {
     : [31.4757729, 74.3399971];
 
   return (
-    <div className="glass flex flex-col h-[calc(100vh-300px)] min-h-[560px] overflow-hidden rounded-modal mt-4 mb-8">
+    <div className="glass flex flex-col h-[calc(100vh-200px)] min-h-[640px] overflow-hidden rounded-modal mt-4 mb-8">
       <div className="px-4 sm:px-6 py-4 border-b border-line-soft bg-white/60 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 flex-shrink-0">
         <div className="min-w-0">
           <h1 className="page-title text-title-sm">Live map</h1>
@@ -436,14 +445,15 @@ export default function FleetMap() {
                   </button>
                   <button
                     type="button"
-                    aria-label="Full screen"
-                    title="Full screen"
+                    aria-label={fullscreen ? 'Exit full screen' : 'Full screen'}
+                    aria-pressed={fullscreen}
+                    title={fullscreen ? 'Exit full screen' : 'Full screen'}
                     onClick={() =>
                       document.fullscreenElement
                         ? document.exitFullscreen()
                         : stage.current?.requestFullscreen?.()
                     }
-                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05]"
+                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
                   >
                     <Maximize2 size={15} />
                   </button>

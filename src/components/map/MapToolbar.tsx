@@ -18,7 +18,7 @@ const ICON_STYLES: { id: VehicleIconStyle; label: string; icon: typeof Truck }[]
 ];
 
 const seg =
-  'grid size-8 place-items-center rounded-full text-ink-1 transition-colors hover:bg-black/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand aria-pressed:bg-brand aria-pressed:text-white aria-pressed:shadow-glow';
+  'grid size-8 place-items-center rounded-full text-ink-1 transition-colors hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white aria-pressed:shadow-glow';
 
 function Group({ label, children }: { label: string; children: ReactNode }) {
   return (
