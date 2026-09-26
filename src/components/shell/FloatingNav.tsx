@@ -306,7 +306,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
               {
                 icon: Sparkles,
                 tone: 'bg-ai-wash text-ai-ink',
-                title: 'AI found PKR 412k in savings',
+                title: 'AI found savings this week',
                 text: 'Review 3 suggestions',
                 time: 'Today',
               },
@@ -330,6 +330,13 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
                 </div>
               );
             })}
+            <Link
+              href="/notifications"
+              onClick={() => setNotifOpen(false)}
+              className="mt-1 block rounded-card px-3 py-2 text-center text-xs font-medium text-brand-ink hover:bg-brand-wash/60"
+            >
+              View all notifications
+            </Link>
           </div>
         )}
       </div>
