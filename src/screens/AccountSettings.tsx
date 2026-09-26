@@ -674,6 +674,10 @@ export default function BasicCard({
                         <button
                           type="button"
                           onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                          aria-label={
+                            showCurrentPassword ? 'Hide current password' : 'Show current password'
+                          }
+                          aria-pressed={showCurrentPassword}
                           className="absolute right-3 cursor-pointer top-0 flex items-center h-9"
                         >
                           {showCurrentPassword ? (
@@ -708,6 +712,8 @@ export default function BasicCard({
                         <button
                           type="button"
                           onClick={() => setShowNewPassword(!showNewPassword)}
+                          aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+                          aria-pressed={showNewPassword}
                           className="absolute right-3 cursor-pointer top-0 flex items-center h-9"
                         >
                           {showNewPassword ? (
@@ -744,6 +750,12 @@ export default function BasicCard({
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          aria-label={
+                            showConfirmPassword
+                              ? 'Hide password confirmation'
+                              : 'Show password confirmation'
+                          }
+                          aria-pressed={showConfirmPassword}
                           className="absolute right-3 cursor-pointer top-0 flex items-center h-9"
                         >
                           {showConfirmPassword ? (

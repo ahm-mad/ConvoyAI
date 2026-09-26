@@ -176,6 +176,7 @@ const GlobalInput = ({
           placeholder={placeholder}
           disabled={disabled}
           required={required}
+          aria-label={label ? undefined : (placeholder ?? name)}
           className={inputClasses}
           {...inputProps}
           {...props}
