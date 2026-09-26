@@ -189,7 +189,13 @@ export default function FleetMap() {
   const geofences: any[] = geofencesView.items;
   const geofencesTotal = geofencesView.total;
 
+  // Modals render outside the fullscreen map element, so leave fullscreen before opening one.
+  const leaveFullscreen = () => {
+    if (document.fullscreenElement) document.exitFullscreen?.();
+  };
+
   const handleYardClick = (yard: any) => {
+    leaveFullscreen();
     openModal(<YardLayoutEditor yardId={yard.id} yardName={yard.name} />);
   };
 
@@ -257,8 +263,8 @@ export default function FleetMap() {
 
   return (
     <div className="glass flex flex-col h-[calc(100vh-300px)] min-h-[560px] overflow-hidden rounded-modal mt-4 mb-8">
-      <div className="px-6 py-4 border-b border-line-soft bg-white/60 flex items-center justify-between flex-shrink-0">
-        <div>
+      <div className="px-4 sm:px-6 py-4 border-b border-line-soft bg-white/60 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 flex-shrink-0">
+        <div className="min-w-0">
           <h1 className="page-title text-title-sm">Live map</h1>
           <p className="text-[12.5px] text-ink-2">
             {isLoading
@@ -268,21 +274,23 @@ export default function FleetMap() {
                 : `${positions.length} vehicle${positions.length === 1 ? '' : 's'} reporting a position`}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <select
-            value={selectedTripId}
-            onChange={e => setSelectedTripId(e.target.value)}
-            className="bg-white border border-line rounded-xl px-2 py-1 text-[11px] text-ink-0 max-w-[240px]"
-            aria-label="Show trip route"
-          >
-            <option value="">Show trip route…</option>
-            {activeTrips.map((t: any) => (
-              <option key={t.id} value={t.id}>
-                {t.trip_reference || `Trip #${t.id}`} · {t.vehicle?.name || 'vehicle'} ·{' '}
-                {String(t.status).replace('_', ' ')}
-              </option>
-            ))}
-          </select>
+        <div className="flex w-full items-center gap-2 sm:w-auto">
+          {gl && (
+            <select
+              value={selectedTripId}
+              onChange={e => setSelectedTripId(e.target.value)}
+              className="min-w-0 flex-1 bg-white border border-line rounded-xl px-2 py-1 text-[11px] text-ink-0 sm:max-w-[240px] sm:flex-none"
+              aria-label="Show trip route"
+            >
+              <option value="">Show trip route…</option>
+              {activeTrips.map((t: any) => (
+                <option key={t.id} value={t.id}>
+                  {t.trip_reference || `Trip #${t.id}`} · {t.vehicle?.name || 'vehicle'} ·{' '}
+                  {String(t.status).replace('_', ' ')}
+                </option>
+              ))}
+            </select>
+          )}
           {selectedDeviceId && (
             <button
               onClick={() => setSelectedDeviceId(null)}
@@ -338,10 +346,18 @@ export default function FleetMap() {
                   setFollow(false);
                   setTour(false);
                 }}
-                onOpen={v => openModal(<VehicleDetailModal vehicleId={v.id} />)}
+                onOpen={v => {
+                  leaveFullscreen();
+                  openModal(<VehicleDetailModal vehicleId={v.id} />);
+                }}
               />
             </ConvoyMap>
-            {!clean && <MapHud vehicles={glVehicles} className="absolute left-4 top-4 z-10" />}
+            {!clean && (
+              <MapHud
+                vehicles={glVehicles}
+                className="absolute left-3 top-[4.25rem] z-10 lg:left-4 lg:top-4"
+              />
+            )}
             {clean && (
               <button
                 type="button"
@@ -356,13 +372,13 @@ export default function FleetMap() {
                 prefs={mapPrefs}
                 onChange={setMapPrefs}
                 onFit={fitFleet}
-                className="absolute right-4 top-4 z-10"
+                className="absolute inset-x-3 top-3 z-10 lg:inset-x-auto lg:right-4 lg:top-4"
               >
                 {isShowcase() && (
                   <div
                     role="group"
                     aria-label="Demo speed"
-                    className="flex items-center gap-0.5 rounded-full bg-white/70 p-0.5"
+                    className="flex shrink-0 items-center gap-0.5 rounded-full bg-white/70 p-0.5"
                   >
                     <Gauge size={14} className="ml-2 text-ink-2" aria-hidden />
                     {[1, 10, 20, 60].map(x => (
@@ -384,7 +400,7 @@ export default function FleetMap() {
                 <div
                   role="group"
                   aria-label="Cinematic tools"
-                  className="flex items-center gap-0.5 rounded-full bg-white/70 p-0.5"
+                  className="flex shrink-0 items-center gap-0.5 rounded-full bg-white/70 p-0.5"
                 >
                   <button
                     type="button"
@@ -442,35 +458,40 @@ export default function FleetMap() {
           </div>
         )}
 
-        {!overviewLoading && !(gl && clean) && (
+        {!overviewLoading && gl && !clean && (
           <div
-            className="absolute bottom-4 left-4 z-[1000] w-56 glass-strong p-3 shadow"
+            className="absolute inset-x-3 bottom-3 z-[1000] glass-strong p-2 shadow sm:inset-x-auto sm:bottom-4 sm:left-4 sm:w-56 sm:p-3"
             role="group"
             aria-label="Map layers"
           >
-            <div className="eyebrow mb-2">Layers</div>
-            {(
-              [
-                ['vehicles', 'Vehicles', positions.length, 'var(--color-brand)'],
-                ['yards', 'Yards', yardsTotal, 'var(--color-brand-ink)'],
-                ['geofences', 'Geofences', geofencesTotal, 'var(--color-gold)'],
-              ] as const
-            ).map(([key, label, n, color]) => (
-              <label
-                key={key}
-                className="flex cursor-pointer items-center gap-2.5 rounded-lg px-1.5 py-1.5 text-[13px] text-ink-0 hover:bg-black/[0.04]"
-              >
-                <input
-                  type="checkbox"
-                  className="check"
-                  checked={layers[key]}
-                  onChange={() => setLayers(l => ({ ...l, [key]: !l[key] }))}
-                />
-                <span className="size-2.5 rounded-full" style={{ background: color }} />
-                <span className="flex-1">{label}</span>
-                <span className="tabular-nums text-ink-2">{n}</span>
-              </label>
-            ))}
+            <div className="eyebrow mb-2 hidden sm:block">Layers</div>
+            <div className="flex gap-1 sm:block">
+              {(
+                [
+                  ['vehicles', 'Vehicles', positions.length, 'var(--color-brand)'],
+                  ['yards', 'Yards', yardsTotal, 'var(--color-brand-ink)'],
+                  ['geofences', 'Geofences', geofencesTotal, 'var(--color-gold)'],
+                ] as const
+              ).map(([key, label, n, color]) => (
+                <label
+                  key={key}
+                  className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-lg px-1.5 py-1.5 text-[12px] text-ink-0 hover:bg-black/[0.04] sm:gap-2.5 sm:text-[13px]"
+                >
+                  <input
+                    type="checkbox"
+                    className="check"
+                    checked={layers[key]}
+                    onChange={() => setLayers(l => ({ ...l, [key]: !l[key] }))}
+                  />
+                  <span
+                    className="hidden size-2.5 rounded-full sm:block"
+                    style={{ background: color }}
+                  />
+                  <span className="flex-1 truncate">{label}</span>
+                  <span className="tabular-nums text-ink-2">{n}</span>
+                </label>
+              ))}
+            </div>
           </div>
         )}
 

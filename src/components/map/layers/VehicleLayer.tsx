@@ -487,7 +487,7 @@ export default function VehicleLayer({
         const box = map.getContainer().getBoundingClientRect();
         const cardH = (el.firstElementChild?.getBoundingClientRect().height ?? 180) + 34;
         const cardW = el.firstElementChild?.getBoundingClientRect().width ?? 260;
-        const top = 84; // room for the toolbar row
+        const top = box.width < 1024 ? 132 : 84; // room for the toolbar (and, below lg, the HUD chips under it)
         const dy = p.y - cardH < top ? top - (p.y - cardH) : 0;
         const dx =
           p.x - cardW / 2 < 12

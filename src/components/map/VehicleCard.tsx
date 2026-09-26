@@ -67,13 +67,17 @@ export default function VehicleCard({
         <span className={`rounded-full px-2 py-0.5 font-semibold ${PILL[v.state]}`}>
           {STATE_LABEL[v.state]}
         </span>
-        <span className="inline-flex items-center gap-1 text-ink-1">
-          <Gauge size={12} /> {speedLabel}
-        </span>
-        <span className="inline-flex items-center gap-1 text-ink-1">
-          <Navigation2 size={12} style={{ transform: `rotate(${Math.round(v.heading)}deg)` }} />{' '}
-          {Math.round(v.heading)}°
-        </span>
+        {v.state !== 'offline' && (
+          <span className="inline-flex items-center gap-1 text-ink-1">
+            <Gauge size={12} /> {speedLabel}
+          </span>
+        )}
+        {v.state !== 'offline' && v.hasHeading !== false && (
+          <span className="inline-flex items-center gap-1 text-ink-1">
+            <Navigation2 size={12} style={{ transform: `rotate(${Math.round(v.heading)}deg)` }} />{' '}
+            {Math.round(v.heading)}°
+          </span>
+        )}
       </div>
       {v.driver && (
         <div className="mt-1.5 inline-flex items-center gap-1 text-xs text-ink-1">
@@ -82,7 +86,8 @@ export default function VehicleCard({
       )}
       {v.recordedAt && (
         <div className="mt-1 inline-flex items-center gap-1 text-[11px] text-ink-2">
-          <MapPin size={11} /> Updated {clockTime(v.recordedAt, settings?.timezone)}
+          <MapPin size={11} /> {v.state === 'offline' ? 'Last seen' : 'Updated'}{' '}
+          {clockTime(v.recordedAt, settings?.timezone)}
         </div>
       )}
       {onOpen && (

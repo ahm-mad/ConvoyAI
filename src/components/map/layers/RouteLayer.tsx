@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import type { Marker } from 'maplibre-gl';
 import { token } from '@lib/design/tokens';
 import { useConvoyMap } from '../ConvoyMap';
+import { routePoints } from '../geo';
 
 type LL = [number, number]; // [lon, lat] for MapLibre
 
@@ -166,10 +167,13 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
             coord(route.destination?.latitude, route.destination?.longitude),
           ].filter(Boolean) as LL[]);
 
-    if (!planned.length) return;
+    // Frame everything the trip draws: the road path plus stops, origin, destination, trail and vehicle.
+    const all: LL[] = [...planned, ...routePoints(route).map(([la, lo]) => [lo, la] as LL)];
 
-    const xs = planned.map(p => p[0]);
-    const ys = planned.map(p => p[1]);
+    if (!all.length) return;
+
+    const xs = all.map(p => p[0]);
+    const ys = all.map(p => p[1]);
 
     map.fitBounds(
       [
