@@ -88,7 +88,7 @@ export default function CreateTemplateModal({ onSuccess }) {
             later.
           </p>
         </div>
-        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0">
+        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">
           <X size={18} />
         </button>
       </div>

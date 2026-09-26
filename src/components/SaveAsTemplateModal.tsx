@@ -65,7 +65,7 @@ export default function SaveAsTemplateModal({ product, onSuccess }) {
             Saves {product?.name}'s current field mappings as a reusable template for your company.
           </p>
         </div>
-        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0">
+        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">
           <X size={18} />
         </button>
       </div>

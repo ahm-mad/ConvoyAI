@@ -159,7 +159,7 @@ const AllUser = ({ users = [], companyId, onRefetch }) => {
       render: value => (
         <span
           className={`px-2 py-0.5 rounded text-[10.5px] font-medium ${
-            value === 'active' ? 'bg-accent-green/10 text-accent-green' : 'bg-surface-3 text-ink-2'
+            value === 'active' ? 'bg-accent-green/10 text-accent-green' : 'bg-surface-3 text-ink-1'
           }`}
         >
           {(value || 'inactive').toUpperCase()}

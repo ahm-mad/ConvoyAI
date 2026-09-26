@@ -431,7 +431,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
               type="button"
               role="menuitem"
               onClick={handleLogout}
-              className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] text-danger hover:bg-danger/10"
+              className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] text-danger-text hover:bg-danger/10"
             >
               <LogOut size={15} /> Log out
             </button>

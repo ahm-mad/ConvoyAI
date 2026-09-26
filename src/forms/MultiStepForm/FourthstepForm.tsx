@@ -227,7 +227,7 @@ function FourthstepForm({ formData, setFormData, productResponse }) {
             // (formData.step3.isFilled never becomes true for MQTT without
             // a real config handler wired up).
             <div className="border border-dashed border-line rounded-md p-8 text-center">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-surface-3 text-ink-2 mx-auto mb-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-surface-3 text-ink-1 mx-auto mb-3">
                 <Radio className="w-5 h-5" />
               </div>
               <p className="text-sm font-medium text-ink-0">MQTT — Coming Soon</p>

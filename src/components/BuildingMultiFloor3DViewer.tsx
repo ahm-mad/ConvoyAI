@@ -160,7 +160,7 @@ export default function BuildingMultiFloor3DViewer({ assetId, buildingName }) {
               : 'Every floor with an uploaded plan, stacked by floor level. Click a floor to focus it.'}
           </p>
         </div>
-        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0">
+        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">
           <X size={18} />
         </button>
       </div>

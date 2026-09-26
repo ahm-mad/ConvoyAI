@@ -251,7 +251,7 @@ export default function YardLayoutEditor({
                 : 'Click a slot to check in or check out a vehicle.'}
           </p>
         </div>
-        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0">
+        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">
           <X size={18} />
         </button>
       </div>
@@ -510,7 +510,7 @@ export default function YardLayoutEditor({
                   </div>
                   <button
                     onClick={handleCheckOut}
-                    className="w-full mt-2 text-xs text-danger border border-danger/40 bg-danger/10 rounded-full py-1.5"
+                    className="w-full mt-2 text-xs text-danger-text border border-danger/40 bg-danger/10 rounded-full py-1.5"
                   >
                     Check Out
                   </button>

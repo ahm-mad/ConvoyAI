@@ -260,7 +260,7 @@ function TripRow({ trip, onClick }: { trip: any; onClick: () => void }) {
   const statusConfig: Record<string, { icon: ReactNode; className: string }> = {
     planned: {
       icon: null,
-      className: 'bg-surface-3 text-ink-2',
+      className: 'bg-surface-3 text-ink-1',
     },
 
     in_progress: {
@@ -450,6 +450,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={vehicleId}
           onChange={id => handleVehicleChange(id)}
           placeholder="Select vehicle *"
+          ariaLabel="Vehicle"
           emptyLabel="No vehicles available"
           getOption={v => ({
             label: `${v.name || `Vehicle #${v.id}`}${v.vehicle_category ? ` · ${v.vehicle_category}` : ''} (#${v.id})`,
@@ -461,6 +462,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={driverId}
           onChange={setDriverId}
           placeholder="Select driver *"
+          ariaLabel="Driver"
           emptyLabel="No drivers available"
           getOption={d => ({
             label: `${d.name}${d.license_number ? ` · ${d.license_number}` : ''}`,
@@ -583,6 +585,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={plannedStartAt}
           onChange={e => setPlannedStartAt(e.target.value)}
           type="datetime-local"
+          aria-label="Planned start"
           className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 
@@ -590,6 +593,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={plannedEndAt}
           onChange={e => setPlannedEndAt(e.target.value)}
           type="datetime-local"
+          aria-label="Planned end"
           className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
         />
 

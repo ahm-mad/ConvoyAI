@@ -66,7 +66,7 @@ export default function TripDetailModal({ tripId, onListChanged }) {
           </p>
         </div>
 
-        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0">
+        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">
           <X size={18} />
         </button>
       </div>
@@ -627,7 +627,7 @@ function PlannedYardCard({ plannedYard, index }) {
                 ? 'bg-accent-cyan/10 text-accent-cyan'
                 : plannedYard.status === 'missed'
                   ? 'bg-danger/10 text-danger'
-                  : 'bg-surface-3 text-ink-2'
+                  : 'bg-surface-3 text-ink-1'
           }`}
         >
           {plannedYard.status || 'planned'}

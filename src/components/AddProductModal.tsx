@@ -151,7 +151,7 @@ export default function AddProductModal({ onClose, onComplete }) {
               >
                 {/* Configured badge, top-right */}
                 {isConfigured && (
-                  <span className="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-medium bg-surface-3 text-ink-2 border border-line">
+                  <span className="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-medium bg-surface-3 text-ink-1 border border-line">
                     <Check className="w-2.5 h-2.5" />
                     Configured
                   </span>

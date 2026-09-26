@@ -258,7 +258,7 @@ export default function Landing() {
                 Utilisation, on-time delivery, cost per km and fuel economy with period comparison,
                 targets and one-click CSV export.
               </p>
-              <span className="mt-6 inline-flex items-center gap-2 text-control font-semibold text-brand">
+              <span className="mt-6 inline-flex items-center gap-2 text-control font-semibold text-brand-text">
                 <BarChart3 size={16} /> Built-in reports for every department
               </span>
             </div>

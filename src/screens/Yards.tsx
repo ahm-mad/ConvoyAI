@@ -286,7 +286,7 @@ export default function Yards() {
                     <div className="flex items-center gap-2 text-sm text-ink-0">
                       {y.name}
                       {y.is_active === false && (
-                        <span className="text-micro font-semibold px-2.5 py-0.5 rounded-full bg-surface-3 text-ink-2">
+                        <span className="text-micro font-semibold px-2.5 py-0.5 rounded-full bg-surface-3 text-ink-1">
                           inactive
                         </span>
                       )}
