@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useUnits } from '@hooks/useUnits';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { keepPreviousData } from '@tanstack/react-query';
 import { MapContainer, TileLayer, Polyline, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -16,6 +16,11 @@ import MapViewportWatcher from '@components/MapViewportWatcher';
 import { useViewportList } from '@hooks/useViewportList';
 import { bboxToParam, type Bbox } from '@utils/mapViewport';
 import { token } from '@lib/design/tokens';
+import dynamic from 'next/dynamic';
+import DotsLayer from '@components/map/layers/DotsLayer';
+import type { MapLook, MapMode } from '@components/map/ConvoyMap';
+
+const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false });
 
 /**
  * Fleet Management — real map, real data. Consumes
@@ -39,6 +44,12 @@ export default function FleetMap() {
   const { openModal } = useModal();
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | number | null>(null);
   const [layers, setLayers] = useState({ vehicles: true, yards: true, geofences: true });
+  // Phase 2 (T-006) MapLibre map, opt-in with ?gl=1 until every milestone is in.
+  const [gl, setGl] = useState(false);
+  const [look, setLook] = useState<MapLook>('light');
+  const [mode, setMode] = useState<MapMode>('2d');
+
+  useEffect(() => setGl(new URLSearchParams(window.location.search).get('gl') === '1'), []);
 
   // The visible box; set by MapViewportWatcher once the map exists and after every pan / zoom.
   const [bbox, setBbox] = useState<Bbox | null>(null);
@@ -181,6 +192,40 @@ export default function FleetMap() {
           <div className="h-full flex items-center justify-center text-xs text-ink-2">
             Loading map…
           </div>
+        ) : gl ? (
+          <>
+            <ConvoyMap
+              look={look}
+              mode={mode}
+              center={defaultCenter}
+              zoom={11}
+              onBoundsChange={setBbox}
+              ariaLabel="Live fleet map"
+            >
+              <DotsLayer positions={positions} />
+            </ConvoyMap>
+            <div className="absolute right-4 top-4 z-10 flex gap-2 glass-strong p-1.5">
+              {(['light', 'night', 'satellite'] as const).map(l => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setLook(l)}
+                  aria-pressed={look === l}
+                  className="rounded-full px-3 py-1 text-xs font-medium capitalize aria-pressed:bg-brand aria-pressed:text-white"
+                >
+                  {l}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setMode(m => (m === '2d' ? '3d' : '2d'))}
+                aria-pressed={mode === '3d'}
+                className="rounded-full px-3 py-1 text-xs font-medium aria-pressed:bg-brand aria-pressed:text-white"
+              >
+                3D
+              </button>
+            </div>
+          </>
         ) : (
           <MapContainer center={defaultCenter} zoom={11} style={{ height: '100%', width: '100%' }}>
             <MapViewportWatcher onChange={setBbox} />
