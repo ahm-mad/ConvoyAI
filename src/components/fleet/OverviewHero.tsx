@@ -33,7 +33,7 @@ const greeting = () => {
 const INSIGHTS = [
   {
     icon: Wrench,
-    tone: 'bg-gold-wash text-gold-ink',
+    tone: 'bg-gold-wash text-gold-ink icon-tile icon-tile--gold',
     title: 'Brake wear likely in 9 days',
     text: 'Three vehicles show a 31% rise in hard stops.',
     cta: 'Schedule service',
@@ -41,7 +41,7 @@ const INSIGHTS = [
   },
   {
     icon: Route,
-    tone: 'bg-brand-wash text-brand',
+    tone: 'bg-brand-wash text-brand icon-tile',
     title: 'Reroute 14 trips via M-9',
     text: 'Avoids the highway closure and saves 46 min each.',
     cta: 'See route options',
@@ -49,7 +49,7 @@ const INSIGHTS = [
   },
   {
     icon: Clock,
-    tone: 'bg-danger/10 text-danger-text',
+    tone: 'bg-danger/10 text-danger-text icon-tile icon-tile--danger',
     title: '3 drivers near hours limit',
     text: 'Predicted breach before 19:00 on current routes.',
     cta: 'Reassign trips',
