@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  AlertTriangle,
   Bell,
   ChevronDown,
   LogOut,
@@ -12,6 +13,8 @@ import {
   Settings,
   Sparkles,
   Building,
+  Route as RouteIcon,
+  Wrench,
   X,
 } from 'lucide-react';
 import { useUser } from '@contexts/UserContext';
@@ -39,6 +42,8 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
   const [open, setOpen] = useState<string | null>(null);
   const [userMenu, setUserMenu] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [unread, setUnread] = useState(true);
   const rootRef = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
   const [hl, setHl] = useState<{ left: number; width: number } | null>(null);
@@ -50,6 +55,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
     setOpen(null);
     setUserMenu(false);
     setMobileOpen(false);
+    setNotifOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -58,6 +64,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
         setOpen(null);
         setUserMenu(false);
         setMobileOpen(false);
+        setNotifOpen(false);
       }
     };
     const onKey = (e: KeyboardEvent) => {
@@ -65,6 +72,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
         setOpen(null);
         setUserMenu(false);
         setMobileOpen(false);
+        setNotifOpen(false);
       }
     };
     document.addEventListener('mousedown', onDoc);
@@ -81,6 +89,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
   const hoverOpen = (key: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setUserMenu(false);
+    setNotifOpen(false);
     setOpen(key);
   };
   const hoverClose = () => {
@@ -147,7 +156,11 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
                   className={`${base} ${tone}`}
                   aria-haspopup="menu"
                   aria-expanded={open === g.key}
-                  onClick={() => setOpen(open === g.key ? null : g.key)}
+                  onClick={() => {
+                    setUserMenu(false);
+                    setNotifOpen(false);
+                    setOpen(open === g.key ? null : g.key);
+                  }}
                 >
                   <Icon size={15} />
                   {g.label}
@@ -231,20 +244,97 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
         <span className="hidden whitespace-nowrap sm:inline">Ask Convoy</span>
       </button>
 
-      <button
-        type="button"
-        aria-label="Notifications"
-        className="relative grid size-[38px] shrink-0 place-items-center rounded-full border border-line bg-white text-ink-1 transition-colors hover:bg-surface-2"
-      >
-        <Bell size={16} />
-        <span className="absolute right-2 top-2 size-2 rounded-full border-2 border-white bg-gold" />
-      </button>
+      <div className="relative">
+        <button
+          type="button"
+          aria-label="Notifications"
+          aria-expanded={notifOpen}
+          onClick={() => {
+            setOpen(null);
+            setUserMenu(false);
+            setNotifOpen(v => !v);
+          }}
+          className="relative grid size-[38px] shrink-0 place-items-center rounded-full border border-line bg-white text-ink-1 transition-colors hover:bg-surface-2"
+        >
+          <Bell size={16} />
+          {unread && (
+            <span className="absolute right-2 top-2 size-2 rounded-full border-2 border-white bg-gold" />
+          )}
+        </button>
+        {notifOpen && (
+          <div
+            role="menu"
+            className="glass-menu absolute right-0 top-[calc(100%+12px)] w-[340px] max-w-[calc(100vw-32px)] rounded-panel p-2"
+          >
+            <div className="flex items-center justify-between px-3 pb-2 pt-2.5">
+              <span className="card-title">Notifications</span>
+              <button
+                type="button"
+                onClick={() => setUnread(false)}
+                className="text-caption font-semibold text-brand hover:underline"
+              >
+                Mark all read
+              </button>
+            </div>
+            {[
+              {
+                icon: AlertTriangle,
+                tone: 'bg-danger/10 text-danger',
+                title: 'Harsh braking on KHI-0764',
+                text: '3 events in the last hour',
+                time: '4 min',
+              },
+              {
+                icon: Wrench,
+                tone: 'bg-gold-wash text-gold-ink',
+                title: 'Service due in 9 days',
+                text: 'LHE-1180 brake inspection',
+                time: '1 h',
+              },
+              {
+                icon: RouteIcon,
+                tone: 'bg-brand-wash text-brand icon-gradient',
+                title: 'Trip T-48213 completed',
+                text: 'Delivered 12 min early',
+                time: '3 h',
+              },
+              {
+                icon: Sparkles,
+                tone: 'bg-ai-wash text-ai-ink',
+                title: 'AI found PKR 412k in savings',
+                text: 'Review 3 suggestions',
+                time: 'Today',
+              },
+            ].map(n => {
+              const I = n.icon;
+              return (
+                <div
+                  key={n.title}
+                  className={`flex items-start gap-3 rounded-card px-3 py-2.5 hover:bg-black/[0.04] ${unread ? '' : 'opacity-70'}`}
+                >
+                  <span
+                    className={`grid size-9 shrink-0 place-items-center rounded-control ${n.tone}`}
+                  >
+                    <I size={16} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-control font-semibold text-ink-0">{n.title}</span>
+                    <span className="block text-caption text-ink-2">{n.text}</span>
+                  </span>
+                  <span className="shrink-0 text-micro text-ink-2">{n.time}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
       <div className="relative">
         <button
           type="button"
           onClick={() => {
             setOpen(null);
+            setNotifOpen(false);
             setUserMenu(v => !v);
           }}
           aria-haspopup="menu"
