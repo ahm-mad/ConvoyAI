@@ -24,7 +24,7 @@ const FilterPopper = ({ id, openPopperId, setOpenPopperId, trigger, children, sx
 
       {isOpen && (
         <div
-          className="glass-strong absolute left-0 top-full z-[2000] mt-2 h-96 w-80 overflow-hidden"
+          className="glass-menu absolute left-0 top-full z-[2000] mt-2 h-96 w-80 overflow-hidden"
           style={{ boxShadow: 'var(--shadow-glass)', ...sx }}
         >
           {children}
