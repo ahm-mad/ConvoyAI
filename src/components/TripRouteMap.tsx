@@ -109,7 +109,7 @@ export default function TripRouteMap({
       <div className="rounded-md overflow-hidden border border-line-soft" style={{ height }}>
         <ConvoyMap
           look={prefs.look}
-          mode={prefs.mode}
+          mode="2d"
           center={[30.5, 72.5]}
           zoom={6}
           scrollZoom={false}

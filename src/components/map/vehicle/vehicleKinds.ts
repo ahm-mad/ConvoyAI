@@ -34,6 +34,8 @@ export interface LiveVehicle {
   lon: number;
   /** Degrees clockwise from north. */
   heading: number;
+  /** false when the tracker reported no heading (0 is then a placeholder). */
+  hasHeading?: boolean;
   /** km/h */
   speed: number;
   state: VehicleState;
@@ -58,7 +60,11 @@ export function vehicleFromPosition(p: any): LiveVehicle | null {
     category: veh?.vehicle_category ?? null,
     lat,
     lon,
-    heading: Number.isFinite(Number(p.heading)) ? Number(p.heading) : 0,
+    heading:
+      p.heading !== null && p.heading !== undefined && Number.isFinite(Number(p.heading))
+        ? Number(p.heading)
+        : 0,
+    hasHeading: p.heading !== null && p.heading !== undefined && Number.isFinite(Number(p.heading)),
     speed: Number(p.speed ?? 0),
     state: stateOf(p),
     recordedAt: p.recorded_at ?? null,
