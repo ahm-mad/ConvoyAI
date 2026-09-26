@@ -166,7 +166,7 @@ export default function AIWorkspace() {
       <div className="grid gap-6 motion-stagger lg:grid-cols-3">
         <section className="glass p-6">
           <div className="flex items-center gap-2">
-            <span className="grid size-9 place-items-center rounded-control bg-gold-wash text-gold-ink">
+            <span className="grid size-9 place-items-center rounded-control bg-gold-wash text-gold-ink icon-tile icon-tile--gold">
               <Wrench size={17} />
             </span>
             <div>
@@ -251,7 +251,7 @@ export default function AIWorkspace() {
 
         <section className="glass p-6">
           <div className="flex items-center gap-2">
-            <span className="grid size-9 place-items-center rounded-control bg-danger/10 text-danger-text">
+            <span className="grid size-9 place-items-center rounded-control bg-danger/10 text-danger-text icon-tile icon-tile--danger">
               <ShieldAlert size={17} />
             </span>
             <div>

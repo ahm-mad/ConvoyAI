@@ -264,6 +264,109 @@
     stroke: url(#cv-grad-ai);
   }
 
+  /* Icon tiles (B2): depth, tinted glow and a hover sheen for every tile that wraps a lucide icon. The tone comes from
+     --icon-tone, so one treatment serves brand / AI / gold / success / danger tiles. */
+  .icon-gradient,
+  .icon-tile {
+    --icon-tone: var(--color-brand);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-image: linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--color-surface-1) 78%, transparent),
+      transparent 62%
+    );
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-surface-1) 90%, transparent),
+      inset 0 -9px 14px -10px color-mix(in srgb, var(--icon-tone) 34%, transparent),
+      0 8px 16px -10px color-mix(in srgb, var(--icon-tone) 55%, transparent);
+    transition:
+      box-shadow var(--motion-slow) var(--ease-standard),
+      transform var(--motion-slow) var(--ease-standard);
+  }
+  .icon-gradient-ai {
+    --icon-tone: var(--color-ai);
+  }
+  .icon-tile--gold {
+    --icon-tone: var(--color-gold);
+  }
+  .icon-tile--success {
+    --icon-tone: var(--color-success);
+  }
+  .icon-tile--danger {
+    --icon-tone: var(--color-danger);
+  }
+  .icon-gradient svg,
+  .icon-tile svg {
+    filter: drop-shadow(0 2px 5px color-mix(in srgb, var(--icon-tone) 42%, transparent));
+  }
+  .icon-gradient::after,
+  .icon-tile::after {
+    content: '';
+    position: absolute;
+    inset: -30% -60%;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      112deg,
+      transparent 42%,
+      color-mix(in srgb, var(--color-surface-1) 80%, transparent) 50%,
+      transparent 58%
+    );
+    transform: translateX(-110%);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .icon-gradient::after,
+    .icon-tile::after {
+      transition: transform 900ms var(--ease-standard);
+    }
+    .group:hover .icon-gradient::after,
+    .group:hover .icon-tile::after,
+    .icon-gradient:hover::after,
+    .icon-tile:hover::after {
+      transform: translateX(110%);
+    }
+  }
+  .group:hover .icon-gradient,
+  .group:hover .icon-tile,
+  .icon-gradient:hover,
+  .icon-tile:hover {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-surface-1) 92%, transparent),
+      inset 0 -9px 14px -10px color-mix(in srgb, var(--icon-tone) 42%, transparent),
+      0 12px 22px -10px color-mix(in srgb, var(--icon-tone) 70%, transparent);
+  }
+  /* Live state: a soft ring keeps pulsing around the tile (radar / signal feel); it needs the ring to escape the tile, so no sheen. */
+  .icon-live {
+    overflow: visible;
+  }
+  .icon-live::after {
+    display: none;
+  }
+  .icon-live::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--icon-tone) 45%, transparent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .icon-live::before {
+      animation: cv-ring 2.4s var(--ease-standard) infinite;
+    }
+  }
+  @keyframes cv-ring {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--icon-tone) 45%, transparent);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 9px transparent;
+    }
+  }
+
   /* ---- Layout ---- */
   .page-container {
     width: 100%;
