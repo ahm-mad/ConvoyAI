@@ -11,6 +11,17 @@ export function installRafShimIfRequested() {
 
     (window as any).__cvRafShim = true;
 
+    // The automated tab is always `hidden`; react-query pauses interval polling then. Report visible for QA runs.
+    try {
+      Object.defineProperty(document, 'visibilityState', {
+        configurable: true,
+        get: () => 'visible',
+      });
+      Object.defineProperty(document, 'hidden', { configurable: true, get: () => false });
+    } catch {
+      /* not overridable */
+    }
+
     let queue: FrameRequestCallback[] = [];
     let last = 0;
     let armed = false;
@@ -28,7 +39,13 @@ export function installRafShimIfRequested() {
       const run = queue;
 
       queue = [];
-      run.forEach(cb => cb(now));
+      run.forEach(cb => {
+        try {
+          cb(now);
+        } catch (e) {
+          console.warn('[qaRaf] frame callback threw', e);
+        }
+      });
 
       if (queue.length) ch.port2.postMessage(0);
       else armed = false;
@@ -46,6 +63,61 @@ export function installRafShimIfRequested() {
       return queue.length;
     };
     window.cancelAnimationFrame = () => {};
+
+    // Timers too: a long-hidden tab throttles setTimeout/setInterval to ~1/min, which would freeze polling (react-query).
+    const timers = new Map<number, { due: number; every?: number; cb: () => void }>();
+    let tid = 100000;
+    const tch = new MessageChannel();
+    let tArmed = false;
+    const tpump = () => {
+      const now = performance.now();
+
+      timers.forEach((t, id) => {
+        if (t.due > now) return;
+        if (t.every != null) t.due = now + Math.max(4, t.every);
+        else timers.delete(id);
+        try {
+          t.cb();
+        } catch (e) {
+          console.warn('[qaRaf] timer callback threw', e);
+        }
+      });
+
+      if (timers.size) tch.port2.postMessage(0);
+      else tArmed = false;
+    };
+    // Pump through a MessageChannel hop (not throttled) instead of the native timer.
+    tch.port1.onmessage = tpump;
+
+    const arm = () => {
+      if (!tArmed) {
+        tArmed = true;
+        tch.port2.postMessage(0);
+      }
+    };
+
+    (window as any).setTimeout = (cb: any, ms = 0, ...args: any[]) => {
+      const id = tid++;
+
+      timers.set(id, { due: performance.now() + Number(ms || 0), cb: () => cb(...args) });
+      arm();
+
+      return id;
+    };
+    (window as any).setInterval = (cb: any, ms = 0, ...args: any[]) => {
+      const id = tid++;
+
+      timers.set(id, {
+        due: performance.now() + Number(ms || 0),
+        every: Number(ms || 0),
+        cb: () => cb(...args),
+      });
+      arm();
+
+      return id;
+    };
+    window.clearTimeout = (id?: any) => void timers.delete(id);
+    window.clearInterval = (id?: any) => void timers.delete(id);
 
     // `__cvSnap()` paints the WebGL canvas into an <img> on top of it so screenshots of a hidden tab can see the map.
     (window as any).__cvSnap = async () => {

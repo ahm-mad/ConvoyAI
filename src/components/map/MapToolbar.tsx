@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { Box, Bus, Circle, LocateFixed, Moon, Satellite, Sun, Truck } from 'lucide-react';
+import { Box, BusFront, Circle, LocateFixed, Moon, Satellite, Sun, Truck } from 'lucide-react';
 import type { MapPrefs, VehicleIconStyle } from './useMapPrefs';
 import type { MapLook } from './mapStyles';
 
@@ -13,7 +13,7 @@ const LOOKS: { id: MapLook; label: string; icon: typeof Sun }[] = [
 
 const ICON_STYLES: { id: VehicleIconStyle; label: string; icon: typeof Truck }[] = [
   { id: 'silhouette', label: 'Vehicle silhouettes', icon: Truck },
-  { id: 'badge', label: 'Glossy badges', icon: Bus },
+  { id: 'badge', label: 'Glossy badges', icon: BusFront },
   { id: 'puck', label: 'Brand pucks', icon: Circle },
 ];
 

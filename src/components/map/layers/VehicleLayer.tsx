@@ -135,8 +135,20 @@ export default function VehicleLayer({
           };
           store.current.set(v.id, e);
         }
-        e.tgt = { lat: v.lat, lon: v.lon, h: v.heading };
-        e.kmh = v.state === 'moving' ? v.speed : 0;
+        // Real trackers often report no heading: derive it from movement between fixes, else keep the last known one.
+        let h = v.heading;
+
+        if (v.hasHeading === false) {
+          const dLat = v.lat - e.tgt.lat;
+          const dLon = (v.lon - e.tgt.lon) * Math.cos((v.lat * Math.PI) / 180);
+
+          h =
+            Math.abs(dLat) + Math.abs(dLon) > 0.00005
+              ? ((Math.atan2(dLon, dLat) * 180) / Math.PI + 360) % 360
+              : e.tgt.h;
+        }
+        e.tgt = { lat: v.lat, lon: v.lon, h };
+        e.kmh = v.state === 'moving' && (v.hasHeading !== false || h !== 0) ? v.speed : 0;
         e.fixAt = performance.now();
         // A far jump (new session, filter change) snaps instead of gliding across the country.
         if (Math.abs(e.cur.lat - v.lat) + Math.abs(e.cur.lon - v.lon) > 0.6) e.cur = { ...e.tgt };
@@ -147,6 +159,7 @@ export default function VehicleLayer({
         if (!seen.has(id)) {
           e.marker.remove();
           store.current.delete(id);
+          hist.current.delete(id);
         }
       });
       setIds([...store.current.entries()].map(([id, e]) => ({ id, el: e.el })));
@@ -175,6 +188,15 @@ export default function VehicleLayer({
     let last = performance.now();
 
     const tick = (now: number) => {
+      try {
+        frame(now);
+      } catch (e) {
+        if (process.env.NODE_ENV !== 'production') console.warn('[VehicleLayer]', e);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    const frame = (now: number) => {
       const dt = Math.min(0.25, (now - last) / 1000);
       const k = 1 - Math.exp(-dt / 0.45);
       const bearing = map.getBearing();
@@ -217,7 +239,6 @@ export default function VehicleLayer({
         sampleTrails();
         clusterPass();
       }
-      raf = requestAnimationFrame(tick);
     };
 
     // At country zoom vehicles that would overlap collapse into count bubbles; click zooms in. The selected/followed
@@ -280,12 +301,22 @@ export default function VehicleLayer({
               .setLngLat([lon, lat])
               .addTo(map);
 
+            const expand = () =>
+              map.easeTo({
+                center: marker.getLngLat(),
+                zoom: Math.min(13, map.getZoom() + 2.2),
+                duration: 900,
+              });
+
             el.addEventListener('click', ev => {
               ev.stopPropagation();
-
-              const ll = marker.getLngLat();
-
-              map.easeTo({ center: ll, zoom: Math.min(13, map.getZoom() + 2.2), duration: 900 });
+              expand();
+            });
+            el.addEventListener('keydown', ev => {
+              if (ev.key === 'Enter' || ev.key === ' ') {
+                ev.preventDefault();
+                expand();
+              }
             });
             pool.push((c = { marker, el }));
           }
@@ -306,6 +337,9 @@ export default function VehicleLayer({
     };
 
     const sampleTrails = () => {
+      // A look switch replaces the style; adding sources before it finished loading throws.
+      if (!map.isStyleLoaded()) return;
+
       if (!trailsOn.current) {
         if (map.getSource('cv-trails'))
           (map.getSource('cv-trails') as any).setData({ type: 'FeatureCollection', features: [] });

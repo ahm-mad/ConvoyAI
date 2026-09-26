@@ -1,6 +1,6 @@
 'use client';
 
-import { Bus, CarFront, Container, Fuel, Truck, Package } from 'lucide-react';
+import { BusFront, CarFront, Container, Fuel, Truck } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { VehicleIconStyle } from '../useMapPrefs';
 import type { VehicleKind, VehicleState } from './vehicleKinds';
@@ -104,10 +104,10 @@ const wheels = (h: number) => (
 const GLYPH: Record<VehicleKind, typeof Truck> = {
   truck: Truck,
   semi: Container,
-  van: Package,
+  van: Truck,
   pickup: Truck,
   tanker: Fuel,
-  bus: Bus,
+  bus: BusFront,
   car: CarFront,
 };
 
@@ -134,7 +134,7 @@ export default function VehicleIcon({
     const { h, body } = SIL[kind];
 
     return (
-      <div className={cls} role="img" aria-label={label}>
+      <div className={cls} aria-hidden data-label={label}>
         <span className="cv-veh__halo" aria-hidden />
         <svg
           className="cv-veh__svg"
@@ -155,7 +155,7 @@ export default function VehicleIcon({
   const Glyph = GLYPH[kind];
 
   return (
-    <div className={cls} role="img" aria-label={label}>
+    <div className={cls} aria-hidden data-label={label}>
       <span className="cv-veh__halo" aria-hidden />
       <span className="cv-veh__disc" aria-hidden>
         <Glyph size={iconStyle === 'badge' ? 19 : 17} strokeWidth={2.2} />

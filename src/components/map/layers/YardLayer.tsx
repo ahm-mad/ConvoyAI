@@ -77,6 +77,22 @@ export default function YardLayer({
     };
   }, [map, yards]);
 
+  // Zoomed far out the name chips would pile on top of each other: hide them (and shrink the pads) below z7.
+  useEffect(() => {
+    if (!map) return;
+
+    const el = map.getContainer();
+    const band = () => el.classList.toggle('cv-yards-far', map.getZoom() < 7);
+
+    band();
+    map.on('zoom', band);
+
+    return () => {
+      map.off('zoom', band);
+      el.classList.remove('cv-yards-far');
+    };
+  }, [map]);
+
   useEffect(
     () => () => {
       store.current.forEach(e => e.marker.remove());
