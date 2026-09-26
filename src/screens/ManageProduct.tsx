@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import DeviceSummary from '@components/devices/DeviceSummary';
 import { useEffect, useState } from 'react';
 import type { ChangeEvent, MouseEvent } from 'react';
 
@@ -369,6 +370,8 @@ export default function ManageProduct({ passedUserId }: ManageProductProps) {
         <div className="eyebrow">{t('companyName')}</div>
         <h1 className="page-title mt-1">Products &amp; devices</h1>
       </div>
+
+      <DeviceSummary products={paginationData.total} />
 
       <div>
         <DataTable
