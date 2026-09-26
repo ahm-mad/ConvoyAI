@@ -8,7 +8,7 @@ import Button from './Button';
 import GlobalInput from './Input';
 import GlobalSelect from './RadixDropDown';
 import DropdownMenuRadix from './DropDownMenuRadix';
-import { Check, ChevronDown, ChevronUp, ArrowUp, ArrowDown, Loader2 } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, ArrowUp, ArrowDown, Loader2, Search } from 'lucide-react';
 import AddBtnIcon from '@assets/icons/MUIicons/AddBtnIcon';
 
 // Row/column entities come from each caller's API payload and aren't typed in
