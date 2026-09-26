@@ -18,8 +18,10 @@ export default function YardLayer({
   const store = useRef(new Map<string, { marker: Marker; el: HTMLDivElement }>());
   const [items, setItems] = useState<{ id: string; el: HTMLDivElement }[]>([]);
   const select = useRef(onSelect);
+  const latest = useRef(new Map<string, any>());
 
   select.current = onSelect;
+  latest.current = new Map(yards.map(y => [String(y.id), y]));
 
   useEffect(() => {
     if (!map) return;
@@ -39,7 +41,14 @@ export default function YardLayer({
           const id = String(y.id);
 
           seen.add(id);
-          if (store.current.has(id)) return;
+
+          const known = store.current.get(id);
+
+          if (known) {
+            known.marker.setLngLat([Number(y.longitude), Number(y.latitude)]);
+
+            return;
+          }
 
           const el = document.createElement('div');
 
@@ -48,12 +57,12 @@ export default function YardLayer({
           el.setAttribute('aria-label', `Yard ${y.name}`);
           el.addEventListener('click', ev => {
             ev.stopPropagation();
-            select.current(y);
+            select.current(latest.current.get(id) ?? y);
           });
           el.addEventListener('keydown', ev => {
             if (ev.key === 'Enter' || ev.key === ' ') {
               ev.preventDefault();
-              select.current(y);
+              select.current(latest.current.get(id) ?? y);
             }
           });
           store.current.set(id, {
