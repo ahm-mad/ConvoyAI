@@ -36,11 +36,8 @@ const CardRole = ({
     navigate(`/assign-permission/${id}`);
   };
 
-  const handleDeleteRole = async () => {
+  const runDelete = async () => {
     if (isDeleting) return;
-
-    // const confirmed = window.confirm(`Are you sure you want to delete the role "${title}"?`);
-    // if (!confirmed) return;
 
     setIsDeleting(true);
     try {
@@ -61,6 +58,33 @@ const CardRole = ({
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const handleDeleteRole = () => {
+    openModal(
+      <div className="w-[420px] max-w-full">
+        <h2 className="card-title">Delete role “{title}”?</h2>
+        <p className="card-subtitle mt-2">
+          Members lose the access this role gives them. A role that still has members cannot be
+          deleted.
+        </p>
+        <div className="mt-5 flex justify-end gap-2">
+          <button type="button" onClick={closeModal} className="btn-soft">
+            Keep role
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              closeModal();
+              runDelete();
+            }}
+            className="btn-soft-danger"
+          >
+            Delete role
+          </button>
+        </div>
+      </div>
+    );
   };
 
   const menuOptions = [
