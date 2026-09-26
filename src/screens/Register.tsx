@@ -258,9 +258,12 @@ export default function Register() {
               )}
             />
             <div className="font-medium text-ink-2 text-sm mt-1">
-              I agree to the and{' '}
+              I agree to the{' '}
               <span className="text-ink-0 cursor-pointer hover:text-accent-cyan">
-                {' '}
+                Terms of Service
+              </span>{' '}
+              and{' '}
+              <span className="text-ink-0 cursor-pointer hover:text-accent-cyan">
                 Privacy Policy
               </span>
             </div>
