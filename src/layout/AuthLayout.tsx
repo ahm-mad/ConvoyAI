@@ -55,7 +55,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   }, [user]);
 
   return (
-    <div className="max-w-screen min-h-screen overflow-x-hidden flex flex-col text-ink-0">
+    <div className="max-w-screen min-h-screen overflow-x-clip flex flex-col text-ink-0">
       <GlobalPacketListener />
       <SpotlightTracker />
       <FloatingNav
