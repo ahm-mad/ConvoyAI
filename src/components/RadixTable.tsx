@@ -415,6 +415,7 @@ const DataTable = ({
                     <th className="text-left p-2.5 w-10 sticky left-0 bg-surface-2/90 z-10">
                       <Checkbox.Root
                         id={checkAllId}
+                        aria-label="Select all rows"
                         checked={selectAll}
                         onCheckedChange={handleSelectAll}
                         className="flex h-4 w-4 items-center cursor-pointer justify-center rounded border border-line bg-surface-1 hover:bg-surface-2 focus:outline-none data-[state=checked]:bg-accent-cyan data-[state=checked]:border-accent-cyan data-[state=checked]:text-[#04121a]"
@@ -504,6 +505,7 @@ const DataTable = ({
                         {selectable && (
                           <td className="p-2.5 sticky left-0 bg-white/90 z-10">
                             <Checkbox.Root
+                              aria-label="Select row"
                               checked={selectedRows.has(item.id)}
                               onCheckedChange={() => handleRowSelect(item.id)}
                               className="flex h-4 w-4 items-center justify-center cursor-pointer rounded border border-line bg-surface-1 hover:bg-surface-2 focus:outline-none focus:ring-offset-1 data-[state=checked]:bg-accent-cyan data-[state=checked]:border-accent-cyan data-[state=checked]:text-[#04121a]"

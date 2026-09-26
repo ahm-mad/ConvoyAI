@@ -69,7 +69,7 @@ const PermissionCard = ({
         <p className="card-subtitle leading-relaxed">{description}</p>
       </div>
     </div>
-    <GlobalToggle checked={enabled} onChange={onChange} />
+    <GlobalToggle checked={enabled} onChange={onChange} aria-label={`${title} access`} />
   </div>
 );
 
