@@ -92,7 +92,7 @@ const WelcomeIntroModal = ({ onFinish, onOpenTutorial }: WelcomeIntroModalProps)
 
         {/* Right content panel */}
         <div className="flex flex-col justify-center px-6 py-8 sm:px-9 lg:py-10 lg:px-11 flex-1 text-left">
-          <span className="inline-block text-[11px] font-semibold tracking-wider uppercase mb-2.5 text-accent-cyan">
+          <span className="inline-block text-[11px] font-semibold tracking-wider uppercase mb-2.5 text-brand-text">
             Getting started
           </span>
           <h2 className="text-lg font-semibold text-ink-0 mb-2 tracking-tight leading-tight font-display">

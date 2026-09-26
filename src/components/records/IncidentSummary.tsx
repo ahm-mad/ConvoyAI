@@ -4,7 +4,7 @@ import { fullName } from '@components/AuditLine';
 const SEVERITY_COLORS: Record<string, string> = {
   minor: 'text-ink-2',
   moderate: 'text-warning',
-  severe: 'text-danger',
+  severe: 'text-danger-text',
 };
 
 /**

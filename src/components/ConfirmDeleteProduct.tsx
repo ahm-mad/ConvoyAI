@@ -29,7 +29,8 @@ const ConfirmDeleteProduct = ({ itemName, onConfirm, onCancel }) => {
       {/* Confirmation Input Field */}
       <div className="w-full mb-6">
         <p className="text-xs  text-ink-1 mb-2">
-          Type <span className="font-semibold  text-danger">"{itemName}"</span> to confirm deletion:
+          Type <span className="font-semibold  text-danger-text">"{itemName}"</span> to confirm
+          deletion:
         </p>
         <GlobalInput
           value={confirmText}

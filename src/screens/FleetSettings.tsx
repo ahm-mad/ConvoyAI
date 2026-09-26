@@ -342,7 +342,7 @@ function Row({
         <div className="flex items-start justify-between gap-3 mt-1.5 min-h-[16px]">
           <div id={`${htmlFor}-note`} className="text-[11.5px]">
             {error ? (
-              <span role="alert" className="text-danger">
+              <span role="alert" className="text-danger-text">
                 {error}
               </span>
             ) : (

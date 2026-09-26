@@ -21,7 +21,7 @@ interface Item {
 }
 
 const KIND_META: Record<Kind, { label: string; icon: typeof Bell; tone: string }> = {
-  alert: { label: 'Alerts', icon: AlertTriangle, tone: 'bg-danger/10 text-danger' },
+  alert: { label: 'Alerts', icon: AlertTriangle, tone: 'bg-danger/10 text-danger-text' },
   maintenance: { label: 'Maintenance', icon: Wrench, tone: 'bg-warning/15 text-warning' },
   trip: { label: 'Trips', icon: RouteIcon, tone: 'bg-brand-wash text-brand icon-gradient' },
   ai: { label: 'AI', icon: Sparkles, tone: 'bg-ai-wash text-ai-ink' },

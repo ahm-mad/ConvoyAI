@@ -396,7 +396,7 @@ export default function LeftOverlayWebGLBoat({ webglBuildingData, dataFromUnity 
                                 <span
                                   className={`font-medium text-xs md:text-sm transition-colors duration-300 ${
                                     deviceStatus == 'Alert'
-                                      ? 'text-danger'
+                                      ? 'text-danger-text'
                                       : deviceStatus == 'Online'
                                         ? 'text-accent-green'
                                         : 'text-orange-400'

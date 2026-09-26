@@ -215,7 +215,7 @@ function ShowAndHide({
           )}
 
           {canDelete && (
-            <DeleteIcon onClick={onDeleteSection} className="text-danger cursor-pointer" />
+            <DeleteIcon onClick={onDeleteSection} className="text-danger-text cursor-pointer" />
           )}
         </div>
 
@@ -456,7 +456,7 @@ function ShowAndHide({
                             <div className="flex justify-end  w-full sm:w-auto mt-2 sm:mt-0">
                               <DeleteIcon
                                 onClick={() => handleDeleteCondition(conditionIndex)}
-                                className="text-danger cursor-pointer hover:brightness-125 transition-colors duration-200"
+                                className="text-danger-text cursor-pointer hover:brightness-125 transition-colors duration-200"
                               />
                             </div>
                           )}

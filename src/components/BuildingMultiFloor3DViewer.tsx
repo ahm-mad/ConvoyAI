@@ -187,7 +187,7 @@ export default function BuildingMultiFloor3DViewer({ assetId, buildingName }) {
               <SummaryStat
                 label="Active alarms"
                 value={totals.alarms}
-                valueClass={totals.alarms > 0 ? 'text-danger' : 'text-ink-0'}
+                valueClass={totals.alarms > 0 ? 'text-danger-text' : 'text-ink-0'}
               />
             </div>
 
@@ -228,7 +228,7 @@ export default function BuildingMultiFloor3DViewer({ assetId, buildingName }) {
                       <span className="text-ink-2"> · Level {floor.floor_level}</span>
                     </span>
                     {floor.active_alarm_count > 0 && (
-                      <span className="text-danger flex-shrink-0 ml-1.5">
+                      <span className="text-danger-text flex-shrink-0 ml-1.5">
                         {floor.active_alarm_count}
                       </span>
                     )}
@@ -497,7 +497,7 @@ function FloorDetailPanel({ floor, deviceById, onSelectDevice }) {
       </div>
 
       {floor.active_alarm_count > 0 && (
-        <div className="flex items-center gap-1.5 text-[11px] text-danger bg-danger/10 rounded-md px-2.5 py-1.5 mb-3">
+        <div className="flex items-center gap-1.5 text-[11px] text-danger-text bg-danger/10 rounded-md px-2.5 py-1.5 mb-3">
           <AlertTriangle size={12} />
           {floor.active_alarm_count} active alarm{floor.active_alarm_count > 1 ? 's' : ''} on this
           floor
@@ -625,7 +625,7 @@ function FloorLayer({
           >
             {floorName ? `${floorName} · Level ${floor.floor_level}` : `Level ${floor.floor_level}`}
             {floor.active_alarm_count > 0 && (
-              <span className="text-danger">
+              <span className="text-danger-text">
                 {' '}
                 · {floor.active_alarm_count} alarm{floor.active_alarm_count > 1 ? 's' : ''}
               </span>

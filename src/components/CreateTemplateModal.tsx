@@ -150,7 +150,7 @@ export default function CreateTemplateModal({ onSuccess }) {
                 <button
                   onClick={() => removeField(index)}
                   disabled={fields.length === 1}
-                  className="p-1.5 text-ink-2 hover:text-danger disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-1.5 text-ink-2 hover:text-danger-text disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <Trash2 size={14} />
                 </button>

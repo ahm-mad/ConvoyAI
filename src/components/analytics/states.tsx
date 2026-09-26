@@ -57,7 +57,7 @@ export function ErrorState({
       role="alert"
       className={`flex flex-col items-center justify-center text-center gap-1.5 py-8 ${className}`}
     >
-      <div className="w-9 h-9 rounded-full bg-danger/10 text-danger flex items-center justify-center mb-1">
+      <div className="w-9 h-9 rounded-full bg-danger/10 text-danger-text flex items-center justify-center mb-1">
         <AlertTriangle size={16} />
       </div>
       <div className="text-[13px] font-medium text-ink-0">Couldn't load this</div>

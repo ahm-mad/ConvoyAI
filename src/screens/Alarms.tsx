@@ -111,7 +111,7 @@ export default function Alarms() {
 function AlarmRow({ alarm, onAcknowledge }: { alarm?: any; onAcknowledge: (id: any) => void }) {
   const stateIcon = (
     {
-      active: <AlertTriangle size={15} className="text-danger" />,
+      active: <AlertTriangle size={15} className="text-danger-text" />,
       acknowledged: <Clock size={15} className="text-warning" />,
       cleared: <CheckCircle2 size={15} className="text-accent-green" />,
     } as Record<string, ReactNode>

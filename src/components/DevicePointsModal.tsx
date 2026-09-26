@@ -67,7 +67,7 @@ export default function DevicePointsModal({ deviceId, deviceName, onClose = null
                   <td className="py-2 font-mono text-ink-1">
                     {point.label || point.point_key}
                     {point.is_unique_identifier && (
-                      <span className="ml-1.5 text-[9px] text-accent-cyan uppercase">ID</span>
+                      <span className="ml-1.5 text-[9px] text-brand-text uppercase">ID</span>
                     )}
                   </td>
                   <td className="py-2 font-mono text-ink-0">

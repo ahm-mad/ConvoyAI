@@ -251,7 +251,7 @@ export default function AIWorkspace() {
 
         <section className="glass p-6">
           <div className="flex items-center gap-2">
-            <span className="grid size-9 place-items-center rounded-control bg-danger/10 text-danger">
+            <span className="grid size-9 place-items-center rounded-control bg-danger/10 text-danger-text">
               <ShieldAlert size={17} />
             </span>
             <div>

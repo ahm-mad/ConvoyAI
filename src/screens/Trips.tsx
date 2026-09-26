@@ -275,7 +275,7 @@ function TripRow({ trip, onClick }: { trip: any; onClick: () => void }) {
 
     cancelled: {
       icon: <XCircle size={10} />,
-      className: 'bg-danger/10 text-danger',
+      className: 'bg-danger/10 text-danger-text',
     },
   };
 
@@ -313,7 +313,7 @@ function TripRow({ trip, onClick }: { trip: any; onClick: () => void }) {
         </div>
 
         <div className="text-right shrink-0">
-          <div className="text-[11px] text-accent-cyan">{trip.vehicle?.name || 'No vehicle'}</div>
+          <div className="text-[11px] text-brand-text">{trip.vehicle?.name || 'No vehicle'}</div>
 
           <div className="text-[10px] text-ink-2 mt-0.5">{driverName || 'No driver'}</div>
         </div>

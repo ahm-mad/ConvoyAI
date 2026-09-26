@@ -55,7 +55,7 @@ export default function BulkBar({
                     setConfirming(null);
                     a.onClick();
                   }}
-                  className="text-danger border border-danger/40 rounded px-2 py-0.5 hover:bg-danger/10"
+                  className="text-danger-text border border-danger/40 rounded px-2 py-0.5 hover:bg-danger/10"
                 >
                   Yes, {a.label.toLowerCase()}
                 </button>
@@ -75,7 +75,7 @@ export default function BulkBar({
                 onClick={() => (a.confirm ? setConfirming(a.label) : a.onClick())}
                 className={`border rounded px-2.5 py-1 disabled:opacity-40 ${
                   a.danger
-                    ? 'text-danger border-danger/40 hover:bg-danger/10'
+                    ? 'text-danger-text border-danger/40 hover:bg-danger/10'
                     : 'text-accent-green border-accent-green/40 hover:bg-accent-green/10'
                 }`}
               >

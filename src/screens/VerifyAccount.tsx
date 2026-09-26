@@ -120,7 +120,7 @@ export default function VerifyAccount() {
               // Show error state
               <div className="flex flex-col items-center space-y-4 animate-fade-in">
                 <div className="w-16 h-16 bg-danger/10 rounded-full flex items-center justify-center">
-                  <XCircle className="w-8 h-8 text-danger" />
+                  <XCircle className="w-8 h-8 text-danger-text" />
                 </div>
                 <p className="text-danger-text font-semibold text-sm">{message}</p>
               </div>

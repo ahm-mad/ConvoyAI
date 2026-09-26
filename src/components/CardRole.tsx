@@ -106,7 +106,7 @@ const CardRole = ({
     {
       label: 'Delete Role',
       icon: <Trash size={16} />,
-      className: 'text-danger hover:bg-danger/10',
+      className: 'text-danger-text hover:bg-danger/10',
       onClick: handleDeleteRole,
       disabled: isDeleting,
     },

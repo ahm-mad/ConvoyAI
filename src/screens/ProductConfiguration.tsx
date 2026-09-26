@@ -779,7 +779,7 @@ function ProductConfiguration({ id: propId }: ProductConfigurationProps) {
                                 </div>
                               ),
                               onClick: () => handleClearRole(item),
-                              className: 'text-danger',
+                              className: 'text-danger-text',
                             },
                           ]
                         : []),

@@ -460,7 +460,7 @@ export default function YardLayoutEditor({
                       type="button"
                       onClick={handleSaveSlot}
                       disabled={!slotNumberEdit.trim()}
-                      className="flex-1 text-[11px] text-accent-cyan border border-line rounded py-1 disabled:opacity-40"
+                      className="flex-1 text-[11px] text-brand-text border border-line rounded py-1 disabled:opacity-40"
                     >
                       Save
                     </button>

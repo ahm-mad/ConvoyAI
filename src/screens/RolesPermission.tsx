@@ -199,7 +199,7 @@ const RolesPermission = () => {
     {
       label: 'Delete Selected',
       value: 'delete',
-      className: 'text-danger hover:bg-danger/10',
+      className: 'text-danger-text hover:bg-danger/10',
     },
   ];
 
@@ -248,7 +248,7 @@ const RolesPermission = () => {
       sortable: true,
       width: '150px',
       render: value => (
-        <span className="px-2 py-0.5 bg-accent-cyan/10 text-accent-cyan rounded text-[10.5px] font-medium capitalize">
+        <span className="px-2 py-0.5 bg-accent-cyan/10 text-brand-text rounded text-[10.5px] font-medium capitalize">
           {value}
         </span>
       ),
@@ -266,7 +266,7 @@ const RolesPermission = () => {
               ? 'bg-accent-green/10 text-accent-green'
               : status === 'Pending'
                 ? 'bg-warning/10 text-warning'
-                : 'bg-danger/10 text-danger'
+                : 'bg-danger/10 text-danger-text'
           }`}
         >
           {status}

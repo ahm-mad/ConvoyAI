@@ -241,7 +241,7 @@ const AssetsTable = () => {
           className="p-1.5 hover:bg-danger/10 rounded-md transition-colors"
           title="Delete Asset"
         >
-          <Trash2 className="w-3.5 cursor-pointer h-3.5 text-danger hover:brightness-125" />
+          <Trash2 className="w-3.5 cursor-pointer h-3.5 text-danger-text hover:brightness-125" />
         </button>
       ),
     },

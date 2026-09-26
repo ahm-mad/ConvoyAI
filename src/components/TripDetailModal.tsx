@@ -380,7 +380,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
 
       {trip.cancellation_reason && (
         <div className="bg-danger/10 border border-danger/20 rounded-md p-3 mb-4">
-          <div className="text-[10px] uppercase tracking-wider text-danger mb-1">
+          <div className="text-[10px] uppercase tracking-wider text-danger-text mb-1">
             Cancellation Reason
           </div>
 
@@ -529,7 +529,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
             <button
               type="button"
               onClick={() => setConfirmDelete(true)}
-              className="text-[11px] text-ink-2 hover:text-danger"
+              className="text-[11px] text-ink-2 hover:text-danger-text"
             >
               Delete trip…
             </button>
@@ -626,7 +626,7 @@ function PlannedYardCard({ plannedYard, index }) {
               : plannedYard.status === 'in_progress'
                 ? 'bg-accent-cyan/10 text-accent-cyan'
                 : plannedYard.status === 'missed'
-                  ? 'bg-danger/10 text-danger'
+                  ? 'bg-danger/10 text-danger-text'
                   : 'bg-surface-3 text-ink-1'
           }`}
         >
@@ -894,7 +894,7 @@ function JourneyStage({ stage, index, total, isCurrent, isPast, tripId, tripStat
           </div>
 
           {isCurrent && (
-            <span className="text-[9px] uppercase tracking-wide px-1.5 py-0.5 rounded bg-accent-cyan/10 text-accent-cyan shrink-0">
+            <span className="text-[9px] uppercase tracking-wide px-1.5 py-0.5 rounded bg-accent-cyan/10 text-brand-text shrink-0">
               Current
             </span>
           )}
@@ -1060,7 +1060,7 @@ function StatusBanner({ status }) {
     cancelled: {
       icon: <XCircle size={13} />,
       text: 'Trip cancelled',
-      className: 'text-danger bg-danger/10',
+      className: 'text-danger-text bg-danger/10',
     },
   };
 
@@ -1116,7 +1116,7 @@ function SectionTitle({ title }) {
 function CancelForm({ value, onChange, onCancel, onSubmit, submitting }) {
   return (
     <div className="bg-surface-2 rounded-md p-3">
-      <div className="text-[10px] uppercase tracking-wider text-danger mb-2">Cancel Trip</div>
+      <div className="text-[10px] uppercase tracking-wider text-danger-text mb-2">Cancel Trip</div>
 
       <textarea
         value={value}

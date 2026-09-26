@@ -163,7 +163,7 @@ const TagInput = ({ formData, setFormData }) => {
                         id="delete-device"
                         onClick={() => removeDevice(device.id)}
                         aria-label="Remove device"
-                        className="grid size-8 place-items-center rounded-full text-danger hover:bg-danger/10"
+                        className="grid size-8 place-items-center rounded-full text-danger-text hover:bg-danger/10"
                       >
                         <DeleteOutlineIcon fontSize="small" />
                       </button>

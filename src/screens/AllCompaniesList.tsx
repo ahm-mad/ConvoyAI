@@ -164,7 +164,7 @@ const CompaniesListView = () => {
       minWidth: '250px',
       render: value => (
         <div className="flex items-center gap-2">
-          <span className="text-accent-cyan font-mono text-[12px]">{value}</span>
+          <span className="text-brand-text font-mono text-[12px]">{value}</span>
         </div>
       ),
     },
@@ -252,7 +252,7 @@ const CompaniesListView = () => {
           className="p-1.5 hover:bg-danger/10 rounded-md transition-colors"
           title="Delete Company"
         >
-          <Trash2 className="w-3.5 cursor-pointer h-3.5 text-danger hover:brightness-125" />
+          <Trash2 className="w-3.5 cursor-pointer h-3.5 text-danger-text hover:brightness-125" />
         </button>
       ),
     },

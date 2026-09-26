@@ -890,7 +890,7 @@ export default function ManageDevice() {
       render: (value, item) => (
         <span
           className={`inline-flex items-center gap-1.5 text-[10.5px] font-semibold px-2 py-1 rounded-full capitalize ${
-            item.is_alert ? 'bg-danger/10 text-danger' : 'bg-accent-green/10 text-accent-green'
+            item.is_alert ? 'bg-danger/10 text-danger-text' : 'bg-accent-green/10 text-accent-green'
           }`}
         >
           <span

@@ -269,7 +269,7 @@ export default function TripEditForm({
       </div>
 
       {invalidRange && (
-        <div className="text-[11px] text-danger mb-2">
+        <div className="text-[11px] text-danger-text mb-2">
           The planned end cannot be before the planned start.
         </div>
       )}

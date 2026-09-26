@@ -376,7 +376,7 @@ export default function Geofences() {
           </select>
         </div>
         {events.error && (
-          <div className="flex items-center justify-between text-[11px] text-danger bg-danger/10 rounded-md px-2 py-1.5 mb-2">
+          <div className="flex items-center justify-between text-[11px] text-danger-text bg-danger/10 rounded-md px-2 py-1.5 mb-2">
             <span>{events.error}</span>
             <button onClick={() => events.refetch()} className="underline">
               Retry

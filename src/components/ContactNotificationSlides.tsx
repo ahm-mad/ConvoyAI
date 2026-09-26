@@ -61,7 +61,7 @@ export default function ContactNotificationSlides({ NotificationsSkeleton }) {
       <div className="border border-line-soft rounded-md">
         <div className="h-[440px] flex items-center justify-center">
           <div className="text-center">
-            <Mail className="mx-auto text-danger mb-4" size={64} />
+            <Mail className="mx-auto text-danger-text mb-4" size={64} />
             <h2 className="text-base font-semibold text-ink-0 mb-2">Error loading messages</h2>
             <p className="text-ink-2 text-sm">Failed to load contact messages. Please try again.</p>
           </div>
@@ -142,7 +142,7 @@ export default function ContactNotificationSlides({ NotificationsSkeleton }) {
                       <button
                         onClick={e => handleDelete(msg.id, e)}
                         disabled={deletingId === msg.id}
-                        className="flex-shrink-0 cursor-pointer p-2 text-danger hover:bg-danger/10 rounded-md transition-colors disabled:opacity-50"
+                        className="flex-shrink-0 cursor-pointer p-2 text-danger-text hover:bg-danger/10 rounded-md transition-colors disabled:opacity-50"
                         title="Delete message"
                       >
                         <Trash2 size={18} />
@@ -162,7 +162,7 @@ export default function ContactNotificationSlides({ NotificationsSkeleton }) {
                 <button
                   onClick={e => handleDelete(selectedMessage.id, e)}
                   disabled={deletingId === selectedMessage.id}
-                  className="flex items-center gap-2 px-4 py-2 text-danger hover:bg-danger/10 rounded-md transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-danger-text hover:bg-danger/10 rounded-md transition-colors disabled:opacity-50"
                 >
                   <Trash2 size={18} />
                   <span>Delete Message</span>
