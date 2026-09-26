@@ -36,6 +36,7 @@ export default function YardMarker({
     <Marker
       position={[yard.latitude, yard.longitude] as [number, number]}
       icon={yardIcon()}
+      title={yard.name}
       eventHandlers={{ click: () => onClick?.(yard) }}
     >
       <Popup>

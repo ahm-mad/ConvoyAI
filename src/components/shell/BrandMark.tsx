@@ -22,7 +22,7 @@ export default function BrandMark({
       >
         Convoy
         <em
-          className={`font-serif pl-0.5 italic text-brand ${big ? 'text-[28px]' : 'text-[19px]'}`}
+          className={`font-serif pl-0.5 italic text-brand-text ${big ? 'text-[28px]' : 'text-[19px]'}`}
         >
           AI
         </em>

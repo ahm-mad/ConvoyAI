@@ -14,6 +14,7 @@ const GlobalSelect = ({
   contentClassName = '',
   size = 'medium', // 'small', 'medium', 'large'
   width = 'auto', // 'auto', 'full', or specific width like 'w-32'
+  'aria-label': ariaLabel,
   ...props
 }) => {
   // Size configurations
@@ -42,6 +43,7 @@ const GlobalSelect = ({
       <Select.Root value={value} onValueChange={onValueChange} disabled={disabled} {...props}>
         <Select.Trigger
           id={id}
+          aria-label={ariaLabel}
           className={`
             inline-flex items-center justify-between 
             ${getWidthClass()} 

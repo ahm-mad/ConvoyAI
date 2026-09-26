@@ -745,6 +745,7 @@ function SettingsForm({ settings, onReload }: { settings: FleetSettings; onReloa
       {/* Save bar — pinned under the scroller while there is something to save. */}
       <div
         aria-hidden={!dirty}
+        inert={!dirty}
         className={`absolute inset-x-0 bottom-0 z-20 transition-all duration-200 ${
           dirty ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 pointer-events-none'
         }`}

@@ -310,7 +310,13 @@ export default function Login() {
             {googleLoading ? (
               <Loader2 className="h-4 w-4 animate-spin text-ink-0" />
             ) : (
-              <svg viewBox="0 0 32 32" fill="none" role="img" className="w-5 h-5">
+              <svg
+                viewBox="0 0 32 32"
+                fill="none"
+                aria-hidden="true"
+                focusable="false"
+                className="w-5 h-5"
+              >
                 <path
                   d="M16.2449 13.8184V18.4657H22.8349C22.5455 19.9602 21.6771 21.2257 20.3747 22.0766L24.3487 25.0985C26.6642 23.004 28 19.9276 28 16.273C28 15.4221 27.9221 14.6039 27.7773 13.8185L16.2449 13.8184Z"
                   fill="#4285F4"
@@ -401,6 +407,7 @@ export default function Login() {
                 control={control}
                 render={({ field }) => (
                   <RadixCheckbox.Root
+                    aria-label="Remember me"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                     className="flex h-[20px] w-[20px] appearance-none items-center justify-center rounded-md border border-line bg-white data-[state=checked]:bg-accent-cyan data-[state=checked]:border-accent-cyan focus:outline-none cursor-pointer"

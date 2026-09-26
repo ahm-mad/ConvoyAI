@@ -73,6 +73,7 @@ export default function VehicleMarker({
     <Marker
       position={[position.latitude, position.longitude] as [number, number]}
       icon={vehicleIcon(color, fresh)}
+      title={name}
       eventHandlers={{ click: () => onClick?.(position) }}
     >
       <Popup>

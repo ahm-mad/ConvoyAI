@@ -570,6 +570,7 @@ const DataTable = ({
                 options={rowsPerPageSelectOptions}
                 size="small"
                 width="w-20"
+                aria-label="Rows per page"
                 triggerClassName="h-7"
               />
             </div>
