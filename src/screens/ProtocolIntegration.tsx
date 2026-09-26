@@ -47,7 +47,7 @@ function ProtocolIntegration({ productID: propProductID }: ProtocolIntegrationPr
   const [isSaving, setIsSaving] = useState(false);
 
   const toast = useToast();
-  const webHookLink = 'https://api.example.com/api/webhook';
+  const webHookLink = 'https://api.convoyai.app/api/webhook';
 
   // React Hook Form setup for MQTT
   const {

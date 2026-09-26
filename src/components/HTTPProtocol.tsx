@@ -36,7 +36,7 @@ const HTTPProtocol = ({ webHookToken, handleCopy }) => {
             {t('httpProtocol.webhookUrl')}
           </label>
           <div className="text-brand-text font-mono text-xs break-all bg-surface-2 p-2 rounded-md border border-line-soft">
-            https://api.example.com/api/webhook
+            https://api.convoyai.app/api/webhook
           </div>
         </div>
         <div>
