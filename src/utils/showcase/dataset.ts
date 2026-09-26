@@ -702,8 +702,15 @@ vehicleModels
         device_unique_identifier: v.raw.current_device_assignment.device.device_unique_identifier,
         product_id: '1',
         current_vehicle_assignment: {
+          id: String(700 + vehicleModels.indexOf(v)),
           vehicle_id: v.id,
-          vehicle: { id: v.id, name: v.raw.name, plate: v.raw.plate },
+          device_id: v.raw.current_device_assignment.device_id,
+          vehicle: {
+            id: v.id,
+            name: v.raw.name,
+            plate: v.raw.plate,
+            vehicle_category: v.category,
+          },
         },
       },
       _vehicleId: v.id,

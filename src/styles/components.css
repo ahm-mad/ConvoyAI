@@ -744,4 +744,176 @@
   .status-dot--warn {
     background: var(--color-warning);
   }
+
+  /* ------------------------------------------------------------------ Map vehicles (T-006) */
+  .cv-veh {
+    --veh-state: var(--color-brand);
+    --veh-state-deep: var(--color-brand-ink);
+    --veh-cargo: var(--color-surface-1);
+    --veh-glass: color-mix(in srgb, var(--color-ink-0) 78%, transparent);
+    --veh-tyre: var(--color-ink-0);
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    cursor: pointer;
+    transition:
+      scale var(--motion-base) var(--ease-standard),
+      opacity var(--motion-base) var(--ease-standard);
+  }
+  .cv-veh.is-idle {
+    --veh-state: var(--color-gold);
+    --veh-state-deep: var(--color-warning);
+  }
+  .cv-veh.is-parked {
+    --veh-state: var(--color-chart-neutral);
+    --veh-state-deep: var(--color-ink-2);
+  }
+  .cv-veh.is-offline {
+    --veh-state: var(--color-chart-neutral);
+    --veh-state-deep: var(--color-ink-2);
+    opacity: 0.62;
+  }
+  .cv-veh.is-selected {
+    scale: 1.22;
+  }
+  .cv-veh:hover {
+    scale: 1.12;
+  }
+  .cv-veh.is-selected:hover {
+    scale: 1.22;
+  }
+  .cv-veh__halo {
+    position: absolute;
+    inset: 4px;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--veh-state) 34%, transparent),
+      transparent 68%
+    );
+    opacity: 0;
+  }
+  .cv-veh.is-moving .cv-veh__halo {
+    opacity: 1;
+    animation: cv-ping 2.4s var(--ease-standard) infinite;
+  }
+  .cv-veh.is-idle .cv-veh__halo,
+  .cv-veh.is-selected .cv-veh__halo {
+    opacity: 1;
+  }
+  .cv-veh.is-selected .cv-veh__halo {
+    inset: 0;
+    border: 2px solid color-mix(in srgb, var(--veh-state) 70%, transparent);
+    animation: none;
+  }
+  /* silhouette */
+  .cv-veh__svg {
+    position: relative;
+    transform: rotate(var(--h, 0deg)) scale(var(--vs, 1));
+    filter: drop-shadow(0 5px 5px color-mix(in srgb, var(--color-ink-0) 38%, transparent));
+    overflow: visible;
+  }
+  .cv-veh__body {
+    fill: var(--veh-state);
+  }
+  .cv-veh__body2 {
+    fill: var(--veh-cargo);
+    stroke: color-mix(in srgb, var(--veh-state) 45%, var(--color-line));
+    stroke-width: 0.8;
+  }
+  .cv-veh__glass {
+    fill: var(--veh-glass);
+  }
+  .cv-veh__dark {
+    fill: color-mix(in srgb, var(--veh-state) 55%, var(--color-ink-0));
+  }
+  .cv-veh__tyre {
+    fill: var(--veh-tyre);
+  }
+  .cv-veh__line {
+    stroke: color-mix(in srgb, var(--veh-state) 40%, var(--color-line));
+    stroke-width: 0.9;
+    fill: none;
+    stroke-linecap: round;
+  }
+  .cv-veh__glass-line {
+    stroke: var(--veh-glass);
+    stroke-width: 3.2;
+    fill: none;
+    stroke-linecap: round;
+    opacity: 0.85;
+  }
+  .cv-veh__lamp {
+    fill: transparent;
+  }
+  .cv-veh.is-moving .cv-veh__lamp {
+    fill: var(--color-gold-wash);
+    filter: drop-shadow(0 0 3px var(--color-gold));
+  }
+  /* badge + puck */
+  .cv-veh__disc {
+    scale: clamp(0.85, var(--vs, 1), 1.25);
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9999px;
+    color: var(--color-surface-1);
+    background: linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--veh-state) 70%, var(--color-surface-1)),
+      var(--veh-state) 55%,
+      var(--veh-state-deep)
+    );
+    border: 2px solid var(--color-surface-1);
+    box-shadow:
+      0 8px 16px -6px color-mix(in srgb, var(--veh-state) 75%, transparent),
+      inset 0 2px 3px color-mix(in srgb, var(--color-surface-1) 65%, transparent),
+      inset 0 -3px 5px color-mix(in srgb, var(--color-ink-0) 20%, transparent);
+  }
+  .cv-veh--puck .cv-veh__disc {
+    width: 34px;
+    height: 34px;
+    color: var(--veh-state);
+    background: var(--color-surface-1);
+    border: 3px solid var(--veh-state);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--veh-state) 22%, transparent),
+      0 8px 16px -6px color-mix(in srgb, var(--veh-state) 70%, transparent);
+  }
+  .cv-veh__chev {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    margin: -5px 0 0 -5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 9px solid var(--veh-state);
+    transform: rotate(var(--h, 0deg)) translateY(-27px);
+    filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--color-ink-0) 30%, transparent));
+  }
+  .cv-veh--silhouette .cv-veh__chev {
+    display: none;
+  }
+  .cv-veh.is-offline .cv-veh__disc {
+    filter: grayscale(0.7);
+    border-style: dashed;
+  }
+  /* map popovers */
+  .cv-map-card {
+    min-width: 232px;
+    max-width: 280px;
+    padding: 12px 14px;
+    border-radius: var(--radius-card);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cv-veh.is-moving .cv-veh__halo {
+      animation: none;
+    }
+  }
 }

@@ -58,13 +58,15 @@ export function installRafShimIfRequested() {
         m.once('render', () => res(m.getCanvas().toDataURL('image/png')));
         m.triggerRepaint();
       });
-      const r = m.getCanvas().getBoundingClientRect();
+      const canvas = m.getCanvas() as HTMLCanvasElement;
       const img = document.createElement('img');
 
       img.id = '__cvSnapImg';
       img.src = url;
-      img.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;z-index:99999;pointer-events:none`;
-      document.body.appendChild(img);
+      // Sits right after the canvas (below the HTML markers) so vehicle icons stay visible over the snapshot.
+      img.style.cssText =
+        'position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none';
+      canvas.after(img);
 
       return url.length;
     };

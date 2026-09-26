@@ -194,7 +194,13 @@ export default function ConvoyMap({
   return (
     <MapContext.Provider value={value}>
       <div className={`relative size-full overflow-hidden ${className}`}>
-        <div ref={host} className="absolute inset-0" role="region" aria-label={ariaLabel} />
+        <div
+          ref={host}
+          className="absolute inset-0"
+          style={{ position: 'absolute', inset: 0 }}
+          role="region"
+          aria-label={ariaLabel}
+        />
         {failed && (
           <div className="absolute inset-0 grid place-items-center bg-surface-2 p-6 text-center text-sm text-ink-1">
             The map could not be drawn on this device ({failed}). The rest of the page still works.
