@@ -78,7 +78,7 @@ export function useEntitySearch(term: string, enabled: boolean) {
           try {
             const res: any = await get(s.url, { search: q, page: 1, per_page: 4 });
             const data = res?.data;
-            const items: any[] = Array.isArray(data) ? data : (data?.items ?? []);
+            const items: any[] = Array.isArray(data) ? data : (data?.items ?? data?.data ?? []);
 
             return items.slice(0, 4).map(s.map);
           } catch {

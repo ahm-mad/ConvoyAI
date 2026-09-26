@@ -220,6 +220,12 @@ export function buildNav({ isSuperAdmin, isDemo, hasPermission }: NavPermissions
             href: '/roles-permission',
             icon: ShieldCheck,
           },
+          {
+            label: 'Activity log',
+            hint: 'Who changed what',
+            href: '/activity',
+            icon: History,
+          },
         ]
       : []),
     ...(isSuperAdmin
@@ -241,6 +247,7 @@ export function buildNav({ isSuperAdmin, isDemo, hasPermission }: NavPermissions
       icon: ShieldCheck,
       match: [
         '/roles-permission',
+        '/activity',
         '/assign-permission',
         '/companies',
         '/users',
