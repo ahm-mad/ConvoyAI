@@ -582,4 +582,50 @@
       animation: cv-glow 0.9s steps(2) infinite;
     }
   }
+
+  /* Leaflet chrome on the design tokens */
+  .leaflet-container {
+    font-family: var(--font-sans);
+  }
+  .leaflet-popup-content-wrapper {
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-glass);
+    background: var(--glass-bg-menu);
+    color: var(--color-ink-0);
+  }
+  .leaflet-popup-content {
+    margin: 0.875rem 1rem;
+    font-size: var(--text-caption);
+    line-height: 1.4;
+  }
+  .leaflet-popup-tip {
+    background: var(--glass-bg-menu);
+    box-shadow: var(--shadow-card);
+  }
+  .leaflet-popup-content a {
+    color: var(--color-brand);
+    font-weight: var(--font-weight-strong);
+  }
+  .leaflet-bar {
+    border: none !important;
+    border-radius: var(--radius-control) !important;
+    box-shadow: var(--shadow-glass) !important;
+    overflow: hidden;
+  }
+  .leaflet-bar a {
+    background: var(--glass-bg-menu);
+    color: var(--color-ink-0);
+    border-bottom-color: var(--color-line-soft);
+  }
+  .leaflet-bar a:hover {
+    background: var(--color-brand-wash);
+    color: var(--color-brand-ink);
+  }
+  .leaflet-tooltip {
+    border-radius: var(--radius-control);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
+    font-family: var(--font-sans);
+    color: var(--color-ink-0);
+  }
 }

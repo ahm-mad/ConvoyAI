@@ -18,6 +18,7 @@ import { useBulkAction, bulkTargets, type BulkAction } from '@hooks/useBulkActio
 import BulkBar from '@components/list/BulkBar';
 import SelectableRow from '@components/list/SelectableRow';
 import toast from 'react-hot-toast';
+import DeleteControl from '@components/records/DeleteControl';
 import { conflictMessage, expectedUpdatedAt } from '@utils/fleetConflict';
 
 /**
@@ -310,9 +311,11 @@ export default function Geofences() {
                     <button onClick={() => handleToggleActive(g)} className="btn-soft">
                       {g.is_active ? 'Disable' : 'Enable'}
                     </button>
-                    <button onClick={() => handleDelete(g)} className="btn-soft btn-soft-danger">
-                      Delete
-                    </button>
+                    <DeleteControl
+                      label="Delete"
+                      question={`Delete geofence "${g.name}"? Its event history stays, but the zone stops alerting.`}
+                      onConfirm={() => handleDelete(g)}
+                    />
                   </div>
                 </div>
               </SelectableRow>
