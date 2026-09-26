@@ -575,7 +575,35 @@ export default function FleetOverview() {
               </div>
             }
           >
-            <StatusDonut slices={statusSlices} total={st.total ?? 0} surface={c.surface} />
+            <StatusDonut
+              slices={statusSlices}
+              total={st.total ?? 0}
+              surface={c.surface}
+              onSelect={key => {
+                if (key === 'no_tracker') {
+                  // Hand the vehicles list a "No tracker" filter (the list keeps its filters in sessionStorage).
+                  try {
+                    const k = 'list:vehicles:server';
+                    const cur = JSON.parse(sessionStorage.getItem(k) || '{}');
+
+                    sessionStorage.setItem(
+                      k,
+                      JSON.stringify({
+                        ...cur,
+                        page: 1,
+                        filters: { ...cur.filters, tracker: 'no' },
+                      })
+                    );
+                  } catch {
+                    /* storage unavailable: the list just opens unfiltered */
+                  }
+                  router.push('/fleet-management/operations/vehicles');
+                } else {
+                  // Moving / idle / parked / offline are live states — the map is where they are visible.
+                  router.push('/fleet-management/operations/map');
+                }
+              }}
+            />
           </WidgetCard>
 
           <div id="needs-attention" className="col-span-12 xl:col-span-7 scroll-mt-4">
@@ -975,6 +1003,14 @@ export default function FleetOverview() {
               surface={c.surface}
               size={150}
               stacked
+              canSelect={key => key === 'fuel' || key === 'maintenance'}
+              onSelect={key =>
+                router.push(
+                  key === 'fuel'
+                    ? `/fleet-management/analytics/fuel${window.location.search}`
+                    : `/fleet-management/analytics/maintenance?view=history${window.location.search.replace('?', '&')}`
+                )
+              }
             />
           </WidgetCard>
 

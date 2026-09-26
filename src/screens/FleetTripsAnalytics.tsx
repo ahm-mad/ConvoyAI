@@ -496,7 +496,26 @@ export default function FleetTripsAnalytics() {
           skeletonHeight={220}
           centerBody
         >
-          <StatusDonut slices={outcome} total={total} centerLabel="trips" surface={c.surface} />
+          <StatusDonut
+            slices={outcome}
+            total={total}
+            centerLabel="trips"
+            surface={c.surface}
+            onSelect={key => {
+              // "Open" is planned + in progress (no single filter): show whichever is larger.
+              const status: TripStatusFilter =
+                key === 'open'
+                  ? (counts?.planned ?? 0) > (counts?.in_progress ?? 0)
+                    ? 'planned'
+                    : 'in_progress'
+                  : (key as TripStatusFilter);
+
+              setTable(s => ({ ...s, page: 1, status: s.status === status ? null : status }));
+              document
+                .getElementById('trips-table')
+                ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+          />
         </WidgetCard>
       </div>
 
@@ -698,77 +717,80 @@ export default function FleetTripsAnalytics() {
         </WidgetCard>
       </div>
 
-      <WidgetCard
-        title="Trips"
-        subtitle="Every trip in the range with its delay — click a row to open it"
-        info={{
-          definition:
-            'One row per trip of the period. Delay = actual end − planned end for completed trips that had a planned end; other trips show “—”.',
-          basis:
-            'Filtering by status narrows this table only — the charts above keep their totals.',
-        }}
-        error={r.error}
-        onRetry={() => r.refetch()}
-        bodyClassName="px-0!"
-        skeletonHeight={120}
-      >
-        <div
-          role="group"
-          aria-label="Filter trips by status"
-          className="flex flex-wrap gap-1.5 px-5 pb-3"
+      <div id="trips-table" className="scroll-mt-4">
+        <WidgetCard
+          title="Trips"
+          subtitle="Every trip in the range with its delay — click a row to open it"
+          info={{
+            definition:
+              'One row per trip of the period. Delay = actual end − planned end for completed trips that had a planned end; other trips show “—”.',
+            basis:
+              'Filtering by status narrows this table only — the charts above keep their totals.',
+          }}
+          error={r.error}
+          onRetry={() => r.refetch()}
+          bodyClassName="px-0!"
+          skeletonHeight={120}
         >
-          {chips.map(ch => {
-            const on = table.status === ch.key;
+          <div
+            role="group"
+            aria-label="Filter trips by status"
+            className="flex flex-wrap gap-1.5 px-5 pb-3"
+          >
+            {chips.map(ch => {
+              const on = table.status === ch.key;
 
-            return (
-              <button
-                key={String(ch.key)}
-                type="button"
-                aria-pressed={on}
-                onClick={() => setTable(s => ({ ...s, page: 1, status: ch.key }))}
-                className={`inline-flex items-center gap-1.5 text-[11.5px] rounded-full border px-2.5 py-1 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
-                  on
-                    ? 'border-accent-cyan text-ink-0 bg-accent-cyan/10'
-                    : 'border-line-soft text-ink-1 hover:bg-surface-2'
-                }`}
-              >
-                {ch.label}{' '}
-                <b className="tabular-nums">{isNum(ch.n) ? ch.n.toLocaleString() : '—'}</b>
-              </button>
-            );
-          })}
-        </div>
-        <DataTable
-          caption="Trips in the range with delay, duration and distance"
-          rows={(d?.table?.items ?? []) as any[]}
-          loading={loading}
-          rowKey={t => String(t.trip_id)}
-          columns={columns}
-          searchText={t => `${t.trip_reference} ${t.vehicle?.name ?? ''} ${t.driver?.name ?? ''}`}
-          searchPlaceholder="Search reference, place, vehicle, driver"
-          pageSize={15}
-          server={{
-            total: d?.table?.pagination?.total ?? 0,
-            page: table.page,
-            onPage: page => setTable(s => ({ ...s, page })),
-            sort: table.sort,
-            onSort: sort => setTable(s => ({ ...s, sort })),
-            onQuery: search => setTable(s => (s.search === search ? s : { ...s, search, page: 1 })),
-            fetching: r.isFetching,
-            exporting: exporter.busy,
-            onExport: () => exporter.run(r.exportParams),
-          }}
-          onRowClick={t =>
-            openModal(<TripDetailModal tripId={t.trip_id} onListChanged={undefined} />)
-          }
-          empty={{
-            title: 'No trips match',
-            hint: table.status
-              ? 'Choose “All” to see every trip in the range.'
-              : 'Try a longer range.',
-          }}
-        />
-      </WidgetCard>
+              return (
+                <button
+                  key={String(ch.key)}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setTable(s => ({ ...s, page: 1, status: ch.key }))}
+                  className={`inline-flex items-center gap-1.5 text-[11.5px] rounded-full border px-2.5 py-1 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
+                    on
+                      ? 'border-accent-cyan text-ink-0 bg-accent-cyan/10'
+                      : 'border-line-soft text-ink-1 hover:bg-surface-2'
+                  }`}
+                >
+                  {ch.label}{' '}
+                  <b className="tabular-nums">{isNum(ch.n) ? ch.n.toLocaleString() : '—'}</b>
+                </button>
+              );
+            })}
+          </div>
+          <DataTable
+            caption="Trips in the range with delay, duration and distance"
+            rows={(d?.table?.items ?? []) as any[]}
+            loading={loading}
+            rowKey={t => String(t.trip_id)}
+            columns={columns}
+            searchText={t => `${t.trip_reference} ${t.vehicle?.name ?? ''} ${t.driver?.name ?? ''}`}
+            searchPlaceholder="Search reference, place, vehicle, driver"
+            pageSize={15}
+            server={{
+              total: d?.table?.pagination?.total ?? 0,
+              page: table.page,
+              onPage: page => setTable(s => ({ ...s, page })),
+              sort: table.sort,
+              onSort: sort => setTable(s => ({ ...s, sort })),
+              onQuery: search =>
+                setTable(s => (s.search === search ? s : { ...s, search, page: 1 })),
+              fetching: r.isFetching,
+              exporting: exporter.busy,
+              onExport: () => exporter.run(r.exportParams),
+            }}
+            onRowClick={t =>
+              openModal(<TripDetailModal tripId={t.trip_id} onListChanged={undefined} />)
+            }
+            empty={{
+              title: 'No trips match',
+              hint: table.status
+                ? 'Choose “All” to see every trip in the range.'
+                : 'Try a longer range.',
+            }}
+          />
+        </WidgetCard>
+      </div>
     </AnalyticsShell>
   );
 }

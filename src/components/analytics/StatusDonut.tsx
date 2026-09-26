@@ -33,6 +33,7 @@ export default function StatusDonut({
   centerLabel = 'vehicles',
   surface,
   onSelect,
+  canSelect,
   valueFormat = int,
   stacked = false,
   size = 168,
@@ -42,6 +43,8 @@ export default function StatusDonut({
   centerLabel?: string;
   surface: string;
   onSelect?: (key: string) => void;
+  /** Slices without a drill-down target render as plain rows (not buttons). Default: all selectable. */
+  canSelect?: (key: string) => boolean;
   /** How counts are printed (money for a cost donut). */
   valueFormat?: (n: number) => string;
   /** Legend under the ring (narrow cards) instead of beside it. */
@@ -132,11 +135,11 @@ export default function StatusDonut({
               opacity={hover && hover !== s.key ? 0.35 : 1}
               style={{
                 transition: 'stroke-width 120ms, opacity 120ms',
-                cursor: onSelect ? 'pointer' : 'default',
+                cursor: onSelect && (canSelect?.(s.key) ?? true) ? 'pointer' : 'default',
               }}
               onMouseEnter={() => setHover(s.key)}
               onMouseLeave={() => setHover(null)}
-              onClick={() => onSelect?.(s.key)}
+              onClick={() => (canSelect?.(s.key) ?? true) && onSelect?.(s.key)}
             />
           ))}
         </svg>
@@ -151,44 +154,50 @@ export default function StatusDonut({
       </div>
 
       <ul className="w-full min-w-0 flex-1 space-y-0.5">
-        {slices.map(s => (
-          <li key={s.key}>
-            <button
-              type="button"
-              onClick={() => onSelect?.(s.key)}
-              onMouseEnter={() => setHover(s.key)}
-              onMouseLeave={() => setHover(null)}
-              onFocus={() => setHover(s.key)}
-              onBlur={() => setHover(null)}
-              className={`w-full flex items-center gap-2.5 rounded-md px-2 py-1.5 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
-                hover === s.key ? 'bg-surface-2' : 'hover:bg-surface-2'
-              }`}
-            >
-              {/* A class with nothing in it is de-emphasised through its swatch and text colour, never through
+        {slices.map(s => {
+          const interactive = !!onSelect && (canSelect?.(s.key) ?? true);
+          const Row = interactive ? 'button' : 'div';
+
+          return (
+            <li key={s.key}>
+              <Row
+                {...(interactive
+                  ? { type: 'button' as const, onClick: () => onSelect?.(s.key) }
+                  : {})}
+                onMouseEnter={() => setHover(s.key)}
+                onMouseLeave={() => setHover(null)}
+                onFocus={() => setHover(s.key)}
+                onBlur={() => setHover(null)}
+                className={`w-full flex items-center gap-2.5 rounded-md px-2 py-1.5 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
+                  hover === s.key ? 'bg-surface-2' : 'hover:bg-surface-2'
+                }`}
+              >
+                {/* A class with nothing in it is de-emphasised through its swatch and text colour, never through
                   opacity on the row — dimmed text falls below WCAG AA. */}
-              <span
-                className={`w-2.5 h-2.5 rounded-full shrink-0 ${s.value === 0 ? 'opacity-40' : ''}`}
-                style={{ background: s.color }}
-              />
-              <span
-                className={`text-[13px] flex-1 min-w-0 truncate ${s.value === 0 ? 'text-ink-1' : 'text-ink-0'}`}
-              >
-                {s.label}
-              </span>
-              <span
-                className={`text-[13px] font-semibold tabular-nums ${s.value === 0 ? 'text-ink-1' : 'text-ink-0'}`}
-              >
-                {valueFormat(s.value)}
-              </span>
-              <span className="text-[11px] text-ink-2 w-9 text-right tabular-nums">
-                {total ? pct((s.value / total) * 100, 0) : '—'}
-              </span>
-            </button>
-            {s.hint && hover === s.key && (
-              <div className="px-2 pb-1 text-[11px] text-ink-2 leading-snug">{s.hint}</div>
-            )}
-          </li>
-        ))}
+                <span
+                  className={`w-2.5 h-2.5 rounded-full shrink-0 ${s.value === 0 ? 'opacity-40' : ''}`}
+                  style={{ background: s.color }}
+                />
+                <span
+                  className={`text-[13px] flex-1 min-w-0 truncate ${s.value === 0 ? 'text-ink-1' : 'text-ink-0'}`}
+                >
+                  {s.label}
+                </span>
+                <span
+                  className={`text-[13px] font-semibold tabular-nums ${s.value === 0 ? 'text-ink-1' : 'text-ink-0'}`}
+                >
+                  {valueFormat(s.value)}
+                </span>
+                <span className="text-[11px] text-ink-2 w-9 text-right tabular-nums">
+                  {total ? pct((s.value / total) * 100, 0) : '—'}
+                </span>
+              </Row>
+              {s.hint && hover === s.key && (
+                <div className="px-2 pb-1 text-[11px] text-ink-2 leading-snug">{s.hint}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
