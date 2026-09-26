@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { resolveAnalytics } from './analytics';
+import { resolveDetails } from './details';
+import { ME, resolveIot } from './iot';
 import { resolveFleet } from './fleet';
 import { resolveLists } from './lists';
 
@@ -34,9 +36,18 @@ export function resolveShowcase(
   url: string,
   params: Record<string, unknown> = {}
 ): any | undefined {
-  const path = url.replace(/\?.*$/, '').replace(/\/+$/, '');
+  const path = `/${url
+    .replace(/^https?:\/\/[^/]+/, '')
+    .replace(/\?.*$/, '')
+    .replace(/^\/+|\/+$/g, '')}`;
 
-  return resolveLists(path, params) ?? resolveFleet(path, params) ?? resolveAnalytics(path, params);
+  return (
+    resolveLists(path, params) ??
+    resolveFleet(path, params) ??
+    resolveAnalytics(path, params) ??
+    resolveDetails(path, params) ??
+    resolveIot(path, params)
+  );
 }
 
 /** Successful no-op answer for POST / PUT / PATCH / DELETE while showcase data is on. */
@@ -44,4 +55,11 @@ export const showcaseWriteResult = () => ({
   success: true,
   message: 'Saved (showcase data — nothing was stored).',
   data: {},
+});
+
+/** Display identity used while showcase data is on. */
+export const showcaseIdentity = () => ({
+  first_name: ME.first_name,
+  last_name: ME.last_name,
+  email: ME.email,
 });

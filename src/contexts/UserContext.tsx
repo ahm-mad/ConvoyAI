@@ -4,6 +4,7 @@ import { createContext, useContext, useState, type ReactNode } from 'react';
 import { disconnectSocket } from '@contexts/SocketContext';
 import type { User } from '../types/api';
 import { resolveImageUrl } from '@utils/avatar';
+import { isShowcase, showcaseIdentity } from '@utils/showcase';
 
 interface UserContextValue {
   user: User | null;
@@ -29,7 +30,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   // hooks come from 'next/navigation' where actually needed.
 
   const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-  const initialUser: User | null = storedUser ? JSON.parse(storedUser) : null;
+  const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
+  // Showcase data: present a demo identity instead of the real login (display only; storage untouched).
+  const initialUser: User | null =
+    parsedUser && isShowcase() ? { ...parsedUser, ...showcaseIdentity() } : parsedUser;
 
   const [user, setUser] = useState<User | null>(initialUser);
   const [token, setToken] = useState<string | null>(
