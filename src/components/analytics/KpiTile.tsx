@@ -171,7 +171,9 @@ export default function KpiTile({
             <Skeleton className="h-8 w-24" />
           ) : (
             <div className="flex items-baseline gap-1">
-              <span className="kpi-value">{value}</span>
+              <span className="kpi-value">
+                <CountUp value={value} />
+              </span>
               {unit && <span className="text-sm text-ink-2 font-medium">{unit}</span>}
             </div>
           )}

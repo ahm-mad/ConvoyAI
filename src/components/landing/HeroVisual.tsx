@@ -1,4 +1,5 @@
 import { ArrowUpRight, Sparkles } from 'lucide-react';
+import HeroMapLive from './HeroMapLive';
 
 /** Illustrated product preview for the landing hero: stylised live map, KPI card, AI bubble. Token-driven. */
 export default function HeroVisual() {
@@ -14,81 +15,7 @@ export default function HeroVisual() {
           </span>
         </div>
         <div className="relative h-[430px] overflow-hidden bg-surface-2">
-          <svg
-            viewBox="0 0 1000 430"
-            preserveAspectRatio="xMidYMid slice"
-            className="absolute inset-0 size-full"
-            aria-label="Live fleet map illustration"
-          >
-            <defs>
-              <linearGradient id="lp-route" x1="0" x2="1">
-                <stop offset="0" style={{ stopColor: 'var(--color-brand-bright)' }} />
-                <stop offset="1" style={{ stopColor: 'var(--color-ai)' }} />
-              </linearGradient>
-              <radialGradient id="lp-heat">
-                <stop offset="0" style={{ stopColor: 'var(--color-gold)', stopOpacity: 0.5 }} />
-                <stop offset="1" style={{ stopColor: 'var(--color-gold)', stopOpacity: 0 }} />
-              </radialGradient>
-            </defs>
-            <rect width="1000" height="430" className="fill-surface-2" />
-            <path
-              d="M0 330 C160 300 260 380 420 360 S680 290 820 330 S940 370 1000 350 V430 H0Z"
-              className="fill-ai-wash"
-            />
-            <ellipse cx="170" cy="110" rx="100" ry="46" className="fill-brand-wash" opacity="0.7" />
-            <ellipse cx="820" cy="90" rx="110" ry="50" className="fill-gold-wash" opacity="0.8" />
-            <g className="stroke-white" strokeWidth="11" fill="none" strokeLinecap="round">
-              <path d="M-10 210 C150 180 260 250 420 215 S700 130 1010 180" />
-              <path d="M130 -10 C170 90 250 140 300 230 S330 380 380 440" />
-              <path d="M620 -10 C600 90 660 160 620 240 S700 350 760 440" />
-              <path d="M-10 80 C200 100 380 30 560 70 S860 120 1010 60" />
-              <path d="M-10 300 C180 280 340 330 520 295 S820 250 1010 290" />
-            </g>
-            <circle cx="430" cy="215" r="130" fill="url(#lp-heat)" />
-            <path
-              d="M150 215 C230 200 300 240 420 215 S620 150 860 175"
-              stroke="url(#lp-route)"
-              strokeWidth="6"
-              fill="none"
-              strokeLinecap="round"
-            />
-            <path
-              d="M150 215 C230 200 300 240 420 215"
-              stroke="white"
-              strokeWidth="2"
-              fill="none"
-              strokeDasharray="2 9"
-              strokeLinecap="round"
-            />
-            {[
-              [150, 215, 'fill-ink-0'],
-              [860, 175, 'fill-brand'],
-            ].map(([x, y, c]) => (
-              <rect
-                key={String(x)}
-                x={Number(x) - 18}
-                y={Number(y) - 18}
-                width="36"
-                height="36"
-                rx="12"
-                className={String(c)}
-              />
-            ))}
-            {[
-              [420, 215, 'fill-brand'],
-              [560, 80, 'fill-success'],
-              [790, 100, 'fill-success'],
-              [300, 235, 'fill-gold'],
-              [690, 160, 'fill-success'],
-              [220, 320, 'fill-ai'],
-              [372, 400, 'fill-danger'],
-            ].map(([x, y, c]) => (
-              <g key={`${x}-${y}`}>
-                <circle cx={Number(x)} cy={Number(y)} r="13" fill="white" />
-                <circle cx={Number(x)} cy={Number(y)} r="8" className={String(c)} />
-              </g>
-            ))}
-          </svg>
+          <HeroMapLive />
 
           <div className="absolute left-5 top-5 flex flex-wrap gap-2">
             {[
