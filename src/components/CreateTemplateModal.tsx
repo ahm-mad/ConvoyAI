@@ -79,7 +79,7 @@ export default function CreateTemplateModal({ onSuccess }) {
   };
 
   return (
-    <div className="glass-strong  w-[560px] max-h-[85vh] flex flex-col overflow-hidden">
+    <div className="glass-strong  w-[min(560px,calc(100vw_-_1.5rem))] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">New Template</h2>

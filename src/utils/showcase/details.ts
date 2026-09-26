@@ -276,17 +276,30 @@ const driverDetail = (id: string) => {
 const stopsOf = (t: Row) => {
   if (t.id.charCodeAt(t.id.length - 1) % 3 !== 0) return [];
 
-  // The yard closest to the middle of the route (other than the two endpoints).
-  const mx = (t.origin_latitude + t.destination_latitude) / 2;
-  const my = (t.origin_longitude + t.destination_longitude) / 2;
-  const mid = yards
-    .filter((_, i) => i !== t._oi && i !== t._di)
-    .sort(
-      (a, b) =>
-        (a.latitude - mx) ** 2 +
-        (a.longitude - my) ** 2 -
-        ((b.latitude - mx) ** 2 + (b.longitude - my) ** 2)
-    )[0];
+  // A cross-dock stop must lie on the trip's road: the yard (other than the two endpoints) closest to the road path,
+  // and only when it is within ~15 km of it.
+  const road = roadPath(t._oi, t._di);
+
+  if (!road || road.length < 2) return [];
+
+  let best: { yard: (typeof yards)[number]; d: number; at: number } | null = null;
+
+  yards.forEach((y, i) => {
+    if (i === t._oi || i === t._di) return;
+
+    road.forEach(([la, lo], k) => {
+      const d = Math.hypot(la - y.latitude, (lo - y.longitude) * 0.85);
+
+      if (!best || d < best.d) best = { yard: y, d, at: k / (road.length - 1) };
+    });
+  });
+
+  if (!best || (best as any).d > 0.14) return [];
+
+  const { yard: mid, at } = best as { yard: (typeof yards)[number]; d: number; at: number };
+  // In-progress trips: the vehicle has "arrived" at the stop only once it has driven past it.
+  const frac = t.status === 'in_progress' ? tripFraction(t.vehicle_id) : null;
+  const passed = frac !== null && frac >= at;
 
   return [
     {
@@ -296,7 +309,11 @@ const stopsOf = (t: Row) => {
       sequence: 1,
       stop_purpose: 'Cross-dock / driver rest',
       status:
-        t.status === 'completed' ? 'completed' : t.status === 'in_progress' ? 'arrived' : 'planned',
+        t.status === 'completed'
+          ? 'completed'
+          : t.status === 'in_progress' && passed
+            ? 'arrived'
+            : 'planned',
       planned_arrival_at: iso(Date.parse(t.planned_start_at) + 4 * HOUR),
       planned_departure_at: iso(Date.parse(t.planned_start_at) + 5 * HOUR),
       notes: null,

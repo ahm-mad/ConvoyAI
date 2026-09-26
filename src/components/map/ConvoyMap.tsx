@@ -54,6 +54,8 @@ export interface ConvoyMapProps {
   scrollZoom?: boolean;
   /** Called once with the live map instance (for camera helpers such as fit-to-fleet). */
   onReady?: (map: GLMap) => void;
+  /** Small +/− buttons (for embedded maps where the wheel is off so the page can scroll). */
+  zoomControls?: boolean;
   children?: ReactNode;
 }
 
@@ -73,6 +75,7 @@ export default function ConvoyMap({
   interactive = true,
   scrollZoom = true,
   onReady,
+  zoomControls = false,
   children,
 }: ConvoyMapProps) {
   const host = useRef<HTMLDivElement>(null);
@@ -220,6 +223,30 @@ export default function ConvoyMap({
         {failed && (
           <div className="absolute inset-0 grid place-items-center bg-surface-2 p-6 text-center text-sm text-ink-1">
             The map could not be drawn on this device ({failed}). The rest of the page still works.
+          </div>
+        )}
+        {map && zoomControls && (
+          <div
+            role="group"
+            aria-label="Zoom"
+            className="glass-strong absolute bottom-3 left-3 z-10 flex flex-col overflow-hidden rounded-control"
+          >
+            {(
+              [
+                ['Zoom in', '+', () => map.zoomIn()],
+                ['Zoom out', '−', () => map.zoomOut()],
+              ] as const
+            ).map(([label, glyph, act]) => (
+              <button
+                key={label}
+                type="button"
+                aria-label={label}
+                onClick={act}
+                className="grid size-8 place-items-center text-base font-semibold text-ink-1 hover:bg-black/[0.05]"
+              >
+                {glyph}
+              </button>
+            ))}
           </div>
         )}
         {map && children}

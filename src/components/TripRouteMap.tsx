@@ -113,6 +113,7 @@ export default function TripRouteMap({
           center={[30.5, 72.5]}
           zoom={6}
           scrollZoom={false}
+          zoomControls
           ariaLabel="Trip route map"
         >
           <Scenery3D />

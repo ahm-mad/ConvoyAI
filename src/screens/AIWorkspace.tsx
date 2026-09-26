@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CalendarClock, ShieldAlert, Sparkles, TrendingDown, Wrench } from 'lucide-react';
 import CopilotChat from '@components/shell/CopilotChat';
+import { useCompanyMoney } from '@hooks/useCompanyMoney';
 
 /** Illustrative data (no AI backend yet): everything on this page is clearly labelled Preview. */
 const MAINTENANCE = [
@@ -71,6 +72,7 @@ function Ring({ value }: { value: number }) {
 }
 
 export default function AIWorkspace() {
+  const money = useCompanyMoney();
   const [auto, setAuto] = useState<Record<string, boolean>>(
     Object.fromEntries(AUTOMATIONS.map(a => [a.key, a.on]))
   );
@@ -126,9 +128,7 @@ export default function AIWorkspace() {
               </span>
               AI savings found this week
             </div>
-            <div className="kpi-value mt-3">
-              412<span className="pl-1 text-body text-ink-2">k PKR</span>
-            </div>
+            <div className="kpi-value mt-3">{money(412_000)}</div>
             <p className="mt-2 flex items-center gap-1.5 text-caption font-semibold text-success">
               <TrendingDown size={14} /> 3 actions ready to apply
             </p>
@@ -245,7 +245,7 @@ export default function AIWorkspace() {
             />
           </svg>
           <p className="mt-2 text-caption text-ink-2">
-            Projected <b className="text-ink-0">PKR 3.1M</b>, 6% under plan.
+            Projected <b className="text-ink-0">{money(3_100_000)}</b>, 6% under plan.
           </p>
         </section>
 
