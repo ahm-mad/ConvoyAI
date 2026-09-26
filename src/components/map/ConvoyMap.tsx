@@ -50,6 +50,8 @@ export interface ConvoyMapProps {
   ariaLabel?: string;
   className?: string;
   interactive?: boolean;
+  /** Called once with the live map instance (for camera helpers such as fit-to-fleet). */
+  onReady?: (map: GLMap) => void;
   children?: ReactNode;
 }
 
@@ -67,6 +69,7 @@ export default function ConvoyMap({
   ariaLabel = 'Map',
   className = '',
   interactive = true,
+  onReady,
   children,
 }: ConvoyMapProps) {
   const host = useRef<HTMLDivElement>(null);
@@ -77,6 +80,9 @@ export default function ConvoyMap({
   const boundsCb = useRef(onBoundsChange);
 
   boundsCb.current = onBoundsChange;
+  const readyCb = useRef(onReady);
+
+  readyCb.current = onReady;
 
   // Create the map once.
   useEffect(() => {
@@ -140,6 +146,7 @@ export default function ConvoyMap({
         instance.once('load', () => {
           if (disposed) return;
           setMap(instance);
+          readyCb.current?.(instance!);
           report();
         });
         instance.on('error', e => {

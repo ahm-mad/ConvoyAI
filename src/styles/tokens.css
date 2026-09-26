@@ -216,12 +216,16 @@
   --map-light-rail: #dccfbb;
   --map-light-building: #eee2d0;
   --map-light-building-edge: #e0d0b8;
-  --map-light-building-3d: #f4eadc;
+  --map-light-building-3d: #ebdcc6;
   --map-light-boundary: #d6b494;
   --map-light-label: #5a4a3d;
   --map-light-label-major: #2a1f16;
   --map-light-label-water: #6d8c96;
   --map-light-halo: #fbf5ee;
+  --map-light-sky: #f8dcc0;
+  --map-light-horizon: #fdeee0;
+  --map-light-fog: #f6efe4;
+  --map-light-hillshade: #b9a58c;
   /* Night look: deep indigo-charcoal, amber neon roads */
   --map-night-land: #14121f;
   --map-night-land-alt: #191726;
@@ -246,6 +250,10 @@
   --map-night-label-major: #eee8f7;
   --map-night-label-water: #5f83a3;
   --map-night-halo: #0f0d18;
+  --map-night-sky: #1c1338;
+  --map-night-horizon: #3a2453;
+  --map-night-fog: #14121f;
+  --map-night-hillshade: #05040a;
 
   --focus-ring: 2px solid var(--color-brand);
 }
