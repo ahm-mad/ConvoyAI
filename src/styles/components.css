@@ -601,12 +601,10 @@
     box-shadow: var(--shadow-glass) !important;
     background: var(--glass-bg-menu) !important;
   }
+  /* Vehicle, cluster and yard markers are the focusable elements themselves (role=button) */
   .maplibregl-marker:focus-visible {
-    outline: none;
-  }
-  .maplibregl-marker [role='button']:focus-visible {
     outline: var(--focus-ring);
-    outline-offset: 2px;
+    outline-offset: 3px;
     border-radius: 9999px;
   }
 

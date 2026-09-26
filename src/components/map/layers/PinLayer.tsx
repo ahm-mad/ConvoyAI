@@ -70,6 +70,31 @@ export default function PinLayer({
 
       el.className = 'cv-pin';
       el.innerHTML = '<span class="cv-pin__ring"></span><span class="cv-pin__drop"></span>';
+      if (!readOnly) {
+        // Keyboard: arrow keys nudge the pin by 12 px on screen (Shift = 60 px).
+        el.tabIndex = 0;
+        el.setAttribute('role', 'button');
+        el.setAttribute('aria-label', 'Location pin. Use the arrow keys to move it.');
+        el.addEventListener('keydown', ev => {
+          const step = ev.shiftKey ? 60 : 12;
+          const d: Record<string, [number, number]> = {
+            ArrowUp: [0, -step],
+            ArrowDown: [0, step],
+            ArrowLeft: [-step, 0],
+            ArrowRight: [step, 0],
+          };
+
+          if (!d[ev.key] || !marker.current) return;
+
+          ev.preventDefault();
+          ev.stopPropagation();
+
+          const p = map.project(marker.current.getLngLat());
+          const ll = map.unproject([p.x + d[ev.key][0], p.y + d[ev.key][1]]);
+
+          cb.current(ll.lat, ll.lng);
+        });
+      }
 
       const m = new GLMarker({ element: el, anchor: 'bottom', draggable: !readOnly })
         .setLngLat([pin[1], pin[0]])

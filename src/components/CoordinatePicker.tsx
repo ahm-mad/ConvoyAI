@@ -46,12 +46,13 @@ function CoordinatePickerModal({
   const center: [number, number] = pin ?? FALLBACK_CENTER;
 
   return (
-    <div className="glass-strong  w-[640px] flex flex-col overflow-hidden">
+    <div className="glass-strong flex w-[min(640px,calc(100vw-2rem))] flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
         <div>
           <h2 className="text-sm font-semibold text-ink-0">{title}</h2>
           <p className="text-xs text-ink-2 mt-0.5">
-            Click the map to drop a pin, drag the pin to fine-tune it.
+            Click the map to drop a pin, drag it (or use the arrow keys on the focused pin) to
+            fine-tune it.
           </p>
         </div>
         <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">

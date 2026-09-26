@@ -25,7 +25,7 @@ function Group({ label, children }: { label: string; children: ReactNode }) {
     <div
       role="group"
       aria-label={label}
-      className="flex items-center gap-0.5 rounded-full bg-white/70 p-0.5"
+      className="flex shrink-0 items-center gap-0.5 rounded-full bg-white/70 p-0.5"
     >
       {children}
     </div>
@@ -42,16 +42,19 @@ export default function MapToolbar({
   onFit,
   children,
   className = '',
+  showIconStyle = true,
 }: {
   prefs: MapPrefs;
   onChange: (patch: Partial<MapPrefs>) => void;
   onFit?: () => void;
   children?: ReactNode;
   className?: string;
+  /** Hide the vehicle icon-style group on maps that show no vehicles. */
+  showIconStyle?: boolean;
 }) {
   return (
     <div
-      className={`glass-strong flex flex-wrap items-center gap-1.5 p-1.5 ${className}`}
+      className={`glass-strong flex items-center gap-1.5 overflow-x-auto p-1.5 lg:flex-wrap lg:overflow-visible ${className}`}
       role="toolbar"
       aria-label="Map controls"
     >
@@ -95,21 +98,23 @@ export default function MapToolbar({
           </button>
         )}
       </Group>
-      <Group label="Vehicle icon style">
-        {ICON_STYLES.map(({ id, label, icon: Icon }) => (
-          <button
-            key={id}
-            type="button"
-            className={seg}
-            aria-pressed={prefs.iconStyle === id}
-            aria-label={label}
-            title={label}
-            onClick={() => onChange({ iconStyle: id })}
-          >
-            <Icon size={15} />
-          </button>
-        ))}
-      </Group>
+      {showIconStyle && (
+        <Group label="Vehicle icon style">
+          {ICON_STYLES.map(({ id, label, icon: Icon }) => (
+            <button
+              key={id}
+              type="button"
+              className={seg}
+              aria-pressed={prefs.iconStyle === id}
+              aria-label={label}
+              title={label}
+              onClick={() => onChange({ iconStyle: id })}
+            >
+              <Icon size={15} />
+            </button>
+          ))}
+        </Group>
+      )}
       {children}
     </div>
   );
