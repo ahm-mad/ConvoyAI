@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AlertTriangle } from 'lucide-react';
+import ListEmpty from '@components/list/ListEmpty';
 import { useModal } from '@contexts/ModalContext';
 import { useOptions } from '@hooks/useOptions';
 import { useListState } from '@hooks/useListState';
@@ -108,18 +110,13 @@ export default function Incidents() {
       {view.isLoading && <div className="text-xs text-ink-2 py-8 text-center">Loading…</div>}
 
       {!view.isLoading && view.items.length === 0 && !view.error && (
-        <div className="text-xs text-ink-2 py-12 text-center border border-dashed border-line rounded-md">
-          {list.hasActiveFilters ? (
-            <>
-              No incidents match your search or filters.{' '}
-              <button onClick={list.clearFilters} className="text-accent-cyan underline">
-                Clear them
-              </button>
-            </>
-          ) : (
-            'No incidents have been logged yet. Log one from a driver’s Incidents tab.'
-          )}
-        </div>
+        <ListEmpty
+          noun="incidents"
+          icon={AlertTriangle}
+          filtered={list.hasActiveFilters}
+          onClear={list.clearFilters}
+          hint="Log one from a driver’s Incidents tab."
+        />
       )}
 
       {view.items.map(incident => (

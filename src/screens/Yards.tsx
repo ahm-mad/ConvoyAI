@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toDisplayString, toMetric } from '@utils/units';
@@ -251,18 +252,15 @@ export default function Yards() {
       {isLoading && <div className="text-xs text-ink-2 py-8 text-center">Loading…</div>}
 
       {!isLoading && view.total === 0 && !showForm && !view.error && (
-        <div className="text-xs text-ink-2 py-12 text-center border border-dashed border-line rounded-md">
-          {list.hasActiveFilters ? (
-            <>
-              No yards match your search or filters.{' '}
-              <button onClick={list.clearFilters} className="text-accent-cyan underline">
-                Clear them
-              </button>
-            </>
-          ) : (
-            'No yards added yet.'
-          )}
-        </div>
+        <ListEmpty
+          noun="yards"
+          icon={Warehouse}
+          filtered={list.hasActiveFilters}
+          onClear={list.clearFilters}
+          hint="Yards are the depots and sites your fleet works from. Add one to see it on the map."
+          addLabel="Add yard"
+          onAdd={() => setShowForm(true)}
+        />
       )}
 
       {!isLoading && view.items.length > 0 && (

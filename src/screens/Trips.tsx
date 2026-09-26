@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toMetric } from '@utils/units';
 import { useState, type ReactNode } from 'react';
-import { Plus, Play, CheckCircle2, XCircle } from 'lucide-react';
+import { Plus, Play, CheckCircle2, XCircle, Route } from 'lucide-react';
 import { useOptions } from '@hooks/useOptions';
 import OptionSelect from '@components/OptionSelect';
 import TripStopsEditor, { stopsToCreatePayload, type StopDraft } from '@components/TripStopsEditor';
@@ -208,18 +209,15 @@ export default function Trips() {
       {t.isLoading && <div className="text-xs text-ink-2 py-8 text-center">Loading…</div>}
 
       {!t.isLoading && t.items.length === 0 && !showForm && !t.error && (
-        <div className="text-xs text-ink-2 py-12 text-center border border-dashed border-line rounded-md">
-          {list.hasActiveFilters ? (
-            <>
-              No trips match your search or filters.{' '}
-              <button onClick={list.clearFilters} className="text-accent-cyan underline">
-                Clear them
-              </button>
-            </>
-          ) : (
-            'No trips found.'
-          )}
-        </div>
+        <ListEmpty
+          noun="trips"
+          icon={Route}
+          filtered={list.hasActiveFilters}
+          onClear={list.clearFilters}
+          hint="Plan a trip to dispatch a vehicle and driver and track it end to end."
+          addLabel="Create trip"
+          onAdd={() => setShowForm(true)}
+        />
       )}
 
       {!t.isLoading && t.items.length > 0 && (
