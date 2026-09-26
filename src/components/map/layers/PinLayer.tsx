@@ -14,10 +14,13 @@ export default function PinLayer({
   pin,
   onChange,
   radiusM,
+  readOnly = false,
 }: {
   pin: [number, number] | null;
   onChange: (lat: number, lon: number) => void;
   radiusM?: number | null;
+  /** Display-only pin: not draggable, and clicking the map does not move it. */
+  readOnly?: boolean;
 }) {
   const { map, styleVersion } = useConvoyMap();
   const marker = useRef<Marker | null>(null);
@@ -27,7 +30,7 @@ export default function PinLayer({
 
   // Click to drop / move the pin.
   useEffect(() => {
-    if (!map) return;
+    if (!map || readOnly) return;
 
     const click = (e: any) => cb.current(e.lngLat.lat, e.lngLat.lng);
 
@@ -38,7 +41,7 @@ export default function PinLayer({
       map.off('click', click);
       map.getCanvas().style.cursor = '';
     };
-  }, [map]);
+  }, [map, readOnly]);
 
   // The pin marker.
   useEffect(() => {
@@ -68,7 +71,7 @@ export default function PinLayer({
       el.className = 'cv-pin';
       el.innerHTML = '<span class="cv-pin__ring"></span><span class="cv-pin__drop"></span>';
 
-      const m = new GLMarker({ element: el, anchor: 'bottom', draggable: true })
+      const m = new GLMarker({ element: el, anchor: 'bottom', draggable: !readOnly })
         .setLngLat([pin[1], pin[0]])
         .addTo(map);
 

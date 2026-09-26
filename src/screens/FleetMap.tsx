@@ -2,21 +2,13 @@
 import { useUnits } from '@hooks/useUnits';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { keepPreviousData } from '@tanstack/react-query';
-import { MapContainer, TileLayer, Polyline, Circle } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import { useTheme } from '@contexts/ThemeContext';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
 import { get } from '@utils/apiHelper';
 import { useModal } from '@contexts/ModalContext';
-import VehicleMarker from '@components/VehicleMarker';
-import YardMarker from '@components/YardMarker';
 import YardLayoutEditor from '@components/YardLayoutEditor';
 import VehicleDetailModal from '@components/VehicleDetailModal';
-import TripRouteLayers, { FitRoute } from '@components/TripRouteLayers';
-import MapViewportWatcher from '@components/MapViewportWatcher';
 import { useViewportList } from '@hooks/useViewportList';
 import { bboxToParam, type Bbox } from '@utils/mapViewport';
-import { token } from '@lib/design/tokens';
 import dynamic from 'next/dynamic';
 import VehicleLayer from '@components/map/layers/VehicleLayer';
 import { vehicleFromPosition, type LiveVehicle } from '@components/map/vehicle/vehicleKinds';
@@ -27,6 +19,7 @@ import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair } from 'lucide-re
 import MapHud from '@components/map/MapHud';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import RouteLayer from '@components/map/layers/RouteLayer';
+import HistoryLayer from '@components/map/layers/HistoryLayer';
 import GeofenceLayer from '@components/map/layers/GeofenceLayer';
 import YardLayer from '@components/map/layers/YardLayer';
 import MapToolbar from '@components/map/MapToolbar';
@@ -52,11 +45,10 @@ const POSITION_LIMIT = 2000;
 
 export default function FleetMap() {
   const u = useUnits();
-  const { isLight } = useTheme();
   const { openModal } = useModal();
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | number | null>(null);
   const [layers, setLayers] = useState({ vehicles: true, yards: true, geofences: true });
-  // Phase 2 (T-006) MapLibre map, opt-in with ?gl=1 until every milestone is in.
+  // MapLibre GL map (needs WebGL; see the fallback message in the render).
   const [gl, setGl] = useState(false);
   const [mapPrefs, setMapPrefs] = useMapPrefs();
   const [glMap, setGlMap] = useState<any>(null);
@@ -99,7 +91,7 @@ export default function FleetMap() {
   const [clean, setClean] = useState(false);
   const stage = useRef<HTMLDivElement>(null);
 
-  // GL map by default; `?gl=0` (or a device without WebGL) falls back to the old Leaflet map.
+  // `?gl=0` forces the no-WebGL message (for testing the fallback).
   useEffect(() => {
     const q = new URLSearchParams(window.location.search).get('gl');
     let ok = false;
@@ -112,7 +104,7 @@ export default function FleetMap() {
     setGl(q !== '0' && ok);
   }, []);
 
-  // The visible box; set by MapViewportWatcher once the map exists and after every pan / zoom.
+  // The visible box; reported by the map after every pan / zoom.
   const [bbox, setBbox] = useState<Bbox | null>(null);
   const bboxParam = bbox ? bboxToParam(bbox) : undefined;
 
@@ -248,11 +240,6 @@ export default function FleetMap() {
     ? historyData.data.map((p: any) => [p.latitude, p.longitude])
     : [];
 
-  // Switched from CartoDB — same correction as Map.jsx, same reasoning.
-  // const mapTilerKey = '<OLD_MAPTILER_KEY_REDACTED>';
-  const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
-  const tileUrl = `https://api.maptiler.com/maps/dataviz-${isLight ? 'light' : 'dark'}/{z}/{x}/{y}.png?key=${mapTilerKey}`;
-
   // Default center: the most recently reporting vehicle, else a reasonable fallback matching the
   // existing Map.jsx's default location. (Read once, when the map mounts.)
   const defaultCenter: [number, number] = newest
@@ -316,6 +303,7 @@ export default function FleetMap() {
             >
               <Scenery3D />
               {tripRoute && <RouteLayer route={tripRoute} />}
+              <HistoryLayer trail={trail} />
               <GeofenceLayer
                 geofences={geofences}
                 yards={yards}
@@ -438,56 +426,10 @@ export default function FleetMap() {
             )}
           </>
         ) : (
-          <MapContainer center={defaultCenter} zoom={11} style={{ height: '100%', width: '100%' }}>
-            <MapViewportWatcher onChange={setBbox} />
-            <TileLayer
-              url={tileUrl}
-              tileSize={512}
-              zoomOffset={-1}
-              attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {layers.vehicles &&
-              positions.map((p: any) => (
-                <VehicleMarker
-                  units={u}
-                  key={p.device_id}
-                  position={p}
-                  onClick={(pos: any) => setSelectedDeviceId(pos.device_id)}
-                  onViewDetails={(id: any) => openModal(<VehicleDetailModal vehicleId={id} />)}
-                />
-              ))}
-            {layers.yards &&
-              yards.map((y: any) => (
-                <YardMarker key={`yard-${y.id}`} yard={y} onClick={handleYardClick} />
-              ))}
-            {layers.geofences &&
-              geofences.map((g: any) => (
-                <Circle
-                  key={`geofence-${g.id}`}
-                  center={[g.center_latitude, g.center_longitude] as [number, number]}
-                  radius={g.radius_m}
-                  pathOptions={{
-                    color: token('--color-gold'),
-                    fillColor: token('--color-gold'),
-                    fillOpacity: 0.08,
-                    weight: 1.5,
-                    dashArray: '4 3',
-                  }}
-                />
-              ))}
-            {tripRoute && (
-              <>
-                <FitRoute route={tripRoute} />
-                <TripRouteLayers route={tripRoute} />
-              </>
-            )}
-            {trail.length > 1 && (
-              <Polyline
-                positions={trail}
-                pathOptions={{ color: token('--color-brand'), weight: 3, opacity: 0.75 }}
-              />
-            )}
-          </MapContainer>
+          <div className="grid h-full place-items-center p-6 text-center text-sm text-ink-1">
+            The live map needs WebGL, which this browser or device does not provide. The lists and
+            reports still work.
+          </div>
         )}
 
         {!overviewLoading && !(gl && clean) && (

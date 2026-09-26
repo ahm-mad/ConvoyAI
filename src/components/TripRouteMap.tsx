@@ -13,7 +13,7 @@ import type { LiveVehicle } from '@components/map/vehicle/vehicleKinds';
 
 const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false });
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
-import { routePoints } from '@components/TripRouteLayers';
+import { routePoints } from '@components/map/geo';
 import { token } from '@lib/design/tokens';
 
 const FALLBACK_CENTER: [number, number] = [31.4757729, 74.3399971];
