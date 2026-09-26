@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import SavedViews, { type ViewsList } from './SavedViews';
 import { Search, X } from 'lucide-react';
 
 export interface FilterDef {
@@ -35,6 +36,7 @@ export default function DataToolbar({
   onSort,
   summary,
   actions,
+  views,
 }: {
   search: string;
   onSearch: (value: string) => void;
@@ -50,6 +52,8 @@ export default function DataToolbar({
   onSort?: (by: string, dir: 'asc' | 'desc') => void;
   summary?: ReactNode;
   actions?: ReactNode;
+  /** Pass the screen's `useListState` result to offer saved views (per list, stored in this browser). */
+  views?: ViewsList;
 }) {
   return (
     <div className="glass mb-4  p-4">
@@ -121,6 +125,8 @@ export default function DataToolbar({
             )}
           </div>
         )}
+
+        {views && <SavedViews list={views} />}
 
         {hasActive && (
           <button

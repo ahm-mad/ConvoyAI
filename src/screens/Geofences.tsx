@@ -182,6 +182,7 @@ export default function Geofences() {
           onFilter={list.setFilter}
           onClear={list.clearFilters}
           hasActive={list.hasActiveFilters}
+          views={list}
           sortOptions={[
             { value: 'name', label: 'Name' },
             { value: 'radius_m', label: 'Radius' },

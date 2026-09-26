@@ -163,6 +163,7 @@ export default function Yards() {
         onFilter={list.setFilter}
         onClear={list.clearFilters}
         hasActive={list.hasActiveFilters}
+        views={list}
         sortOptions={[
           { value: 'name', label: 'Name' },
           { value: 'slots_count', label: 'Slots' },

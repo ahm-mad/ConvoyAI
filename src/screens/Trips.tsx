@@ -132,6 +132,7 @@ export default function Trips() {
         onFilter={list.setFilter}
         onClear={list.clearFilters}
         hasActive={list.hasActiveFilters}
+        views={list}
         sortOptions={[
           { value: 'planned_start_at', label: 'Planned start' },
           { value: 'created_at', label: 'Date created' },

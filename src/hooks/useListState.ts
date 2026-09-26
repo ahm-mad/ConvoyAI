@@ -70,7 +70,10 @@ export function useListState(storageKey: string, defaults: Partial<ListState> = 
 
   return {
     state,
+    storageKey,
     debouncedSearch,
+    /** Replace search / filters / sort in one go (a saved view). */
+    applyView: (v: Pick<ListState, 'search' | 'filters' | 'sortBy' | 'sortDir'>) => patch(v),
     setPage: (page: number) => patch({ page }, false),
     setPageSize: (pageSize: number) => patch({ pageSize }),
     setSearch: (search: string) => patch({ search }),

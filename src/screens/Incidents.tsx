@@ -84,6 +84,7 @@ export default function Incidents() {
         onFilter={list.setFilter}
         onClear={list.clearFilters}
         hasActive={list.hasActiveFilters}
+        views={list}
         sortOptions={[
           { value: 'incident_date', label: 'Incident date' },
           { value: 'severity', label: 'Severity' },
