@@ -65,7 +65,7 @@ function ProductConfiguration({ id: propId }: ProductConfigurationProps) {
   const [demoStart, setDemoStart] = useState(false);
   const [demoData] = useState(fakeProductConfiguration);
   const toast = useToast();
-  const webHookLink = 'https://api.example.com/api/webhook';
+  const webHookLink = 'https://api.convoyai.app/api/webhook';
 
   // Safe toast function to prevent duplicates
   const showToast = (type: 'success' | 'error', message: string) => {
