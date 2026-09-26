@@ -17,6 +17,8 @@ interface Entry {
   tgt: { lat: number; lon: number; h: number };
   /** km/h of the last fix while moving — used to keep gliding between reports (dead reckoning). */
   kmh: number;
+  /** performance.now() of the last fix — dead reckoning stops if no new fix arrives for a few seconds. */
+  fixAt: number;
 }
 
 /** Shortest signed angle from a to b, degrees. */
@@ -127,11 +129,13 @@ export default function VehicleLayer({
             cur: { lat: v.lat, lon: v.lon, h: v.heading },
             tgt: { lat: v.lat, lon: v.lon, h: v.heading },
             kmh: 0,
+            fixAt: performance.now(),
           };
           store.current.set(v.id, e);
         }
         e.tgt = { lat: v.lat, lon: v.lon, h: v.heading };
         e.kmh = v.state === 'moving' ? v.speed : 0;
+        e.fixAt = performance.now();
         // A far jump (new session, filter change) snaps instead of gliding across the country.
         if (Math.abs(e.cur.lat - v.lat) + Math.abs(e.cur.lon - v.lon) > 0.6) e.cur = { ...e.tgt };
         e.el.setAttribute('aria-label', `${v.name}, ${v.state}`);
@@ -167,7 +171,7 @@ export default function VehicleLayer({
 
       last = now;
       store.current.forEach((e, id) => {
-        if (e.kmh > 1) {
+        if (e.kmh > 1 && now - e.fixAt < 2500) {
           // keep gliding along the heading between position reports
           const dKm = (e.kmh * scaleRef.current * dt) / 3600;
           const hr = (e.tgt.h * Math.PI) / 180;

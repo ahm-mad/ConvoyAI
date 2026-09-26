@@ -50,6 +50,8 @@ export interface ConvoyMapProps {
   ariaLabel?: string;
   className?: string;
   interactive?: boolean;
+  /** Wheel zoom (turn off on maps embedded in a scrolling page so they never trap the scroll). */
+  scrollZoom?: boolean;
   /** Called once with the live map instance (for camera helpers such as fit-to-fleet). */
   onReady?: (map: GLMap) => void;
   children?: ReactNode;
@@ -69,6 +71,7 @@ export default function ConvoyMap({
   ariaLabel = 'Map',
   className = '',
   interactive = true,
+  scrollZoom = true,
   onReady,
   children,
 }: ConvoyMapProps) {
@@ -76,7 +79,7 @@ export default function ConvoyMap({
   const [map, setMap] = useState<GLMap | null>(null);
   const [styleVersion, setStyleVersion] = useState(0);
   const [failed, setFailed] = useState<string | null>(null);
-  const first = useRef({ look, mode, center, zoom, interactive });
+  const first = useRef({ look, mode, center, zoom, interactive, scrollZoom });
   const boundsCb = useRef(onBoundsChange);
 
   boundsCb.current = onBoundsChange;
@@ -119,6 +122,7 @@ export default function ConvoyMap({
           canvasContextAttributes: { antialias: true },
         });
         if (process.env.NODE_ENV !== 'production') (window as any).__cvMap = instance;
+        if (!init.scrollZoom) instance.scrollZoom.disable();
         instance.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
 
         const report = () => {

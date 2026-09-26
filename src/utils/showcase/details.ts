@@ -17,7 +17,7 @@ import {
 import { ok } from './fleet';
 import { DAY, HOUR, iso, makeRng } from './rng';
 import { vehDay } from './metrics';
-import { roadPath, tripFraction } from './simulation';
+import { roadPath, simulatedPositions, tripFraction } from './simulation';
 
 type Params = Record<string, any>;
 type Row = Record<string, any>;
@@ -174,7 +174,7 @@ const vehicleDetail = (id: string) => {
 
   if (!v) return notFound('Vehicle');
 
-  const pos = positionModels.find(p => p._vehicleId === id);
+  const pos = simulatedPositions().find(p => p._vehicleId === id);
   const idx = vehicleIdx(id);
   const week = Array.from({ length: 7 }, (_, i) => vehDay(idx, Math.floor(NOW / DAY) - i));
   const month = Array.from({ length: 30 }, (_, i) => vehDay(idx, Math.floor(NOW / DAY) - i));

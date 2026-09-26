@@ -3,18 +3,7 @@
 import { useEffect } from 'react';
 import { token } from '@lib/design/tokens';
 import { useConvoyMap } from '../ConvoyMap';
-
-/** Circle polygon (metres) around a point — 72 segments is smooth at every zoom the map allows. */
-const circle = (lat: number, lon: number, radiusM: number, n = 72): [number, number][] => {
-  const dLat = radiusM / 111_320;
-  const dLon = radiusM / (111_320 * Math.max(0.2, Math.cos((lat * Math.PI) / 180)));
-
-  return Array.from({ length: n + 1 }, (_, i) => {
-    const a = (i / n) * Math.PI * 2;
-
-    return [lon + dLon * Math.cos(a), lat + dLat * Math.sin(a)];
-  });
-};
+import { circle } from '../geo';
 
 /** Geofences (gold, dashed edge) and yard detection radii (brand-ink, thin) as soft translucent zones. */
 export default function GeofenceLayer({

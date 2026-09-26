@@ -1,12 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { CircleMarker, MapContainer, TileLayer, Tooltip } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import { ArrowUpRight, Cpu, Route, Sparkles, Wrench, Clock } from 'lucide-react';
 import { useUser } from '@contexts/UserContext';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
-import { token } from '@lib/design/tokens';
+import { useModal } from '@contexts/ModalContext';
+import VehicleDetailModal from '@components/VehicleDetailModal';
+import Scenery3D from '@components/map/layers/Scenery3D';
+import VehicleLayer from '@components/map/layers/VehicleLayer';
+import { vehicleFromPosition, type LiveVehicle } from '@components/map/vehicle/vehicleKinds';
+import { useMapPrefs } from '@components/map/useMapPrefs';
+import { isShowcase } from '@utils/showcase';
+import { getDemoSpeed } from '@utils/showcase/simulation';
+import { formatQty } from '@utils/units';
+import { useUnits } from '@hooks/useUnits';
+
+const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false });
 
 const FALLBACK_CENTER: [number, number] = [24.8607, 67.0011];
 
@@ -62,7 +72,7 @@ export default function OverviewHero({
     '/api/fleet/positions',
     { limit: 300 },
     {
-      refetchInterval: 60000,
+      refetchInterval: isShowcase() ? 700 : 60000,
     }
   );
   const positions: any[] = data?.success ? (data.data ?? []) : [];
@@ -82,7 +92,35 @@ export default function OverviewHero({
     return { fresh: f, stale: valid.filter(p => !isFresh(p)), center: c };
   }, [positions]);
 
-  const key = process.env.NEXT_PUBLIC_MAPTILER_KEY;
+  const [mapPrefs] = useMapPrefs();
+  const { openModal } = useModal();
+  const u = useUnits();
+  const [glMap, setGlMap] = useState<any>(null);
+  const [selected, setSelected] = useState<string | null>(null);
+  const fitted = useRef(false);
+  const vehicles_: LiveVehicle[] = useMemo(
+    () => positions.map(vehicleFromPosition).filter(Boolean) as LiveVehicle[],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- positions identity follows the query data
+    [data]
+  );
+
+  // Open on the whole fleet once the map and the first positions are there.
+  useEffect(() => {
+    if (!glMap || fitted.current || vehicles_.length === 0) return;
+
+    fitted.current = true;
+
+    const xs = vehicles_.map(v => v.lon);
+    const ys = vehicles_.map(v => v.lat);
+
+    glMap.fitBounds(
+      [
+        [Math.min(...xs), Math.min(...ys)],
+        [Math.max(...xs), Math.max(...ys)],
+      ],
+      { padding: 50, maxZoom: 11, duration: 0 }
+    );
+  }, [glMap, vehicles_]);
   const name = user?.first_name || 'there';
 
   return (
@@ -128,65 +166,26 @@ export default function OverviewHero({
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_400px]">
         <div className="glass relative h-[460px] overflow-hidden rounded-modal p-0">
-          <MapContainer
+          <ConvoyMap
+            look={mapPrefs.look}
+            mode={mapPrefs.mode}
             center={center}
-            zoom={11}
-            scrollWheelZoom={false}
-            zoomControl={false}
-            style={{ height: '100%', width: '100%' }}
-            key={`${center[0]}-${center[1]}`}
+            zoom={6}
+            scrollZoom={false}
+            onReady={setGlMap}
+            ariaLabel="Live fleet overview map"
           >
-            <TileLayer
-              url={`https://api.maptiler.com/maps/dataviz-light/{z}/{x}/{y}.png?key=${key}`}
-              tileSize={512}
-              zoomOffset={-1}
-              attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; OpenStreetMap contributors'
+            <Scenery3D />
+            <VehicleLayer
+              vehicles={vehicles_}
+              iconStyle={mapPrefs.iconStyle}
+              selectedId={selected}
+              onSelect={setSelected}
+              speedLabel={v => formatQty(u.speed, v.speed, 0)}
+              motionScale={isShowcase() ? getDemoSpeed() : 1}
+              onOpen={v => openModal(<VehicleDetailModal vehicleId={v.id} />)}
             />
-            {stale.map((p, i) => (
-              <CircleMarker
-                key={`s${i}`}
-                center={[Number(p.latitude), Number(p.longitude)]}
-                radius={7}
-                pathOptions={{
-                  color: token('--color-surface-1'),
-                  weight: 3,
-                  fillColor: token('--color-chart-neutral'),
-                  fillOpacity: 1,
-                }}
-              >
-                <Tooltip>{p.vehicle?.name || p.device?.name || 'Tracker'} · stale</Tooltip>
-              </CircleMarker>
-            ))}
-            {fresh.map((p, i) => (
-              <CircleMarker
-                key={`ping${i}`}
-                center={[Number(p.latitude), Number(p.longitude)]}
-                radius={12}
-                className="cv-ping"
-                pathOptions={{
-                  stroke: false,
-                  fillColor: token('--color-brand'),
-                  fillOpacity: 0.4,
-                  interactive: false,
-                }}
-              />
-            ))}
-            {fresh.map((p, i) => (
-              <CircleMarker
-                key={`f${i}`}
-                center={[Number(p.latitude), Number(p.longitude)]}
-                radius={9}
-                pathOptions={{
-                  color: token('--color-surface-1'),
-                  weight: 3,
-                  fillColor: token('--color-brand'),
-                  fillOpacity: 1,
-                }}
-              >
-                <Tooltip>{p.vehicle?.name || p.device?.name || 'Tracker'} · live</Tooltip>
-              </CircleMarker>
-            ))}
-          </MapContainer>
+          </ConvoyMap>
           <div className="radar-sweep z-[450]" aria-hidden />
           <div className="pointer-events-none absolute left-4 top-4 z-[500] flex flex-wrap gap-2">
             <span className="glass-strong flex items-center gap-2 rounded-full px-3.5 py-2 text-[12.5px] font-medium">

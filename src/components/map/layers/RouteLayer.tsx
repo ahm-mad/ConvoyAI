@@ -141,23 +141,6 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
       );
     })();
 
-    if (fit) {
-      const all = [...planned, ...done];
-
-      if (all.length) {
-        const xs = all.map(p => p[0]);
-        const ys = all.map(p => p[1]);
-
-        map.fitBounds(
-          [
-            [Math.min(...xs), Math.min(...ys)],
-            [Math.max(...xs), Math.max(...ys)],
-          ],
-          { padding: 90, maxZoom: 13, duration: 1200 }
-        );
-      }
-    }
-
     return () => {
       cancelled = true;
       markers.forEach(m => m.remove());
@@ -169,7 +152,34 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
     };
     // The route object identity changes on every refetch; its id + point counts are what matter for redraws.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, styleVersion, route?.trip?.id, route?.trail?.total_points, route?.path?.length, fit]);
+  }, [map, styleVersion, route?.trip?.id, route?.trail?.total_points, route?.path?.length]);
+
+  // Frame the whole trip once per trip (not on every live refresh).
+  useEffect(() => {
+    if (!map || !route || !fit) return;
+
+    const planned =
+      Array.isArray(route.path) && route.path.length > 1
+        ? route.path.map((p: any) => [Number(p.longitude), Number(p.latitude)] as LL)
+        : ([
+            coord(route.origin?.latitude, route.origin?.longitude),
+            coord(route.destination?.latitude, route.destination?.longitude),
+          ].filter(Boolean) as LL[]);
+
+    if (!planned.length) return;
+
+    const xs = planned.map(p => p[0]);
+    const ys = planned.map(p => p[1]);
+
+    map.fitBounds(
+      [
+        [Math.min(...xs), Math.min(...ys)],
+        [Math.max(...xs), Math.max(...ys)],
+      ],
+      { padding: 60, maxZoom: 13, duration: 1000 }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, route?.trip?.id, fit]);
 
   return null;
 }
