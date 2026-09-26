@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useUser } from '@contexts/UserContext';
 import { disconnectSocket } from '@contexts/SocketContext';
+import { isShowcase, setShowcase } from '@utils/showcase';
 import { buildNav, type NavGroup } from './nav-config';
 import BrandMark from './BrandMark';
 import WorkspaceChip from './WorkspaceChip';
@@ -45,6 +46,9 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
   const pathname = usePathname() ?? '';
   const [open, setOpen] = useState<string | null>(null);
   const [userMenu, setUserMenu] = useState(false);
+  const [showcaseOn, setShowcaseOn] = useState(false);
+
+  useEffect(() => setShowcaseOn(isShowcase()), []);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [unread, setUnread] = useState(true);
@@ -407,6 +411,22 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
             >
               <CreditCard size={15} /> Plan &amp; usage
             </Link>
+            <button
+              type="button"
+              role="menuitemcheckbox"
+              aria-checked={showcaseOn}
+              onClick={() => {
+                setShowcase(!showcaseOn);
+                window.location.reload();
+              }}
+              className="flex w-full items-center justify-between gap-2.5 rounded-xl px-3 py-2 text-left text-[13px] text-ink-0 hover:bg-brand-wash/60"
+            >
+              <span className="flex items-center gap-2.5">
+                <Sparkles size={15} /> Showcase data
+              </span>
+              <span className={`status-dot ${showcaseOn ? 'status-dot--ok' : ''}`} aria-hidden />
+              <span className="sr-only">{showcaseOn ? 'On' : 'Off'}</span>
+            </button>
             <button
               type="button"
               role="menuitem"

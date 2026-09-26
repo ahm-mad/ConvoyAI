@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useUser } from '@contexts/UserContext';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
 import { useFleetSettings } from '@hooks/useFleetSettings';
+import { isShowcase } from '@utils/showcase';
 
 const clock = (tz: string) => {
   try {
@@ -43,6 +44,9 @@ export default function StatusBar() {
   }, [tz]);
 
   const online = !error && !isLoading;
+  const [showcase, setShowcaseOn] = useState(false);
+
+  useEffect(() => setShowcaseOn(isShowcase()), []);
 
   return (
     <footer className="status-bar">
@@ -62,6 +66,7 @@ export default function StatusBar() {
         {settings && (
           <span className="status-bar__item">Units · {settings.unit_system ?? 'metric'}</span>
         )}
+        {showcase && <span className="status-bar__item">Showcase data · sample fleet</span>}
         <span className="status-bar__spacer" />
         <Link href="/documentation" className="status-bar__link">
           Documentation
