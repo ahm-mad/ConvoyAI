@@ -142,7 +142,7 @@ export default function AddUserForm({ onClose, companyId, onSuccess }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-surface-1 w-[90vw] md:w-[50vw] max-h-[85vh] overflow-y-auto scrollbar-hide"
+      className="bg-surface-1 rounded-panel w-[90vw] md:w-[50vw] max-h-[85vh] overflow-y-auto scrollbar-hide"
     >
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {

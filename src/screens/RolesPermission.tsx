@@ -82,6 +82,18 @@ const RolesPermission = () => {
       userId: member.user_id,
     })) || [];
 
+  // The table only shows the current page, so the search box filters those rows on the client.
+  const needle = searchTerm.trim().toLowerCase();
+  const visibleMembers = needle
+    ? members.filter(m =>
+        [m.name, m.email, m.phone, m.role, m.status].some(v =>
+          String(v ?? '')
+            .toLowerCase()
+            .includes(needle)
+        )
+      )
+    : members;
+
   const pagination = {
     currentPage: membersData?.data?.current_page || 1,
     totalPages: membersData?.data?.last_page || 1,
@@ -371,7 +383,7 @@ const RolesPermission = () => {
       ) : activeTab == 'members' ? (
         <div className="overflow-x-auto">
           <DataTable
-            data={members}
+            data={visibleMembers}
             columns={memberColumns}
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}
