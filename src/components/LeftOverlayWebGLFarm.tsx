@@ -127,7 +127,7 @@ export default function LeftOverlayWebGL() {
                 const Icon = alert.icon;
                 return (
                   <div key={index} className="flex items-center gap-2">
-                    <Icon className="w-4 h-4 text-danger" />
+                    <Icon className="w-4 h-4 text-danger-text" />
                     <p className="text-sm text-white">{alert.message}</p>
                   </div>
                 );
@@ -154,7 +154,7 @@ export default function LeftOverlayWebGL() {
                         <td className="py-2 px-3">
                           <span
                             className={`font-medium ${
-                              camera.status === 'Alert' ? 'text-danger' : 'text-warning'
+                              camera.status === 'Alert' ? 'text-danger-text' : 'text-warning'
                             }`}
                           >
                             {camera.status}

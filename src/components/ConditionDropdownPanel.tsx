@@ -74,7 +74,7 @@ const ConditionalDropdown = ({
         onClick={() => setIsOpen(!isOpen)}
         className={`cursor-pointer px-3 py-2 rounded-md text-sm transition-colors border outline-none ${
           hasError
-            ? 'bg-danger/10 text-danger hover:bg-danger/15 border-danger/30'
+            ? 'bg-danger/10 text-danger-text hover:bg-danger/15 border-danger/30'
             : 'bg-surface-2 text-ink-1 hover:bg-surface-3 hover:text-ink-0 border-line'
         }`}
       >
@@ -118,7 +118,7 @@ const ConditionalDropdown = ({
                         className={`text-sm truncate ${
                           (!currentDevice || currentDevice === t('newRule.pleaseChoose')) &&
                           hasError
-                            ? 'text-danger'
+                            ? 'text-danger-text'
                             : 'text-ink-1'
                         }`}
                       >
@@ -139,7 +139,7 @@ const ConditionalDropdown = ({
                       <div
                         className={`text-sm truncate ${
                           (!currentField || currentField === t('newRule.pleaseChoose')) && hasError
-                            ? 'text-danger'
+                            ? 'text-danger-text'
                             : 'text-ink-1'
                         }`}
                       >

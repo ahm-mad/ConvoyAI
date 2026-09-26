@@ -26,7 +26,7 @@ const TemperatureDevice = ({ liveValue = [], isAlert, widgetSettings = [] }) => 
         <div className="flex items-start justify-between px-4 pt-4 pb-3 shrink-0 border-b border-line-soft">
           <span
             className={`flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider mt-0.5 ${
-              isAlert ? 'text-danger' : 'text-accent-green'
+              isAlert ? 'text-danger-text' : 'text-accent-green'
             }`}
           >
             <span className="relative flex h-1.5 w-1.5">

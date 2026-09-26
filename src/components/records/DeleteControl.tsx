@@ -24,7 +24,7 @@ export default function DeleteControl({
       <button
         type="button"
         onClick={() => setAsking(true)}
-        className={`${size} text-danger border border-danger/30 rounded-full hover:bg-danger/10`}
+        className={`${size} text-danger-text border border-danger/30 rounded-full hover:bg-danger/10`}
       >
         {label}
       </button>
@@ -47,7 +47,7 @@ export default function DeleteControl({
             setAsking(false);
           }
         }}
-        className={`${size} text-danger border border-danger/40 bg-danger/10 rounded-full disabled:opacity-40`}
+        className={`${size} text-danger-text border border-danger/40 bg-danger/10 rounded-full disabled:opacity-40`}
       >
         {busy ? 'Deleting…' : `Yes, ${label.toLowerCase()}`}
       </button>

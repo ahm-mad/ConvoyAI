@@ -321,7 +321,7 @@ function DriverRow({ driver, onClick }: { driver: any; onClick: () => void }) {
   const statusColors: Record<string, string> = {
     active: 'bg-accent-green/10 text-accent-green',
     inactive: 'bg-surface-3 text-ink-1',
-    suspended: 'bg-danger/10 text-danger',
+    suspended: 'bg-danger/10 text-danger-text',
   };
 
   return (
@@ -350,7 +350,7 @@ function DriverRow({ driver, onClick }: { driver: any; onClick: () => void }) {
               {driver.status}
             </span>
             {driver.is_license_expired && (
-              <span className="flex items-center gap-1 text-[10px] text-danger">
+              <span className="flex items-center gap-1 text-[10px] text-danger-text">
                 <AlertTriangle size={10} /> License expired
               </span>
             )}

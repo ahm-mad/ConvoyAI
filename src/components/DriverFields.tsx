@@ -197,7 +197,7 @@ export default function DriverFields({
       <button
         type="button"
         onClick={() => setShowMore(v => !v)}
-        className="text-[11px] text-accent-cyan mb-3"
+        className="text-[11px] text-brand-text mb-3"
       >
         {showMore ? '− Hide details' : '+ More details (email, phone, hire date…)'}
       </button>
@@ -243,7 +243,7 @@ export default function DriverFields({
                     certifications: [...values.certifications, { ...EMPTY_CERT }],
                   })
                 }
-                className="text-[11px] text-accent-cyan"
+                className="text-[11px] text-brand-text"
               >
                 + Add certification
               </button>
@@ -278,7 +278,7 @@ export default function DriverFields({
                       certifications: values.certifications.filter((_, idx) => idx !== i),
                     })
                   }
-                  className="text-[11px] text-danger px-1"
+                  className="text-[11px] text-danger-text px-1"
                   aria-label="Remove certification"
                 >
                   ✕

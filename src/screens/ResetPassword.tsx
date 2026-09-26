@@ -184,13 +184,13 @@ export default function SetNewPassword() {
               className={`mb-6 p-4 rounded-lg flex items-center ${
                 success
                   ? 'bg-accent-green/10 border border-accent-green/25 text-accent-green'
-                  : 'bg-danger/10 border border-danger/25 text-danger'
+                  : 'bg-danger/10 border border-danger/25 text-danger-text'
               }`}
             >
               {success ? (
                 <CheckCircle className="w-5 h-5 mr-2 text-accent-green" />
               ) : (
-                <XCircle className="w-5 h-5 mr-2 text-danger" />
+                <XCircle className="w-5 h-5 mr-2 text-danger-text" />
               )}
               <span className="text-sm font-medium">{message}</span>
             </div>

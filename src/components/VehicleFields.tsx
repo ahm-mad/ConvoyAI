@@ -226,7 +226,7 @@ export default function VehicleFields({
       <button
         type="button"
         onClick={() => setShowMore(v => !v)}
-        className="text-[11px] text-accent-cyan mb-3"
+        className="text-[11px] text-brand-text mb-3"
       >
         {showMore ? '− Hide details' : '+ More details (plate, VIN, dimensions, acquisition…)'}
       </button>

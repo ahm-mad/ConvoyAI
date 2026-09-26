@@ -288,7 +288,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
             {[
               {
                 icon: AlertTriangle,
-                tone: 'bg-danger/10 text-danger',
+                tone: 'bg-danger/10 text-danger-text',
                 title: 'Harsh braking on KHI-0764',
                 text: '3 events in the last hour',
                 time: '4 min',

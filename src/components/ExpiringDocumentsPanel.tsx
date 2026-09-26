@@ -105,7 +105,7 @@ export default function ExpiringDocumentsPanel() {
               >
                 <span
                   className={`text-[10px] px-1.5 py-0.5 rounded shrink-0 ${
-                    expired ? 'bg-danger/10 text-danger' : 'bg-warning/10 text-warning'
+                    expired ? 'bg-danger/10 text-danger-text' : 'bg-warning/10 text-warning'
                   }`}
                 >
                   {label}
@@ -117,7 +117,7 @@ export default function ExpiringDocumentsPanel() {
                 <span className="text-[10px] text-ink-2 shrink-0 capitalize">
                   {doc.documentable_type}
                 </span>
-                <span className="text-[10px] text-accent-cyan shrink-0">{ownerName(doc)}</span>
+                <span className="text-[10px] text-brand-text shrink-0">{ownerName(doc)}</span>
                 <span className="text-[10px] text-ink-2 shrink-0">
                   {new Date(doc.expiry_date).toLocaleDateString(undefined, { timeZone: 'UTC' })}
                 </span>

@@ -87,7 +87,7 @@ function Dropzone({ onFileSelect = () => {} }: DropzoneProps) {
               type="button"
               onClick={handleRemove}
               aria-label={t('dropzone.remove') || 'Remove file'}
-              className="ml-2 text-ink-2 hover:text-danger transition-colors"
+              className="ml-2 text-ink-2 hover:text-danger-text transition-colors"
             >
               <X size={16} />
             </button>

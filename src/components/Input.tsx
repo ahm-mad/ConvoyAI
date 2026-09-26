@@ -129,13 +129,13 @@ const GlobalInput = ({
 
   // Build label classes - simple
   let labelClasses = 'block text-sm font-medium mb-1.5';
-  if (error) labelClasses += ' text-danger';
+  if (error) labelClasses += ' text-danger-text';
   else labelClasses += ' text-ink-1';
-  if (required) labelClasses += " after:content-['*'] after:text-danger after:ml-1";
+  if (required) labelClasses += " after:content-['*'] after:text-danger-text after:ml-1";
 
   // Build helper text classes - simple
   let helperTextClasses = 'mt-1.5 text-xs';
-  if (error) helperTextClasses += ' text-danger';
+  if (error) helperTextClasses += ' text-danger-text';
   else helperTextClasses += ' text-ink-2';
 
   // Container classes - handle container width

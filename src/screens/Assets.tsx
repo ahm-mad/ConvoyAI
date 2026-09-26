@@ -232,7 +232,7 @@ export default function AssetTree() {
                         )}
                         <DeleteIcon
                           onClick={() => handleDelete(node)}
-                          className="text-danger cursor-pointer hover:scale-110 transition !w-3 !h-3"
+                          className="text-danger-text cursor-pointer hover:scale-110 transition !w-3 !h-3"
                         />
                       </>
                     )}

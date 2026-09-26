@@ -133,7 +133,7 @@ export default function SavedViews({ list }: { list: ViewsList }) {
                     type="button"
                     aria-label={`Delete view ${v.name}`}
                     onClick={() => persist(views.filter(x => x.name !== v.name))}
-                    className="grid size-7 place-items-center rounded-lg text-ink-2 hover:bg-danger/10 hover:text-danger"
+                    className="grid size-7 place-items-center rounded-lg text-ink-2 hover:bg-danger/10 hover:text-danger-text"
                   >
                     <Trash2 size={13} />
                   </button>

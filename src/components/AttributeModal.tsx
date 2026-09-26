@@ -561,7 +561,7 @@ function AttributeModal({
                             type="button"
                             onClick={() => !isSubmitting && removeCondition(conditionIndex)}
                             disabled={isSubmitting}
-                            className={`p-2 text-danger hover:brightness-125 transition-colors duration-200 ${
+                            className={`p-2 text-danger-text hover:brightness-125 transition-colors duration-200 ${
                               isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
                             }`}
                             aria-label="Delete condition"

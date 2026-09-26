@@ -305,7 +305,7 @@ export default function Rule() {
           className={`inline-flex px-2 py-1 text-xs font-medium rounded-full transition-colors hover:opacity-80 ${
             value
               ? 'bg-accent-green/10 text-accent-green hover:bg-accent-green/20'
-              : 'bg-danger/10 text-danger hover:bg-danger/20'
+              : 'bg-danger/10 text-danger-text hover:bg-danger/20'
           }`}
           title={`Click to ${value ? 'deactivate' : 'activate'}`}
         >

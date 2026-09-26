@@ -282,7 +282,7 @@ export default function Login() {
 
           {loginError && (
             <div className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-md px-3 py-2">
-              <AlertCircle className="h-4 w-4 text-danger flex-shrink-0" />
+              <AlertCircle className="h-4 w-4 text-danger-text flex-shrink-0" />
               <span className="text-xs text-danger-text">{loginError}</span>
             </div>
           )}
@@ -296,7 +296,7 @@ export default function Login() {
 
           {googleError && (
             <div className="flex items-center gap-2 bg-danger/10 border border-danger/30 rounded-md px-3 py-2">
-              <AlertCircle className="h-4 w-4 text-danger flex-shrink-0" />
+              <AlertCircle className="h-4 w-4 text-danger-text flex-shrink-0" />
               <span className="text-xs text-danger-text">{googleError}</span>
             </div>
           )}

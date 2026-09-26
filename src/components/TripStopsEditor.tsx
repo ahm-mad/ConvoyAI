@@ -165,7 +165,7 @@ export default function TripStopsEditor({
         </button>
       </div>
 
-      {listError && <div className="text-[11px] text-danger mb-2">{listError}</div>}
+      {listError && <div className="text-[11px] text-danger-text mb-2">{listError}</div>}
 
       {stops.length === 0 && (
         <div className="text-[11px] text-ink-2 italic bg-surface-2 rounded-md px-3 py-2 mb-3">
@@ -217,7 +217,7 @@ export default function TripStopsEditor({
                   type="button"
                   onClick={() => remove(index)}
                   disabled={disabled}
-                  className="p-1 text-danger hover:opacity-80 disabled:opacity-30"
+                  className="p-1 text-danger-text hover:opacity-80 disabled:opacity-30"
                   title="Remove yard"
                   aria-label={`Remove stop ${index + 1}`}
                 >
@@ -240,8 +240,10 @@ export default function TripStopsEditor({
                 ariaLabel={`Yard for stop ${index + 1}`}
                 disabled={disabled}
               />
-              {yardError && <div className="col-span-2 text-[11px] text-danger">{yardError}</div>}
-              {idError && <div className="col-span-2 text-[11px] text-danger">{idError}</div>}
+              {yardError && (
+                <div className="col-span-2 text-[11px] text-danger-text">{yardError}</div>
+              )}
+              {idError && <div className="col-span-2 text-[11px] text-danger-text">{idError}</div>}
 
               <input
                 value={stop.stop_purpose}
@@ -277,7 +279,9 @@ export default function TripStopsEditor({
                 />
               </label>
 
-              {timeError && <div className="col-span-2 text-[11px] text-danger">{timeError}</div>}
+              {timeError && (
+                <div className="col-span-2 text-[11px] text-danger-text">{timeError}</div>
+              )}
 
               <input
                 value={stop.notes}

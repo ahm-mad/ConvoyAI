@@ -38,7 +38,7 @@ const INSIGHTS = [
   },
   {
     icon: Clock,
-    tone: 'bg-danger/10 text-danger',
+    tone: 'bg-danger/10 text-danger-text',
     title: '3 drivers near hours limit',
     text: 'Predicted breach before 19:00 on current routes.',
     cta: 'Reassign trips',

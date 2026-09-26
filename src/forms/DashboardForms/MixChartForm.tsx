@@ -357,7 +357,7 @@ export default function MixChartForm({
                       <button
                         type="button"
                         onClick={() => handleDeleteSection(index)}
-                        className="text-danger hover:brightness-125 cursor-pointer p-1 rounded opacity-50 hover:opacity-100 transition-opacity"
+                        className="text-danger-text hover:brightness-125 cursor-pointer p-1 rounded opacity-50 hover:opacity-100 transition-opacity"
                         disabled={isSubmitting || isDeleting}
                       >
                         <Trash2 className="w-5 h-5" />
@@ -581,7 +581,7 @@ export default function MixChartForm({
             disabled={!isEditMode || isSubmitting || isDeleting}
             className={`px-1 font-bold rounded text-sm md:text-base ${
               isEditMode && !isDeleting
-                ? 'text-danger hover:bg-danger/10 cursor-pointer'
+                ? 'text-danger-text hover:bg-danger/10 cursor-pointer'
                 : 'text-ink-2 cursor-not-allowed'
             }`}
           >

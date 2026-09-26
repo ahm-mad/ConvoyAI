@@ -18,7 +18,7 @@ const WidgetInitialDiv = ({
         <div className={PtagClassName}>
           {/* <AnalyticsIcon className="text-[#b733ce]" /> */}
           {isAlert && (
-            <ErrorIcon className={` text-danger mr-1 animate-pulse`} fontSize="small" />
+            <ErrorIcon className={` text-danger-text mr-1 animate-pulse`} fontSize="small" />
             // <div className='px-2 py-[1px] bg-red-600 rounded-md text-white text-xs animate-pulse'>Alert</div>
           )}
           {title}

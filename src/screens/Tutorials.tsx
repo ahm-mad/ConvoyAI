@@ -279,7 +279,7 @@
 //           <ol className="space-y-2.5">
 //             {tutorial.steps.map((step, index) => (
 //               <li key={index} className="flex items-start gap-3 text-sm text-ink-1">
-//                 <span className="flex-shrink-0 w-5 h-5 rounded-full text-[11px] font-semibold flex items-center justify-center mt-0.5 bg-accent-cyan/10 text-accent-cyan ring-1 ring-accent-cyan/25">
+//                 <span className="flex-shrink-0 w-5 h-5 rounded-full text-[11px] font-semibold flex items-center justify-center mt-0.5 bg-accent-cyan/10 text-brand-text ring-1 ring-accent-cyan/25">
 //                   {index + 1}
 //                 </span>
 //                 <span className="pt-0.5">{step}</span>

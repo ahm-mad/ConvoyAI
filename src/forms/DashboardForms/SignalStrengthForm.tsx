@@ -208,7 +208,7 @@ export default function SignalStrengthForm({
             disabled={!isEditMode || isSubmitting || isDeleting}
             className={`px-3 text-xs font-semibold rounded-md ${
               isEditMode && !isDeleting
-                ? 'text-danger hover:bg-danger/10 cursor-pointer'
+                ? 'text-danger-text hover:bg-danger/10 cursor-pointer'
                 : 'text-ink-2 cursor-not-allowed'
             }`}
           >

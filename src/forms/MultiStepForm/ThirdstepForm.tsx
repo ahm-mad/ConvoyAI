@@ -66,7 +66,7 @@ const ThirdstepForm = ({ formData, setFormData, importResults = null }: Thirdste
         >
           <div
             className={`flex items-center gap-2 text-sm font-medium ${
-              importResults.created_count > 0 ? 'text-warning' : 'text-danger'
+              importResults.created_count > 0 ? 'text-warning' : 'text-danger-text'
             }`}
           >
             <AlertCircle className="w-4 h-4" />

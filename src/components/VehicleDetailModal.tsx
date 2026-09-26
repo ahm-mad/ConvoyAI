@@ -600,7 +600,7 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
           </div>
           {s.next_service_date ? (
             <div
-              className={`text-[11px] mt-1 ${s.is_overdue_by_date ? 'text-danger' : 'text-ink-2'}`}
+              className={`text-[11px] mt-1 ${s.is_overdue_by_date ? 'text-danger-text' : 'text-ink-2'}`}
             >
               {s.is_overdue_by_date ? 'Overdue — was due' : 'Next due'}{' '}
               {new Date(s.next_service_date).toLocaleDateString()}
@@ -981,7 +981,7 @@ function VehicleHistoryTab({ vehicleId, yardHistory = [], onChanged }) {
 
       {currentYard ? (
         <div className="bg-surface-2 rounded-md p-3 mb-4">
-          <div className="text-[10px] uppercase text-accent-cyan mb-1">Currently Parked</div>
+          <div className="text-[10px] uppercase text-brand-text mb-1">Currently Parked</div>
 
           <div className="text-sm text-ink-0">
             {currentYard.slot?.yard?.name}

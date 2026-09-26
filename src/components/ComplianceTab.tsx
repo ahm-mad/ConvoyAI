@@ -65,7 +65,7 @@ export default function ComplianceTab({
             )}
             {d.expiry_date && (
               <div
-                className={`text-[11px] mt-1 flex items-center gap-1 ${expired ? 'text-danger' : soon ? 'text-warning' : 'text-ink-2'}`}
+                className={`text-[11px] mt-1 flex items-center gap-1 ${expired ? 'text-danger-text' : soon ? 'text-warning' : 'text-ink-2'}`}
               >
                 {(expired || soon) && <AlertTriangle size={10} />}
                 {expired ? 'Expired' : 'Expires'} {new Date(d.expiry_date).toLocaleDateString()}
