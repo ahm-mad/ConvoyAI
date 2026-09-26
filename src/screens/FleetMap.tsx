@@ -26,6 +26,8 @@ import { getDemoSpeed, setDemoSpeed } from '@utils/showcase/simulation';
 import { Gauge } from 'lucide-react';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import RouteLayer from '@components/map/layers/RouteLayer';
+import GeofenceLayer from '@components/map/layers/GeofenceLayer';
+import YardLayer from '@components/map/layers/YardLayer';
 import MapToolbar from '@components/map/MapToolbar';
 import { useMapPrefs } from '@components/map/useMapPrefs';
 
@@ -259,8 +261,15 @@ export default function FleetMap() {
             >
               <Scenery3D />
               {tripRoute && <RouteLayer route={tripRoute} />}
+              <GeofenceLayer
+                geofences={geofences}
+                yards={yards}
+                showGeofences={layers.geofences}
+                showYards={layers.yards}
+              />
+              {layers.yards && <YardLayer yards={yards} onSelect={handleYardClick} />}
               <VehicleLayer
-                vehicles={glVehicles}
+                vehicles={layers.vehicles ? glVehicles : []}
                 iconStyle={mapPrefs.iconStyle}
                 selectedId={glSelected}
                 onSelect={id => {
