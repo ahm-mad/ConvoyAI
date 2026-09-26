@@ -65,6 +65,7 @@ export default function VehicleLayer({
   const scaleRef = useRef(motionScale);
   const trailsOn = useRef(trails);
   const followRef = useRef(followId);
+  const styleRef = useRef(iconStyle);
   const ctor = useRef<typeof Marker | null>(null);
   const clusterPool = useRef<{ marker: Marker; el: HTMLDivElement }[]>([]);
   const lostRef = useRef(onFollowLost);
@@ -74,6 +75,7 @@ export default function VehicleLayer({
   latest.current = { selectedId, onSelect };
   scaleRef.current = motionScale;
   trailsOn.current = trails;
+  styleRef.current = iconStyle;
   followRef.current = followId;
   lostRef.current = onFollowLost;
 
@@ -117,8 +119,8 @@ export default function VehicleLayer({
           const marker = new GLMarker({
             element: el,
             anchor: 'center',
-            pitchAlignment: 'map',
-            rotationAlignment: 'map',
+            pitchAlignment: styleRef.current === 'silhouette' ? 'map' : 'viewport',
+            rotationAlignment: styleRef.current === 'silhouette' ? 'map' : 'viewport',
           })
             .setLngLat([v.lon, v.lat])
             .addTo(map);
@@ -155,6 +157,16 @@ export default function VehicleLayer({
     };
   }, [map, vehicles]);
 
+  // Silhouettes lie on the road plane (map-aligned); badges and pucks stay upright billboards when the map is tilted.
+  useEffect(() => {
+    const flat = iconStyle === 'silhouette';
+
+    store.current.forEach(e => {
+      e.marker.setPitchAlignment(flat ? 'map' : 'viewport');
+      e.marker.setRotationAlignment(flat ? 'map' : 'viewport');
+    });
+  }, [iconStyle, ids]);
+
   // Animation loop: ease toward targets, keep icon heading right for the current map bearing.
   useEffect(() => {
     if (!map) return;
@@ -184,7 +196,11 @@ export default function VehicleLayer({
         e.cur.lon += (e.tgt.lon - e.cur.lon) * k;
         e.cur.h += dAngle(e.cur.h, e.tgt.h) * k;
         e.marker.setLngLat([e.cur.lon, e.cur.lat]);
-        e.el.style.setProperty('--h', `${(e.cur.h - bearing).toFixed(1)}deg`);
+        // Map-aligned silhouettes already rotate with the map; upright badges/pucks do not, so they subtract the bearing.
+        e.el.style.setProperty(
+          '--h',
+          `${(styleRef.current === 'silhouette' ? e.cur.h : e.cur.h - bearing).toFixed(1)}deg`
+        );
         e.el.style.setProperty('--vs', vs.toFixed(3));
         e.el.style.zIndex = id === latest.current.selectedId ? '5' : '1';
       });

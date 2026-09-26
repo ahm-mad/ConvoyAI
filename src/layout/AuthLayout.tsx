@@ -58,7 +58,12 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   }, [user]);
 
   return (
-    <div className="max-w-screen min-h-screen overflow-x-clip flex flex-col text-ink-0">
+    <div className="relative max-w-screen min-h-screen overflow-x-clip flex flex-col text-ink-0">
+      <div className="ambient" aria-hidden>
+        <i className="ambient__blob ambient__blob--brand" />
+        <i className="ambient__blob ambient__blob--ai" />
+        <i className="ambient__blob ambient__blob--gold" />
+      </div>
       <GlobalPacketListener />
       <SpotlightTracker />
       <FloatingNav
