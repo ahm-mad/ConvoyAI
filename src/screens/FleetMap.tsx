@@ -448,11 +448,14 @@ export default function FleetMap() {
                     aria-label={fullscreen ? 'Exit full screen' : 'Full screen'}
                     aria-pressed={fullscreen}
                     title={fullscreen ? 'Exit full screen' : 'Full screen'}
-                    onClick={() =>
-                      document.fullscreenElement
+                    onClick={() => {
+                      // Browsers may refuse (permission policy, embedded frames): stay in the page quietly.
+                      const p = document.fullscreenElement
                         ? document.exitFullscreen()
-                        : stage.current?.requestFullscreen?.()
-                    }
+                        : stage.current?.requestFullscreen?.();
+
+                      p?.catch(() => {});
+                    }}
                     className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
                   >
                     <Maximize2 size={15} />
