@@ -425,7 +425,7 @@ const CUSTOMERS = [
 const eligible = vehicleModels.filter(v => v.status === 'active' || v.status === 'in_maintenance');
 
 export const tripModels: any[] = [];
-for (let i = 0; i < 160; i++) {
+for (let i = 0; i < 420; i++) {
   const v = eligible[rng.int(0, eligible.length - 1)];
   const drv = v.driverId
     ? driverModels.find(d => d.id === v.driverId)!
@@ -448,10 +448,10 @@ for (let i = 0; i < 160; i++) {
       ? NOW - rng.float(0.5, durH * 0.8) * HOUR
       : state === 'planned'
         ? NOW + rng.int(2, 96) * HOUR
-        : NOW - rng.int(1, 45) * DAY - rng.int(0, 12) * HOUR;
+        : NOW - rng.int(1, 90) * DAY - rng.int(0, 12) * HOUR;
   const done = state === 'completed';
   const actualKm = done ? Math.round(km * rng.float(0.98, 1.08)) : null;
-  const ageFrac = Math.min(1, Math.max(0, (NOW - startMs) / (45 * DAY)));
+  const ageFrac = Math.min(1, Math.max(0, (NOW - startMs) / (90 * DAY)));
   // Punctuality improves over time: older trips run late more often.
   const delayMin = done
     ? Math.round(rng.chance(0.14 + 0.2 * ageFrac) ? rng.float(20, 110) : rng.float(-25, 12))
@@ -747,10 +747,10 @@ const MAINT_TYPES = [
   'Suspension repair',
 ];
 
-export const maintenanceLogModels: any[] = Array.from({ length: 46 }, (_, i) => {
+export const maintenanceLogModels: any[] = Array.from({ length: 64 }, (_, i) => {
   const v = eligible[(i * 7) % eligible.length];
   const service = MAINT_TYPES[i % MAINT_TYPES.length];
-  const date = NOW - rng.float(0.5, 88) * DAY;
+  const date = NOW - ((i + rng.float(0, 1)) / 64) * 90 * DAY;
 
   return {
     id: String(3000 + i),

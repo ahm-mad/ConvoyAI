@@ -22,18 +22,18 @@ import {
 } from './metrics';
 import { DAY, iso, ymd } from './rng';
 
-const TZ = 'Asia/Karachi';
+export const TZ = 'Asia/Karachi';
 
 type Params = Record<string, any>;
 type Row = Record<string, any>;
 
-const ok = (data: unknown, extra: Row = {}, message = 'OK') => ({
+export const ok = (data: unknown, extra: Row = {}, message = 'OK') => ({
   success: true,
   message,
   data,
   ...extra,
 });
-const meta = (from: string, to: string, extra: Row = {}) => ({
+export const meta = (from: string, to: string, extra: Row = {}) => ({
   from,
   to,
   timezone: TZ,
@@ -41,13 +41,13 @@ const meta = (from: string, to: string, extra: Row = {}) => ({
   ...extra,
 });
 
-const range = (p: Params) => {
+export const range = (p: Params) => {
   const to = String(p.to ?? ymd(showcaseNow()));
   const from = String(p.from ?? ymd(Date.parse(to) - 29 * DAY));
 
   return { from, to, days: daysBetween(from, to) };
 };
-const previousRange = (from: string, to: string, mode?: string) => {
+export const previousRange = (from: string, to: string, mode?: string) => {
   const n = daysBetween(from, to).length;
 
   if (mode === 'previous_year') {
@@ -179,7 +179,11 @@ const trends = (p: Params) => {
   );
 };
 
-const kpi = (value: number | null, previous: number | null, target: number | null = null) => ({
+export const kpi = (
+  value: number | null,
+  previous: number | null,
+  target: number | null = null
+) => ({
   value,
   previous,
   delta_abs: value != null && previous != null ? round(value - previous, 2) : null,

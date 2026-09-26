@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { resolveAnalytics } from './analytics';
 import { resolveFleet } from './fleet';
 import { resolveLists } from './lists';
 
@@ -35,7 +36,7 @@ export function resolveShowcase(
 ): any | undefined {
   const path = url.replace(/\?.*$/, '').replace(/\/+$/, '');
 
-  return resolveLists(path, params) ?? resolveFleet(path, params);
+  return resolveLists(path, params) ?? resolveFleet(path, params) ?? resolveAnalytics(path, params);
 }
 
 /** Successful no-op answer for POST / PUT / PATCH / DELETE while showcase data is on. */
