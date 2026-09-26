@@ -18,7 +18,9 @@ import { bboxToParam, type Bbox } from '@utils/mapViewport';
 import { token } from '@lib/design/tokens';
 import dynamic from 'next/dynamic';
 import DotsLayer from '@components/map/layers/DotsLayer';
-import type { MapLook, MapMode } from '@components/map/ConvoyMap';
+import Scenery3D from '@components/map/layers/Scenery3D';
+import MapToolbar from '@components/map/MapToolbar';
+import { useMapPrefs } from '@components/map/useMapPrefs';
 
 const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false });
 
@@ -46,8 +48,27 @@ export default function FleetMap() {
   const [layers, setLayers] = useState({ vehicles: true, yards: true, geofences: true });
   // Phase 2 (T-006) MapLibre map, opt-in with ?gl=1 until every milestone is in.
   const [gl, setGl] = useState(false);
-  const [look, setLook] = useState<MapLook>('light');
-  const [mode, setMode] = useState<MapMode>('2d');
+  const [mapPrefs, setMapPrefs] = useMapPrefs();
+  const [glMap, setGlMap] = useState<any>(null);
+
+  const fitFleet = () => {
+    const pts = positions
+      .map((p: any) => [Number(p.longitude), Number(p.latitude)])
+      .filter(([x, y]: number[]) => Number.isFinite(x) && Number.isFinite(y));
+
+    if (!glMap || !pts.length) return;
+
+    const xs = pts.map(([x]: number[]) => x);
+    const ys = pts.map(([, y]: number[]) => y);
+
+    glMap.fitBounds(
+      [
+        [Math.min(...xs), Math.min(...ys)],
+        [Math.max(...xs), Math.max(...ys)],
+      ],
+      { padding: 90, maxZoom: 12, duration: 1400 }
+    );
+  };
 
   useEffect(() => setGl(new URLSearchParams(window.location.search).get('gl') === '1'), []);
 
@@ -195,36 +216,23 @@ export default function FleetMap() {
         ) : gl ? (
           <>
             <ConvoyMap
-              look={look}
-              mode={mode}
+              look={mapPrefs.look}
+              mode={mapPrefs.mode}
               center={defaultCenter}
               zoom={11}
               onBoundsChange={setBbox}
+              onReady={setGlMap}
               ariaLabel="Live fleet map"
             >
+              <Scenery3D />
               <DotsLayer positions={positions} />
             </ConvoyMap>
-            <div className="absolute right-4 top-4 z-10 flex gap-2 glass-strong p-1.5">
-              {(['light', 'night', 'satellite'] as const).map(l => (
-                <button
-                  key={l}
-                  type="button"
-                  onClick={() => setLook(l)}
-                  aria-pressed={look === l}
-                  className="rounded-full px-3 py-1 text-xs font-medium capitalize aria-pressed:bg-brand aria-pressed:text-white"
-                >
-                  {l}
-                </button>
-              ))}
-              <button
-                type="button"
-                onClick={() => setMode(m => (m === '2d' ? '3d' : '2d'))}
-                aria-pressed={mode === '3d'}
-                className="rounded-full px-3 py-1 text-xs font-medium aria-pressed:bg-brand aria-pressed:text-white"
-              >
-                3D
-              </button>
-            </div>
+            <MapToolbar
+              prefs={mapPrefs}
+              onChange={setMapPrefs}
+              onFit={fitFleet}
+              className="absolute right-4 top-4 z-10"
+            />
           </>
         ) : (
           <MapContainer center={defaultCenter} zoom={11} style={{ height: '100%', width: '100%' }}>

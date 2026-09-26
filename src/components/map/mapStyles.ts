@@ -53,6 +53,10 @@ const NAMES = [
   'label-major',
   'label-water',
   'halo',
+  'sky',
+  'horizon',
+  'fog',
+  'hillshade',
 ] as const;
 
 type Palette = Record<(typeof NAMES)[number], string>;
