@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import RequiredHint from '@components/RequiredHint';
 import { useState } from 'react';
 import { X, Truck, AlertTriangle, Plus } from 'lucide-react';
 import { useModal } from '@contexts/ModalContext';
@@ -353,6 +354,9 @@ function IncidentsTab({
             placeholder="Description (optional)"
             rows={2}
             className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+          />
+          <RequiredHint
+            missing={[!type.trim() && 'incident type', !date && 'date'].filter(Boolean) as string[]}
           />
           <div className="flex gap-2">
             <button

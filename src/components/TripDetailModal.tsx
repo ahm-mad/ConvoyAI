@@ -1,5 +1,6 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 // TripDetailModal.jsx
+import RequiredHint from '@components/RequiredHint';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toDisplayString, toMetric } from '@utils/units';
 import React, { useState } from 'react';
@@ -1125,6 +1126,7 @@ function CancelForm({ value, onChange, onCancel, onSubmit, submitting }) {
         className="w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0 mb-2 resize-none"
       />
 
+      <RequiredHint missing={value.trim() ? [] : ['a reason']} />
       <div className="flex gap-2">
         <button
           onClick={onCancel}
