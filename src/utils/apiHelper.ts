@@ -2,6 +2,12 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import axiosInstance from '@root/axiosConfig';
 import { toast } from 'react-hot-toast';
 import type { ApiError, ApiResult } from '../types/api';
+import { isShowcase, resolveShowcase, showcaseWriteResult } from './showcase';
+
+// Showcase data on: writes never reach the backend (auth calls excepted).
+const showcaseWrite = (url: string) =>
+  isShowcase() &&
+  !/\/(login|register|logout|forgot-password|reset-password|verify|resend|auth)/.test(url);
 
 const handleApiError = (error: unknown): ApiError => {
   console.error('API Error:', error);
@@ -25,6 +31,12 @@ async function get<T = any>(
   url: string,
   params: Record<string, unknown> = {}
 ): Promise<ApiResult<T>> {
+  if (isShowcase()) {
+    const fake = resolveShowcase(url, params);
+
+    if (fake) return fake;
+  }
+
   try {
     const response = await axiosInstance.get(url, { params });
     return response.data;
@@ -39,6 +51,8 @@ async function post<T = any>(
   config: AxiosRequestConfig = {},
   showToast = true
 ): Promise<ApiResult<T>> {
+  if (showcaseWrite(url)) return showcaseWriteResult() as any;
+
   try {
     const req = axiosInstance.post(url, data, config);
 
@@ -66,6 +80,8 @@ async function put<T = any>(
   config: AxiosRequestConfig = {},
   showToast = true
 ): Promise<ApiResult<T>> {
+  if (showcaseWrite(url)) return showcaseWriteResult() as any;
+
   try {
     const req = axiosInstance.put(url, data, config);
 
@@ -92,6 +108,8 @@ async function del<T = any>(
   config: AxiosRequestConfig = {},
   showToast = true
 ): Promise<ApiResult<T>> {
+  if (showcaseWrite(url)) return showcaseWriteResult() as any;
+
   try {
     const req = axiosInstance.delete(url, config);
 
