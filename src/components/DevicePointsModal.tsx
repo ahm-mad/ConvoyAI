@@ -38,7 +38,7 @@ export default function DevicePointsModal({ deviceId, deviceName, onClose = null
               : 'No data reported yet'}
           </p>
         </div>
-        <button onClick={handleClose} className="text-ink-2 hover:text-ink-0">
+        <button onClick={handleClose} className="text-ink-2 hover:text-ink-0" aria-label="Close">
           <X size={18} />
         </button>
       </div>

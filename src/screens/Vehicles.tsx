@@ -325,8 +325,8 @@ function VehicleRow({ vehicle, onClick }: { vehicle: Vehicle; onClick: () => voi
   const statusColors: Record<string, string> = {
     active: 'bg-accent-green/10 text-accent-green',
     in_maintenance: 'bg-warning/10 text-warning',
-    retired: 'bg-surface-3 text-ink-2',
-    sold: 'bg-surface-3 text-ink-2',
+    retired: 'bg-surface-3 text-ink-1',
+    sold: 'bg-surface-3 text-ink-1',
   };
 
   return (

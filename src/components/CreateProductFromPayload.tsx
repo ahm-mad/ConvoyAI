@@ -223,7 +223,7 @@ export default function CreateProductFromPayload({ onSuccess, initialProductId =
               : "Refines the product a real captured payload's device already belongs to — names it, maps its fields, and sets alerts, in one flow."}
           </p>
         </div>
-        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0">
+        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">
           <X size={18} />
         </button>
       </div>

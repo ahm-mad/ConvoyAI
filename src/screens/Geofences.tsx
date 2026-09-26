@@ -500,6 +500,7 @@ function NewGeofenceForm({
       <select
         value={yardId}
         onChange={e => setYardId(e.target.value)}
+        aria-label="Center"
         className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1 mb-2"
       >
         <option value="">Enter coordinates manually</option>
@@ -544,6 +545,7 @@ function NewGeofenceForm({
             value={radius}
             onChange={e => setRadius(e.target.value)}
             type="number"
+            aria-label="Radius"
             className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1"
           />
         </div>
@@ -552,6 +554,7 @@ function NewGeofenceForm({
           <select
             value={alertOn}
             onChange={e => setAlertOn(e.target.value)}
+            aria-label="Alert on"
             className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1"
           >
             <option value="both">Enter &amp; Exit</option>

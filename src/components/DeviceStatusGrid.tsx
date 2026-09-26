@@ -175,7 +175,7 @@ function DeviceStatusCard({ device }: { device: any }) {
         <span className="text-ink-2">{device.productName}</span>
         <span
           className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${
-            isActive ? 'bg-accent-green/10 text-accent-green' : 'bg-surface-3 text-ink-2'
+            isActive ? 'bg-accent-green/10 text-accent-green' : 'bg-surface-3 text-ink-1'
           }`}
         >
           {device.status || 'unknown'}

@@ -320,7 +320,7 @@ function DriverRow({ driver, onClick }: { driver: any; onClick: () => void }) {
   const vehicle = driver.current_assignment?.vehicle;
   const statusColors: Record<string, string> = {
     active: 'bg-accent-green/10 text-accent-green',
-    inactive: 'bg-surface-3 text-ink-2',
+    inactive: 'bg-surface-3 text-ink-1',
     suspended: 'bg-danger/10 text-danger',
   };
 
