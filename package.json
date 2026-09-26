@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "postinstall": "node scripts/copy-maplibre-worker.mjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -51,6 +52,7 @@
     "lottie-react": "^3.1.2",
     "lottie-web": "^5.13.0",
     "lucide-react": "^0.475.0",
+    "maplibre-gl": "^6.11.2",
     "next": "^15.5.25",
     "nprogress": "^0.2.0",
     "papaparse": "^5.7.0",

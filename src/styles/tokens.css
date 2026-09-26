@@ -197,5 +197,55 @@
   --spotlight-color: rgba(255, 122, 26, 0.13);
   --radar-color: rgba(255, 122, 26, 0.2);
 
+  /* ------------------------------------------------------------------ Map looks (read by src/components/map/mapStyles.ts) */
+  /* Light look: warm cream land, soft orange roads */
+  --map-light-land: #f6efe4;
+  --map-light-land-alt: #f1e8d9;
+  --map-light-green: #e9ebd3;
+  --map-light-park: #dfe6c8;
+  --map-light-sand: #f1e4c9;
+  --map-light-industrial: #efe1d0;
+  --map-light-water: #cddde0;
+  --map-light-road-minor: #ffffff;
+  --map-light-road-minor-casing: #eadfce;
+  --map-light-road-major: #fff1de;
+  --map-light-road-major-casing: #f0cfa9;
+  --map-light-highway: #ffa15c;
+  --map-light-highway-casing: #e8590c;
+  --map-light-path: #e3d6c2;
+  --map-light-rail: #dccfbb;
+  --map-light-building: #eee2d0;
+  --map-light-building-edge: #e0d0b8;
+  --map-light-building-3d: #f4eadc;
+  --map-light-boundary: #d6b494;
+  --map-light-label: #5a4a3d;
+  --map-light-label-major: #2a1f16;
+  --map-light-label-water: #6d8c96;
+  --map-light-halo: #fbf5ee;
+  /* Night look: deep indigo-charcoal, amber neon roads */
+  --map-night-land: #14121f;
+  --map-night-land-alt: #191726;
+  --map-night-green: #16211d;
+  --map-night-park: #15241b;
+  --map-night-sand: #1d1a20;
+  --map-night-industrial: #1c1822;
+  --map-night-water: #0a1524;
+  --map-night-road-minor: #2b2739;
+  --map-night-road-minor-casing: #14121f;
+  --map-night-road-major: #3d3253;
+  --map-night-road-major-casing: #1a1626;
+  --map-night-highway: #ff8a3d;
+  --map-night-highway-casing: #7a3410;
+  --map-night-path: #262233;
+  --map-night-rail: #2a2536;
+  --map-night-building: #221e31;
+  --map-night-building-edge: #2c2740;
+  --map-night-building-3d: #302a47;
+  --map-night-boundary: #4d4270;
+  --map-night-label: #b9b0ca;
+  --map-night-label-major: #eee8f7;
+  --map-night-label-water: #5f83a3;
+  --map-night-halo: #0f0d18;
+
   --focus-ring: 2px solid var(--color-brand);
 }
