@@ -13,9 +13,48 @@ interface Msg {
 
 const STARTERS = ['Predict maintenance', 'HOS breach risks', 'Summarise yesterday'];
 
+/** Answers for the action chips under an answer (matched on the lower-cased chip text). */
+const FOLLOW_UPS: Record<string, Omit<Msg, 'id' | 'role'>> = {
+  'create idle-reduction plan': {
+    text: 'Drafted a plan: cap idling at 10 minutes on the two worst vehicles, nudge their drivers after 8, and review the result on Friday. Projected saving is PKR 38k per week.',
+    chips: ['Open trips report', 'Coach drivers'],
+  },
+  'see route options': {
+    text: 'Two alternatives avoid the Ring Road closure. The northern route adds 6 km but saves 14 minutes per trip at current traffic.',
+    chips: ['Reassign trips', 'Notify drivers'],
+  },
+  'reassign trips': {
+    text: 'Moved two afternoon trips to drivers with 3+ hours left. All three drivers now finish inside their limit.',
+    chips: ['Notify drivers', 'See route options'],
+  },
+  'notify drivers': {
+    text: 'Sent a heads-up to the three drivers with their updated schedule. Nobody needs to take action.',
+    chips: ['Open trips report', 'Coach drivers'],
+  },
+  'schedule services': {
+    text: 'Booked brake service for the three vehicles on days they are idle, so no planned trip is affected.',
+    chips: ['Show wear trend', 'Create idle-reduction plan'],
+  },
+  'show wear trend': {
+    text: 'Brake wear has risen 31% over four weeks, driven by more hard stops on urban routes. It levels off once the services are done.',
+    chips: ['Schedule services', 'Coach drivers'],
+  },
+  'open trips report': {
+    text: 'Trips report is ready under Analytics, Trips & delivery. On-time delivery is 91% and average delay is down to 4 minutes.',
+    chips: ['Coach drivers', 'See route options'],
+  },
+  'coach drivers': {
+    text: 'Two drivers had harsh braking above the fleet average. I queued a short coaching note for each and will re-check next week.',
+    chips: ['Open trips report', 'Show wear trend'],
+  },
+};
+
 /** Mock AI answers (no backend, on purpose): believable fleet insights keyed on the question. */
 function answer(q: string): Omit<Msg, 'id' | 'role'> {
   const s = q.toLowerCase();
+  const followUp = FOLLOW_UPS[s];
+
+  if (followUp) return followUp;
   if (s.includes('fuel')) {
     return {
       text: 'Five vehicles account for 38% of projected fuel spend this week. Two of them idle for more than 22% of engine time.',
@@ -52,7 +91,7 @@ function answer(q: string): Omit<Msg, 'id' | 'role'> {
 }
 
 /** AI answer that types itself out, then reveals its chart bars and action chips. */
-function AiBubble({ m }: { m: Msg }) {
+function AiBubble({ m, onAsk }: { m: Msg; onAsk: (q: string) => void }) {
   const [n, setN] = useState(0);
   const reduced =
     typeof window !== 'undefined' &&
@@ -92,12 +131,14 @@ function AiBubble({ m }: { m: Msg }) {
       {done && m.chips && (
         <div className="motion-stagger mt-3 flex flex-wrap gap-2">
           {m.chips.map((c, i) => (
-            <span
+            <button
               key={c}
-              className={`rounded-full px-2.5 py-1 text-[11.5px] font-semibold ${i === 0 ? 'bg-brand-wash text-brand-ink' : 'bg-ai-wash text-ai-ink'}`}
+              type="button"
+              onClick={() => onAsk(c)}
+              className={`rounded-full px-2.5 py-1 text-[11.5px] font-semibold transition-transform hover:-translate-y-px ${i === 0 ? 'bg-brand-wash text-brand-ink' : 'bg-ai-wash text-ai-ink'}`}
             >
               {c}
-            </span>
+            </button>
           ))}
         </div>
       )}
@@ -173,7 +214,7 @@ export default function CopilotChat({
               {m.text}
             </div>
           ) : (
-            <AiBubble key={m.id} m={m} />
+            <AiBubble key={m.id} m={m} onAsk={ask} />
           )
         )}
         {thinking && (
