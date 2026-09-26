@@ -13,6 +13,9 @@ import {
   Settings,
   Sparkles,
   Building,
+  Plug,
+  Boxes,
+  CreditCard,
   Route as RouteIcon,
   Wrench,
   X,
@@ -373,6 +376,27 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
               className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-ink-0 hover:bg-brand-wash/60"
             >
               <Building size={15} /> Company &amp; locations
+            </Link>
+            <Link
+              href="/integration"
+              role="menuitem"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-ink-0 hover:bg-brand-wash/60"
+            >
+              <Plug size={15} /> Integrations
+            </Link>
+            <Link
+              href="/module-management"
+              role="menuitem"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-ink-0 hover:bg-brand-wash/60"
+            >
+              <Boxes size={15} /> Modules
+            </Link>
+            <Link
+              href="/plan-management"
+              role="menuitem"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-ink-0 hover:bg-brand-wash/60"
+            >
+              <CreditCard size={15} /> Plan &amp; usage
             </Link>
             <button
               type="button"
