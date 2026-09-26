@@ -21,5 +21,8 @@ export const BasicFormSchema = yup.object().shape({
 export const PasswordFormSchema = yup.object().shape({
   current_password: yup.string().required('Your current password is required'),
   new_password: yup.string().required('Please enter your new password'),
-  new_password_confirmation: yup.string().required('Please confirm your new password '),
+  new_password_confirmation: yup
+    .string()
+    .required('Please confirm your new password')
+    .oneOf([yup.ref('new_password')], 'Passwords do not match'),
 });
