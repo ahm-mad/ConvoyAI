@@ -278,9 +278,10 @@ const CompaniesListView = () => {
   return (
     <div className="min-h-screen p-4">
       <div className="mx-auto">
-        <div className="mb-3">
-          <h1 className="text-[13px] font-semibold text-ink-0">Companies directory</h1>
-          <p className="text-xs text-ink-2 mt-0.5">Manage and view all company information</p>
+        <div className="mb-4">
+          <div className="eyebrow">Platform</div>
+          <h1 className="page-title mt-1">Companies directory</h1>
+          <p className="page-subtitle mt-1">Manage and view all company information</p>
         </div>
 
         {shouldShowSkeleton ? (
