@@ -1,6 +1,7 @@
 'use client';
 
 import { Gauge, MapPin, Navigation2, User, X } from 'lucide-react';
+import { useFleetSettings } from '@hooks/useFleetSettings';
 import type { LiveVehicle } from './vehicle/vehicleKinds';
 
 const STATE_LABEL: Record<LiveVehicle['state'], string> = {
@@ -17,6 +18,15 @@ const PILL: Record<LiveVehicle['state'], string> = {
   offline: 'bg-surface-3 text-ink-1',
 };
 
+/** Time of day in the company timezone (falls back to the browser's when settings are not loaded). */
+const clockTime = (iso: string, timeZone?: string) => {
+  try {
+    return new Date(iso).toLocaleTimeString(undefined, timeZone ? { timeZone } : undefined);
+  } catch {
+    return new Date(iso).toLocaleTimeString();
+  }
+};
+
 /** Glass card shown above the selected vehicle (replaces the old Leaflet popup). */
 export default function VehicleCard({
   v,
@@ -29,6 +39,8 @@ export default function VehicleCard({
   onClose: () => void;
   onOpen?: () => void;
 }) {
+  const { settings } = useFleetSettings();
+
   return (
     <div
       className="glass-strong cv-map-card shadow-card"
@@ -70,7 +82,7 @@ export default function VehicleCard({
       )}
       {v.recordedAt && (
         <div className="mt-1 inline-flex items-center gap-1 text-[11px] text-ink-2">
-          <MapPin size={11} /> Updated {new Date(v.recordedAt).toLocaleTimeString()}
+          <MapPin size={11} /> Updated {clockTime(v.recordedAt, settings?.timezone)}
         </div>
       )}
       {onOpen && (

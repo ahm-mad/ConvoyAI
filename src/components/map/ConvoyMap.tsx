@@ -87,6 +87,18 @@ export default function ConvoyMap({
 
   readyCb.current = onReady;
 
+  // MapLibre cancels in-flight tile requests when the style or viewport changes; the aborted fetches surface as
+  // unhandled AbortError rejections. They are expected, so they must not pollute the console.
+  useEffect(() => {
+    const quiet = (ev: PromiseRejectionEvent) => {
+      if (ev.reason?.name === 'AbortError') ev.preventDefault();
+    };
+
+    window.addEventListener('unhandledrejection', quiet);
+
+    return () => window.removeEventListener('unhandledrejection', quiet);
+  }, []);
+
   // Create the map once.
   useEffect(() => {
     let disposed = false;
