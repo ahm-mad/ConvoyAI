@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { Marker } from 'maplibre-gl';
+import { token } from '@lib/design/tokens';
 import { useConvoyMap } from '../ConvoyMap';
 import VehicleIcon from '../vehicle/VehicleIcon';
 import VehicleCard from '../VehicleCard';
@@ -34,6 +35,7 @@ export default function VehicleLayer({
   speedLabel,
   onOpen,
   motionScale = 1,
+  trails = true,
 }: {
   vehicles: LiveVehicle[];
   iconStyle: VehicleIconStyle;
@@ -43,6 +45,8 @@ export default function VehicleLayer({
   onOpen?: (v: LiveVehicle) => void;
   /** Demo time-warp (×1 real time); scales the dead-reckoning speed. */
   motionScale?: number;
+  /** Fading comet tails behind moving vehicles. */
+  trails?: boolean;
 }) {
   const { map } = useConvoyMap();
   const store = useRef(new Map<string, Entry>());
@@ -52,9 +56,13 @@ export default function VehicleLayer({
   const latest = useRef({ selectedId, onSelect });
 
   const scaleRef = useRef(motionScale);
+  const trailsOn = useRef(trails);
+  const hist = useRef(new Map<string, [number, number][]>());
+  const lastSample = useRef(0);
 
   latest.current = { selectedId, onSelect };
   scaleRef.current = motionScale;
+  trailsOn.current = trails;
 
   // Create / update / remove markers to match `vehicles`.
   useEffect(() => {
@@ -167,7 +175,67 @@ export default function VehicleLayer({
       const sel = latest.current.selectedId ? store.current.get(latest.current.selectedId) : null;
 
       if (sel && card.current) card.current.marker.setLngLat([sel.cur.lon, sel.cur.lat]);
+      if (now - lastSample.current > 350) {
+        lastSample.current = now;
+        sampleTrails();
+      }
       raf = requestAnimationFrame(tick);
+    };
+
+    const sampleTrails = () => {
+      if (!trailsOn.current) {
+        if (map.getSource('cv-trails'))
+          (map.getSource('cv-trails') as any).setData({ type: 'FeatureCollection', features: [] });
+
+        return;
+      }
+
+      const features: any[] = [];
+
+      store.current.forEach((e, id) => {
+        let h = hist.current.get(id);
+
+        if (!h) hist.current.set(id, (h = []));
+        if (e.kmh > 1) {
+          const last = h[h.length - 1];
+
+          if (!last || Math.hypot(last[0] - e.cur.lon, last[1] - e.cur.lat) > 0.00012)
+            h.push([e.cur.lon, e.cur.lat]);
+          if (h.length > 44) h.shift();
+        } else if (h.length) h.length = 0;
+        if (h.length < 6) return;
+
+        const q = Math.floor(h.length / 4);
+
+        [0.1, 0.22, 0.4, 0.62].forEach((o, i) => {
+          const seg = h!.slice(i * q, i === 3 ? h!.length : (i + 1) * q + 1);
+
+          if (seg.length > 1)
+            features.push({
+              type: 'Feature',
+              properties: { o, w: 2 + i * 1.1 },
+              geometry: { type: 'LineString', coordinates: seg },
+            });
+        });
+      });
+
+      const data = { type: 'FeatureCollection' as const, features };
+
+      if (map.getSource('cv-trails')) (map.getSource('cv-trails') as any).setData(data);
+      else {
+        map.addSource('cv-trails', { type: 'geojson', data });
+        map.addLayer({
+          id: 'cv-trails',
+          type: 'line',
+          source: 'cv-trails',
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+          paint: {
+            'line-color': token('--color-brand-bright'),
+            'line-opacity': ['get', 'o'],
+            'line-width': ['get', 'w'],
+          },
+        });
+      }
     };
 
     raf = requestAnimationFrame(tick);
