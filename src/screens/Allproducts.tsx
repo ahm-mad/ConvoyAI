@@ -57,16 +57,26 @@ export default function ManageProduct() {
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
+  // Sorting is opt-in: until a column is chosen no sort params are sent (server default order).
+  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
+  const [sortOrder, setSortOrder] = useState<string | undefined>(undefined);
+
   const {
     data: products,
     isLoading,
     refetch,
-  } = useSimpleQuery(['products', currentPage, rowsPerPage, debouncedSearchTerm], `/api/products`, {
-    // user_id: user?.id,
-    page: currentPage,
-    per_page: rowsPerPage,
-    search: debouncedSearchTerm || undefined,
-  });
+  } = useSimpleQuery(
+    ['products', currentPage, rowsPerPage, debouncedSearchTerm, sortBy, sortOrder],
+    `/api/products`,
+    {
+      // user_id: user?.id,
+      page: currentPage,
+      per_page: rowsPerPage,
+      search: debouncedSearchTerm || undefined,
+      sort_by: sortBy,
+      sort_order: sortBy ? sortOrder : undefined,
+    }
+  );
 
   // FIXED: Mark as loaded once we have data for the first time
   useEffect(() => {
@@ -408,6 +418,13 @@ export default function ManageProduct() {
           selectable={true}
           selectedItems={selectedProducts}
           onSelectionChange={handleSelectionChange}
+          serverSideSorting
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          onSort={(columnKey: string, direction: string) => {
+            setSortBy(columnKey);
+            setSortOrder(direction);
+          }}
           onRowClick={handleProductClick}
           loading={isSearching}
           loadingText="Searching products..."
