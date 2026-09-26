@@ -185,6 +185,7 @@ export default function Vehicles() {
         onFilter={list.setFilter}
         onClear={list.clearFilters}
         hasActive={list.hasActiveFilters}
+        views={list}
         sortOptions={[
           { value: 'name', label: 'Name' },
           { value: 'plate', label: 'Plate' },

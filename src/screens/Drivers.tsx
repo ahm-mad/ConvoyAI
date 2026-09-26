@@ -184,6 +184,7 @@ export default function Drivers() {
         onFilter={list.setFilter}
         onClear={list.clearFilters}
         hasActive={list.hasActiveFilters}
+        views={list}
         sortOptions={[
           { value: 'name', label: 'Name' },
           { value: 'license_expiry_date', label: 'Licence expiry' },
