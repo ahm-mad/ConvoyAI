@@ -155,6 +155,7 @@ const at = (l: Line, d: number): { p: Pt; h: number } => {
 // ── missions (deterministic) ─────────────────────────────────────────────
 const rng = makeRng(31337);
 const missions = new Map<string, Mission>();
+const fracByVehicle = new Map<string, number>();
 
 positionModels.forEach((p, i) => {
   const v = vehicleModels.find(x => x.id === p._vehicleId)!;
@@ -217,6 +218,8 @@ export function simulatedPositions(now = Date.now(), demoSpeed = getDemoSpeed())
       const t = g <= 1 ? g : 2 - g;
       const dwell = t < 0.02 || t > 0.98;
       const frac = Math.min(0.995, Math.max(0.005, t));
+
+      fracByVehicle.set(p._vehicleId, frac);
       const d = (m.reverse ? 1 - frac : frac) * m.line.km;
       const pos = at(m.line, d);
       const fwd = g <= 1 !== !!m.reverse;
@@ -258,4 +261,20 @@ export function simulatedPositions(now = Date.now(), demoSpeed = getDemoSpeed())
       recorded_at: iso(now - age * 1000),
     };
   });
+}
+
+/** Road polyline for a yard-to-yard trip, ordered origin → destination (null when the pair has no generated route). */
+export function roadPath(originYard: number, destYard: number): Pt[] | null {
+  const h = highway(originYard, destYard);
+
+  if (!h) return null;
+
+  return h.reverse ? [...h.line.pts].reverse() : h.line.pts;
+}
+
+/** How far along origin → destination the simulated vehicle of an in-progress trip is right now (0..1), or null. */
+export function tripFraction(vehicleId: string): number | null {
+  simulatedPositions(); // advances the simulated clock and refreshes the fractions
+
+  return fracByVehicle.get(vehicleId) ?? null;
 }

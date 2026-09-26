@@ -25,6 +25,7 @@ import { isShowcase } from '@utils/showcase';
 import { getDemoSpeed, setDemoSpeed } from '@utils/showcase/simulation';
 import { Gauge } from 'lucide-react';
 import Scenery3D from '@components/map/layers/Scenery3D';
+import RouteLayer from '@components/map/layers/RouteLayer';
 import MapToolbar from '@components/map/MapToolbar';
 import { useMapPrefs } from '@components/map/useMapPrefs';
 
@@ -146,7 +147,10 @@ export default function FleetMap() {
     `trip-route-${selectedTripId}`,
     selectedTripId ? `/api/trips/${selectedTripId}/route` : null,
     {},
-    { enabled: !!selectedTripId, refetchInterval: selectedTripId ? 120000 : false }
+    {
+      enabled: !!selectedTripId,
+      refetchInterval: selectedTripId ? (isShowcase() ? 2500 : 120000) : false,
+    }
   );
   const tripRoute: any = selectedTripId && routeData?.success ? routeData.data : null;
 
@@ -254,6 +258,7 @@ export default function FleetMap() {
               ariaLabel="Live fleet map"
             >
               <Scenery3D />
+              {tripRoute && <RouteLayer route={tripRoute} />}
               <VehicleLayer
                 vehicles={glVehicles}
                 iconStyle={mapPrefs.iconStyle}

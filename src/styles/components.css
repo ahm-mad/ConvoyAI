@@ -916,4 +916,56 @@
       animation: none;
     }
   }
+
+  /* ------------------------------------------------------------------ Map beacons (trip stops / destination) */
+  .cv-beacon {
+    --beacon: var(--color-chart-neutral);
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+  }
+  .cv-beacon.is-arrived {
+    --beacon: var(--color-brand);
+  }
+  .cv-beacon.is-departed,
+  .cv-beacon.is-start {
+    --beacon: var(--color-success);
+  }
+  .cv-beacon.is-missed,
+  .cv-beacon.is-dest:not(.is-departed) {
+    --beacon: var(--color-gold);
+  }
+  .cv-beacon__dot {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 9999px;
+    background: var(--color-ink-0);
+    border: 2px solid var(--beacon);
+    color: var(--beacon);
+    font: 600 11px/1 var(--font-mono);
+    box-shadow: 0 6px 12px -4px color-mix(in srgb, var(--beacon) 70%, transparent);
+  }
+  .cv-beacon__ring {
+    position: absolute;
+    inset: 2px;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--beacon) 30%, transparent);
+    opacity: 0;
+  }
+  .cv-beacon.is-dest .cv-beacon__ring,
+  .cv-beacon.is-start .cv-beacon__ring {
+    opacity: 1;
+    animation: cv-ping 2.6s var(--ease-standard) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cv-beacon.is-dest .cv-beacon__ring,
+    .cv-beacon.is-start .cv-beacon__ring {
+      animation: none;
+    }
+  }
 }

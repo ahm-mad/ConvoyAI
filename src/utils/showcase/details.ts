@@ -17,6 +17,7 @@ import {
 import { ok } from './fleet';
 import { DAY, HOUR, iso, makeRng } from './rng';
 import { vehDay } from './metrics';
+import { roadPath, tripFraction } from './simulation';
 
 type Params = Record<string, any>;
 type Row = Record<string, any>;
@@ -344,35 +345,29 @@ const tripRoute = (id: string) => {
 
   const v = vehicleModels.find(x => x.id === t.vehicle_id)!;
   const r = makeRng(Number(id));
+  // In-progress trips follow the live simulation, so the driven part always ends at the moving vehicle.
   const progress =
     t.status === 'completed'
       ? 1
       : t.status === 'in_progress'
-        ? Math.min(
-            0.9,
-            Math.max(
-              0.1,
-              (NOW - Date.parse(t.actual_start_at)) /
-                (Date.parse(t.planned_end_at) - Date.parse(t.actual_start_at))
-            )
-          )
+        ? (tripFraction(t.vehicle_id) ?? 0.4)
         : 0;
-  const n = Math.round(progress * 40);
+  const path = roadPath(t._oi, t._di);
+  const n = Math.round(progress * 60);
   const positions = Array.from({ length: n }, (_, i) => {
-    const f = (i / 40) * (1 + 0);
+    const f = (i / 60) * (progress > 0 ? 1 : 0);
+    const idx = path ? Math.min(path.length - 1, Math.round(f * (path.length - 1))) : 0;
+    const pt = path
+      ? path[idx]
+      : ([
+          t.origin_latitude + (t.destination_latitude - t.origin_latitude) * f,
+          t.origin_longitude + (t.destination_longitude - t.origin_longitude) * f,
+        ] as [number, number]);
 
     return {
       id: String(i),
-      latitude:
-        t.origin_latitude +
-        (t.destination_latitude - t.origin_latitude) * f +
-        Math.sin(i / 3) * 0.02 +
-        r.float(-0.004, 0.004),
-      longitude:
-        t.origin_longitude +
-        (t.destination_longitude - t.origin_longitude) * f +
-        Math.cos(i / 4) * 0.02 +
-        r.float(-0.004, 0.004),
+      latitude: pt[0],
+      longitude: pt[1],
       speed: r.int(40, 82),
       recorded_at: iso(Date.parse(t.actual_start_at ?? t.planned_start_at) + i * 10 * 60_000),
     };
@@ -407,6 +402,8 @@ const tripRoute = (id: string) => {
       longitude: t.destination_longitude,
     },
     stops: stopsOf(t),
+    // Showcase extra (ignored by the real API consumers): the road the trip follows, origin → destination.
+    path: path ? path.map(([la, lo]) => ({ latitude: la, longitude: lo })) : null,
     trail: positions.length
       ? {
           positions,
