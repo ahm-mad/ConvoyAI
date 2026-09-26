@@ -21,6 +21,7 @@ import {
   round,
 } from './metrics';
 import { DAY, iso, ymd } from './rng';
+import { simulatedPositions } from './simulation';
 
 export const TZ = 'Asia/Karachi';
 
@@ -349,7 +350,7 @@ const statusSummary = () => {
 };
 
 const positions = (p: Params) => {
-  let rows = [...positionModels];
+  let rows = simulatedPositions();
 
   if (p.bbox) {
     const [x0, y0, x1, y1] = String(p.bbox).split(',').map(Number);
