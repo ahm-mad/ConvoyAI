@@ -403,7 +403,9 @@ const MQTTProtocol = ({ onConnect, formData, setFormData }) => {
                       }`}
                     />
                     {errors.caCertificate && (
-                      <p className="text-danger text-xs mt-1">{errors.caCertificate.message}</p>
+                      <p className="text-danger-text text-xs mt-1">
+                        {errors.caCertificate.message}
+                      </p>
                     )}
                   </div>
                 )}
@@ -432,7 +434,7 @@ const MQTTProtocol = ({ onConnect, formData, setFormData }) => {
                         }`}
                       />
                       {errors.clientCertificate && (
-                        <p className="text-danger text-xs mt-1">
+                        <p className="text-danger-text text-xs mt-1">
                           {errors.clientCertificate.message}
                         </p>
                       )}
@@ -459,7 +461,7 @@ const MQTTProtocol = ({ onConnect, formData, setFormData }) => {
                         }`}
                       />
                       {errors.clientKey && (
-                        <p className="text-danger text-xs mt-1">{errors.clientKey.message}</p>
+                        <p className="text-danger-text text-xs mt-1">{errors.clientKey.message}</p>
                       )}
                     </div>
                   )}

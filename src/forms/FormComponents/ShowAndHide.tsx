@@ -398,7 +398,7 @@ function ShowAndHide({
                             <span className="text-xs sm:hidden text-ink-2   font-medium">
                               Attribute
                             </span>
-                            <span className="bg-danger/10 text-danger px-2   sm:px-[10px] py-[7px] rounded-md text-sm font-medium whitespace-nowrap">
+                            <span className="bg-danger/10 text-danger-text px-2   sm:px-[10px] py-[7px] rounded-md text-sm font-medium whitespace-nowrap">
                               {label ||
                                 incomingWidget?.widget_settings?.[sectionIndex]?.label ||
                                 attribute ||

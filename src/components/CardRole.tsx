@@ -125,7 +125,7 @@ const CardRole = ({
             />
           </div>
           <div className="flex flex-col min-w-0 flex-1">
-            <div className="text-sm sm:text-base font-medium text-ink-0 hover:text-accent-cyan mb-px truncate">
+            <div className="text-sm sm:text-base font-medium text-ink-0 hover:text-brand-text mb-px truncate">
               {title}
             </div>
             <span className="text-xs sm:text-sm text-ink-2 truncate">{subTitle}</span>

@@ -673,7 +673,7 @@ function ProductConfiguration({ id: propId }: ProductConfigurationProps) {
           <p className="text-text-dark text-sm">{t('product-configuration.uncheck_info_1')}</p>
           <p className="text-text-dark text-sm">{t('product-configuration.uncheck_info_2')}</p>
           {errors.attributes && (
-            <p className="text-danger text-xs mt-1">{errors.attributes.message}</p>
+            <p className="text-danger-text text-xs mt-1">{errors.attributes.message}</p>
           )}
         </div>
 
@@ -849,7 +849,7 @@ function ProductConfiguration({ id: propId }: ProductConfigurationProps) {
                               </span>
                             )}
                             {role && (
-                              <span className="ml-2 rounded bg-accent-cyan/10 px-1.5 py-0.5 font-mono text-xs text-accent-cyan">
+                              <span className="ml-2 rounded bg-accent-cyan/10 px-1.5 py-0.5 font-mono text-xs text-brand-text">
                                 {roleLabel(role)}
                               </span>
                             )}
@@ -894,7 +894,7 @@ function ProductConfiguration({ id: propId }: ProductConfigurationProps) {
 
                         {isAiSuggested && (
                           <div className="absolute top-2 -right-28 flex items-center gap-1">
-                            <span className="text-xs text-accent-cyan font-semibold whitespace-nowrap">
+                            <span className="text-xs text-brand-text font-semibold whitespace-nowrap">
                               AI Suggested
                             </span>
                             <AiIcon
@@ -955,7 +955,7 @@ function ProductConfiguration({ id: propId }: ProductConfigurationProps) {
             >
               {t('product-configuration.remove_product')}
             </Buttton>
-            <div className="text-danger text-xs items-center">
+            <div className="text-danger-text text-xs items-center">
               {t('product-configuration.action_undo_warning')}
             </div>
           </div>

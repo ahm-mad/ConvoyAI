@@ -71,7 +71,7 @@ export default function ExpiringDocumentsPanel() {
       {isLoading && <div className="text-xs text-ink-2 py-4 text-center">Loading…</div>}
 
       {failed && (
-        <div className="text-xs text-danger flex items-center justify-between">
+        <div className="text-xs text-danger-text flex items-center justify-between">
           <span>{res.message || 'Could not load expiring documents.'}</span>
           <button type="button" onClick={() => refetch()} className="underline">
             Retry

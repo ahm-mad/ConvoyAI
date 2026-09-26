@@ -124,7 +124,7 @@ export default function PagedRecords({
       {isLoading && <div className="text-xs text-ink-2 text-center py-6">Loading…</div>}
 
       {failed && (
-        <div className="text-xs text-danger bg-danger/10 rounded-md px-3 py-2 flex items-center justify-between mb-2">
+        <div className="text-xs text-danger-text bg-danger/10 rounded-md px-3 py-2 flex items-center justify-between mb-2">
           <span>{res.message || 'Could not load the list.'}</span>
           <button type="button" onClick={() => refetch()} className="underline">
             Retry

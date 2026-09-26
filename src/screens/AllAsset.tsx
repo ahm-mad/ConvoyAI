@@ -203,7 +203,7 @@ const AssetsTable = () => {
       align: 'center',
       render: value => (
         <div className="flex items-center justify-center gap-2">
-          <span className="font-semibold text-accent-cyan font-mono text-xs">{value}</span>
+          <span className="font-semibold text-brand-text font-mono text-xs">{value}</span>
         </div>
       ),
     },
@@ -258,7 +258,7 @@ const AssetsTable = () => {
       <div className="min-h-screen p-6">
         <div className="max-w-7xl mx-auto">
           <div className="bg-danger/10 border border-danger/25 rounded-md p-4">
-            <p className="text-danger text-sm">
+            <p className="text-danger-text text-sm">
               No company ID found. Please select a company first.
             </p>
           </div>
@@ -324,7 +324,9 @@ const AssetsTable = () => {
 
         {assetsError && (
           <div className="mt-4 bg-danger/10 border border-danger/25 rounded-md p-4">
-            <p className="text-danger text-sm">Failed to load assets data. Please try again.</p>
+            <p className="text-danger-text text-sm">
+              Failed to load assets data. Please try again.
+            </p>
           </div>
         )}
       </div>

@@ -287,7 +287,7 @@ export default function CreateProductFromPayload({ onSuccess, initialProductId =
       </div>
 
       <div className="flex items-center justify-between px-5 py-3 border-t border-line">
-        <div className="text-xs text-danger">{submitError}</div>
+        <div className="text-xs text-danger-text">{submitError}</div>
         <div className="flex gap-2">
           {step > 1 && (
             <Button variant="secondary" onClick={() => setStep(step - 1)} disabled={submitting}>
@@ -416,7 +416,7 @@ function StepNameAndMap({
         <div className="text-[10px] uppercase tracking-wider text-ink-2 mb-2">Fields to map</div>
 
         {mappingLoading && <div className="text-xs text-ink-2">Generating preview…</div>}
-        {mappingError && <div className="text-xs text-danger">{mappingError}</div>}
+        {mappingError && <div className="text-xs text-danger-text">{mappingError}</div>}
 
         {mappingPreview && (
           <div className="space-y-1">
@@ -468,7 +468,7 @@ function StepAlertConditions({ selectedFieldKeys, conditions, updateCondition })
 
         return (
           <div key={key} className="flex items-center gap-2 bg-surface-2 rounded-md px-3 py-2">
-            <span className="text-xs font-mono text-accent-cyan w-40 truncate">{key}</span>
+            <span className="text-xs font-mono text-brand-text w-40 truncate">{key}</span>
             <select
               value={condition.operator}
               onChange={e => updateCondition(key, { operator: e.target.value })}

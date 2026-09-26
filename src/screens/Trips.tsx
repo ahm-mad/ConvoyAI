@@ -160,7 +160,7 @@ export default function Trips() {
               <button
                 type="button"
                 onClick={() => selection.selectAllMatching(t.total)}
-                className="text-accent-cyan hover:underline"
+                className="text-brand-text hover:underline"
               >
                 {`Select all ${t.total}`}
               </button>
@@ -169,7 +169,7 @@ export default function Trips() {
               type="button"
               onClick={() => exporter.run(t.filterParams)}
               disabled={t.total === 0 || exporter.busy}
-              className="text-[11px] text-accent-cyan hover:underline disabled:opacity-40"
+              className="text-[11px] text-brand-text hover:underline disabled:opacity-40"
             >
               {exporter.busy ? 'Exporting…' : 'Export CSV'}
             </button>
@@ -198,7 +198,7 @@ export default function Trips() {
       />
 
       {t.error && (
-        <div className="flex items-center justify-between text-xs text-danger bg-danger/10 rounded-md px-3 py-2 mb-3">
+        <div className="flex items-center justify-between text-xs text-danger-text bg-danger/10 rounded-md px-3 py-2 mb-3">
           <span>{t.error}</span>
           <button onClick={() => t.refetch()} className="underline">
             Retry

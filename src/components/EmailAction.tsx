@@ -117,7 +117,7 @@ const EmailAction = ({ isEnabled, onToggle, control, inputStyles = undefined }) 
                   )}
 
                   {fieldState.error && (
-                    <p className="text-danger text-xs mb-2">{fieldState.error.message}</p>
+                    <p className="text-danger-text text-xs mb-2">{fieldState.error.message}</p>
                   )}
 
                   <Controller
@@ -190,7 +190,7 @@ const EmailAction = ({ isEnabled, onToggle, control, inputStyles = undefined }) 
                     trigger={
                       <button
                         type="button"
-                        className="flex items-center  gap-1 px-2 py-1 text-xs text-accent-cyan hover:brightness-125 hover:bg-surface-3 rounded transition-colors"
+                        className="flex items-center  gap-1 px-2 py-1 text-xs text-brand-text hover:brightness-125 hover:bg-surface-3 rounded transition-colors"
                       >
                         <Hash className="w-3 h-3" />
                         Placeholders
@@ -200,7 +200,7 @@ const EmailAction = ({ isEnabled, onToggle, control, inputStyles = undefined }) 
                       label: (
                         <div className="flex flex-col">
                           <span className="text-sm">{ph.label}</span>
-                          <span className="text-xs text-accent-cyan font-mono">{ph.key}</span>
+                          <span className="text-xs text-brand-text font-mono">{ph.key}</span>
                           <span className="text-xs text-ink-2">{ph.description}</span>
                         </div>
                       ),
@@ -248,7 +248,7 @@ const EmailAction = ({ isEnabled, onToggle, control, inputStyles = undefined }) 
                     trigger={
                       <button
                         type="button"
-                        className="flex items-center gap-1 px-2 py-1 text-xs text-accent-cyan hover:brightness-125 hover:bg-surface-3 cursor-pointer bg-surface-2 rounded transition-colors"
+                        className="flex items-center gap-1 px-2 py-1 text-xs text-brand-text hover:brightness-125 hover:bg-surface-3 cursor-pointer bg-surface-2 rounded transition-colors"
                       >
                         <Hash className="w-3 h-3" />
                         Add Placeholders
@@ -258,7 +258,7 @@ const EmailAction = ({ isEnabled, onToggle, control, inputStyles = undefined }) 
                       label: (
                         <div className="flex flex-col">
                           <span className="text-sm">{ph.label}</span>
-                          <span className="text-xs text-accent-cyan font-mono">{ph.key}</span>
+                          <span className="text-xs text-brand-text font-mono">{ph.key}</span>
                           <span className="text-xs text-ink-2">{ph.description}</span>
                         </div>
                       ),
@@ -288,7 +288,7 @@ const EmailAction = ({ isEnabled, onToggle, control, inputStyles = undefined }) 
                     placeholder={t('email.placeholder.message')}
                   />
                   {fieldState.error && (
-                    <p className="text-danger text-xs mt-1">{fieldState.error.message}</p>
+                    <p className="text-danger-text text-xs mt-1">{fieldState.error.message}</p>
                   )}
                 </div>
               )}

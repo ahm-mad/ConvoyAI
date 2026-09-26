@@ -160,6 +160,7 @@ export default function AddUserForm({ onClose, companyId, onSuccess }) {
           type="button"
           onClick={onClose}
           disabled={isSubmitting}
+          aria-label="Close"
           className="absolute top-4 right-4 text-ink-2 cursor-pointer hover:text-ink-0"
         >
           <IconWrapper name="close" className="w-6 h-6" />
@@ -268,7 +269,9 @@ export default function AddUserForm({ onClose, companyId, onSuccess }) {
                   size="small"
                   disabled={rolesLoading || isSubmitting}
                 />
-                {errors.role && <p className="text-danger text-xs mt-1">{errors.role?.message}</p>}
+                {errors.role && (
+                  <p className="text-danger-text text-xs mt-1">{errors.role?.message}</p>
+                )}
               </div>
             )}
           />
@@ -336,7 +339,7 @@ export default function AddUserForm({ onClose, companyId, onSuccess }) {
                     size="small"
                   />
                   {errors.country && (
-                    <p className="text-danger text-xs mt-1">{errors.country?.message}</p>
+                    <p className="text-danger-text text-xs mt-1">{errors.country?.message}</p>
                   )}
                 </div>
               )}

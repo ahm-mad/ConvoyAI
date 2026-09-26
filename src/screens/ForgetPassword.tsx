@@ -94,7 +94,7 @@ export default function ForgetPassword() {
             <button
               type="button"
               onClick={handleBackToSignIn}
-              className="inline-flex text-ink-1 justify-center items-center cursor-pointer gap-2 text-sm font-semibold hover:text-accent-cyan"
+              className="inline-flex text-ink-1 justify-center items-center cursor-pointer gap-2 text-sm font-semibold hover:text-brand-text"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

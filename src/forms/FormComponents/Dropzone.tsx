@@ -120,7 +120,7 @@ function Dropzone({ onFileSelect = () => {} }: DropzoneProps) {
           onChange={handleChange}
         />
       </label>
-      {error && <p className="mt-1 w-full text-xs text-danger">{error}</p>}
+      {error && <p className="mt-1 w-full text-xs text-danger-text">{error}</p>}
     </div>
   );
 }

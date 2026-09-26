@@ -443,7 +443,7 @@ function TrackerTab({ vehicleId, vehicle, onChanged }) {
           <button
             onClick={handleUnassign}
             disabled={submitting}
-            className="w-full mt-3 text-xs text-danger border border-danger/40 bg-danger/10 rounded-full py-1.5"
+            className="w-full mt-3 text-xs text-danger-text border border-danger/40 bg-danger/10 rounded-full py-1.5"
           >
             {submitting ? 'Unassigning…' : 'Unassign Tracker'}
           </button>

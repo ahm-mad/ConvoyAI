@@ -221,7 +221,7 @@ export default function AssignmentHistory({
       {isLoading && <div className="text-xs text-ink-2 text-center py-8">Loading…</div>}
 
       {failed && (
-        <div className="text-xs text-danger bg-danger/10 rounded-md px-3 py-2 flex items-center justify-between">
+        <div className="text-xs text-danger-text bg-danger/10 rounded-md px-3 py-2 flex items-center justify-between">
           <span>{res.message || 'Could not load the assignment history.'}</span>
           <button type="button" onClick={() => refetch()} className="underline">
             Retry
@@ -242,7 +242,12 @@ export default function AssignmentHistory({
       )}
 
       {rows.length > 0 && (
-        <div className="glass overflow-x-auto">
+        <div
+          className="glass overflow-x-auto"
+          tabIndex={0}
+          role="region"
+          aria-label="Assignment history table"
+        >
           <table className="w-full text-caption">
             <thead className="bg-white/50 text-ink-2 text-left uppercase tracking-[0.08em]">
               <tr>

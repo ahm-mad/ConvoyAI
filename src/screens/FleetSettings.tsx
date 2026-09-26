@@ -605,7 +605,7 @@ function SettingsForm({ settings, onReload }: { settings: FleetSettings; onReloa
                       <button
                         type="button"
                         onClick={() => set('timezone', detected)}
-                        className="text-accent-cyan hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
+                        className="text-brand-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
                       >
                         Use this browser’s ({detected})
                       </button>
@@ -756,7 +756,9 @@ function SettingsForm({ settings, onReload }: { settings: FleetSettings; onReloa
               <span className="font-semibold tabular-nums">{changed.length}</span> unsaved{' '}
               {changed.length === 1 ? 'change' : 'changes'}
               {invalid && (
-                <span className="text-danger ml-2 text-xs">Fix the highlighted fields to save</span>
+                <span className="text-danger-text ml-2 text-xs">
+                  Fix the highlighted fields to save
+                </span>
               )}
             </div>
             <div className="flex items-center gap-2">

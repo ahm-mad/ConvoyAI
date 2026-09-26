@@ -551,7 +551,7 @@ export default function MixChartForm({
                       <button
                         type="button"
                         onClick={handleAddSection}
-                        className="bg-accent-cyan/5 hover:bg-accent-cyan/10 border cursor-pointer w-full md:w-1/2 border-accent-cyan/25 hover:border-accent-cyan/40 rounded-md px-4 py-2 text-accent-cyan font-medium transition-all duration-200 flex items-center justify-center gap-2 mt-4 text-sm"
+                        className="bg-accent-cyan/5 hover:bg-accent-cyan/10 border cursor-pointer w-full md:w-1/2 border-accent-cyan/25 hover:border-accent-cyan/40 rounded-md px-4 py-2 text-brand-text font-medium transition-all duration-200 flex items-center justify-center gap-2 mt-4 text-sm"
                         disabled={isSubmitting || isDeleting}
                       >
                         {t('chart_bar.addData')}

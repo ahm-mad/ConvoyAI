@@ -191,7 +191,7 @@ const SelectRadix = ({
       </Select.Root>
 
       {helperText && (
-        <div className={`text-xs mt-1.5 ml-0.5 ${error ? 'text-danger' : 'text-ink-2'}`}>
+        <div className={`text-xs mt-1.5 ml-0.5 ${error ? 'text-danger-text' : 'text-ink-2'}`}>
           {helperText}
         </div>
       )}

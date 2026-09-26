@@ -66,7 +66,7 @@ const FilterContent = ({ title, onClick, options = [] }) => {
       </div>
 
       <div className="bottom-0 h-8 w-full p-2 bg-accent-cyan/10 rounded-b-md">
-        <h3 className="text-accent-cyan text-sm">
+        <h3 className="text-brand-text text-sm">
           {t('filterContent.item', { count: selectedItems.length })}
         </h3>
       </div>

@@ -66,7 +66,7 @@ const SystemNotificationAction = ({ isEnabled, onToggle, control }) => {
                     trigger={
                       <button
                         type="button"
-                        className="flex items-center gap-1 px-2 py-1 text-xs text-accent-cyan hover:brightness-125 hover:bg-surface-3 cursor-pointer bg-surface-2 rounded transition-colors"
+                        className="flex items-center gap-1 px-2 py-1 text-xs text-brand-text hover:brightness-125 hover:bg-surface-3 cursor-pointer bg-surface-2 rounded transition-colors"
                       >
                         <Hash className="w-3 h-3" />
                         Add Placeholders
@@ -76,7 +76,7 @@ const SystemNotificationAction = ({ isEnabled, onToggle, control }) => {
                       label: (
                         <div className="flex flex-col">
                           <span className="text-sm">{ph.label}</span>
-                          <span className="text-xs text-accent-cyan font-mono">{ph.key}</span>
+                          <span className="text-xs text-brand-text font-mono">{ph.key}</span>
                           <span className="text-xs text-ink-2">{ph.description}</span>
                         </div>
                       ),
@@ -116,7 +116,7 @@ const SystemNotificationAction = ({ isEnabled, onToggle, control }) => {
                   <div className="flex justify-between items-center mt-1">
                     <div>
                       {fieldState.error && (
-                        <p className="text-danger text-xs">{fieldState.error.message}</p>
+                        <p className="text-danger-text text-xs">{fieldState.error.message}</p>
                       )}
                     </div>
                     <p className="text-ink-2 text-xs">

@@ -345,7 +345,7 @@ function ProtocolIntegration({ productID: propProductID }: ProtocolIntegrationPr
                 Loading MQTT configuration...
               </div>
             ) : mqttError ? (
-              <div className="text-center py-4 text-danger text-sm">
+              <div className="text-center py-4 text-danger-text text-sm">
                 Failed to load MQTT configuration
               </div>
             ) : (

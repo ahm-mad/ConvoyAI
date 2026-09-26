@@ -381,7 +381,9 @@ export default function BasicCard({
               placeholder="Enter your email"
             />
             {touched && !isMatch && (
-              <p className="text-danger text-xs mt-1">Email does not match your account email.</p>
+              <p className="text-danger-text text-xs mt-1">
+                Email does not match your account email.
+              </p>
             )}
           </div>
           <div className="flex justify-end space-x-5">
@@ -504,7 +506,7 @@ export default function BasicCard({
                     />
                   </div>
                   {basicForm.formState.errors.profile_image && (
-                    <p className="text-danger text-xs mt-1 text-center -ml-2">
+                    <p className="text-danger-text text-xs mt-1 text-center -ml-2">
                       {basicForm.formState.errors.profile_image.message}
                     </p>
                   )}
@@ -573,7 +575,7 @@ export default function BasicCard({
                             specialLabel=""
                           />
                           {basicForm.formState.errors.number && (
-                            <p className="text-danger text-xs mt-1">
+                            <p className="text-danger-text text-xs mt-1">
                               {basicForm.formState.errors.number.message}
                             </p>
                           )}
@@ -796,7 +798,7 @@ export default function BasicCard({
                 <div className="w-full border-b border-line mt-4.5" />
                 <p className="text-xs sm:text-sm mt-8">
                   {t('AccountProfile.delete.text')}{' '}
-                  <a className="text-accent-cyan text-xs" href="/">
+                  <a className="text-brand-text text-xs" href="/">
                     {t('AccountProfile.delete.guideline')}
                   </a>{' '}
                   if you still wish continue.

@@ -305,7 +305,7 @@ export default function Dashboard() {
   ];
 
   if (statsError || monthlyError) {
-    return <p className="text-danger text-center mt-10 text-sm">Failed to load data</p>;
+    return <p className="text-danger-text text-center mt-10 text-sm">Failed to load data</p>;
   }
 
   return (

@@ -296,7 +296,7 @@ export default function ManageProduct() {
       width: '100px',
       render: (value, item) => (
         <span
-          className="px-2 py-0.5 bg-accent-cyan/10 text-accent-cyan rounded text-xs font-mono cursor-pointer hover:bg-accent-cyan/20 transition-colors"
+          className="px-2 py-0.5 bg-accent-cyan/10 text-brand-text rounded text-xs font-mono cursor-pointer hover:bg-accent-cyan/20 transition-colors"
           onClick={e => {
             e.stopPropagation();
             navigate(`/products/${item.id}/devices`, {

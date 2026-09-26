@@ -192,7 +192,7 @@
 
 //         <div className="mt-3.5 pt-3 border-t border-line-soft flex items-center justify-between">
 //           <span className="text-xs text-ink-2 capitalize">{tutorial.category}</span>
-//           <div className="flex items-center text-xs font-medium text-ink-1 group-hover:text-accent-cyan transition-colors duration-200">
+//           <div className="flex items-center text-xs font-medium text-ink-1 group-hover:text-brand-text transition-colors duration-200">
 //             Watch
 //             <ChevronRight
 //               size={13}

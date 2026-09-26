@@ -195,7 +195,7 @@ export default function PickOnMapButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={`flex items-center justify-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 hover:bg-surface-2 ${className}`}
+        className={`flex items-center justify-center gap-1.5 text-xs text-brand-text border border-line rounded-md px-2.5 py-1.5 hover:bg-surface-2 ${className}`}
       >
         <MapPin size={12} /> Pick on map
       </button>

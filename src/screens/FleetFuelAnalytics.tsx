@@ -741,7 +741,7 @@ export default function FleetFuelAnalytics() {
             <button
               type="button"
               onClick={() => setTable(s => ({ ...s, page: 1, filter: 'check' }))}
-              className="text-[12px] text-accent-cyan hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
+              className="text-[12px] text-brand-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
             >
               Showing the newest {int(anomalies?.items?.length)} of {int(anomalies?.total)} — filter
               the table below to see them all
