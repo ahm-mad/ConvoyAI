@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import Dialog from '@components/ui/Dialog';
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapPin, X } from 'lucide-react';
-import { useModal } from '@contexts/ModalContext';
 import { useTheme } from '@contexts/ThemeContext';
 import { token } from '@lib/design/tokens';
 
@@ -61,13 +62,14 @@ function CoordinatePickerModal({
   initialLongitude,
   title,
   onConfirm,
+  closeModal,
 }: {
   initialLatitude: number | null;
   initialLongitude: number | null;
   title: string;
   onConfirm: (latitude: number, longitude: number) => void;
+  closeModal: () => void;
 }) {
-  const { closeModal } = useModal();
   const { isLight } = useTheme();
   const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
   const tileUrl = `https://api.maptiler.com/maps/dataviz-${isLight ? 'light' : 'dark'}/{z}/{x}/{y}.png?key=${mapTilerKey}`;
@@ -170,24 +172,46 @@ export default function PickOnMapButton({
   title?: string;
   className?: string;
 }) {
-  const { openModal } = useModal();
+  const [open, setOpen] = useState(false);
+
+  // The picker is a local dialog (not the global modal slot) so that opening it from inside an edit
+  // form does not unmount that form and lose what was typed. Escape closes only the picker.
+  useEffect(() => {
+    if (!open) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      e.stopPropagation();
+      setOpen(false);
+    };
+
+    window.addEventListener('keydown', onKey, true);
+
+    return () => window.removeEventListener('keydown', onKey, true);
+  }, [open]);
 
   return (
-    <button
-      type="button"
-      onClick={() =>
-        openModal(
-          <CoordinatePickerModal
-            initialLatitude={parseCoord(latitude)}
-            initialLongitude={parseCoord(longitude)}
-            title={title}
-            onConfirm={onPick}
-          />
-        )
-      }
-      className={`flex items-center justify-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 hover:bg-surface-2 ${className}`}
-    >
-      <MapPin size={12} /> Pick on map
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={`flex items-center justify-center gap-1.5 text-xs text-accent-cyan border border-line rounded-md px-2.5 py-1.5 hover:bg-surface-2 ${className}`}
+      >
+        <MapPin size={12} /> Pick on map
+      </button>
+      {open &&
+        createPortal(
+          <Dialog open onClose={() => setOpen(false)}>
+            <CoordinatePickerModal
+              initialLatitude={parseCoord(latitude)}
+              initialLongitude={parseCoord(longitude)}
+              title={title}
+              onConfirm={onPick}
+              closeModal={() => setOpen(false)}
+            />
+          </Dialog>,
+          document.body
+        )}
+    </>
   );
 }
