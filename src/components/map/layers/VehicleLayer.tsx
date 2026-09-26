@@ -36,6 +36,8 @@ export default function VehicleLayer({
   onOpen,
   motionScale = 1,
   trails = true,
+  followId = null,
+  onFollowLost,
 }: {
   vehicles: LiveVehicle[];
   iconStyle: VehicleIconStyle;
@@ -47,6 +49,9 @@ export default function VehicleLayer({
   motionScale?: number;
   /** Fading comet tails behind moving vehicles. */
   trails?: boolean;
+  /** Keep the camera centred on this vehicle (cinematic follow). Any manual drag ends it. */
+  followId?: string | null;
+  onFollowLost?: () => void;
 }) {
   const { map } = useConvoyMap();
   const store = useRef(new Map<string, Entry>());
@@ -57,12 +62,18 @@ export default function VehicleLayer({
 
   const scaleRef = useRef(motionScale);
   const trailsOn = useRef(trails);
+  const followRef = useRef(followId);
+  const ctor = useRef<typeof Marker | null>(null);
+  const clusterPool = useRef<{ marker: Marker; el: HTMLDivElement }[]>([]);
+  const lostRef = useRef(onFollowLost);
   const hist = useRef(new Map<string, [number, number][]>());
   const lastSample = useRef(0);
 
   latest.current = { selectedId, onSelect };
   scaleRef.current = motionScale;
   trailsOn.current = trails;
+  followRef.current = followId;
+  lostRef.current = onFollowLost;
 
   // Create / update / remove markers to match `vehicles`.
   useEffect(() => {
@@ -74,6 +85,8 @@ export default function VehicleLayer({
       const { Marker: GLMarker } = await import('maplibre-gl');
 
       if (cancelled) return;
+
+      ctor.current = GLMarker as unknown as typeof Marker;
 
       const seen = new Set<string>();
 
@@ -175,11 +188,101 @@ export default function VehicleLayer({
       const sel = latest.current.selectedId ? store.current.get(latest.current.selectedId) : null;
 
       if (sel && card.current) card.current.marker.setLngLat([sel.cur.lon, sel.cur.lat]);
+
+      const fol = followRef.current ? store.current.get(followRef.current) : null;
+
+      if (fol && !map.isMoving()) map.jumpTo({ center: [fol.cur.lon, fol.cur.lat] });
       if (now - lastSample.current > 350) {
         lastSample.current = now;
         sampleTrails();
+        clusterPass();
       }
       raf = requestAnimationFrame(tick);
+    };
+
+    // At country zoom vehicles that would overlap collapse into count bubbles; click zooms in. The selected/followed
+    // vehicle is never hidden inside a bubble.
+    const clusterPass = () => {
+      const pool = clusterPool.current;
+      let used = 0;
+
+      if (map.getZoom() < 8.5 && ctor.current) {
+        const keep = new Set(
+          [latest.current.selectedId, followRef.current].filter(Boolean) as string[]
+        );
+        const pts = [...store.current.entries()].map(([id, e]) => ({
+          id,
+          e,
+          p: map.project([e.cur.lon, e.cur.lat]),
+        }));
+        const taken = new Set<string>();
+
+        pts.forEach(a => {
+          if (taken.has(a.id)) return;
+
+          taken.add(a.id);
+          if (keep.has(a.id)) {
+            a.e.el.style.display = '';
+
+            return;
+          }
+
+          const grp = [a];
+
+          pts.forEach(b => {
+            if (
+              !taken.has(b.id) &&
+              !keep.has(b.id) &&
+              Math.hypot(a.p.x - b.p.x, a.p.y - b.p.y) < 46
+            ) {
+              grp.push(b);
+              taken.add(b.id);
+            }
+          });
+          if (grp.length === 1) {
+            a.e.el.style.display = '';
+
+            return;
+          }
+          grp.forEach(x => (x.e.el.style.display = 'none'));
+
+          const lon = grp.reduce((t, x) => t + x.e.cur.lon, 0) / grp.length;
+          const lat = grp.reduce((t, x) => t + x.e.cur.lat, 0) / grp.length;
+          let c = pool[used];
+
+          if (!c) {
+            const el = document.createElement('div');
+
+            el.className = 'cv-cluster';
+            el.setAttribute('role', 'button');
+            el.tabIndex = 0;
+            const marker = new ctor.current!({ element: el, anchor: 'center' })
+              .setLngLat([lon, lat])
+              .addTo(map);
+
+            el.addEventListener('click', ev => {
+              ev.stopPropagation();
+
+              const ll = marker.getLngLat();
+
+              map.easeTo({ center: ll, zoom: Math.min(13, map.getZoom() + 2.2), duration: 900 });
+            });
+            pool.push((c = { marker, el }));
+          }
+          c.marker.setLngLat([lon, lat]);
+          c.el.style.display = '';
+          c.el.setAttribute('aria-label', `${grp.length} vehicles, zoom in to see them`);
+          c.el.innerHTML = `<span>${grp.length}</span>`;
+          c.el.classList.toggle(
+            'has-moving',
+            grp.some(x => x.e.kmh > 1)
+          );
+          used++;
+        });
+      } else {
+        store.current.forEach(e => (e.el.style.display = ''));
+      }
+      for (let i = used; i < pool.length; i++) pool[i].el.style.display = 'none';
     };
 
     const sampleTrails = () => {
@@ -281,6 +384,19 @@ export default function VehicleLayer({
     };
   }, [map, selectedId]);
 
+  // A manual drag ends follow mode.
+  useEffect(() => {
+    if (!map) return;
+
+    const lost = () => followRef.current && lostRef.current?.();
+
+    map.on('dragstart', lost);
+
+    return () => {
+      map.off('dragstart', lost);
+    };
+  }, [map]);
+
   // Deselect on empty-map click.
   useEffect(() => {
     if (!map) return;
@@ -300,6 +416,8 @@ export default function VehicleLayer({
       store.current.forEach(e => e.marker.remove());
       store.current.clear();
       card.current?.marker.remove();
+      clusterPool.current.forEach(c => c.marker.remove());
+      clusterPool.current = [];
     },
     []
   );

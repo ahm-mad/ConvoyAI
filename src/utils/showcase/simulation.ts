@@ -206,6 +206,7 @@ export function simulatedPositions(now = Date.now(), demoSpeed = getDemoSpeed())
 
   return positionModels.map(p => {
     const m = missions.get(p._vehicleId);
+    const pid = Number(p.id);
     let lat = p.latitude;
     let lon = p.longitude;
     let heading = p.heading ?? 0;
@@ -227,24 +228,24 @@ export function simulatedPositions(now = Date.now(), demoSpeed = getDemoSpeed())
       lat = pos.p[0];
       lon = pos.p[1];
       heading = fwd ? pos.h : (pos.h + 180) % 360;
-      speed = dwell ? 0 : 58 + 14 * Math.sin(virtual / 90_000 + p.id);
+      speed = dwell ? 0 : 58 + 14 * Math.sin(virtual / 90_000 + pid);
       age = 4;
     } else if (m?.kind === 'loop' && m.line) {
       const d = ((m.off0 ?? 0) + ((m.kmh ?? 40) * virtual) / 3_600_000) % m.line.km;
       const pos = at(m.line, d);
-      const stopped = Math.floor(virtual / 120_000 + p.id) % 9 === 0;
+      const stopped = Math.floor(virtual / 120_000 + pid) % 9 === 0;
 
       lat = pos.p[0];
       lon = pos.p[1];
       heading = pos.h;
-      speed = stopped ? 0 : (m.kmh ?? 40) + 6 * Math.sin(virtual / 40_000 + p.id);
+      speed = stopped ? 0 : (m.kmh ?? 40) + 6 * Math.sin(virtual / 40_000 + pid);
       age = 5;
     } else if (m?.kind === 'parked') {
       const y = yards[m.homeYard];
 
-      lat = y.latitude + Math.sin(p.id) * 0.0009;
-      lon = y.longitude + Math.cos(p.id) * 0.0009;
-      heading = (p.id * 37) % 360;
+      lat = y.latitude + Math.sin(pid) * 0.0009;
+      lon = y.longitude + Math.cos(pid) * 0.0009;
+      heading = (pid * 37) % 360;
       age = 30;
     }
 
@@ -278,3 +279,7 @@ export function tripFraction(vehicleId: string): number | null {
 
   return fracByVehicle.get(vehicleId) ?? null;
 }
+
+// Dev-only QA hook: inspect the simulation from the browser console (`__cvSim()`).
+if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production')
+  (window as any).__cvSim = () => simulatedPositions();

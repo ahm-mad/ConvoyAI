@@ -1020,4 +1020,31 @@
     font-size: 9.5px;
     color: var(--color-ink-2);
   }
+
+  /* ------------------------------------------------------------------ Map clusters */
+  .cv-cluster {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    color: var(--color-surface-1);
+    font: 700 14px/1 var(--font-sans);
+    cursor: pointer;
+    background: linear-gradient(150deg, var(--color-ink-1), var(--color-ink-0));
+    border: 3px solid var(--color-surface-1);
+    box-shadow:
+      0 10px 20px -8px color-mix(in srgb, var(--color-ink-0) 70%, transparent),
+      0 0 0 6px color-mix(in srgb, var(--color-ink-0) 14%, transparent);
+    transition: scale var(--motion-base) var(--ease-standard);
+  }
+  .cv-cluster.has-moving {
+    background: linear-gradient(150deg, var(--color-brand-bright), var(--color-brand));
+    box-shadow:
+      0 10px 22px -6px color-mix(in srgb, var(--color-brand) 80%, transparent),
+      0 0 0 6px color-mix(in srgb, var(--color-brand) 20%, transparent);
+  }
+  .cv-cluster:hover {
+    scale: 1.1;
+  }
 }
