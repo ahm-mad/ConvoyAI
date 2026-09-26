@@ -28,6 +28,12 @@ function answer(q: string): Omit<Msg, 'id' | 'role'> {
       chips: ['Create idle-reduction plan', 'See route options'],
     };
   }
+  if (/\bhos\b/.test(s) || s.includes('hours') || s.includes('driver') || s.includes('risk')) {
+    return {
+      text: 'Three drivers are predicted to reach their hours limit before 19:00 on current routes. Reassigning two trips keeps everyone compliant.',
+      chips: ['Reassign trips', 'Notify drivers'],
+    };
+  }
   if (s.includes('maint') || s.includes('service')) {
     return {
       text: 'Three vehicles are likely to need brake service within 9 days based on a 31% rise in hard stops. Booking them this week avoids an estimated 2 days of unplanned downtime.',
@@ -37,12 +43,6 @@ function answer(q: string): Omit<Msg, 'id' | 'role'> {
         { label: 'ISB-3302', value: 46, display: '19 days' },
       ],
       chips: ['Schedule services', 'Show wear trend'],
-    };
-  }
-  if (s.includes('hos') || s.includes('hours') || s.includes('driver')) {
-    return {
-      text: 'Three drivers are predicted to reach their hours limit before 19:00 on current routes. Reassigning two trips keeps everyone compliant.',
-      chips: ['Reassign trips', 'Notify drivers'],
     };
   }
   return {

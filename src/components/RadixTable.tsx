@@ -484,8 +484,11 @@ const DataTable = ({
                   <tr>
                     <td
                       colSpan={columns.length + (selectable ? 1 : 0)}
-                      className="text-center p-8 text-ink-2"
+                      className="p-10 text-center text-body text-ink-2"
                     >
+                      <div className="empty-orb mx-auto mb-3">
+                        <Search size={20} />
+                      </div>
                       {searchTerm ? `No results found matching "${searchTerm}"` : noDataText}
                     </td>
                   </tr>
@@ -579,7 +582,7 @@ const DataTable = ({
                 <button
                   onClick={() => handlePageChange(Math.max(1, getPaginationInfo.currentPage - 1))}
                   disabled={getPaginationInfo.currentPage === 1}
-                  className="px-3 py-1 text-sm hover:bg-surface-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="grid h-8 min-w-8 place-items-center rounded-full px-2 text-control hover:bg-black/[0.06] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   ‹
                 </button>
@@ -608,10 +611,10 @@ const DataTable = ({
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`px-[9px] cursor-pointer py-0.5 rounded text-sm whitespace-nowrap ${
+                        className={`grid h-8 min-w-8 cursor-pointer place-items-center rounded-full px-2 text-control font-medium whitespace-nowrap transition-colors ${
                           getPaginationInfo.currentPage === pageNum
-                            ? 'bg-surface-3'
-                            : 'hover:bg-surface-3 text-ink-1'
+                            ? 'btn-brand'
+                            : 'hover:bg-black/[0.06] text-ink-1'
                         }`}
                       >
                         {pageNum}
@@ -627,7 +630,7 @@ const DataTable = ({
                     )
                   }
                   disabled={getPaginationInfo.currentPage === getPaginationInfo.totalPages}
-                  className="px-3 py-1 text-sm hover:bg-surface-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="grid h-8 min-w-8 place-items-center rounded-full px-2 text-control hover:bg-black/[0.06] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   ›
                 </button>
