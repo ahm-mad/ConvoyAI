@@ -2,14 +2,14 @@
 import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-const customIcon = new L.Icon({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
+// Brand pin drawn with CSS (.brand-pin in components.css) so it follows the design tokens.
+const customIcon = L.divIcon({
+  className: 'brand-pin-wrap',
+  html: '<span class="brand-pin"></span>',
+  iconSize: [28, 36],
+  iconAnchor: [14, 36],
+  popupAnchor: [0, -32],
 });
 
 const MarkerIcon = ({ position, popupText }) => {

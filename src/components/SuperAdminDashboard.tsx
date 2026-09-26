@@ -309,14 +309,12 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-0">
+    <div className="min-h-screen">
       {/* Header */}
       <div className="border-b border-line-soft px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-base sm:text-lg lg:text-xl font-semibold text-ink-0 font-display">
-              Dashboard
-            </h1>
+            <h1 className="page-title">Dashboard</h1>
             <p className="text-ink-2 text-xs sm:text-sm mt-1">
               Central Hub for Personal Customization
             </p>
