@@ -116,6 +116,7 @@ function Integration() {
   };
   return (
     <div className="m-8">
+      <h1 className="page-title mb-4">Integrations</h1>
       <Tables
         data={data}
         className={``}

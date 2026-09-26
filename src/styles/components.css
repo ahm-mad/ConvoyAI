@@ -661,4 +661,31 @@
   .react-tel-input .country-list .country.highlight {
     background: var(--color-brand-wash) !important;
   }
+
+  /* Standalone map pages: a fixed-height rounded stage (parents are auto-height) */
+  .map-stage {
+    height: calc(100vh - 9rem);
+    min-height: 24rem;
+    border-radius: var(--radius-panel);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Brand map pin (teardrop) */
+  .brand-pin-wrap {
+    background: none;
+    border: none;
+  }
+  .brand-pin {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg) translate(0, -2px);
+    background: var(--gradient-brand);
+    border: 3px solid var(--color-surface-1);
+    box-shadow: var(--shadow-glass);
+  }
 }

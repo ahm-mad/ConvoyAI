@@ -40,9 +40,7 @@ interface DocSection {
 function DeviceBulkUploadSection() {
   return (
     <div>
-      <h1 className="text-[15px] font-semibold text-ink-0 font-display">
-        Device Bulk Upload — CSV Format
-      </h1>
+      <h1 className="page-title">Device Bulk Upload — CSV Format</h1>
       <p className="text-xs text-ink-2 mt-1 max-w-2xl">
         Use this format when bulk-uploading devices via CSV in the product onboarding flow (Device
         Details step). The first row must be the header row with exactly these column names.
@@ -51,13 +49,13 @@ function DeviceBulkUploadSection() {
       <a
         href={SAMPLE_CSV_PATH}
         download
-        className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-md bg-primary text-surface-0 text-xs font-medium hover:opacity-90 transition-opacity"
+        className="inline-flex items-center gap-2 mt-4 px-3 py-2 rounded-control bg-primary text-surface-0 text-xs font-medium hover:opacity-90 transition-opacity"
       >
         <Download size={14} />
         Download sample CSV
       </a>
 
-      <div className="mt-6 border border-line-soft rounded-md overflow-hidden overflow-x-auto">
+      <div className="mt-6 border border-line-soft rounded-control overflow-hidden overflow-x-auto">
         <table className="w-full border-collapse text-left">
           <thead className="bg-surface-2">
             <tr>
@@ -96,7 +94,7 @@ function DeviceBulkUploadSection() {
         </table>
       </div>
 
-      <div className="mt-6 border border-line-soft rounded-md p-4 bg-surface-1">
+      <div className="mt-6 border border-line-soft rounded-control p-4 bg-surface-1">
         <p className="text-xs font-medium text-ink-0 mb-2">Notes</p>
         <ul className="list-disc list-inside text-xs text-ink-2 space-y-1">
           <li>One row per device — no header-row duplicates, no blank rows in between.</li>
@@ -134,7 +132,7 @@ export default function Documentation() {
             <li key={section.id}>
               <button
                 onClick={() => setActiveId(section.id)}
-                className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-colors ${
+                className={`w-full text-left px-2 py-1.5 rounded-control text-xs transition-colors ${
                   activeId === section.id
                     ? 'bg-surface-2 text-ink-0 font-medium'
                     : 'text-ink-1 hover:bg-surface-1'

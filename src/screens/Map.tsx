@@ -21,19 +21,23 @@ const Map = () => {
   const tileUrl = `https://api.maptiler.com/maps/dataviz-${isLight ? 'light' : 'dark'}/{z}/{x}/{y}.png?key=${mapTilerKey}`;
 
   return (
-    <MapContainer center={position} zoom={15} style={{ height: '100%', width: '100%' }}>
-      <TileLayer
-        url={tileUrl}
-        // MapTiler tiles are 512px, not the standard 256px — without
-        // tileSize/zoomOffset set correctly, the map renders at the wrong
-        // zoom level entirely (confirmed against the maintained
-        // leaflet-providers registry's own MapTiler config, not guessed).
-        tileSize={512}
-        zoomOffset={-1}
-        attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <MarkerIcon position={position} popupText={popupText} />
-    </MapContainer>
+    <div className="p-1 sm:p-4">
+      <div className="map-stage">
+        <MapContainer center={position} zoom={15} style={{ height: '100%', width: '100%' }}>
+          <TileLayer
+            url={tileUrl}
+            // MapTiler tiles are 512px, not the standard 256px — without
+            // tileSize/zoomOffset set correctly, the map renders at the wrong
+            // zoom level entirely (confirmed against the maintained
+            // leaflet-providers registry's own MapTiler config, not guessed).
+            tileSize={512}
+            zoomOffset={-1}
+            attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <MarkerIcon position={position} popupText={popupText} />
+        </MapContainer>
+      </div>
+    </div>
   );
 };
 
