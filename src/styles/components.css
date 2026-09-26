@@ -702,7 +702,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 0.25rem 1.25rem;
-    max-width: calc(var(--container-page) + 2 * var(--page-gutter));
+    max-width: var(--container-page);
     margin: 0 auto;
     padding: 0.625rem var(--page-gutter);
     font-size: var(--text-caption);
