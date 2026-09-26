@@ -583,50 +583,31 @@
     }
   }
 
-  /* Leaflet chrome on the design tokens */
-  .leaflet-container {
+  /* MapLibre chrome on the design tokens */
+  .maplibregl-map {
     font-family: var(--font-sans);
   }
-  .leaflet-popup-content-wrapper {
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-glass);
-    background: var(--glass-bg-menu);
-    color: var(--color-ink-0);
+  .maplibregl-ctrl-attrib {
+    border-radius: var(--radius-control) 0 0 0;
+    background: color-mix(in srgb, var(--color-surface-1) 82%, transparent) !important;
+    color: var(--color-ink-1);
+    backdrop-filter: blur(8px);
   }
-  .leaflet-popup-content {
-    margin: 0.875rem 1rem;
-    font-size: var(--text-caption);
-    line-height: 1.4;
+  .maplibregl-ctrl-attrib a {
+    color: var(--color-ink-1);
   }
-  .leaflet-popup-tip {
-    background: var(--glass-bg-menu);
-    box-shadow: var(--shadow-card);
-  }
-  .leaflet-popup-content a {
-    color: var(--color-brand);
-    font-weight: var(--font-weight-strong);
-  }
-  .leaflet-bar {
-    border: none !important;
+  .maplibregl-ctrl-group {
     border-radius: var(--radius-control) !important;
     box-shadow: var(--shadow-glass) !important;
-    overflow: hidden;
+    background: var(--glass-bg-menu) !important;
   }
-  .leaflet-bar a {
-    background: var(--glass-bg-menu);
-    color: var(--color-ink-0);
-    border-bottom-color: var(--color-line-soft);
+  .maplibregl-marker:focus-visible {
+    outline: none;
   }
-  .leaflet-bar a:hover {
-    background: var(--color-brand-wash);
-    color: var(--color-brand-ink);
-  }
-  .leaflet-tooltip {
-    border-radius: var(--radius-control);
-    border: 1px solid var(--color-line);
-    box-shadow: var(--shadow-card);
-    font-family: var(--font-sans);
-    color: var(--color-ink-0);
+  .maplibregl-marker [role='button']:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: 9999px;
   }
 
   /* react-phone-input-2 on the design tokens (its stylesheet is unlayered, hence !important) */

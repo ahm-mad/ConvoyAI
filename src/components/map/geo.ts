@@ -9,3 +9,29 @@ export const circle = (lat: number, lon: number, radiusM: number, n = 72): [numb
     return [lon + dLon * Math.cos(a), lat + dLat * Math.sin(a)];
   });
 };
+
+const isCoord = (lat: unknown, lng: unknown) =>
+  lat !== null &&
+  lat !== undefined &&
+  lng !== null &&
+  lng !== undefined &&
+  !Number.isNaN(Number(lat)) &&
+  !Number.isNaN(Number(lng));
+
+/** Every coordinate a trip route draws ([lat, lon]), in drawing order — used to know whether a trip has anything to show. */
+export function routePoints(route: any): [number, number][] {
+  if (!route) return [];
+
+  const pts: [number, number][] = [];
+  const add = (lat: unknown, lng: unknown) => {
+    if (isCoord(lat, lng)) pts.push([Number(lat), Number(lng)]);
+  };
+
+  add(route.origin?.latitude, route.origin?.longitude);
+  (route.stops || []).forEach((s: any) => add(s.yard?.latitude, s.yard?.longitude));
+  add(route.destination?.latitude, route.destination?.longitude);
+  (route.trail?.positions || []).forEach((p: any) => add(p.latitude, p.longitude));
+  add(route.current_position?.latitude, route.current_position?.longitude);
+
+  return pts;
+}
