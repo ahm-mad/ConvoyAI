@@ -51,7 +51,7 @@
   --color-line-soft: #f1e8db;
   --color-ink-0: #0e1b1a;
   --color-ink-1: #3a4a48;
-  --color-ink-2: #667572;
+  --color-ink-2: #5f6e6a;
 
   /* ------------------------------------------------------------------ Colours: brand (orange), gold, AI (indigo) */
   --color-brand: #e8590c;
@@ -59,6 +59,7 @@
   --color-brand-soft: #ffb36b;
   --color-brand-wash: #ffe7d2;
   --color-brand-ink: #7a2e05;
+  --color-brand-text: #c2410c; /* brand orange for small text on cream/white: 4.7:1+ (AA) */
   --color-gold: #f5b700;
   --color-gold-wash: #fff3c4;
   --color-gold-ink: #7a5600;

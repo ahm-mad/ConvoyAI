@@ -253,6 +253,7 @@ export default function Register() {
               control={control}
               render={({ field }) => (
                 <RadixCheckbox.Root
+                  aria-label="I agree to the Terms of Service and Privacy Policy"
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   className="flex h-[20px] w-[20px] mt-1 appearance-none items-center justify-center rounded-md border border-line bg-white data-[state=checked]:bg-accent-cyan data-[state=checked]:border-accent-cyan focus:outline-none cursor-pointer"

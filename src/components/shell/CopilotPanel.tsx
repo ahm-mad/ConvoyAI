@@ -32,6 +32,7 @@ export default function CopilotPanel({ open, onClose, pendingQuestion, onConsume
       <aside
         aria-label="Convoy Copilot"
         aria-hidden={!open}
+        inert={!open}
         className={`glass fixed bottom-4 right-4 top-4 z-[90] flex w-[min(440px,calc(100vw-32px))] flex-col overflow-hidden transition-transform duration-300 ease-out ${open ? 'translate-x-0' : 'translate-x-[calc(100%+32px)]'}`}
         style={{ background: 'var(--gradient-copilot)' }}
       >

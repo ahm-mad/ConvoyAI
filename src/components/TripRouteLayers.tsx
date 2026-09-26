@@ -155,6 +155,7 @@ export default function TripRouteLayers({ route }: { route: any }) {
         <Marker
           position={[Number(route.origin.latitude), Number(route.origin.longitude)]}
           icon={numberIcon('S', token('--color-success'))}
+          title="Origin"
         >
           <Popup>
             <strong>Origin</strong>
@@ -172,6 +173,7 @@ export default function TripRouteLayers({ route }: { route: any }) {
               String(s.sequence ?? ''),
               STATUS_COLOR[s.status] || STATUS_COLOR.planned
             )}
+            title={`Stop ${s.sequence}: ${s.yard?.name ?? ''}`}
           >
             <Popup>
               <strong>
@@ -193,6 +195,7 @@ export default function TripRouteLayers({ route }: { route: any }) {
             'D',
             route.trip?.destination_reached_at ? token('--color-success') : token('--color-gold')
           )}
+          title="Destination"
         >
           <Popup>
             <strong>Destination</strong>
@@ -211,6 +214,7 @@ export default function TripRouteLayers({ route }: { route: any }) {
             Number(route.current_position.longitude),
           ]}
           icon={vehicleIcon()}
+          title={route.vehicle?.name || 'Vehicle'}
           zIndexOffset={1000}
         >
           <Popup>

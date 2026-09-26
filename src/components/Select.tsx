@@ -25,6 +25,8 @@ export interface SelectRadixProps {
   id?: string;
   searchable?: boolean;
   searchPlaceholder?: string;
+  /** Accessible name of the trigger; falls back to the placeholder (the visible text can be empty). */
+  'aria-label'?: string;
 }
 
 const SelectRadix = ({
@@ -43,6 +45,7 @@ const SelectRadix = ({
   id,
   searchable = false,
   searchPlaceholder = 'Search...',
+  'aria-label': ariaLabel,
 }: SelectRadixProps) => {
   const [search, setSearch] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -83,6 +86,7 @@ const SelectRadix = ({
       >
         <Select.Trigger
           id={id}
+          aria-label={ariaLabel ?? placeholder}
           className={`
             inline-flex items-center justify-between w-full rounded-md border
             ${getSizeClasses()}
