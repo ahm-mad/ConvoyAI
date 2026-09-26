@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import toast from 'react-hot-toast';
 import GlobalToggle from '@forms/FormComponents/ToggleBtn';
 import { useState, useEffect } from 'react';
 import type { ComponentType, FormEvent, ReactNode } from 'react';
@@ -204,7 +205,7 @@ export default function RolePermissions() {
         : await post('/api/roles/create', payload);
 
       if (response && response.success) {
-        // alert(isEditMode ? 'Role updated successfully' : 'Role created successfully');
+        toast.success(isEditMode ? 'Role updated' : 'Role created');
 
         if (!isEditMode) {
           // Reset form for create mode
@@ -219,7 +220,7 @@ export default function RolePermissions() {
           navigate('/roles-permission');
         }
       } else {
-        // alert(response?.message || 'Failed to save role');
+        toast.error(response?.message || 'Could not save the role.');
       }
     } catch (error) {
       console.error('Failed to save role:', error);
