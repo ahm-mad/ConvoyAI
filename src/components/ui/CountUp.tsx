@@ -1,52 +1,37 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import NumberFlow from '@number-flow/react';
 
 /**
- * Animates a formatted number ("87.4", "1,204", "2.86") from 0 to its value on mount / change. Anything that is
- * not a plain number ("—", "12 h 05 min") renders untouched. Respects prefers-reduced-motion.
+ * Odometer number: every digit rolls to its new value (on mount from 0, and on every change). Takes the already
+ * formatted string ("87.4", "1,204", "PKR 9.3M", "82.1K km") and keeps its prefix / suffix / decimals / grouping;
+ * anything that is not a plain number ("—", "12 h 05 min") renders untouched. Honours prefers-reduced-motion.
  */
-export default function CountUp({ value, duration = 900 }: { value: string; duration?: number }) {
-  const match = /^([^\d]*?)(\d[\d,]*\.?\d*)([^\d]*)$/.exec(value.trim());
-  const [shown, setShown] = useState(value);
-  const frame = useRef<number | null>(null);
+export default function CountUp({ value }: { value: string; duration?: number }) {
+  const m = /^([^\d]*?)(\d[\d,]*\.?\d*)([^\d]*)$/.exec(value.trim());
 
-  useEffect(() => {
-    if (!match || typeof window === 'undefined') return setShown(value);
+  if (!m) return <span className="tabular-nums">{value}</span>;
 
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return setShown(value);
+  const [, prefix, raw, suffix] = m;
+  const n = parseFloat(raw.replace(/,/g, ''));
+  const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
 
-    const [, prefix, raw, suffix] = match;
-    const target = parseFloat(raw.replace(/,/g, ''));
-    const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
-    const grouped = raw.includes(',');
-    const start = performance.now();
+  if (!Number.isFinite(n)) return <span className="tabular-nums">{value}</span>;
 
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      const n = target * eased;
-
-      setShown(
-        prefix +
-          n.toLocaleString('en-US', {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals,
-            useGrouping: grouped,
-          }) +
-          suffix
-      );
-      if (t < 1) frame.current = requestAnimationFrame(tick);
-      else setShown(value);
-    };
-
-    frame.current = requestAnimationFrame(tick);
-
-    return () => {
-      if (frame.current) cancelAnimationFrame(frame.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, duration]);
-
-  return <span className="tabular-nums">{shown}</span>;
+  return (
+    <NumberFlow
+      value={n}
+      prefix={prefix}
+      suffix={suffix}
+      locales="en-US"
+      format={{
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+        useGrouping: raw.includes(','),
+      }}
+      className="tabular-nums"
+      transformTiming={{ duration: 900, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }}
+      spinTiming={{ duration: 900, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }}
+    />
+  );
 }
