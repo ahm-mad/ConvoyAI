@@ -367,8 +367,11 @@ export default function ManageProduct() {
     <div className="flex flex-col p-5">
       {/* Company Name Header */}
       {demoStart && <ManageProductDemo />}
-      <div className="text-ink-0 mb-3 flex items-center justify-between">
-        <span className="text-[13px] font-semibold font-display">{t('companyName')}</span>
+      <div className="text-ink-0 mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="eyebrow">{t('companyName')}</div>
+          <h1 className="page-title mt-1">Manage products</h1>
+        </div>
         <div className="flex items-center gap-2">
           <button
             onClick={handleCreateTemplate}
