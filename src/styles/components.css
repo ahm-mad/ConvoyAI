@@ -1075,4 +1075,69 @@
       animation: none;
     }
   }
+
+  /* ------------------------------------------------------------------ Ambient background (T-006 B4) */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .ambient__blob {
+    position: absolute;
+    width: 46vmax;
+    height: 46vmax;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.32;
+    will-change: transform;
+  }
+  .ambient__blob--brand {
+    left: -12vmax;
+    top: -14vmax;
+    background: radial-gradient(circle, var(--color-brand-soft), transparent 68%);
+    animation: cv-drift var(--motion-ambient) ease-in-out infinite alternate;
+  }
+  .ambient__blob--ai {
+    right: -16vmax;
+    top: 18vh;
+    opacity: 0.18;
+    background: radial-gradient(circle, var(--color-ai), transparent 68%);
+    animation: cv-drift calc(var(--motion-ambient) * 1.3) ease-in-out infinite alternate-reverse;
+  }
+  .ambient__blob--gold {
+    left: 28vw;
+    bottom: -22vmax;
+    opacity: 0.22;
+    background: radial-gradient(circle, var(--color-gold), transparent 68%);
+    animation: cv-drift calc(var(--motion-ambient) * 0.8) ease-in-out infinite alternate;
+  }
+  .page-container,
+  .status-bar {
+    position: relative;
+    z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ambient__blob {
+      animation: none;
+    }
+  }
+  /* live status dot heartbeat */
+  .status-dot--ok {
+    position: relative;
+  }
+  .status-dot--ok::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--color-success) 45%, transparent);
+    animation: cv-ping 2.4s var(--ease-standard) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .status-dot--ok::after {
+      animation: none;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { BarChart3, Table2 } from 'lucide-react';
 import MetricInfo from './MetricInfo';
+import Reveal from '@components/motion/Reveal';
 import { EmptyState, ErrorState, Skeleton } from './states';
 
 export interface TwinTable {
@@ -56,7 +57,11 @@ export default function WidgetCard({
   const [asTable, setAsTable] = useState(false);
 
   return (
-    <section aria-label={title} className={`glass spotlight flex flex-col min-w-0  ${className}`}>
+    <Reveal
+      as="section"
+      label={title}
+      className={`glass spotlight flex flex-col min-w-0  ${className}`}
+    >
       <header className="flex items-start justify-between gap-3 px-6 pt-5">
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
@@ -113,7 +118,7 @@ export default function WidgetCard({
       </div>
 
       {footer && <footer className="px-6 pb-5 -mt-1">{footer}</footer>}
-    </section>
+    </Reveal>
   );
 }
 

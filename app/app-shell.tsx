@@ -13,9 +13,14 @@ import { SocketProvider } from '@contexts/SocketContext';
 import { ToastProvider } from '@contexts/ToastContext';
 import { ModalProvider } from '@contexts/ModalContext';
 import Modal from '@components/Modal';
+import MotionProvider from '@components/motion/MotionProvider';
+import { installRafShimIfRequested } from '@components/map/qaRaf';
 
 import Bootstrap from './bootstrap';
 import RouteProgress from './route-progress';
+
+// QA only (off unless localStorage `convoyai-qa-raf` = 1): lets animations run in the hidden automated Chrome tab.
+installRafShimIfRequested();
 
 /**
  * Provider stack — ported 1:1 from src/main.jsx, minus <BrowserRouter> (App Router
@@ -33,9 +38,11 @@ export default function AppShell({ children }: { children: ReactNode }) {
             <SocketProvider>
               <ToastProvider>
                 <ModalProvider>
-                  <RouteProgress />
-                  <Bootstrap>{children}</Bootstrap>
-                  <Modal />
+                  <MotionProvider>
+                    <RouteProgress />
+                    <Bootstrap>{children}</Bootstrap>
+                    <Modal />
+                  </MotionProvider>
                 </ModalProvider>
               </ToastProvider>
             </SocketProvider>
