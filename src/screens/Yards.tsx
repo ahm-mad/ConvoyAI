@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import RequiredHint from '@components/RequiredHint';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toDisplayString, toMetric } from '@utils/units';
 import { useState } from 'react';
@@ -417,6 +418,7 @@ function NewYardForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           </label>
         )}
       </div>
+      <RequiredHint missing={name.trim() ? [] : ['name']} />
       <div className="flex gap-2">
         <button
           onClick={onClose}

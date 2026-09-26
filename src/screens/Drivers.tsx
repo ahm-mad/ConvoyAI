@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import RequiredHint from '@components/RequiredHint';
 import { useState } from 'react';
 import { AlertTriangle, Plus } from 'lucide-react';
 import { useModal } from '@contexts/ModalContext';
@@ -403,6 +404,14 @@ function NewDriverForm({ onClose, onCreated }: { onClose?: () => void; onCreated
   return (
     <div className="glass  p-6 mb-5">
       <DriverFields values={values} onChange={setValues} />
+      <RequiredHint
+        missing={
+          [
+            !values.first_name.trim() && 'first name',
+            !values.last_name.trim() && 'last name',
+          ].filter(Boolean) as string[]
+        }
+      />
       <div className="flex gap-2">
         <button
           onClick={onClose}

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import RequiredHint from '@components/RequiredHint';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toDisplayString, toMetric } from '@utils/units';
 import { useState } from 'react';
@@ -561,6 +562,13 @@ function NewGeofenceForm({
         </div>
       </div>
 
+      <RequiredHint
+        missing={
+          [!name.trim() && 'name', !yardId && (!lat || !lng) && 'a yard or coordinates'].filter(
+            Boolean
+          ) as string[]
+        }
+      />
       <div className="flex gap-2">
         <button
           onClick={onClose}

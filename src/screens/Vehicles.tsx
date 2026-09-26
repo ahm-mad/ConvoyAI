@@ -1,4 +1,5 @@
 import { useUnits } from '@hooks/useUnits';
+import RequiredHint from '@components/RequiredHint';
 import { useState } from 'react';
 import { Plus, Truck, Wifi, WifiOff, User } from 'lucide-react';
 import { useModal } from '@contexts/ModalContext';
@@ -422,6 +423,7 @@ function NewVehicleForm({ existingVehicles = [], onClose, onCreated }: NewVehicl
         existingNames={existingVehicles.map(v => v.name)}
       />
 
+      <RequiredHint missing={values.name.trim() ? [] : ['name']} />
       <div className="flex gap-2">
         <button
           onClick={onClose}

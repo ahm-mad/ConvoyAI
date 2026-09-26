@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import RequiredHint from '@components/RequiredHint';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toMetric } from '@utils/units';
 import { useState, type ReactNode } from 'react';
@@ -380,6 +381,16 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
   const handleCreate = async () => {
     // Backend 422s without a driver unless the vehicle already has one (pre-filled above).
     if (!vehicleId || !driverId || !originAddress.trim() || !destinationAddress.trim()) {
+      toast.error(
+        !vehicleId
+          ? 'Choose a vehicle for this trip.'
+          : !driverId
+            ? 'Choose a driver — this vehicle has none assigned.'
+            : !originAddress.trim()
+              ? 'Enter the origin address.'
+              : 'Enter the destination address.'
+      );
+
       return;
     }
 
@@ -613,6 +624,16 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
       {/* =====================================================
           ACTIONS
       ====================================================== */}
+      <RequiredHint
+        missing={
+          [
+            !vehicleId && 'vehicle',
+            !driverId && 'driver',
+            !originAddress.trim() && 'origin',
+            !destinationAddress.trim() && 'destination',
+          ].filter(Boolean) as string[]
+        }
+      />
       <div className="flex gap-2">
         <button
           onClick={onClose}

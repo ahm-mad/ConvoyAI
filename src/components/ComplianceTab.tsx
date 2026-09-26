@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import RequiredHint from '@components/RequiredHint';
 import { useState } from 'react';
 import { FileText, AlertTriangle, Plus } from 'lucide-react';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
@@ -159,6 +160,7 @@ function NewDocumentForm({
         type="date"
         className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
       />
+      <RequiredHint missing={type.trim() ? [] : ['document type']} />
       <div className="flex gap-2">
         <button
           onClick={onClose}
