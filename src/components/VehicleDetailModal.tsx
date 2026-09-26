@@ -1,8 +1,13 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 import React, { useState, useEffect } from 'react';
 import { X, Gauge, Wrench, Warehouse, Plus } from 'lucide-react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import dynamic from 'next/dynamic';
+import VehicleLayer from '@components/map/layers/VehicleLayer';
+import { useMapPrefs } from '@components/map/useMapPrefs';
+import { isShowcase } from '@utils/showcase';
+import { getDemoSpeed } from '@utils/showcase/simulation';
+
+const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false });
 import { useModal } from '@contexts/ModalContext';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
 import { useUnits } from '@hooks/useUnits';
@@ -11,7 +16,6 @@ import { useFleetCurrency } from '@utils/fleetCurrency';
 import { useTheme } from '@contexts/ThemeContext';
 import { post } from '@utils/apiHelper';
 import toast from 'react-hot-toast';
-import VehicleMarker from '@components/VehicleMarker';
 import ComplianceTab from '@components/ComplianceTab';
 import VehicleEditForm from '@components/VehicleEditForm';
 import DeactivateControls from '@components/DeactivateControls';
@@ -55,7 +59,7 @@ export default function VehicleDetailModal({ vehicleId, initialTab = 'overview' 
     `vehicle-detail-${vehicleId}`,
     `/api/vehicles/${vehicleId}`,
     {},
-    { refetchInterval: 120000 } // fleet:position updates current_position live; slow safety poll
+    { refetchInterval: isShowcase() ? 700 : 120000 } // fleet:position updates current_position live; slow safety poll
   );
   const detail = data?.success ? data.data : null;
   const vehicle = detail?.vehicle;
@@ -340,7 +344,7 @@ function OverviewTab({ detail, vehicleId, onChanged }) {
             className="rounded-md overflow-hidden border border-line-soft"
             style={{ height: '180px' }}
           >
-            <MiniLocationMap position={{ ...currentPosition, device: { name: vehicle.name } }} />
+            <MiniLocationMap position={currentPosition} vehicle={vehicle} />
           </div>
           <div className="text-[10.5px] text-ink-2 mt-1.5 font-mono">
             {currentPosition.latitude.toFixed(5)}, {currentPosition.longitude.toFixed(5)} · recorded{' '}
@@ -1115,43 +1119,51 @@ function VehicleHistoryTab({ vehicleId, yardHistory = [], onChanged }) {
  * on initial mount — without this, the map would stay frozen at the
  * first position even while the marker/data underneath kept updating.
  */
-function MiniLocationMap({ position }) {
+function MiniLocationMap({ position, vehicle }: { position: any; vehicle: any }) {
   const u = useUnits();
-  const { isLight } = useTheme();
-  // const mapTilerKey = '<OLD_MAPTILER_KEY_REDACTED>';
-  const mapTilerKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
-  const tileUrl = `https://api.maptiler.com/maps/dataviz-${isLight ? 'light' : 'dark'}/{z}/{x}/{y}.png?key=${mapTilerKey}`;
+  const [prefs] = useMapPrefs();
+  const [map, setMap] = useState<any>(null);
+  const speed = Number(position.speed ?? 0);
+  const fresh = position.recorded_at
+    ? Date.now() - new Date(position.recorded_at).getTime() < 15 * 60_000
+    : true;
+  const v = {
+    id: String(vehicle.id),
+    name: vehicle.name,
+    plate: vehicle.plate,
+    category: vehicle.vehicle_category,
+    lat: Number(position.latitude),
+    lon: Number(position.longitude),
+    heading: Number(position.heading ?? 0),
+    speed,
+    state: (!fresh ? 'offline' : speed > 5 ? 'moving' : 'parked') as
+      'moving' | 'parked' | 'offline',
+  };
+
+  // Keep the vehicle framed as it reports new positions.
+  useEffect(() => {
+    if (map) map.easeTo({ center: [v.lon, v.lat], duration: 800 });
+  }, [map, v.lat, v.lon]);
 
   return (
-    <MapContainer
-      center={[position.latitude, position.longitude]}
+    <ConvoyMap
+      look={prefs.look}
+      mode="2d"
+      center={[v.lat, v.lon]}
       zoom={13}
-      style={{ height: '100%', width: '100%' }}
-      zoomControl={false}
+      scrollZoom={false}
+      onReady={setMap}
+      ariaLabel={`${vehicle.name} location`}
     >
-      {/* attributionControl was previously disabled entirely on this
-          mini-map — caught while fixing the tile provider itself: that
-          would have meant zero attribution shown, which violates
-          virtually every tile provider's terms, MapTiler's included.
-          Left enabled; Leaflet's default control is already compact. */}
-      <TileLayer
-        url={tileUrl}
-        tileSize={512}
-        zoomOffset={-1}
-        attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; OSM'
+      <VehicleLayer
+        vehicles={[v]}
+        iconStyle={prefs.iconStyle}
+        selectedId={null}
+        onSelect={() => {}}
+        speedLabel={x => formatQty(u.speed, x.speed, 0)}
+        motionScale={isShowcase() ? getDemoSpeed() : 1}
+        trails={false}
       />
-      <VehicleMarker position={position} units={u} />
-      <RecenterOnUpdate lat={position.latitude} lng={position.longitude} />
-    </MapContainer>
+    </ConvoyMap>
   );
-}
-
-function RecenterOnUpdate({ lat, lng }) {
-  const map = useMap();
-
-  useEffect(() => {
-    map.setView([lat, lng], map.getZoom());
-  }, [lat, lng, map]);
-
-  return null;
 }
