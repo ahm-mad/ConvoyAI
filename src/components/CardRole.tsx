@@ -136,6 +136,7 @@ const CardRole = ({
             trigger={
               <button
                 className="p-1.5 sm:p-2 hover:bg-surface-3 rounded-sm text-ink-2 hover:text-ink-0 transition-colors"
+                aria-label="Role actions"
                 disabled={isDeleting}
               >
                 <EllipsisVertical className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
