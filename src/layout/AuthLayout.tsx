@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import FloatingNav from '@components/shell/FloatingNav';
 import CommandPalette from '@components/shell/CommandPalette';
+import StatusBar from '@components/shell/StatusBar';
 import SpotlightTracker from '@components/ui/SpotlightTracker';
 import CopilotPanel from '@components/shell/CopilotPanel';
 import GlobalPacketListener from '@components/GlobalPacketListener';
@@ -65,6 +66,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       <main key={(pathname ?? '').split('/')[1]} className="page-container motion-rise flex-1">
         {children}
       </main>
+      <StatusBar />
       <CommandPalette
         open={paletteOpen}
         onOpenChange={setPaletteOpen}
