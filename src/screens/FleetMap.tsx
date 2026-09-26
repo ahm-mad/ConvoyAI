@@ -38,6 +38,7 @@ export default function FleetMap() {
   const { isLight } = useTheme();
   const { openModal } = useModal();
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | number | null>(null);
+  const [layers, setLayers] = useState({ vehicles: true, yards: true, geofences: true });
 
   // The visible box; set by MapViewportWatcher once the map exists and after every pan / zoom.
   const [bbox, setBbox] = useState<Bbox | null>(null);
@@ -189,32 +190,35 @@ export default function FleetMap() {
               zoomOffset={-1}
               attribution='&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            {positions.map((p: any) => (
-              <VehicleMarker
-                units={u}
-                key={p.device_id}
-                position={p}
-                onClick={(pos: any) => setSelectedDeviceId(pos.device_id)}
-                onViewDetails={(id: any) => openModal(<VehicleDetailModal vehicleId={id} />)}
-              />
-            ))}
-            {yards.map((y: any) => (
-              <YardMarker key={`yard-${y.id}`} yard={y} onClick={handleYardClick} />
-            ))}
-            {geofences.map((g: any) => (
-              <Circle
-                key={`geofence-${g.id}`}
-                center={[g.center_latitude, g.center_longitude] as [number, number]}
-                radius={g.radius_m}
-                pathOptions={{
-                  color: token('--color-gold'),
-                  fillColor: token('--color-gold'),
-                  fillOpacity: 0.08,
-                  weight: 1.5,
-                  dashArray: '4 3',
-                }}
-              />
-            ))}
+            {layers.vehicles &&
+              positions.map((p: any) => (
+                <VehicleMarker
+                  units={u}
+                  key={p.device_id}
+                  position={p}
+                  onClick={(pos: any) => setSelectedDeviceId(pos.device_id)}
+                  onViewDetails={(id: any) => openModal(<VehicleDetailModal vehicleId={id} />)}
+                />
+              ))}
+            {layers.yards &&
+              yards.map((y: any) => (
+                <YardMarker key={`yard-${y.id}`} yard={y} onClick={handleYardClick} />
+              ))}
+            {layers.geofences &&
+              geofences.map((g: any) => (
+                <Circle
+                  key={`geofence-${g.id}`}
+                  center={[g.center_latitude, g.center_longitude] as [number, number]}
+                  radius={g.radius_m}
+                  pathOptions={{
+                    color: token('--color-gold'),
+                    fillColor: token('--color-gold'),
+                    fillOpacity: 0.08,
+                    weight: 1.5,
+                    dashArray: '4 3',
+                  }}
+                />
+              ))}
             {tripRoute && (
               <>
                 <FitRoute route={tripRoute} />
@@ -228,6 +232,38 @@ export default function FleetMap() {
               />
             )}
           </MapContainer>
+        )}
+
+        {!overviewLoading && (
+          <div
+            className="absolute bottom-4 left-4 z-[1000] w-56 glass-strong p-3 shadow"
+            role="group"
+            aria-label="Map layers"
+          >
+            <div className="eyebrow mb-2">Layers</div>
+            {(
+              [
+                ['vehicles', 'Vehicles', positions.length, 'var(--color-brand)'],
+                ['yards', 'Yards', yardsTotal, 'var(--color-brand-ink)'],
+                ['geofences', 'Geofences', geofencesTotal, 'var(--color-gold)'],
+              ] as const
+            ).map(([key, label, n, color]) => (
+              <label
+                key={key}
+                className="flex cursor-pointer items-center gap-2.5 rounded-lg px-1.5 py-1.5 text-[13px] text-ink-0 hover:bg-black/[0.04]"
+              >
+                <input
+                  type="checkbox"
+                  className="check"
+                  checked={layers[key]}
+                  onChange={() => setLayers(l => ({ ...l, [key]: !l[key] }))}
+                />
+                <span className="size-2.5 rounded-full" style={{ background: color }} />
+                <span className="flex-1">{label}</span>
+                <span className="tabular-nums text-ink-2">{n}</span>
+              </label>
+            ))}
+          </div>
         )}
 
         {truncated.length > 0 && (
