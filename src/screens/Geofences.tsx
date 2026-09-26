@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toDisplayString, toMetric } from '@utils/units';
 import { useState } from 'react';
-import { Plus, MapPin, LogIn, LogOut } from 'lucide-react';
+import { Plus, MapPin, LogIn, LogOut, ShieldCheck } from 'lucide-react';
 import { useOptions } from '@hooks/useOptions';
 import { post, put, del } from '@utils/apiHelper';
 import PickOnMapButton from '@components/CoordinatePicker';
@@ -264,18 +265,15 @@ export default function Geofences() {
         )}
 
         {!isLoading && view.total === 0 && !showForm && !view.error && (
-          <div className="text-xs text-ink-2 py-12 text-center border border-dashed border-line rounded-md">
-            {list.hasActiveFilters ? (
-              <>
-                No geofences match your search or filters.{' '}
-                <button onClick={list.clearFilters} className="text-accent-cyan underline">
-                  Clear them
-                </button>
-              </>
-            ) : (
-              'No geofences configured yet.'
-            )}
-          </div>
+          <ListEmpty
+            noun="geofences"
+            icon={ShieldCheck}
+            filtered={list.hasActiveFilters}
+            onClear={list.clearFilters}
+            hint="Geofences raise events when vehicles enter or leave a place. Create one to get started."
+            addLabel="New geofence"
+            onAdd={() => setShowForm(true)}
+          />
         )}
 
         <div className="space-y-2">

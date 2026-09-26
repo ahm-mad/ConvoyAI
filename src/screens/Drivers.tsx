@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
 import { useState } from 'react';
-import { AlertTriangle, Plus } from 'lucide-react';
+import { AlertTriangle, Plus, Users } from 'lucide-react';
 import { useModal } from '@contexts/ModalContext';
 import { post } from '@utils/apiHelper';
 import toast from 'react-hot-toast';
@@ -273,18 +274,15 @@ export default function Drivers() {
       {isLoading && <div className="text-xs text-ink-2 py-8 text-center">Loading…</div>}
 
       {!isLoading && view.total === 0 && !showForm && !view.error && (
-        <div className="text-xs text-ink-2 py-12 text-center border border-dashed border-line rounded-md">
-          {list.hasActiveFilters ? (
-            <>
-              No drivers match your search or filters.{' '}
-              <button onClick={list.clearFilters} className="text-accent-cyan underline">
-                Clear them
-              </button>
-            </>
-          ) : (
-            'No drivers added yet.'
-          )}
-        </div>
+        <ListEmpty
+          noun="drivers"
+          icon={Users}
+          filtered={list.hasActiveFilters}
+          onClear={list.clearFilters}
+          hint="Add your first driver to assign vehicles and log incidents."
+          addLabel="Add driver"
+          onAdd={() => setShowForm(true)}
+        />
       )}
 
       {!isLoading && view.items.length > 0 && (

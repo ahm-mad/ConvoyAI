@@ -1,4 +1,5 @@
 import { useUnits } from '@hooks/useUnits';
+import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
 import { useState } from 'react';
 import { Plus, Truck, Wifi, WifiOff, User } from 'lucide-react';
@@ -275,18 +276,15 @@ export default function Vehicles() {
       {isLoading && <div className="text-xs text-ink-2 py-8 text-center">Loading…</div>}
 
       {!isLoading && view.total === 0 && !showForm && !view.error && (
-        <div className="text-xs text-ink-2 py-12 text-center border border-dashed border-line rounded-md">
-          {list.hasActiveFilters ? (
-            <>
-              No vehicles match your search or filters.{' '}
-              <button onClick={list.clearFilters} className="text-accent-cyan underline">
-                Clear them
-              </button>
-            </>
-          ) : (
-            'No vehicles added yet. A yacht, a truck, anything you track — add it here, then assign a tracker to it from its detail view.'
-          )}
-        </div>
+        <ListEmpty
+          noun="vehicles"
+          icon={Truck}
+          filtered={list.hasActiveFilters}
+          onClear={list.clearFilters}
+          hint="A yacht, a truck, anything you track — add it here, then assign a tracker to it from its detail view."
+          addLabel="Add vehicle"
+          onAdd={() => setShowForm(true)}
+        />
       )}
 
       {!isLoading && view.items.length > 0 && (
