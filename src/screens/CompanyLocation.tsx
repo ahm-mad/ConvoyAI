@@ -26,8 +26,6 @@ function CompanyLocation() {
     refetch,
   } = useSimpleQuery('companyData', `/api/companies/${user?.company_id}`);
 
-  console.log(companyData, 'jfbdjk');
-
   const toggleContent = () => {
     setIsExpanded(!isExpanded);
   };
@@ -49,11 +47,15 @@ function CompanyLocation() {
 
   return (
     <div className="p-1 sm:p-4">
+      <div className="mb-4">
+        <div className="eyebrow">{companyData?.data?.name}</div>
+        <h1 className="page-title mt-1">Company &amp; locations</h1>
+      </div>
       {/* Parent Box */}
       <div
         className={`flex w-full h-full cursor-pointer items-center border ${
           isChecked ? 'gap-x-[20%] lg:gap-x-[30%] xl:gap-x-[36%]' : 'justify-between'
-        } bg-surface-1 rounded-md p-2 border-line-soft `}
+        } bg-surface-1 rounded-control p-2 border-line-soft `}
         onClick={toggleContent}
       >
         {/* Left Side */}
@@ -74,21 +76,21 @@ function CompanyLocation() {
             <button
               onClick={handleMenuClick}
               title="Add location"
-              className="flex items-center justify-center w-7 h-7 rounded-md bg-surface-2 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
+              className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-2 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
             >
               <AddIcon fontSize="small" />
             </button>
 
             <button
               title="Bookmark"
-              className="flex items-center justify-center w-7 h-7 rounded-md bg-surface-2 border border-line text-accent-cyan hover:bg-surface-3 transition-colors cursor-pointer"
+              className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-2 border border-line text-accent-cyan hover:bg-surface-3 transition-colors cursor-pointer"
             >
               <BookMarkIcon fontSize="small" />
             </button>
             <button
               onClick={handleMenuClick}
               title="Edit"
-              className="flex items-center justify-center w-7 h-7 rounded-md bg-surface-2 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
+              className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-2 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
             >
               <EditIcon fontSize="small" />
             </button>
@@ -99,7 +101,7 @@ function CompanyLocation() {
       {/* Hidden Content (Toggled) */}
       {isExpanded && (
         <div className="mt-1.5 w-[100%]">
-          <div className="flex w-full cursor-pointer h-full bg-surface-2 rounded-md p-2 border border-line-soft justify-between">
+          <div className="flex w-full cursor-pointer h-full bg-surface-2 rounded-control p-2 border border-line-soft justify-between">
             <div className="flex items-center ml-2">
               {/* Checkbox with onChange event */}
               <GlobalCheckbox
@@ -121,7 +123,7 @@ function CompanyLocation() {
                 <button
                   onClick={handleMenuClick}
                   title="Signal status"
-                  className="flex items-center justify-center gap-0.5 px-2 h-7 rounded-md bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan hover:bg-accent-cyan/15 transition-colors cursor-pointer"
+                  className="flex items-center justify-center gap-0.5 px-2 h-7 rounded-control bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan hover:bg-accent-cyan/15 transition-colors cursor-pointer"
                 >
                   <OnlineSignalIcon fontSize="small" />
                   <Chevron fontSize="small" />
@@ -130,20 +132,20 @@ function CompanyLocation() {
                 <button
                   onClick={handleMenuClick}
                   title="Add location"
-                  className="flex items-center justify-center w-7 h-7 rounded-md bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
+                  className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
                 >
                   <AddIcon fontSize="small" />
                 </button>
                 <button
                   title="Bookmark"
-                  className="flex items-center justify-center w-7 h-7 rounded-md bg-surface-1 border border-line text-accent-cyan hover:bg-surface-3 transition-colors cursor-pointer"
+                  className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-1 border border-line text-accent-cyan hover:bg-surface-3 transition-colors cursor-pointer"
                 >
                   <BookMarkIcon fontSize="small" />
                 </button>
                 <button
                   onClick={handleMenuClick}
                   title="Edit"
-                  className="flex items-center justify-center w-7 h-7 rounded-md bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
+                  className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
                 >
                   <EditIcon fontSize="small" />
                 </button>

@@ -569,16 +569,6 @@ export default function BasicCard({
                                 basicForm.clearErrors('number');
                               }
                             }}
-                            inputStyle={{
-                              width: '100%',
-                              height: '36px',
-                              borderRadius: '0.125rem',
-                              fontSize: '1rem',
-                            }}
-                            buttonStyle={{
-                              borderTopLeftRadius: '0.125rem',
-                              borderBottomLeftRadius: '0.125rem',
-                            }}
                             containerStyle={{ width: '100%' }}
                             specialLabel=""
                           />
@@ -793,7 +783,7 @@ export default function BasicCard({
                 <h5 className="font-semibold  ">{t('AccountProfile.delete.title')}</h5>
                 <div className="w-full border-b border-line mt-4.5" />
                 <p className="text-xs sm:text-sm mt-8">
-                  {t('AccountProfile.delete.text')} {t('AccountProfile.delete.guideline')}{' '}
+                  {t('AccountProfile.delete.text')}{' '}
                   <a className="text-accent-cyan text-xs" href="/">
                     {t('AccountProfile.delete.guideline')}
                   </a>{' '}
