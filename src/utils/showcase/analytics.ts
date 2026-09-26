@@ -290,7 +290,7 @@ const STATIONS = [
   'Hascol Bosan Rd',
 ];
 
-const allFills = () => {
+export const allFills = () => {
   if (fills) return fills;
 
   const rng = makeRng(4242);
