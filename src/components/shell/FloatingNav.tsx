@@ -24,6 +24,7 @@ import { useUser } from '@contexts/UserContext';
 import { disconnectSocket } from '@contexts/SocketContext';
 import { buildNav, type NavGroup } from './nav-config';
 import BrandMark from './BrandMark';
+import WorkspaceChip from './WorkspaceChip';
 
 interface Props {
   onOpenPalette: () => void;
@@ -120,6 +121,7 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
       <Link href="/fleet-management/operations/overview" className="pr-2">
         <BrandMark />
       </Link>
+      <WorkspaceChip />
 
       <ul
         ref={listRef}

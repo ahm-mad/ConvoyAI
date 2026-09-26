@@ -1,169 +1,154 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from 'react';
-import type { MouseEvent } from 'react';
-import GlobalCheckbox from '../components/GLobalCheckBox';
-import { useModal } from '@contexts/ModalContext';
-import AddLocation from '../components/AddLocation';
-import Chevron from '../assets/icons/MUIicons/Chevron';
-import ChevronRight from '../assets/icons/MUIicons/ChevronRight';
-import EditIcon from '@assets/icons/MUIicons/EditIcon';
-import AddIcon from '@assets/icons/MUIicons/AddBtnIcon';
-import BookMarkIcon from '@assets/icons/MUIicons/BookMarkIcon';
-import OnlineSignalIcon from '@assets/icons/MUIicons/OnlineSignalcon';
-import { useSimpleQuery } from '@hooks/useSimpleQuery';
-import { useUser } from '@contexts/UserContext';
+'use client';
 
-function CompanyLocation() {
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { ArrowUpRight, Building2, Mail, MapPin, Pencil, Warehouse } from 'lucide-react';
+import { useModal } from '@contexts/ModalContext';
+import { useUser } from '@contexts/UserContext';
+import { useSimpleQuery } from '@hooks/useSimpleQuery';
+import { useUnits } from '@hooks/useUnits';
+import { formatQty } from '@utils/units';
+import AddLocation from '../components/AddLocation';
+
+/** Company profile + its locations (yards). Editing reuses the original company-info form. */
+export default function CompanyLocation() {
   const { openModal } = useModal();
   const { user } = useUser();
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  // const user = JSON.parse(localStorage.getItem('user'));
+  const u = useUnits();
 
-  const {
-    data: companyData,
-    isLoading,
-    refetch,
-  } = useSimpleQuery('companyData', `/api/companies/${user?.company_id}`);
+  const { data: companyData, refetch } = useSimpleQuery(
+    'companyData',
+    `/api/companies/${user?.company_id}`
+  );
+  const yardsQ = useSimpleQuery<any>('yards-company-locations', '/api/yards', {
+    page: 1,
+    per_page: 8,
+  });
+  const c = companyData?.data;
+  const yards: any[] = yardsQ.data?.data?.items ?? [];
+  const yardTotal: number = yardsQ.data?.data?.pagination?.total ?? yards.length;
 
-  const toggleContent = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const edit = () => openModal(<AddLocation companyData={companyData?.data} refetch={refetch} />);
 
-  const handleMenuClick = (e?: MouseEvent<HTMLButtonElement>) => {
-    e?.stopPropagation();
-    openModal(<AddLocation companyData={companyData?.data} refetch={refetch} />);
-  };
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
-
+  // Original behaviour: a company without details is asked to fill them in straight away.
   useEffect(() => {
-    if (!user?.company_info) {
-      handleMenuClick();
-    }
+    if (!user?.company_info) edit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const address = [c?.address, c?.city, c?.state, c?.zip_code, c?.country]
+    .filter(Boolean)
+    .join(', ');
+  const stats = [
+    { label: 'Locations', value: yardTotal },
+    { label: 'Members', value: Array.isArray(c?.users) ? c.users.length : '—' },
+    { label: 'Products', value: Array.isArray(c?.products) ? c.products.length : '—' },
+    { label: 'Currency', value: c?.currency || '—' },
+  ];
 
   return (
     <div className="p-1 sm:p-4">
-      <div className="mb-4">
-        <div className="eyebrow">{companyData?.data?.name}</div>
-        <h1 className="page-title mt-1">Company &amp; locations</h1>
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="eyebrow">Workspace</div>
+          <h1 className="page-title mt-1">{c?.name || 'Company & locations'}</h1>
+          <p className="page-subtitle mt-1">
+            Company profile and the places your fleet operates from.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={edit}
+          className="btn-brand inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-medium"
+        >
+          <Pencil size={13} /> Edit company
+        </button>
       </div>
-      {/* Parent Box */}
-      <div
-        className={`flex w-full h-full cursor-pointer items-center border ${
-          isChecked ? 'gap-x-[20%] lg:gap-x-[30%] xl:gap-x-[36%]' : 'justify-between'
-        } bg-surface-1 rounded-control p-2 border-line-soft `}
-        onClick={toggleContent}
-      >
-        {/* Left Side */}
-        <div className="flex items-center gap-1">
-          <div className="text-ink-2">{isExpanded ? <Chevron /> : <ChevronRight />}</div>
-          <div className="text-xs sm:text-sm text-ink-0 font-medium">{companyData?.data?.name}</div>
-        </div>
-        {/* Address */}
-        <div className="flex text-[11px] sm:text-xs text-ink-2 items-center flex-wrap ml-3 sm:ml-0">
-          {user?.company_info
-            ? `${companyData?.data?.address}, ${companyData?.data?.city}, ${companyData?.data?.country}`
-            : ''}
-        </div>
 
-        {/* Actions - Hide when checkbox is checked */}
-        {!isChecked && (
-          <div className="flex gap-1.5">
-            <button
-              onClick={handleMenuClick}
-              title="Add location"
-              className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-2 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
-            >
-              <AddIcon fontSize="small" />
-            </button>
-
-            <button
-              title="Bookmark"
-              className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-2 border border-line text-accent-cyan hover:bg-surface-3 transition-colors cursor-pointer"
-            >
-              <BookMarkIcon fontSize="small" />
-            </button>
-            <button
-              onClick={handleMenuClick}
-              title="Edit"
-              className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-2 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
-            >
-              <EditIcon fontSize="small" />
-            </button>
+      <div className="glass mb-6 grid grid-cols-2 gap-5 p-5 lg:grid-cols-4">
+        {stats.map(s => (
+          <div key={s.label}>
+            <div className="eyebrow">{s.label}</div>
+            <div className="kpi-value mt-1">{s.value}</div>
           </div>
-        )}
+        ))}
       </div>
 
-      {/* Hidden Content (Toggled) */}
-      {isExpanded && (
-        <div className="mt-1.5 w-[100%]">
-          <div className="flex w-full cursor-pointer h-full bg-surface-2 rounded-control p-2 border border-line-soft justify-between">
-            <div className="flex items-center ml-2">
-              {/* Checkbox with onChange event */}
-              <GlobalCheckbox
-                className="h-[34px] w-[30px]"
-                size="small"
-                onChange={handleCheckboxChange}
-              />
-              <div className="text-xs sm:text-sm text-ink-0 -ml-4 sm:-ml-0">ChirpTech</div>
-            </div>
-            <div className="flex text-[11px] sm:text-xs text-ink-2 items-center flex-wrap ml-3 sm:ml-0">
-              {user?.company_info
-                ? `${companyData?.data?.address}, ${companyData?.data?.city}, ${companyData?.data?.country}`
-                : ''}
-            </div>
-
-            {/* Hide buttons when checkbox is checked */}
-            {!isChecked ? (
-              <div className="flex gap-1.5">
-                <button
-                  onClick={handleMenuClick}
-                  title="Signal status"
-                  className="flex items-center justify-center gap-0.5 px-2 h-7 rounded-control bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan hover:bg-accent-cyan/15 transition-colors cursor-pointer"
-                >
-                  <OnlineSignalIcon fontSize="small" />
-                  <Chevron fontSize="small" />
-                </button>
-
-                <button
-                  onClick={handleMenuClick}
-                  title="Add location"
-                  className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
-                >
-                  <AddIcon fontSize="small" />
-                </button>
-                <button
-                  title="Bookmark"
-                  className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-1 border border-line text-accent-cyan hover:bg-surface-3 transition-colors cursor-pointer"
-                >
-                  <BookMarkIcon fontSize="small" />
-                </button>
-                <button
-                  onClick={handleMenuClick}
-                  title="Edit"
-                  className="flex items-center justify-center w-7 h-7 rounded-control bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
-                >
-                  <EditIcon fontSize="small" />
-                </button>
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+        <div className="glass p-6 xl:col-span-1">
+          <div className="card-title mb-4">Company profile</div>
+          <dl className="space-y-4 text-sm">
+            <div className="flex items-start gap-3">
+              <Building2 size={16} className="mt-0.5 text-brand" />
+              <div>
+                <dt className="eyebrow">Name</dt>
+                <dd className="text-ink-0">{c?.name || '—'}</dd>
               </div>
-            ) : (
-              // Show Cancel button when checkbox is checked
-              <button
-                onClick={handleCheckboxChange}
-                className="px-3 h-7 text-xs font-medium rounded-full bg-surface-1 border border-line text-ink-1 hover:bg-surface-3 hover:text-ink-0 transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-            )}
-          </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <MapPin size={16} className="mt-0.5 text-brand" />
+              <div>
+                <dt className="eyebrow">Address</dt>
+                <dd className="text-ink-0">{address || '—'}</dd>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Mail size={16} className="mt-0.5 text-brand" />
+              <div>
+                <dt className="eyebrow">Company email</dt>
+                <dd className="break-all text-ink-0">{c?.email || '—'}</dd>
+              </div>
+            </div>
+          </dl>
         </div>
-      )}
+
+        <div className="glass p-6 xl:col-span-2">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="card-title">Locations</div>
+            <Link
+              href="/fleet-management/operations/yards"
+              className="inline-flex items-center gap-1 text-xs font-medium text-brand-ink hover:underline"
+            >
+              Manage yards <ArrowUpRight size={13} />
+            </Link>
+          </div>
+          {yards.length === 0 ? (
+            <div className="py-10 text-center text-sm text-ink-2">
+              No locations yet. Add a yard to see it here.
+            </div>
+          ) : (
+            <ul className="divide-y divide-line-soft">
+              {yards.map(y => (
+                <li key={y.id} className="flex items-center gap-3 py-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-wash text-brand icon-gradient">
+                    <Warehouse size={16} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-sm font-medium text-ink-0">{y.name}</div>
+                    <div className="truncate text-xs text-ink-2">
+                      {y.address || 'No address'}
+                      {y.radius_m != null && ` · ${formatQty(u.length, y.radius_m, 0)} radius`}
+                    </div>
+                  </div>
+                  <span className="text-xs tabular-nums text-ink-2">
+                    {y.slots_count ?? 0} {y.slots_count === 1 ? 'slot' : 'slots'}
+                  </span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${y.is_active ? 'bg-success/15 text-success' : 'bg-surface-2 text-ink-2'}`}
+                  >
+                    {y.is_active ? 'Active' : 'Inactive'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {yardTotal > yards.length && (
+            <div className="mt-3 text-xs text-ink-2">
+              Showing {yards.length} of {yardTotal} locations.
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
-
-export default CompanyLocation;
