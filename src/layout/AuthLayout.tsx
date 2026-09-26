@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import FloatingNav from '@components/shell/FloatingNav';
 import CommandPalette from '@components/shell/CommandPalette';
 import StatusBar from '@components/shell/StatusBar';
+import Crumbs from '@components/shell/Crumbs';
 import KeyboardShortcuts from '@components/shell/KeyboardShortcuts';
 import SpotlightTracker from '@components/ui/SpotlightTracker';
 import CopilotPanel from '@components/shell/CopilotPanel';
@@ -65,6 +66,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         onOpenCopilot={() => setCopilotOpen(true)}
       />
       <main key={(pathname ?? '').split('/')[1]} className="page-container motion-rise flex-1">
+        <Crumbs />
         {children}
       </main>
       <StatusBar />
