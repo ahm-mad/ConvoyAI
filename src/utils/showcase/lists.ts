@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   assignmentModels,
+  complianceDocs,
   driverModels,
   geofenceEvents,
   geofences,
@@ -12,6 +13,8 @@ import {
   yards,
 } from './dataset';
 import { DAY } from './rng';
+
+const TZ = 'Asia/Karachi';
 
 type Params = Record<string, any>;
 type Row = Record<string, any>;
@@ -117,6 +120,16 @@ const counts = (rows: Row[], key: string, keys: string[]) => ({
   total: rows.length,
   by_status: Object.fromEntries(keys.map(k => [k, rows.filter(r => r[key] === k).length])),
 });
+
+/** bbox = minLon,minLat,maxLon,maxLat; a circle counts when its centre (padded by its radius) is inside. */
+const inBbox = (bbox: unknown, lat: number, lon: number, radiusM: number) => {
+  if (!bbox) return true;
+
+  const [x0, y0, x1, y1] = String(bbox).split(',').map(Number);
+  const pad = radiusM / 111_000;
+
+  return lon >= x0 - pad && lon <= x1 + pad && lat >= y0 - pad && lat <= y1 + pad;
+};
 
 // ── vehicles ──────────────────────────────────────────────────────────────
 const vehicleRows = (p: Params, forCounts = false) => {
@@ -237,6 +250,7 @@ const yardRows = (p: Params) => {
   if (slots !== undefined) rows = rows.filter(r => r.slots_count > 0 === slots);
   if (coords !== undefined) rows = rows.filter(r => (r.latitude != null) === coords);
   if (layout !== undefined) rows = rows.filter(r => r.has_layout === layout);
+  if (p.bbox) rows = rows.filter(r => inBbox(p.bbox, r.latitude, r.longitude, r.radius_m));
 
   return prepare(rows, p, ['name', 'address'], {
     name: r => r.name.toLowerCase(),
@@ -254,6 +268,8 @@ const geofenceRows = (p: Params) => {
   if (act !== undefined) rows = rows.filter(r => r.is_active === act);
   if (linked !== undefined) rows = rows.filter(r => !!r.yard_id === linked);
   if (p.alert_on) rows = rows.filter(r => r.alert_on === p.alert_on);
+  if (p.bbox)
+    rows = rows.filter(r => inBbox(p.bbox, r.center_latitude, r.center_longitude, r.radius_m));
 
   return prepare(rows, p, ['name', 'yard.name'], {
     name: r => r.name.toLowerCase(),
@@ -320,33 +336,61 @@ const scheduleRes = (p: Params) => {
   });
 };
 
+const BUCKETS = [
+  'expired',
+  'expiring_0_7',
+  'expiring_8_30',
+  'expiring_31_60',
+  'valid_after_60',
+  'no_expiry',
+];
+const bucketOfDoc = (expiry: string | null) => {
+  if (!expiry) return 'no_expiry';
+
+  const days = (Date.parse(expiry) - showcaseNow()) / DAY;
+
+  return days < 0
+    ? 'expired'
+    : days <= 7
+      ? 'expiring_0_7'
+      : days <= 30
+        ? 'expiring_8_30'
+        : days <= 60
+          ? 'expiring_31_60'
+          : 'valid_after_60';
+};
+const tally = (docs: Row[]) => {
+  const out: Row = { total: docs.length, ...Object.fromEntries(BUCKETS.map(b => [b, 0])) };
+
+  docs.forEach(d => out[bucketOfDoc(d.expiry_date)]++);
+
+  return out;
+};
+
 const complianceCounts = () => {
-  const now = showcaseNow();
-  const by: Row = {
-    expired: 0,
-    expiring_0_7: 0,
-    expiring_8_30: 0,
-    expiring_31_60: 0,
-    valid_after_60: 0,
-    no_expiry: 0,
-  };
+  const by = tally(complianceDocs);
 
-  driverModels.forEach(d => {
-    const days = (Date.parse(d.raw.license_expiry_date) - now) / DAY;
-
-    if (days < 0) by.expired++;
-    else if (days <= 7) by.expiring_0_7++;
-    else if (days <= 30) by.expiring_8_30++;
-    else if (days <= 60) by.expiring_31_60++;
-    else by.valid_after_60++;
-  });
-
-  return ok({
-    total: driverModels.length,
-    by_status: by,
-    by_owner_type: { driver: driverModels.length },
-    by_document_type: { driving_licence: driverModels.length },
-  });
+  return ok(
+    {
+      total: complianceDocs.length,
+      by_status: Object.fromEntries(BUCKETS.map(b => [b, by[b]])),
+      by_owner_type: ['driver', 'vehicle'].map(t => ({
+        documentable_type: t,
+        ...tally(complianceDocs.filter(d => d.documentable_type === t)),
+      })),
+      by_document_type: [...new Set(complianceDocs.map(d => d.document_type))].map(t => ({
+        document_type: t,
+        ...tally(complianceDocs.filter(d => d.document_type === t)),
+      })),
+    },
+    {
+      meta: {
+        timezone: TZ,
+        today: new Date(showcaseNow()).toISOString().slice(0, 10),
+        generated_at: new Date(showcaseNow()).toISOString(),
+      },
+    }
+  );
 };
 
 // ── router ────────────────────────────────────────────────────────────────
