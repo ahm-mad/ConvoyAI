@@ -81,7 +81,7 @@ function ConnectorCard({ name, health }: { name: string; health?: any }) {
       </div>
 
       {health?.error ? (
-        <div className="text-xs text-danger">{health.error}</div>
+        <div className="text-xs text-danger-text">{health.error}</div>
       ) : (
         <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-[11px]">
           <Stat label="Messages received" value={health?.messages_received_total ?? '—'} />

@@ -672,7 +672,7 @@ export default function NewRule() {
                     disabled={isSubmitting}
                   />
                   {fieldState.error && (
-                    <p className="text-danger text-xs mt-1">{fieldState.error.message}</p>
+                    <p className="text-danger-text text-xs mt-1">{fieldState.error.message}</p>
                   )}
                 </div>
               )}

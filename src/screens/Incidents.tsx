@@ -99,7 +99,7 @@ export default function Incidents() {
       />
 
       {view.error && (
-        <div className="flex items-center justify-between text-xs text-danger bg-danger/10 rounded-md px-3 py-2 mb-3">
+        <div className="flex items-center justify-between text-xs text-danger-text bg-danger/10 rounded-md px-3 py-2 mb-3">
           <span>{view.error}</span>
           <button onClick={() => view.refetch()} className="underline">
             Retry

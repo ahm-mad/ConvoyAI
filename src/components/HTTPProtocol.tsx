@@ -35,7 +35,7 @@ const HTTPProtocol = ({ webHookToken, handleCopy }) => {
             <Link2 className="w-3 h-3 text-ink-2" />
             {t('httpProtocol.webhookUrl')}
           </label>
-          <div className="text-accent-cyan font-mono text-xs break-all bg-surface-2 p-2 rounded-md border border-line-soft">
+          <div className="text-brand-text font-mono text-xs break-all bg-surface-2 p-2 rounded-md border border-line-soft">
             https://api.example.com/api/webhook
           </div>
         </div>

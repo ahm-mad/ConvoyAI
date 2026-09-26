@@ -152,7 +152,7 @@ const ConditionalDropdown = ({
                   {/* Warning Message */}
                   {attributeWarning && (
                     <div className="px-2 py-1">
-                      <p className="text-danger text-xs">{attributeWarning}</p>
+                      <p className="text-danger-text text-xs">{attributeWarning}</p>
                     </div>
                   )}
                 </div>

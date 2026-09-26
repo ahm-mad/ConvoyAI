@@ -39,7 +39,7 @@ export default function DeviceErrorTable({ errors }: DeviceErrorTableProps) {
                 <td className="p-2 align-top text-xs text-ink-1">
                   {err.device_unique_identifier || '—'}
                 </td>
-                <td className="p-2 align-top text-xs text-danger">{err.errors.join(', ')}</td>
+                <td className="p-2 align-top text-xs text-danger-text">{err.errors.join(', ')}</td>
               </tr>
             ))}
           </tbody>

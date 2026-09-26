@@ -187,7 +187,7 @@ function OverviewTab({ driver, onChanged }: { driver: any; onChanged?: () => voi
         <div className="bg-surface-2 rounded-md p-3">
           <div className="text-[10px] text-ink-2 uppercase">License Expiry</div>
           <div
-            className={`text-sm mt-1 ${driver.is_license_expired ? 'text-danger' : 'text-ink-0'}`}
+            className={`text-sm mt-1 ${driver.is_license_expired ? 'text-danger-text' : 'text-ink-0'}`}
           >
             {driver.license_expiry_date
               ? new Date(driver.license_expiry_date).toLocaleDateString()
@@ -197,7 +197,7 @@ function OverviewTab({ driver, onChanged }: { driver: any; onChanged?: () => voi
       </div>
 
       {(driver.is_license_expired || driver.is_license_expiring_soon) && (
-        <div className="flex items-center gap-1.5 text-xs text-danger bg-danger/10 rounded-md px-2.5 py-1.5 mb-4">
+        <div className="flex items-center gap-1.5 text-xs text-danger-text bg-danger/10 rounded-md px-2.5 py-1.5 mb-4">
           <AlertTriangle size={12} />
           {driver.is_license_expired ? 'License has expired' : 'License expires within 30 days'}
         </div>

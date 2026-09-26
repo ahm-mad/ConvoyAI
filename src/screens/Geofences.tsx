@@ -208,7 +208,7 @@ export default function Geofences() {
                 <button
                   type="button"
                   onClick={() => selection.selectAllMatching(view.total)}
-                  className="text-accent-cyan hover:underline"
+                  className="text-brand-text hover:underline"
                 >
                   {`Select all ${view.total}`}
                 </button>
@@ -217,7 +217,7 @@ export default function Geofences() {
                 type="button"
                 onClick={() => exporter.run(view.filterParams)}
                 disabled={view.total === 0 || exporter.busy}
-                className="text-accent-cyan hover:underline disabled:opacity-40"
+                className="text-brand-text hover:underline disabled:opacity-40"
               >
                 {exporter.busy ? 'Exporting…' : 'Export CSV'}
               </button>
@@ -256,7 +256,7 @@ export default function Geofences() {
         />
 
         {view.error && (
-          <div className="flex items-center justify-between text-xs text-danger bg-danger/10 rounded-md px-3 py-2 mb-3">
+          <div className="flex items-center justify-between text-xs text-danger-text bg-danger/10 rounded-md px-3 py-2 mb-3">
             <span>{view.error}</span>
             <button onClick={() => refetch()} className="underline">
               Retry
@@ -351,7 +351,7 @@ export default function Geofences() {
             type="button"
             onClick={() => eventsExporter.run(events.filterParams)}
             disabled={events.total === 0 || eventsExporter.busy}
-            className="text-[10px] text-accent-cyan hover:underline disabled:opacity-40"
+            className="text-[10px] text-brand-text hover:underline disabled:opacity-40"
           >
             {eventsExporter.busy ? 'Exporting…' : 'Export CSV'}
           </button>

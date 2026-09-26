@@ -185,7 +185,7 @@ export default function ContactNotificationSlides({ NotificationsSkeleton }) {
                     <span className="font-medium w-20">Email:</span>
                     <a
                       href={`mailto:${selectedMessage.email}`}
-                      className="text-accent-cyan hover:underline break-all font-mono text-xs"
+                      className="text-brand-text hover:underline break-all font-mono text-xs"
                     >
                       {selectedMessage.email}
                     </a>

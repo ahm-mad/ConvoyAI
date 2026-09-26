@@ -481,7 +481,7 @@ function AttributeModal({
                           Attribute
                         </label>
                         <div className="h-9 flex items-center">
-                          <span className="flex items-center gap-1.5 bg-accent-cyan/10 text-accent-cyan px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+                          <span className="flex items-center gap-1.5 bg-accent-cyan/10 text-brand-text px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                             <Tag className="w-3.5 h-3.5 shrink-0" />
                             <span className="overflow-hidden text-ellipsis">
                               {selectedAttribute?.label || 'Selected Attribute'}
@@ -541,7 +541,7 @@ function AttributeModal({
                               {errors.alertSettings?.conditions?.[conditionIndex]
                                 ?.conditionValue && (
                                 <div className="absolute top-full left-0 z-10 mt-1">
-                                  <p className="text-danger text-xs px-1 py-0.5 rounded whitespace-nowrap">
+                                  <p className="text-danger-text text-xs px-1 py-0.5 rounded whitespace-nowrap">
                                     {
                                       errors.alertSettings.conditions[conditionIndex].conditionValue
                                         .message
@@ -583,7 +583,7 @@ function AttributeModal({
             ModalContext only holds one at a time). */}
         {showDeleteConfirm ? (
           <div className="pt-4 border-t border-line">
-            <div className="flex items-start gap-2 p-3 rounded-md bg-danger/5 border border-danger/20 text-sm text-danger">
+            <div className="flex items-start gap-2 p-3 rounded-md bg-danger/5 border border-danger/20 text-sm text-danger-text">
               <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
               <span>
                 Remove this attribute&apos;s configuration? This also deletes any Rule Builder rule
@@ -619,7 +619,7 @@ function AttributeModal({
                 type="button"
                 onClick={() => setShowDeleteConfirm(true)}
                 disabled={isSubmitting}
-                className="flex items-center gap-1.5 px-2 py-1.5 -ml-2 rounded-md text-xs font-medium text-ink-2 hover:text-danger hover:bg-danger/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-1.5 px-2 py-1.5 -ml-2 rounded-md text-xs font-medium text-ink-2 hover:text-danger-text hover:bg-danger/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 Remove configuration

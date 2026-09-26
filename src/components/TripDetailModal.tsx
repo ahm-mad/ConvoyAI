@@ -403,7 +403,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
           <button
             onClick={handleStart}
             disabled={submitting}
-            className="flex-1 flex items-center justify-center gap-1.5 text-xs text-accent-cyan border border-accent-cyan/40 bg-accent-cyan/10 rounded-md py-2 disabled:opacity-40"
+            className="flex-1 flex items-center justify-center gap-1.5 text-xs text-brand-text border border-accent-cyan/40 bg-accent-cyan/10 rounded-md py-2 disabled:opacity-40"
           >
             <Play size={12} />
             {submitting ? 'Starting…' : 'Start Trip'}
@@ -412,7 +412,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
           <button
             onClick={() => setShowCancel(v => !v)}
             disabled={submitting}
-            className="text-xs text-danger border border-danger/30 bg-danger/10 rounded-full px-4 py-2 disabled:opacity-40"
+            className="text-xs text-danger-text border border-danger/30 bg-danger/10 rounded-full px-4 py-2 disabled:opacity-40"
           >
             Cancel
           </button>
@@ -435,7 +435,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
               <button
                 onClick={() => setShowCancel(true)}
                 disabled={submitting}
-                className="text-xs text-danger border border-danger/30 bg-danger/10 rounded-full px-4 py-2"
+                className="text-xs text-danger-text border border-danger/30 bg-danger/10 rounded-full px-4 py-2"
               >
                 Cancel
               </button>
@@ -517,7 +517,7 @@ function OverviewTab({ trip, onChanged, onDeleted }) {
                 type="button"
                 onClick={handleDelete}
                 disabled={submitting}
-                className="text-caption font-medium text-danger border border-danger/40 bg-danger/10 rounded-full px-2.5 py-1 disabled:opacity-40"
+                className="text-caption font-medium text-danger-text border border-danger/40 bg-danger/10 rounded-full px-2.5 py-1 disabled:opacity-40"
               >
                 {submitting ? 'Deleting…' : 'Delete trip'}
               </button>
@@ -1138,7 +1138,7 @@ function CancelForm({ value, onChange, onCancel, onSubmit, submitting }) {
         <button
           onClick={onSubmit}
           disabled={submitting || !value.trim()}
-          className="flex-1 text-xs text-danger border border-line bg-white hover:bg-surface-2 rounded-full py-1.5 disabled:opacity-40"
+          className="flex-1 text-xs text-danger-text border border-line bg-white hover:bg-surface-2 rounded-full py-1.5 disabled:opacity-40"
         >
           {submitting ? 'Cancelling…' : 'Cancel Trip'}
         </button>

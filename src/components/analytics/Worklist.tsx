@@ -137,7 +137,7 @@ export default function Worklist({
         <button
           type="button"
           onClick={() => setExpanded(v => !v)}
-          className="mt-2 text-xs font-medium text-accent-cyan hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
+          className="mt-2 text-xs font-medium text-brand-text hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan rounded"
         >
           {expanded ? 'Show fewer' : `Show all ${matching.length}`}
         </button>

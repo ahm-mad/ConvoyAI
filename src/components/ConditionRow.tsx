@@ -102,7 +102,7 @@ const ConditionRow = ({
 
                         {attributeFieldState.error && (
                           <div className="absolute top-full left-0 z-10 mt-1">
-                            <p className="text-danger text-xs bg-surface-2 px-1 whitespace-nowrap border-danger/30">
+                            <p className="text-danger-text text-xs bg-surface-2 px-1 whitespace-nowrap border-danger/30">
                               {attributeFieldState.error.message}
                             </p>
                           </div>
@@ -145,7 +145,7 @@ const ConditionRow = ({
 
                     {attributeFieldState.error && (
                       <div className="absolute top-full left-0 z-10 mt-1">
-                        <p className="text-danger text-xs bg-surface-2 px-1 whitespace-nowrap border-danger/30">
+                        <p className="text-danger-text text-xs bg-surface-2 px-1 whitespace-nowrap border-danger/30">
                           {attributeFieldState.error.message}
                         </p>
                       </div>
@@ -198,7 +198,7 @@ const ConditionRow = ({
 
                   {fieldState.error && (
                     <div className="absolute top-full left-0 z-10">
-                      <p className="text-danger text-xs px-2 py-1 border-danger/30 whitespace-nowrap">
+                      <p className="text-danger-text text-xs px-2 py-1 border-danger/30 whitespace-nowrap">
                         {fieldState.error.message}
                       </p>
                     </div>

@@ -97,7 +97,7 @@ const ThirdstepForm = ({ formData, setFormData, importResults = null }: Thirdste
                 href="/documentation"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-cyan hover:underline font-medium"
+                className="text-brand-text hover:underline font-medium"
               >
                 {t('secondStepForm.documentationLink')}
               </a>
@@ -108,7 +108,7 @@ const ThirdstepForm = ({ formData, setFormData, importResults = null }: Thirdste
             <Dropzone onFileSelect={handleFileSelect} />
           </div>
 
-          {csvParseError && <p className="mt-1 text-xs text-danger">{csvParseError}</p>}
+          {csvParseError && <p className="mt-1 text-xs text-danger-text">{csvParseError}</p>}
 
           {csvRows && csvRows.length > 0 && (
             <div className="mt-3 border border-line-soft rounded-md overflow-hidden">

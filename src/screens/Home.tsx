@@ -175,7 +175,7 @@ const Home = () => {
     return (
       <div className="min-h-screen p-4">
         <div className="w-full flex items-center justify-center py-20">
-          <div className="text-danger text-sm">{error}</div>
+          <div className="text-danger-text text-sm">{error}</div>
         </div>
       </div>
     );

@@ -122,14 +122,14 @@ export default function VerifyAccount() {
                 <div className="w-16 h-16 bg-danger/10 rounded-full flex items-center justify-center">
                   <XCircle className="w-8 h-8 text-danger" />
                 </div>
-                <p className="text-danger font-semibold text-sm">{message}</p>
+                <p className="text-danger-text font-semibold text-sm">{message}</p>
               </div>
             )}
           </div>
 
           {/* Resend Error Message (only show if resend failed) */}
           {resendMessage && !emailSent && (
-            <div className="mb-4 p-3 rounded-md text-sm bg-danger/10 text-danger border border-danger/25">
+            <div className="mb-4 p-3 rounded-md text-sm bg-danger/10 text-danger-text border border-danger/25">
               {resendMessage}
             </div>
           )}

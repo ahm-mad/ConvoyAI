@@ -77,7 +77,7 @@ function DeviceBulkUploadSection() {
             {DEVICE_CSV_COLUMNS.map(col => (
               <tr key={col.name} className="border-t border-line-soft">
                 <td className="p-2 align-top">
-                  <code className="text-xs text-accent-cyan">{col.name}</code>
+                  <code className="text-xs text-brand-text">{col.name}</code>
                 </td>
                 <td className="p-2 align-top">
                   {col.required && (

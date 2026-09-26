@@ -159,13 +159,13 @@ export default function CreateTemplateModal({ onSuccess }) {
           </div>
           <button
             onClick={addField}
-            className="flex items-center gap-1 text-xs text-accent-cyan mt-2 hover:underline"
+            className="flex items-center gap-1 text-xs text-brand-text mt-2 hover:underline"
           >
             <Plus size={12} /> Add field
           </button>
         </div>
 
-        {error && <div className="text-xs text-danger">{error}</div>}
+        {error && <div className="text-xs text-danger-text">{error}</div>}
       </div>
 
       <div className="flex justify-end gap-2 px-5 py-3 border-t border-line">

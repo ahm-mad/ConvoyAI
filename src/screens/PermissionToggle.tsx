@@ -270,7 +270,7 @@ export default function RolePermissions() {
                 )}
               />
               {errors.roleName && (
-                <p className="text-danger text-xs mt-1">{errors.roleName.message}</p>
+                <p className="text-danger-text text-xs mt-1">{errors.roleName.message}</p>
               )}
             </div>
             <div>
@@ -296,7 +296,7 @@ export default function RolePermissions() {
                 )}
               />
               {errors.description && (
-                <p className="text-danger text-xs mt-1">{errors.description.message}</p>
+                <p className="text-danger-text text-xs mt-1">{errors.description.message}</p>
               )}
             </div>
           </div>
@@ -327,7 +327,7 @@ export default function RolePermissions() {
                 ))}
             </div>
             {errors.root?.modules && (
-              <p className="text-danger text-xs px-3 sm:px-4 lg:px-6 pb-2">
+              <p className="text-danger-text text-xs px-3 sm:px-4 lg:px-6 pb-2">
                 {errors.root.modules.message}
               </p>
             )}

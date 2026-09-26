@@ -133,6 +133,7 @@ export default function AddCompanyForm({ onClose, onSuccess }) {
           type="button"
           onClick={onClose}
           disabled={isSubmitting}
+          aria-label="Close"
           className="absolute top-4 right-4 text-ink-2 cursor-pointer hover:text-ink-0"
         >
           <IconWrapper name="close" className="w-6 h-6" />
@@ -296,7 +297,7 @@ export default function AddCompanyForm({ onClose, onSuccess }) {
                   size="small"
                 />
                 {errors.timezone && (
-                  <p className="text-danger text-xs mt-1">{errors.timezone?.message}</p>
+                  <p className="text-danger-text text-xs mt-1">{errors.timezone?.message}</p>
                 )}
               </div>
             )}

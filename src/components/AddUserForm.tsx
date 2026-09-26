@@ -123,6 +123,7 @@ export default function AddUserForm({ onClose, companyId, onSuccess }) {
           type="button"
           onClick={onClose}
           disabled={isSubmitting}
+          aria-label="Close"
           className="absolute top-4 right-4 text-gray-600 cursor-pointer hover:text-black"
         >
           <IconWrapper name="close" className="w-6 h-6" />

@@ -214,7 +214,7 @@ function Picker({
           <div className="py-6 text-center text-xs text-ink-2">Loading…</div>
         )}
         {opts.error && (
-          <div className="py-4 px-3 text-center text-xs text-danger">{opts.error}</div>
+          <div className="py-4 px-3 text-center text-xs text-danger-text">{opts.error}</div>
         )}
         {!(server && opts.isLoading) && (
           <Command.Empty className="py-6 text-center text-xs text-ink-2">

@@ -34,7 +34,7 @@ export default function IncidentSummary({
 
   const link = (label: string, onClick?: () => void) =>
     onClick ? (
-      <button type="button" onClick={onClick} className="text-accent-cyan hover:underline">
+      <button type="button" onClick={onClick} className="text-brand-text hover:underline">
         {label}
       </button>
     ) : (

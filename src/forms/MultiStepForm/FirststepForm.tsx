@@ -36,19 +36,19 @@ const Bluetooth = () => (
 
 const DraginoIcon = () => (
   <div className="w-12 h-12 bg-accent-cyan/10 rounded-full flex items-center justify-center">
-    <span className="text-xs font-bold text-accent-cyan">NB</span>
+    <span className="text-xs font-bold text-brand-text">NB</span>
   </div>
 );
 
 const NCEIcon = () => (
   <div className="w-12 h-12 bg-accent-cyan/10 rounded-full flex items-center justify-center">
-    <span className="text-xs font-bold text-accent-cyan">4G</span>
+    <span className="text-xs font-bold text-brand-text">4G</span>
   </div>
 );
 
 const Icon = () => (
   <div className="w-12 h-12 bg-accent-cyan/10 rounded-full flex items-center justify-center">
-    <span className="text-xs font-bold text-accent-cyan">5G</span>
+    <span className="text-xs font-bold text-brand-text">5G</span>
   </div>
 );
 
