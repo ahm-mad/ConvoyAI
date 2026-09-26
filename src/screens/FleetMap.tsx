@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useUnits } from '@hooks/useUnits';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { keepPreviousData } from '@tanstack/react-query';
 import { MapContainer, TileLayer, Polyline, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -17,7 +17,9 @@ import { useViewportList } from '@hooks/useViewportList';
 import { bboxToParam, type Bbox } from '@utils/mapViewport';
 import { token } from '@lib/design/tokens';
 import dynamic from 'next/dynamic';
-import DotsLayer from '@components/map/layers/DotsLayer';
+import VehicleLayer from '@components/map/layers/VehicleLayer';
+import { vehicleFromPosition, type LiveVehicle } from '@components/map/vehicle/vehicleKinds';
+import { formatQty } from '@utils/units';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import MapToolbar from '@components/map/MapToolbar';
 import { useMapPrefs } from '@components/map/useMapPrefs';
@@ -50,6 +52,7 @@ export default function FleetMap() {
   const [gl, setGl] = useState(false);
   const [mapPrefs, setMapPrefs] = useMapPrefs();
   const [glMap, setGlMap] = useState<any>(null);
+  const [glSelected, setGlSelected] = useState<string | null>(null);
 
   const fitFleet = () => {
     const pts = positions
@@ -145,6 +148,11 @@ export default function FleetMap() {
   };
 
   const positions: any[] = positionsData?.success ? positionsData.data : [];
+  const glVehicles: LiveVehicle[] = useMemo(
+    () => positions.map(vehicleFromPosition).filter(Boolean) as LiveVehicle[],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- positions identity follows the query data
+    [positionsData]
+  );
   // `meta` exists because we send bbox + limit: total = trackers in view before the cap.
   const inView: number = positionsData?.success
     ? (positionsData.meta?.total ?? positions.length)
@@ -225,7 +233,19 @@ export default function FleetMap() {
               ariaLabel="Live fleet map"
             >
               <Scenery3D />
-              <DotsLayer positions={positions} />
+              <VehicleLayer
+                vehicles={glVehicles}
+                iconStyle={mapPrefs.iconStyle}
+                selectedId={glSelected}
+                onSelect={id => {
+                  setGlSelected(id);
+                  const v = glVehicles.find(x => x.id === id);
+
+                  setSelectedDeviceId(v ? (v.raw?.device_id ?? null) : null);
+                }}
+                speedLabel={v => formatQty(u.speed, v.speed, 0)}
+                onOpen={v => openModal(<VehicleDetailModal vehicleId={v.id} />)}
+              />
             </ConvoyMap>
             <MapToolbar
               prefs={mapPrefs}
