@@ -1010,6 +1010,7 @@
 
   /* ------------------------------------------------------------------ Map clusters */
   .cv-cluster {
+    z-index: 3; /* above yard pads and single vehicles, below the selected vehicle and its card */
     display: grid;
     place-items: center;
     width: 44px;

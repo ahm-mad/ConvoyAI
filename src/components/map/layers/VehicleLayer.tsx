@@ -163,6 +163,11 @@ export default function VehicleLayer({
         }
       });
       setIds([...store.current.entries()].map(([id, e]) => ({ id, el: e.el })));
+
+      // The selected vehicle left the list (panned out of the viewport, filtered away): drop the selection too.
+      const sid = latest.current.selectedId;
+
+      if (sid && !seen.has(sid)) latest.current.onSelect(null);
     })();
 
     return () => {
@@ -257,6 +262,8 @@ export default function VehicleLayer({
           p: map.project([e.cur.lon, e.cur.lat]),
         }));
         const taken = new Set<string>();
+        type P = (typeof pts)[number];
+        let groups: P[][] = [];
 
         pts.forEach(a => {
           if (taken.has(a.id)) return;
@@ -280,8 +287,40 @@ export default function VehicleLayer({
               taken.add(b.id);
             }
           });
+          groups.push(grp);
+        });
+
+        // Bubbles whose centres end up close together would overlap: merge them until none do.
+        const centre = (g: P[]) => ({
+          x: g.reduce((t, x) => t + x.p.x, 0) / g.length,
+          y: g.reduce((t, x) => t + x.p.y, 0) / g.length,
+        });
+        let merged = true;
+
+        while (merged) {
+          merged = false;
+          outer: for (let i = 0; i < groups.length; i++) {
+            if (groups[i].length < 2) continue;
+
+            for (let j = i + 1; j < groups.length; j++) {
+              if (groups[j].length < 2) continue;
+
+              const ci = centre(groups[i]);
+              const cj = centre(groups[j]);
+
+              if (Math.hypot(ci.x - cj.x, ci.y - cj.y) < 44) {
+                groups[i] = [...groups[i], ...groups[j]];
+                groups = groups.filter((_, k) => k !== j);
+                merged = true;
+                break outer;
+              }
+            }
+          }
+        }
+
+        groups.forEach(grp => {
           if (grp.length === 1) {
-            a.e.el.style.display = '';
+            grp[0].e.el.style.display = '';
 
             return;
           }
@@ -323,7 +362,10 @@ export default function VehicleLayer({
           c.marker.setLngLat([lon, lat]);
           c.el.style.display = '';
           c.el.setAttribute('aria-label', `${grp.length} vehicles, zoom in to see them`);
-          c.el.innerHTML = `<span>${grp.length}</span>`;
+          if (c.el.dataset.n !== String(grp.length)) {
+            c.el.dataset.n = String(grp.length);
+            c.el.innerHTML = `<span>${grp.length}</span>`;
+          }
           c.el.classList.toggle(
             'has-moving',
             grp.some(x => x.e.kmh > 1)
@@ -431,6 +473,31 @@ export default function VehicleLayer({
       el.style.zIndex = '10';
       card.current = { marker, el };
       setCardEl(el);
+
+      // Keep the card inside the map: nudge the camera when the vehicle sits so close to an edge (or under the toolbar)
+      // that the card above it would be clipped.
+      setTimeout(() => {
+        if (cancelled || followRef.current) return;
+
+        const s = store.current.get(selectedId);
+
+        if (!s) return;
+
+        const p = map.project([s.cur.lon, s.cur.lat]);
+        const box = map.getContainer().getBoundingClientRect();
+        const cardH = (el.firstElementChild?.getBoundingClientRect().height ?? 180) + 34;
+        const cardW = el.firstElementChild?.getBoundingClientRect().width ?? 260;
+        const top = 84; // room for the toolbar row
+        const dy = p.y - cardH < top ? top - (p.y - cardH) : 0;
+        const dx =
+          p.x - cardW / 2 < 12
+            ? 12 - (p.x - cardW / 2)
+            : p.x + cardW / 2 > box.width - 12
+              ? box.width - 12 - (p.x + cardW / 2)
+              : 0;
+
+        if (dx || dy) map.panBy([-dx, -dy], { duration: 450 });
+      }, 60);
     })();
 
     return () => {
@@ -450,6 +517,20 @@ export default function VehicleLayer({
       map.off('dragstart', lost);
     };
   }, [map]);
+
+  // Esc closes the vehicle card (unless a dialog is open on top of the map).
+  useEffect(() => {
+    const onKey = (ev: KeyboardEvent) => {
+      if (ev.key !== 'Escape' || !latest.current.selectedId) return;
+      if (document.querySelector('[data-state="open"][role="dialog"]')) return;
+
+      latest.current.onSelect(null);
+    };
+
+    document.addEventListener('keydown', onKey);
+
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
 
   // Deselect on empty-map click.
   useEffect(() => {

@@ -17,7 +17,7 @@ import {
 import { ok } from './fleet';
 import { DAY, HOUR, iso, makeRng } from './rng';
 import { vehDay } from './metrics';
-import { roadPath, simulatedPositions, tripFraction } from './simulation';
+import { recentTrail, roadPath, simulatedPositions, tripFraction } from './simulation';
 
 type Params = Record<string, any>;
 type Row = Record<string, any>;
@@ -531,6 +531,19 @@ const deviceHistory = (deviceId: string) => {
   const p = positionModels.find(x => String(x.device_id) === deviceId);
 
   if (!p) return ok([]);
+
+  const live = recentTrail(deviceId);
+
+  if (live)
+    return ok(
+      live.map((t, i) => ({
+        id: 20000 + i,
+        device_id: Number(deviceId),
+        ...t,
+        created_at: t.recorded_at,
+        updated_at: t.recorded_at,
+      }))
+    );
 
   const r = makeRng(Number(deviceId));
 

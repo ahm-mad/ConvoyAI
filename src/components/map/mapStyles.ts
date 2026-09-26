@@ -207,11 +207,27 @@ function paint(style: any, look: 'light' | 'night'): any {
   return style;
 }
 
+/** Satellite keeps MapTiler's own paint but shows Latin place names first, like the other looks. */
+function latinLabels(style: any): StyleSpecification {
+  (style.layers ?? []).forEach((l: any) => {
+    if (l.type === 'symbol' && l.layout?.['text-field'] !== undefined) {
+      l.layout['text-field'] = [
+        'coalesce',
+        ['get', 'name:latin'],
+        ['get', 'name:en'],
+        ['get', 'name'],
+      ];
+    }
+  });
+
+  return style as StyleSpecification;
+}
+
 /** Style JSON for a look, recoloured from the design tokens. Throws if the style cannot be loaded. */
 export async function buildStyle(look: MapLook, key: string): Promise<StyleSpecification> {
   const base = await fetchBase(STYLE_ID[look], key);
 
-  if (look === 'satellite') return base;
+  if (look === 'satellite') return latinLabels(base);
 
   return paint(base, look) as StyleSpecification;
 }

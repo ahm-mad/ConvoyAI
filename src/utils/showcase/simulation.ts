@@ -197,71 +197,117 @@ positionModels.forEach((p, i) => {
   else missions.set(v.id, { kind: 'parked', homeYard: home });
 });
 
+/** Where one tracked vehicle is at `virtual` ms of simulated time (shared by the live positions and the recorded trail). */
+function stateAt(p: any, virtual: number) {
+  const m = missions.get(p._vehicleId);
+  const pid = Number(p.id);
+  let lat = p.latitude;
+  let lon = p.longitude;
+  let heading = p.heading ?? 0;
+  let speed = 0;
+  let age = p.age_seconds;
+
+  if (m?.kind === 'trip' && m.line) {
+    const f = (m.f0 ?? 0) + virtual / (m.legMs ?? 1);
+    const g = ((f % 2) + 2) % 2; // 0..2 ping-pong
+    const t = g <= 1 ? g : 2 - g;
+    const dwell = t < 0.02 || t > 0.98;
+    const frac = Math.min(0.995, Math.max(0.005, t));
+    const d = (m.reverse ? 1 - frac : frac) * m.line.km;
+    const pos = at(m.line, d);
+    const fwd = g <= 1 !== !!m.reverse;
+
+    lat = pos.p[0];
+    lon = pos.p[1];
+    heading = fwd ? pos.h : (pos.h + 180) % 360;
+    speed = dwell ? 0 : 58 + 14 * Math.sin(virtual / 90_000 + pid);
+    age = 4;
+
+    return { lat, lon, heading, speed, age, frac };
+  }
+  if (m?.kind === 'loop' && m.line) {
+    const d =
+      ((((m.off0 ?? 0) + ((m.kmh ?? 40) * virtual) / 3_600_000) % m.line.km) + m.line.km) %
+      m.line.km;
+    const pos = at(m.line, d);
+    const stopped = Math.floor(virtual / 120_000 + pid) % 9 === 0;
+
+    lat = pos.p[0];
+    lon = pos.p[1];
+    heading = pos.h;
+    speed = stopped ? 0 : (m.kmh ?? 40) + 6 * Math.sin(virtual / 40_000 + pid);
+    age = 5;
+  } else if (m?.kind === 'parked') {
+    const y = yards[m.homeYard];
+
+    lat = y.latitude + Math.sin(pid) * 0.0009;
+    lon = y.longitude + Math.cos(pid) * 0.0009;
+    heading = (pid * 37) % 360;
+    age = 30;
+  }
+
+  return { lat, lon, heading, speed, age, frac: null as number | null };
+}
+
 /** Position reports for the whole tracked fleet at wall-clock `now` (ms) — same shape as GET /fleet/positions items. */
 export function simulatedPositions(now = Date.now(), demoSpeed = getDemoSpeed()): any[] {
   virtualMs += Math.max(0, now - lastWall) * demoSpeed;
   lastWall = now;
 
-  const virtual = virtualMs; // ms of simulated time since page anchor
-
   return positionModels.map(p => {
     const m = missions.get(p._vehicleId);
-    const pid = Number(p.id);
-    let lat = p.latitude;
-    let lon = p.longitude;
-    let heading = p.heading ?? 0;
-    let speed = 0;
-    let age = p.age_seconds;
+    const s = stateAt(p, virtualMs);
 
-    if (m?.kind === 'trip' && m.line) {
-      const f = (m.f0 ?? 0) + virtual / (m.legMs ?? 1);
-      const g = ((f % 2) + 2) % 2; // 0..2 ping-pong
-      const t = g <= 1 ? g : 2 - g;
-      const dwell = t < 0.02 || t > 0.98;
-      const frac = Math.min(0.995, Math.max(0.005, t));
-
-      fracByVehicle.set(p._vehicleId, frac);
-      const d = (m.reverse ? 1 - frac : frac) * m.line.km;
-      const pos = at(m.line, d);
-      const fwd = g <= 1 !== !!m.reverse;
-
-      lat = pos.p[0];
-      lon = pos.p[1];
-      heading = fwd ? pos.h : (pos.h + 180) % 360;
-      speed = dwell ? 0 : 58 + 14 * Math.sin(virtual / 90_000 + pid);
-      age = 4;
-    } else if (m?.kind === 'loop' && m.line) {
-      const d = ((m.off0 ?? 0) + ((m.kmh ?? 40) * virtual) / 3_600_000) % m.line.km;
-      const pos = at(m.line, d);
-      const stopped = Math.floor(virtual / 120_000 + pid) % 9 === 0;
-
-      lat = pos.p[0];
-      lon = pos.p[1];
-      heading = pos.h;
-      speed = stopped ? 0 : (m.kmh ?? 40) + 6 * Math.sin(virtual / 40_000 + pid);
-      age = 5;
-    } else if (m?.kind === 'parked') {
-      const y = yards[m.homeYard];
-
-      lat = y.latitude + Math.sin(pid) * 0.0009;
-      lon = y.longitude + Math.cos(pid) * 0.0009;
-      heading = (pid * 37) % 360;
-      age = 30;
-    }
+    if (s.frac !== null) fracByVehicle.set(p._vehicleId, s.frac);
 
     const stale = m?.kind === 'offline';
 
     return {
       ...p,
-      latitude: lat,
-      longitude: lon,
-      heading: Math.round(heading),
-      speed: Math.max(0, Math.round(speed)),
-      age_seconds: age,
-      fresh: !stale && age < 900,
-      recorded_at: iso(now - age * 1000),
+      latitude: s.lat,
+      longitude: s.lon,
+      heading: Math.round(s.heading),
+      speed: Math.max(0, Math.round(s.speed)),
+      age_seconds: s.age,
+      fresh: !stale && s.age < 900,
+      recorded_at: iso(now - s.age * 1000),
     };
   });
+}
+
+/**
+ * Recorded GPS trail of a simulated tracker: its last `spanMin` simulated minutes sampled every `stepSec`, following the
+ * same road geometry as the live position, so the trail always ends where the vehicle is now. null = not simulated.
+ */
+export function recentTrail(
+  deviceId: string,
+  spanMin = 14,
+  stepSec = 20
+):
+  | { latitude: number; longitude: number; speed: number; heading: number; recorded_at: string }[]
+  | null {
+  const p = positionModels.find(x => String(x.device_id) === deviceId);
+
+  if (!p) return null;
+
+  simulatedPositions(); // advance the clock
+
+  const n = Math.round((spanMin * 60) / stepSec);
+  const out = [];
+
+  for (let i = n; i >= 0; i--) {
+    const s = stateAt(p, virtualMs - i * stepSec * 1000);
+
+    out.push({
+      latitude: s.lat,
+      longitude: s.lon,
+      speed: Math.round(s.speed),
+      heading: Math.round(s.heading),
+      recorded_at: iso(Date.now() - i * stepSec * 1000),
+    });
+  }
+
+  return out;
 }
 
 /** Road polyline for a yard-to-yard trip, ordered origin → destination (null when the pair has no generated route). */

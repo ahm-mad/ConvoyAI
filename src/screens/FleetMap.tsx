@@ -88,6 +88,15 @@ export default function FleetMap() {
 
   const [follow, setFollow] = useState(false);
   const [tour, setTour] = useState(false);
+
+  // Stopping the tour also releases the camera.
+  const tourWas = useRef(false);
+
+  useEffect(() => {
+    if (tourWas.current && !tour) setFollow(false);
+    tourWas.current = tour;
+  }, [tour]);
+
   const [clean, setClean] = useState(false);
   const stage = useRef<HTMLDivElement>(null);
 
@@ -137,7 +146,7 @@ export default function FleetMap() {
     `fleet-history-${selectedDeviceId}`,
     selectedDeviceId ? `/api/fleet/devices/${selectedDeviceId}/history` : null,
     {},
-    { enabled: !!selectedDeviceId }
+    { enabled: !!selectedDeviceId, refetchInterval: isShowcase() ? 2000 : false }
   );
 
   // Optional trip overlay: planned stops + status, driven trail, current position (GET /trips/{id}/route).
@@ -317,6 +326,7 @@ export default function FleetMap() {
                 selectedId={glSelected}
                 onSelect={id => {
                   setGlSelected(id);
+                  if (!id) setFollow(false);
                   const v = glVehicles.find(x => x.id === id);
 
                   setSelectedDeviceId(v ? (v.raw?.device_id ?? null) : null);
