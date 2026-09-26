@@ -69,6 +69,9 @@ export default function StatusBar() {
         <span className="status-bar__item">
           <kbd className="status-bar__kbd">⌘K</kbd> search
         </span>
+        <span className="status-bar__item">
+          <kbd className="status-bar__kbd">?</kbd> shortcuts
+        </span>
         <span className="status-bar__item">ConvoyAI 1.0</span>
       </div>
     </footer>
