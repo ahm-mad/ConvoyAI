@@ -31,6 +31,9 @@ export default function CommandPalette({ open, onOpenChange, onAsk }: Props) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         onOpenChange(!open);
+      } else if (open && e.key === 'Escape') {
+        e.preventDefault();
+        onOpenChange(false);
       }
     };
     document.addEventListener('keydown', onKey);
