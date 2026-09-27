@@ -1219,6 +1219,7 @@
   }
   .cv-veh__halo {
     position: absolute;
+    pointer-events: none; /* the glow is decoration: it must not block hovering a bubble or vehicle underneath */
     inset: 4px;
     border-radius: 9999px;
     background: radial-gradient(
