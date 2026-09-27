@@ -20,8 +20,9 @@ import {
   missionRoute,
   setDemoSpeed,
 } from '@utils/showcase/simulation';
-import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair } from 'lucide-react';
+import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair, PanelLeftOpen } from 'lucide-react';
 import MapHud from '@components/map/MapHud';
+import FleetPanel, { type StatusFilter } from '@components/map/FleetPanel';
 import MapSearch from '@components/map/MapSearch';
 import MapViews from '@components/map/MapViews';
 import Scenery3D from '@components/map/layers/Scenery3D';
@@ -75,6 +76,33 @@ export default function FleetMap() {
   const [glHover, setGlHover] = useState<string | null>(null);
   const [demoSpeed, setDemoSpeedState] = useState(DEFAULT_DEMO_SPEED);
 
+  // Fleet list panel (open by default on wide screens, remembered) + the status filter it drives.
+  const [panelOpen, setPanelOpenState] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem('convoyai-map-fleet-panel');
+
+      setPanelOpenState(saved ? saved === '1' : window.innerWidth >= 1024);
+    } catch {
+      setPanelOpenState(window.innerWidth >= 1024);
+    }
+  }, []);
+
+  const panelOpenRef = useRef(false);
+
+  panelOpenRef.current = panelOpen;
+
+  const setPanelOpen = (open: boolean) => {
+    setPanelOpenState(open);
+    try {
+      window.localStorage.setItem('convoyai-map-fleet-panel', open ? '1' : '0');
+    } catch {
+      /* private mode: the panel simply is not remembered */
+    }
+  };
+
   useEffect(() => setDemoSpeedState(getDemoSpeed()), []);
 
   // Fit to every reporting vehicle (not only the ones in the current view).
@@ -103,13 +131,18 @@ export default function FleetMap() {
   // Search picks: fly there, then select the vehicle as soon as the (viewport-driven) list contains it.
   const [pendingSelect, setPendingSelect] = useState<{ id: string; arrived: boolean } | null>(null);
 
+  // A flight is over when its duration has passed. `moveend` alone is not reliable: a map resize (layout settling, panels
+  // opening) also fires it, and selecting a vehicle mid-flight would auto-pan and cancel the flight.
+  const armArrival = (ms: number) =>
+    setTimeout(() => setPendingSelect(p => (p ? { ...p, arrived: true } : p)), ms + 250);
+
   const pickVehicle = (v: LiveVehicle) => {
     if (!glMap) return;
 
     // Select only after the flight ends (mid-flight the vehicle leaves the viewport list and the selection would drop).
     setGlSelected(null);
     setPendingSelect({ id: v.id, arrived: false });
-    glMap.once('moveend', () => setPendingSelect(p => (p ? { ...p, arrived: true } : p)));
+    armArrival(1700);
     glMap.flyTo({
       center: [v.lon, v.lat],
       zoom: Math.max(glMap.getZoom(), 13.2),
@@ -159,20 +192,25 @@ export default function FleetMap() {
 
     setGlSelected(null);
     setPendingSelect({ id: hero.v.id, arrived: false });
-    glMap.once('moveend', () => setPendingSelect(p => (p ? { ...p, arrived: true } : p)));
-    glMap.fitBounds(
+    armArrival(1800);
+    // cameraForBounds + easeTo (not fitBounds) so the asymmetric padding is not kept on the map afterwards.
+    const cam = glMap.cameraForBounds(
       [
         [Math.min(...xs), Math.min(...ys)],
         [Math.max(...xs), Math.max(...ys)],
       ],
-      { padding: { top: 150, bottom: 70, left: 80, right: 80 }, maxZoom: 9.5, duration: 1800 }
+      {
+        padding: { top: 150, bottom: 70, left: panelOpenRef.current ? 340 : 80, right: 80 },
+        maxZoom: 9.5,
+      }
     );
+
+    if (cam) glMap.easeTo({ center: cam.center, zoom: cam.zoom, duration: 1800 });
   };
 
   // Open the first time the GL map is ready.
   useEffect(() => {
     if (!glMap) return;
-
     if (isShowcase()) openHero();
     else fitFleet();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per map instance
@@ -352,6 +390,21 @@ export default function FleetMap() {
     openModal(<YardLayoutEditor yardId={yard.id} yardName={yard.name} />);
   };
 
+  // Every reporting vehicle (not just the ones in view) for the fleet list.
+  const { data: allFleetData } = useSimpleQuery<any>(
+    'fleet-positions-all',
+    '/api/fleet/positions',
+    { limit: 500 },
+    { enabled: gl, refetchInterval: isShowcase() ? 3000 : 20000 }
+  );
+  const fleetVehicles: LiveVehicle[] = useMemo(
+    () =>
+      ((allFleetData?.success ? allFleetData.data : []) as any[])
+        .map(vehicleFromPosition)
+        .filter(Boolean) as LiveVehicle[],
+    [allFleetData]
+  );
+
   const positions: any[] = positionsData?.success ? positionsData.data : [];
   const glVehicles: LiveVehicle[] = useMemo(
     () => positions.map(vehicleFromPosition).filter(Boolean) as LiveVehicle[],
@@ -513,7 +566,13 @@ export default function FleetMap() {
               />
               {layers.yards && <YardLayer yards={yards} onSelect={handleYardClick} />}
               <VehicleLayer
-                vehicles={layers.vehicles ? glVehicles : []}
+                vehicles={
+                  layers.vehicles
+                    ? statusFilter === 'all'
+                      ? glVehicles
+                      : glVehicles.filter(v => v.state === statusFilter)
+                    : []
+                }
                 iconStyle={mapPrefs.iconStyle}
                 speedColors={speedColors}
                 selectedId={glSelected}
@@ -538,8 +597,34 @@ export default function FleetMap() {
                 }}
               />
             </ConvoyMap>
-            {!clean && (
+            {!clean && panelOpen && (
+              <FleetPanel
+                vehicles={fleetVehicles}
+                filter={statusFilter}
+                onFilter={setStatusFilter}
+                selectedId={glSelected}
+                onPick={pickVehicle}
+                onHover={setGlHover}
+                onCollapse={() => setPanelOpen(false)}
+                speedLabel={v => formatQty(u.speed, v.speed, 0)}
+                headerExtra={
+                  <MapViews
+                    map={glMap}
+                    onFit={fitFleet}
+                    onTilt={t => setMapPrefs({ mode: t ? '3d' : '2d' })}
+                  />
+                }
+              />
+            )}
+            {!clean && !panelOpen && (
               <div className="absolute left-3 top-[4.25rem] z-10 flex flex-col items-start gap-2 lg:left-4 lg:top-4">
+                <button
+                  type="button"
+                  onClick={() => setPanelOpen(true)}
+                  className="glass-strong inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold text-ink-0 hover:brightness-105"
+                >
+                  <PanelLeftOpen size={14} aria-hidden /> Fleet list
+                </button>
                 <MapHud vehicles={glVehicles} />
                 <div className="flex items-center gap-2">
                   <MapSearch onPickVehicle={pickVehicle} onPickYard={pickYard} />
@@ -657,7 +742,7 @@ export default function FleetMap() {
 
         {!overviewLoading && gl && !clean && (
           <div
-            className="absolute inset-x-3 bottom-3 z-[1000] glass-strong p-2 shadow sm:inset-x-auto sm:bottom-4 sm:left-4 sm:w-56 sm:p-3"
+            className="absolute inset-x-3 bottom-3 z-[1000] glass-strong p-2 shadow sm:inset-x-auto sm:bottom-9 sm:right-4 sm:w-56 sm:p-3"
             role="group"
             aria-label="Map layers"
           >
