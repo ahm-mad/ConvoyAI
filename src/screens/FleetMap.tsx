@@ -17,6 +17,7 @@ import { isShowcase } from '@utils/showcase';
 import { getDemoSpeed, setDemoSpeed } from '@utils/showcase/simulation';
 import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair } from 'lucide-react';
 import MapHud from '@components/map/MapHud';
+import MapSearch from '@components/map/MapSearch';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import RouteLayer from '@components/map/layers/RouteLayer';
 import HistoryLayer from '@components/map/layers/HistoryLayer';
@@ -78,6 +79,33 @@ export default function FleetMap() {
       ],
       { padding: 55, maxZoom: 12, duration: 1400 }
     );
+  };
+
+  // Search picks: fly there, then select the vehicle as soon as the (viewport-driven) list contains it.
+  const [pendingSelect, setPendingSelect] = useState<{ id: string; arrived: boolean } | null>(null);
+
+  const pickVehicle = (v: LiveVehicle) => {
+    if (!glMap) return;
+
+    // Select only after the flight ends (mid-flight the vehicle leaves the viewport list and the selection would drop).
+    setGlSelected(null);
+    setPendingSelect({ id: v.id, arrived: false });
+    glMap.once('moveend', () => setPendingSelect(p => (p ? { ...p, arrived: true } : p)));
+    glMap.flyTo({
+      center: [v.lon, v.lat],
+      zoom: Math.max(glMap.getZoom(), 13.2),
+      duration: 1700,
+      essential: false,
+    });
+  };
+
+  const pickYard = (y: any) => {
+    glMap?.flyTo({
+      center: [Number(y.longitude), Number(y.latitude)],
+      zoom: 15,
+      duration: 1700,
+      essential: false,
+    });
   };
 
   // Open on the whole fleet the first time the GL map is ready.
@@ -219,6 +247,24 @@ export default function FleetMap() {
   if (process.env.NODE_ENV !== 'production') (window as any).__cvGlVehicles = glVehicles;
 
   glVehiclesRef.current = glVehicles;
+
+  useEffect(() => {
+    if (!pendingSelect?.arrived) return;
+
+    const v = glVehicles.find(x => x.id === pendingSelect.id);
+
+    if (v) {
+      setGlSelected(v.id);
+      setSelectedDeviceId(v.raw?.device_id ?? null);
+      setPendingSelect(null);
+
+      return;
+    }
+
+    const t = setTimeout(() => setPendingSelect(null), 6000);
+
+    return () => clearTimeout(t);
+  }, [pendingSelect, glVehicles]);
 
   // Fleet tour: every few seconds select the next moving vehicle, follow it and fly in.
   useEffect(() => {
@@ -362,10 +408,10 @@ export default function FleetMap() {
               />
             </ConvoyMap>
             {!clean && (
-              <MapHud
-                vehicles={glVehicles}
-                className="absolute left-3 top-[4.25rem] z-10 lg:left-4 lg:top-4"
-              />
+              <div className="absolute left-3 top-[4.25rem] z-10 flex flex-col items-start gap-2 lg:left-4 lg:top-4">
+                <MapHud vehicles={glVehicles} />
+                <MapSearch onPickVehicle={pickVehicle} onPickYard={pickYard} />
+              </div>
             )}
             {clean && (
               <button
