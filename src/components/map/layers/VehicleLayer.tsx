@@ -20,7 +20,23 @@ interface Entry {
   kmh: number;
   /** performance.now() of the last fix — dead reckoning stops if no new fix arrives for a few seconds. */
   fixAt: number;
+  /** Recent position fixes with their arrival time; the vehicle is drawn slightly in the past, between two real fixes. */
+  fixes: { t: number; lat: number; lon: number; h: number }[];
+  /** Smoothed gap between fixes (ms). */
+  gap: number;
 }
+
+/** A count bubble. It keeps its identity (`key` = lowest member id) so it glides instead of teleporting when groups change. */
+interface ClusterItem {
+  marker: Marker;
+  el: HTMLDivElement;
+  key: string | null;
+  cur: { lon: number; lat: number };
+  tgt: { lon: number; lat: number };
+}
+
+/** Fix gaps up to this long are interpolated between fixes (the fleet feed); slower feeds use dead reckoning. */
+const INTERP_MAX_GAP = 2500;
 
 /** Shortest signed angle from a to b, degrees. */
 const dAngle = (a: number, b: number) => ((((b - a) % 360) + 540) % 360) - 180;
@@ -42,6 +58,7 @@ export default function VehicleLayer({
   speedColors = true,
   followId = null,
   onFollowLost,
+  onHover,
 }: {
   vehicles: LiveVehicle[];
   iconStyle: VehicleIconStyle;
@@ -58,6 +75,8 @@ export default function VehicleLayer({
   /** Keep the camera centred on this vehicle (cinematic follow). Any manual drag ends it. */
   followId?: string | null;
   onFollowLost?: () => void;
+  /** The pointer entered / left a vehicle (drives the route preview). */
+  onHover?: (id: string | null) => void;
 }) {
   const { map } = useConvoyMap();
   const store = useRef(new Map<string, Entry>());
@@ -72,8 +91,9 @@ export default function VehicleLayer({
   const followRef = useRef(followId);
   const styleRef = useRef(iconStyle);
   const ctor = useRef<typeof Marker | null>(null);
-  const clusterPool = useRef<{ marker: Marker; el: HTMLDivElement }[]>([]);
+  const clusterPool = useRef<ClusterItem[]>([]);
   const lostRef = useRef(onFollowLost);
+  const hoverRef = useRef(onHover);
   const hist = useRef(new Map<string, [number, number][]>());
   const lastSample = useRef(0);
 
@@ -84,6 +104,7 @@ export default function VehicleLayer({
   styleRef.current = iconStyle;
   followRef.current = followId;
   lostRef.current = onFollowLost;
+  hoverRef.current = onHover;
 
   // Create / update / remove markers to match `vehicles`.
   useEffect(() => {
@@ -115,6 +136,8 @@ export default function VehicleLayer({
             ev.stopPropagation();
             latest.current.onSelect(v.id);
           });
+          el.addEventListener('mouseenter', () => hoverRef.current?.(v.id));
+          el.addEventListener('mouseleave', () => hoverRef.current?.(null));
           el.addEventListener('keydown', ev => {
             if (ev.key === 'Enter' || ev.key === ' ') {
               ev.preventDefault();
@@ -125,6 +148,7 @@ export default function VehicleLayer({
           const marker = new GLMarker({
             element: el,
             anchor: 'center',
+            subpixelPositioning: true,
             pitchAlignment: styleRef.current === 'silhouette' ? 'map' : 'viewport',
             rotationAlignment: styleRef.current === 'silhouette' ? 'map' : 'viewport',
           })
@@ -138,6 +162,8 @@ export default function VehicleLayer({
             tgt: { lat: v.lat, lon: v.lon, h: v.heading },
             kmh: 0,
             fixAt: performance.now(),
+            fixes: [],
+            gap: 700,
           };
           store.current.set(v.id, e);
         }
@@ -153,11 +179,34 @@ export default function VehicleLayer({
               ? ((Math.atan2(dLon, dLat) * 180) / Math.PI + 360) % 360
               : e.tgt.h;
         }
+        const arrive = performance.now();
+        const lastFix = e.fixes[e.fixes.length - 1];
+
+        if (lastFix && (lastFix.lat !== v.lat || lastFix.lon !== v.lon)) {
+          const gap = arrive - lastFix.t;
+
+          if (gap > 50 && gap < 6000) e.gap = e.gap * 0.7 + gap * 0.3;
+        }
+        // Heading from the real movement between fixes (follows road bends); the reported heading when it stands still.
+        if (lastFix) {
+          const mLat = v.lat - lastFix.lat;
+          const mLon = (v.lon - lastFix.lon) * Math.cos((v.lat * Math.PI) / 180);
+
+          if (Math.abs(mLat) + Math.abs(mLon) > 0.000004 && v.state === 'moving')
+            h = ((Math.atan2(mLon, mLat) * 180) / Math.PI + 360) % 360;
+        }
+        if (!lastFix || lastFix.lat !== v.lat || lastFix.lon !== v.lon || v.state !== 'moving') {
+          e.fixes.push({ t: arrive, lat: v.lat, lon: v.lon, h });
+          if (e.fixes.length > 4) e.fixes.shift();
+        }
         e.tgt = { lat: v.lat, lon: v.lon, h };
         e.kmh = v.state === 'moving' && (v.hasHeading !== false || h !== 0) ? v.speed : 0;
         e.fixAt = performance.now();
         // A far jump (new session, filter change) snaps instead of gliding across the country.
-        if (Math.abs(e.cur.lat - v.lat) + Math.abs(e.cur.lon - v.lon) > 0.6) e.cur = { ...e.tgt };
+        if (Math.abs(e.cur.lat - v.lat) + Math.abs(e.cur.lon - v.lon) > 0.6) {
+          e.cur = { ...e.tgt };
+          e.fixes = [{ t: arrive, lat: v.lat, lon: v.lon, h }];
+        }
         e.el.setAttribute('aria-label', `${v.name}, ${v.state}`);
       });
 
@@ -216,18 +265,41 @@ export default function VehicleLayer({
 
       last = now;
       store.current.forEach((e, id) => {
-        if (e.kmh > 1 && now - e.fixAt < 2500) {
-          // keep gliding along the heading between position reports
-          const dKm = (e.kmh * scaleRef.current * dt) / 3600;
-          const hr = (e.tgt.h * Math.PI) / 180;
+        const q = e.fixes;
 
-          e.tgt.lat += (dKm * Math.cos(hr)) / 111.2;
-          e.tgt.lon +=
-            (dKm * Math.sin(hr)) / (111.2 * Math.max(0.2, Math.cos((e.tgt.lat * Math.PI) / 180)));
+        if (q.length >= 2 && e.gap <= INTERP_MAX_GAP) {
+          // Buffered interpolation: draw the vehicle one fix-gap in the past, moving linearly between two REAL fixes.
+          // That keeps it on the road polyline at a steady speed (no straight-line guessing that drifts off bends).
+          const rt = now - e.gap * 1.15;
+          let i = q.length - 2;
+
+          while (i > 0 && q[i].t > rt) i--;
+
+          const a = q[i];
+          const b = q[i + 1];
+          const span = Math.max(1, b.t - a.t);
+          // Past the newest fix (a late poll): keep going on the last velocity for at most one gap.
+          const w = Math.min(2, Math.max(0, (rt - a.t) / span));
+          const stand = b.lat === a.lat && b.lon === a.lon;
+
+          e.cur.lat = a.lat + (b.lat - a.lat) * w;
+          e.cur.lon = a.lon + (b.lon - a.lon) * w;
+          if (stand) e.cur.h += dAngle(e.cur.h, b.h) * (1 - Math.exp(-dt / 0.2));
+          else e.cur.h += dAngle(e.cur.h, b.h) * (1 - Math.exp(-dt / 0.28));
+        } else {
+          if (e.kmh > 1 && now - e.fixAt < 2500) {
+            // keep gliding along the heading between position reports
+            const dKm = (e.kmh * scaleRef.current * dt) / 3600;
+            const hr = (e.tgt.h * Math.PI) / 180;
+
+            e.tgt.lat += (dKm * Math.cos(hr)) / 111.2;
+            e.tgt.lon +=
+              (dKm * Math.sin(hr)) / (111.2 * Math.max(0.2, Math.cos((e.tgt.lat * Math.PI) / 180)));
+          }
+          e.cur.lat += (e.tgt.lat - e.cur.lat) * k;
+          e.cur.lon += (e.tgt.lon - e.cur.lon) * k;
+          e.cur.h += dAngle(e.cur.h, e.tgt.h) * k;
         }
-        e.cur.lat += (e.tgt.lat - e.cur.lat) * k;
-        e.cur.lon += (e.tgt.lon - e.cur.lon) * k;
-        e.cur.h += dAngle(e.cur.h, e.tgt.h) * k;
         e.marker.setLngLat([e.cur.lon, e.cur.lat]);
         // Map-aligned silhouettes already rotate with the map; upright badges/pucks do not, so they subtract the bearing.
         e.el.style.setProperty(
@@ -236,6 +308,17 @@ export default function VehicleLayer({
         );
         e.el.style.setProperty('--vs', vs.toFixed(3));
         e.el.style.zIndex = id === latest.current.selectedId ? '5' : '1';
+      });
+
+      // Count bubbles glide toward their group's centre (their target only changes a few times a second).
+      const kc = 1 - Math.exp(-dt / 0.35);
+
+      clusterPool.current.forEach(c => {
+        if (!c.key) return;
+
+        c.cur.lon += (c.tgt.lon - c.cur.lon) * kc;
+        c.cur.lat += (c.tgt.lat - c.cur.lat) * kc;
+        c.marker.setLngLat([c.cur.lon, c.cur.lat]);
       });
 
       const sel = latest.current.selectedId ? store.current.get(latest.current.selectedId) : null;
@@ -324,6 +407,8 @@ export default function VehicleLayer({
           }
         }
 
+        const multi: { key: string; grp: P[] }[] = [];
+
         groups.forEach(grp => {
           if (grp.length === 1) {
             grp[0].e.el.style.display = '';
@@ -331,10 +416,20 @@ export default function VehicleLayer({
             return;
           }
           grp.forEach(x => (x.e.el.style.display = 'none'));
+          multi.push({ key: grp.map(x => x.id).sort()[0], grp });
+        });
 
+        used = multi.length;
+
+        const newKeys = new Set(multi.map(g => g.key));
+        const byKey = new Map(pool.filter(c => c.key).map(c => [c.key as string, c]));
+        const spare = pool.filter(c => !c.key || !newKeys.has(c.key));
+        const inUse = new Set<ClusterItem>();
+
+        multi.forEach(({ key, grp }) => {
           const lon = grp.reduce((t, x) => t + x.e.cur.lon, 0) / grp.length;
           const lat = grp.reduce((t, x) => t + x.e.cur.lat, 0) / grp.length;
-          let c = pool[used];
+          let c = byKey.get(key) ?? spare.shift();
 
           if (!c) {
             const el = document.createElement('div');
@@ -342,7 +437,11 @@ export default function VehicleLayer({
             el.className = 'cv-cluster';
             el.setAttribute('role', 'button');
             el.tabIndex = 0;
-            const marker = new ctor.current!({ element: el, anchor: 'center' })
+            const marker = new ctor.current!({
+              element: el,
+              anchor: 'center',
+              subpixelPositioning: true,
+            })
               .setLngLat([lon, lat])
               .addTo(map);
 
@@ -363,9 +462,17 @@ export default function VehicleLayer({
                 expand();
               }
             });
-            pool.push((c = { marker, el }));
+            pool.push((c = { marker, el, key, cur: { lon, lat }, tgt: { lon, lat } }));
+          } else if (c.key !== key) {
+            // A recycled bubble starts where its new group is (no flying across the map).
+            c.key = key;
+            c.cur = { lon, lat };
+            c.tgt = { lon, lat };
+            c.marker.setLngLat([lon, lat]);
           }
-          c.marker.setLngLat([lon, lat]);
+          // The bubble under the pointer holds still so it can be clicked; the others glide toward their group.
+          if (!c.el.matches(':hover')) c.tgt = { lon, lat };
+          inUse.add(c);
           c.el.style.display = '';
           c.el.setAttribute('aria-label', `${grp.length} vehicles, zoom in to see them`);
           if (c.el.dataset.n !== String(grp.length)) {
@@ -376,12 +483,21 @@ export default function VehicleLayer({
             'has-moving',
             grp.some(x => x.e.kmh > 1)
           );
-          used++;
+        });
+        pool.forEach(c => {
+          if (!inUse.has(c)) {
+            c.key = null;
+            c.el.style.display = 'none';
+          }
         });
       } else {
         store.current.forEach(e => (e.el.style.display = ''));
       }
-      for (let i = used; i < pool.length; i++) pool[i].el.style.display = 'none';
+      if (used === 0)
+        pool.forEach(c => {
+          c.key = null;
+          c.el.style.display = 'none';
+        });
     };
 
     const sampleTrails = () => {
@@ -483,7 +599,12 @@ export default function VehicleLayer({
 
       card.current?.marker.remove();
 
-      const marker = new GLMarker({ element: el, anchor: 'bottom', offset: [0, -34] })
+      const marker = new GLMarker({
+        element: el,
+        anchor: 'bottom',
+        offset: [0, -34],
+        subpixelPositioning: true,
+      })
         .setLngLat(sel ? [sel.cur.lon, sel.cur.lat] : map.getCenter())
         .addTo(map);
 
