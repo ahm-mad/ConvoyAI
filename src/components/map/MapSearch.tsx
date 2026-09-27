@@ -19,7 +19,7 @@ type Hit =
   | { kind: 'yard'; key: string; title: string; sub: string; y: any };
 
 const STATE_DOT: Record<LiveVehicle['state'], string> = {
-  moving: 'bg-brand',
+  moving: 'bg-moving',
   idle: 'bg-gold',
   parked: 'bg-chart-neutral',
   offline: 'bg-ink-2',

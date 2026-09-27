@@ -13,7 +13,7 @@ const STATE_LABEL: Record<LiveVehicle['state'], string> = {
 };
 
 const PILL: Record<LiveVehicle['state'], string> = {
-  moving: 'bg-brand-wash text-brand-text',
+  moving: 'bg-moving-wash text-moving-text',
   idle: 'bg-gold-wash text-brand-ink',
   parked: 'bg-surface-3 text-ink-1',
   offline: 'bg-surface-3 text-ink-1',

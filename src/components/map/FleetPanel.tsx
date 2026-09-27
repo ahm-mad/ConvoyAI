@@ -9,7 +9,7 @@ export type StatusFilter = 'all' | LiveVehicle['state'];
 
 const STATES: { key: StatusFilter; label: string; dot: string | null }[] = [
   { key: 'all', label: 'All', dot: null },
-  { key: 'moving', label: 'Moving', dot: 'var(--color-brand)' },
+  { key: 'moving', label: 'Moving', dot: 'var(--color-moving)' },
   { key: 'idle', label: 'Idle', dot: 'var(--color-gold)' },
   { key: 'parked', label: 'Parked', dot: 'var(--color-chart-neutral)' },
   { key: 'offline', label: 'Offline', dot: 'var(--color-ink-2)' },

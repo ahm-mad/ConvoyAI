@@ -4,7 +4,7 @@ import Flash from '@components/ui/Flash';
 import type { LiveVehicle } from './vehicle/vehicleKinds';
 
 const CHIPS: { state: LiveVehicle['state']; label: string; dot: string }[] = [
-  { state: 'moving', label: 'Moving', dot: 'var(--color-brand)' },
+  { state: 'moving', label: 'Moving', dot: 'var(--color-moving)' },
   { state: 'idle', label: 'Idle', dot: 'var(--color-gold)' },
   { state: 'parked', label: 'Parked', dot: 'var(--color-chart-neutral)' },
   { state: 'offline', label: 'Offline', dot: 'var(--color-ink-2)' },

@@ -61,6 +61,12 @@
   --color-brand-ink: #7a2e05;
   --color-brand-text: #c2410c; /* brand orange for small text on cream/white: 4.7:1+ (AA) */
   --color-gold: #f5b700;
+  /* Vehicle status "moving": green, so it never reads as brand orange (one variable restyles every moving indicator). */
+  --color-moving: var(--color-success);
+  --color-moving-bright: #45c37c;
+  --color-moving-deep: #17603a;
+  --color-moving-wash: #dcf3e5;
+  --color-moving-text: #1a6b40; /* small text on the wash: 5:1+ (AA) */
   --color-gold-wash: #fff3c4;
   --color-gold-ink: #7a5600;
   --color-ai: #5b5be6;

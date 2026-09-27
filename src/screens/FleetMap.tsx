@@ -805,7 +805,7 @@ export default function FleetMap() {
             <div className="flex gap-1 sm:block">
               {(
                 [
-                  ['vehicles', 'Vehicles', positions.length, 'var(--color-brand)'],
+                  ['vehicles', 'Vehicles', positions.length, 'var(--color-moving)'],
                   ['yards', 'Yards', yardsTotal, 'var(--color-brand-ink)'],
                   ['geofences', 'Geofences', geofencesTotal, 'var(--color-gold)'],
                   ['labels', 'Labels', '', 'var(--color-ink-1)'],
