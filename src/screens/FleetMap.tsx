@@ -23,6 +23,8 @@ import {
 import { Eye, Maximize2, Crosshair, PanelLeftOpen } from 'lucide-react';
 import MapHud from '@components/map/MapHud';
 import DemoMenu from '@components/map/DemoMenu';
+import AlertStrip from '@components/map/AlertStrip';
+import { useMapAlerts, type MapAlert } from '@components/map/useMapAlerts';
 import FleetPanel, { type StatusFilter } from '@components/map/FleetPanel';
 import MapSearch from '@components/map/MapSearch';
 import MapViews from '@components/map/MapViews';
@@ -407,6 +409,17 @@ export default function FleetMap() {
     [allFleetData]
   );
 
+  const alerts = useMapAlerts(fleetVehicles, activeTrips);
+  const [alertsHidden, setAlertsHidden] = useState(false);
+
+  if (process.env.NODE_ENV !== 'production') (window as any).__cvAlerts = alerts;
+
+  const pickAlert = (a: MapAlert) => {
+    const v = a.vehicleId ? fleetVehicles.find(x => x.id === a.vehicleId) : null;
+
+    if (v) pickVehicle(v);
+  };
+
   const positions: any[] = positionsData?.success ? positionsData.data : [];
   const glVehicles: LiveVehicle[] = useMemo(
     () => positions.map(vehicleFromPosition).filter(Boolean) as LiveVehicle[],
@@ -776,6 +789,16 @@ export default function FleetMap() {
               )}
             </div>
           </div>
+        )}
+
+        {!overviewLoading && gl && !clean && !alertsHidden && (
+          <AlertStrip
+            alerts={alerts}
+            speedLabel={kmh => formatQty(u.speed, kmh, 0)}
+            onPick={pickAlert}
+            onDismiss={() => setAlertsHidden(true)}
+            container={stage.current}
+          />
         )}
 
         {truncated.length > 0 && (

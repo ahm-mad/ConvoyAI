@@ -600,7 +600,8 @@ for (let i = 0; i < 220; i++) {
     vehicle_id: v.id,
     trip_id: t?.id ?? null,
     event_type: i % 2 === 0 ? 'enter' : 'exit',
-    occurred_at: iso(NOW - rng.float(0.1, 21) * DAY),
+    // The first dozen are from the last ~20 hours so the live map's alert strip has geofence entries / exits to show.
+    occurred_at: iso(NOW - (i < 12 ? rng.float(0.03, 0.85) : rng.float(0.1, 21)) * DAY),
     vehicle: { id: v.id, name: v.raw.name },
   });
 }
