@@ -67,6 +67,8 @@ export default function VehicleLayer({
   onFollowLost,
   onHover,
   labels = true,
+  cardExtra,
+  onReplay,
 }: {
   vehicles: LiveVehicle[];
   iconStyle: VehicleIconStyle;
@@ -87,6 +89,10 @@ export default function VehicleLayer({
   onHover?: (id: string | null) => void;
   /** Name + plate chips under the vehicles when zoomed in. */
   labels?: boolean;
+  /** Extra content for the selected vehicle's card (driver, trip…). */
+  cardExtra?: (v: LiveVehicle) => React.ReactNode;
+  /** Replays the vehicle's recorded trail (button on the card). */
+  onReplay?: (v: LiveVehicle) => void;
 }) {
   const { map } = useConvoyMap();
   const store = useRef(new Map<string, Entry>());
@@ -742,7 +748,14 @@ export default function VehicleLayer({
   useEffect(() => {
     if (!map) return;
 
-    const off = () => latest.current.onSelect(null);
+    // A click that lands on a marker (the vehicle card and its buttons, labels, tags) is not an "empty map" click.
+    const off = (e: { originalEvent?: MouseEvent }) => {
+      const t = e.originalEvent?.target as Element | null | undefined;
+
+      if (t?.closest?.('.maplibregl-marker')) return;
+
+      latest.current.onSelect(null);
+    };
 
     map.on('click', off);
 
@@ -795,6 +808,8 @@ export default function VehicleLayer({
               speedLabel={speedLabel(selected)}
               onClose={() => onSelect(null)}
               onOpen={onOpen ? () => onOpen(selected) : undefined}
+              onReplay={onReplay ? () => onReplay(selected) : undefined}
+              extra={cardExtra?.(selected)}
             />,
             cardEl,
             'card'

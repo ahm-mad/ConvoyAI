@@ -31,6 +31,7 @@ import MapViews from '@components/map/MapViews';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import HeatLayer from '@components/map/layers/HeatLayer';
 import { flatM, routePoints } from '@components/map/geo';
+import ReplayLayer from '@components/map/layers/ReplayLayer';
 import RouteLayer from '@components/map/layers/RouteLayer';
 import MissionRouteLayer from '@components/map/layers/MissionRouteLayer';
 import RouteContextLayer from '@components/map/layers/RouteContextLayer';
@@ -412,6 +413,54 @@ export default function FleetMap() {
   const alerts = useMapAlerts(fleetVehicles, activeTrips);
   const [alertsHidden, setAlertsHidden] = useState(false);
 
+  // Driver + current trip of the selected vehicle, shown on its card (from the active-trips list the screen already loads).
+  const cardExtra = (v: LiveVehicle) => {
+    const t = activeTrips.find(x => String(x.vehicle_id) === v.id && x.status === 'in_progress');
+    const place = (a?: string) => (a ? a.split(',').slice(-1)[0].trim() || a : '—');
+
+    if (!t)
+      return (
+        <div className="mt-2 rounded-xl bg-black/[0.04] px-2.5 py-1.5 text-[11px] text-ink-2">
+          No trip in progress
+        </div>
+      );
+
+    const start = Date.parse(t.actual_start_at || t.planned_start_at);
+    const end = Date.parse(t.planned_end_at);
+    const pct =
+      Number.isFinite(start) && end > start
+        ? Math.min(1, Math.max(0, (Date.now() - start) / (end - start)))
+        : 0;
+    const late = Number.isFinite(end) && Date.now() > end;
+    const driver = t.driver
+      ? [t.driver.first_name, t.driver.last_name].filter(Boolean).join(' ')
+      : '';
+
+    return (
+      <div className="mt-2 rounded-xl bg-black/[0.04] px-2.5 py-2">
+        <div className="flex items-center justify-between gap-2 text-[11px]">
+          <span className="font-semibold text-ink-0">{t.trip_reference || `Trip #${t.id}`}</span>
+          <span className={late ? 'font-semibold text-danger-text' : 'text-ink-2'}>
+            {late ? 'Running late' : 'On schedule'}
+          </span>
+        </div>
+        <div className="mt-0.5 truncate text-[11.5px] text-ink-1">
+          {place(t.origin_address)} → {place(t.destination_address)}
+        </div>
+        <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-black/[0.08]" aria-hidden>
+          <div
+            className="h-full rounded-full bg-brand"
+            style={{ width: `${Math.round(pct * 100)}%` }}
+          />
+        </div>
+        <div className="mt-1 flex justify-between text-[10.5px] text-ink-2">
+          <span>{Math.round(pct * 100)}% of planned time</span>
+          {driver && <span className="truncate pl-2">{driver}</span>}
+        </div>
+      </div>
+    );
+  };
+
   if (process.env.NODE_ENV !== 'production') (window as any).__cvAlerts = alerts;
 
   const pickAlert = (a: MapAlert) => {
@@ -493,6 +542,18 @@ export default function FleetMap() {
   const trail: [number, number][] = historyData?.success
     ? historyData.data.map((p: any) => [p.latitude, p.longitude])
     : [];
+  // Recorded trail of the selected vehicle as replay points (oldest → newest).
+  const [replayRun, setReplayRun] = useState(0);
+  const replayPoints = useMemo(
+    () =>
+      (historyData?.success ? historyData.data : []).map((p: any) => ({
+        lat: Number(p.latitude),
+        lon: Number(p.longitude),
+        at: p.recorded_at,
+        kmh: Number(p.speed) || 0,
+      })),
+    [historyData]
+  );
   const trailSpeeds: number[] = historyData?.success
     ? historyData.data.map((p: any) => Number(p.speed) || 0)
     : [];
@@ -573,6 +634,11 @@ export default function FleetMap() {
               {tripRoute && <RouteLayer route={tripRoute} />}
               <HeatLayer points={heatPts} visible={layers.heat} />
               <HistoryLayer trail={trail} speeds={trailSpeeds} bySpeed={speedColors} />
+              <ReplayLayer
+                points={replayPoints}
+                run={replayRun}
+                speedLabel={kmh => formatQty(u.speed, kmh, 0)}
+              />
               <GeofenceLayer
                 geofences={geofences}
                 yards={yards}
@@ -602,6 +668,8 @@ export default function FleetMap() {
                 motionScale={isShowcase() ? demoSpeed : 1}
                 onHover={setGlHover}
                 labels={layers.labels}
+                cardExtra={cardExtra}
+                onReplay={() => setReplayRun(n => n + 1)}
                 followId={follow ? glSelected : null}
                 onFollowLost={() => {
                   setFollow(false);

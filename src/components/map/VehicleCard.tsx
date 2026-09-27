@@ -1,6 +1,7 @@
 'use client';
 
-import { Gauge, MapPin, Navigation2, User, X } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { Gauge, History, MapPin, Navigation2, User, X } from 'lucide-react';
 import { useFleetSettings } from '@hooks/useFleetSettings';
 import type { LiveVehicle } from './vehicle/vehicleKinds';
 
@@ -33,11 +34,17 @@ export default function VehicleCard({
   speedLabel,
   onClose,
   onOpen,
+  onReplay,
+  extra,
 }: {
   v: LiveVehicle;
   speedLabel: string;
   onClose: () => void;
   onOpen?: () => void;
+  /** Replays the vehicle's recorded trail on the map. */
+  onReplay?: () => void;
+  /** Screen-specific block under the status line (driver, current trip…). */
+  extra?: ReactNode;
 }) {
   const { settings } = useFleetSettings();
 
@@ -90,14 +97,27 @@ export default function VehicleCard({
           {clockTime(v.recordedAt, settings?.timezone)}
         </div>
       )}
+      {extra}
       {onOpen && (
-        <button
-          type="button"
-          onClick={onOpen}
-          className="mt-2.5 w-full rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white shadow-glow hover:brightness-105"
-        >
-          Open vehicle
-        </button>
+        <div className="mt-2.5 flex gap-1.5">
+          <button
+            type="button"
+            onClick={onOpen}
+            className="flex-1 rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white shadow-glow hover:brightness-105"
+          >
+            Open vehicle
+          </button>
+          {onReplay && (
+            <button
+              type="button"
+              onClick={onReplay}
+              title="Replay the recorded trail on the map"
+              className="inline-flex items-center gap-1 rounded-full border border-line bg-white/70 px-3 py-1.5 text-xs font-semibold text-ink-0 hover:bg-white"
+            >
+              <History size={13} aria-hidden /> Replay
+            </button>
+          )}
+        </div>
       )}
     </div>
   );
