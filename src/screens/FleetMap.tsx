@@ -20,6 +20,7 @@ import MapHud from '@components/map/MapHud';
 import MapSearch from '@components/map/MapSearch';
 import MapViews from '@components/map/MapViews';
 import Scenery3D from '@components/map/layers/Scenery3D';
+import HeatLayer from '@components/map/layers/HeatLayer';
 import RouteLayer from '@components/map/layers/RouteLayer';
 import HistoryLayer from '@components/map/layers/HistoryLayer';
 import GeofenceLayer from '@components/map/layers/GeofenceLayer';
@@ -49,7 +50,12 @@ export default function FleetMap() {
   const u = useUnits();
   const { openModal } = useModal();
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | number | null>(null);
-  const [layers, setLayers] = useState({ vehicles: true, yards: true, geofences: true });
+  const [layers, setLayers] = useState({
+    vehicles: true,
+    yards: true,
+    geofences: true,
+    heat: false,
+  });
   const [speedColors, setSpeedColors] = useState(true);
   // MapLibre GL map (needs WebGL; see the fallback message in the render).
   const [gl, setGl] = useState(false);
@@ -115,6 +121,41 @@ export default function FleetMap() {
     if (glMap) fitFleet();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per map instance
   }, [glMap]);
+
+  // Heat layer: the showcase pre-fills the last two simulated hours of the whole fleet; every mode then keeps adding the
+  // moving vehicles it sees (a rolling window), so the heat keeps growing where vehicles actually drive.
+  const [heatPts, setHeatPts] = useState<[number, number][]>([]);
+  const heatBuf = useRef<[number, number][]>([]);
+
+  useEffect(() => {
+    if (!layers.heat) return;
+
+    let cancelled = false;
+
+    if (isShowcase() && heatBuf.current.length === 0)
+      import('@utils/showcase/simulation').then(m => {
+        if (cancelled) return;
+
+        heatBuf.current = m.heatPoints();
+        setHeatPts([...heatBuf.current]);
+      });
+
+    const t = setInterval(() => {
+      const add = glVehiclesRef.current
+        .filter(v => v.state === 'moving')
+        .map(v => [v.lon, v.lat] as [number, number]);
+
+      if (!add.length) return;
+
+      heatBuf.current = [...heatBuf.current, ...add].slice(-9000);
+      setHeatPts([...heatBuf.current]);
+    }, 4000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(t);
+    };
+  }, [layers.heat]);
 
   const [follow, setFollow] = useState(false);
   const [tour, setTour] = useState(false);
@@ -380,6 +421,7 @@ export default function FleetMap() {
             >
               <Scenery3D />
               {tripRoute && <RouteLayer route={tripRoute} />}
+              <HeatLayer points={heatPts} visible={layers.heat} />
               <HistoryLayer trail={trail} speeds={trailSpeeds} bySpeed={speedColors} />
               <GeofenceLayer
                 geofences={geofences}
@@ -543,6 +585,7 @@ export default function FleetMap() {
                   ['vehicles', 'Vehicles', positions.length, 'var(--color-brand)'],
                   ['yards', 'Yards', yardsTotal, 'var(--color-brand-ink)'],
                   ['geofences', 'Geofences', geofencesTotal, 'var(--color-gold)'],
+                  ['heat', 'Heat', '', 'var(--color-danger)'],
                 ] as const
               ).map(([key, label, n, color]) => (
                 <label

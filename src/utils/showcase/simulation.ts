@@ -310,6 +310,27 @@ export function recentTrail(
   return out;
 }
 
+/**
+ * Where the whole tracked fleet has been driving lately (moving samples only): `spanMin` simulated minutes every
+ * `stepSec`, as [lon, lat] pairs. Feeds the map's heat layer so it is rich from the first second.
+ */
+export function heatPoints(spanMin = 120, stepSec = 45): [number, number][] {
+  simulatedPositions(); // advance the clock
+
+  const n = Math.round((spanMin * 60) / stepSec);
+  const out: [number, number][] = [];
+
+  positionModels.forEach(p => {
+    for (let i = 0; i <= n; i++) {
+      const s = stateAt(p, virtualMs - i * stepSec * 1000);
+
+      if (s.speed > 3) out.push([s.lon, s.lat]);
+    }
+  });
+
+  return out;
+}
+
 /** Road polyline for a yard-to-yard trip, ordered origin → destination (null when the pair has no generated route). */
 export function roadPath(originYard: number, destYard: number): Pt[] | null {
   const h = highway(originYard, destYard);
