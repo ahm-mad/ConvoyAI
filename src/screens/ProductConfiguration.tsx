@@ -871,6 +871,7 @@ function ProductConfiguration({ id: propId }: ProductConfigurationProps) {
                                       : 'att-setting'
                                   }
                                   type="button"
+                                  aria-label={`Settings for ${item.label}`}
                                   className={`flex items-center border-none outline-none focus:outline-none focus:ring-0 gap-1 px-2 py-1 cursor-pointer rounded text-xs font-medium transition-all ${
                                     isUnique
                                       ? 'text-accent-green hover:brightness-125'
