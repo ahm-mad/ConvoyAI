@@ -18,6 +18,7 @@ import { getDemoSpeed, setDemoSpeed } from '@utils/showcase/simulation';
 import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair } from 'lucide-react';
 import MapHud from '@components/map/MapHud';
 import MapSearch from '@components/map/MapSearch';
+import MapViews from '@components/map/MapViews';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import RouteLayer from '@components/map/layers/RouteLayer';
 import HistoryLayer from '@components/map/layers/HistoryLayer';
@@ -410,7 +411,14 @@ export default function FleetMap() {
             {!clean && (
               <div className="absolute left-3 top-[4.25rem] z-10 flex flex-col items-start gap-2 lg:left-4 lg:top-4">
                 <MapHud vehicles={glVehicles} />
-                <MapSearch onPickVehicle={pickVehicle} onPickYard={pickYard} />
+                <div className="flex items-center gap-2">
+                  <MapSearch onPickVehicle={pickVehicle} onPickYard={pickYard} />
+                  <MapViews
+                    map={glMap}
+                    onFit={fitFleet}
+                    onTilt={t => setMapPrefs({ mode: t ? '3d' : '2d' })}
+                  />
+                </div>
               </div>
             )}
             {clean && (

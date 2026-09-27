@@ -22,20 +22,34 @@ export function installRafShimIfRequested() {
       /* not overridable */
     }
 
-    let queue: FrameRequestCallback[] = [];
-    let last = 0;
-    let armed = false;
-    const ch = new MessageChannel();
-    const pump = () => {
-      const now = performance.now();
+    // One 16 ms tick from a Worker (workers are not throttled in background tabs, and idle time costs no CPU — the earlier
+    // MessageChannel spin re-posted itself while waiting and kept a whole core at 100%).
+    const tickers: (() => void)[] = [];
+    const nativeSetInterval = window.setInterval.bind(window);
+    let tickStarted = false;
+    const startTick = () => {
+      if (tickStarted) return;
 
-      if (now - last < 16) {
-        ch.port2.postMessage(0);
+      tickStarted = true;
+      try {
+        const w = new Worker(
+          URL.createObjectURL(
+            new Blob(['setInterval(()=>postMessage(0),16)'], { type: 'text/javascript' })
+          )
+        );
 
-        return;
+        w.onmessage = () => tickers.forEach(t => t());
+      } catch {
+        // No worker (CSP): fall back to a 16 ms native interval.
+        nativeSetInterval(() => tickers.forEach(t => t()), 16);
       }
-      last = now;
+    };
 
+    let queue: FrameRequestCallback[] = [];
+    const frame = () => {
+      if (!queue.length) return;
+
+      const now = performance.now();
       const run = queue;
 
       queue = [];
@@ -46,19 +60,12 @@ export function installRafShimIfRequested() {
           console.warn('[qaRaf] frame callback threw', e);
         }
       });
-
-      if (queue.length) ch.port2.postMessage(0);
-      else armed = false;
     };
 
-    ch.port1.onmessage = pump;
+    tickers.push(frame);
     window.requestAnimationFrame = cb => {
       queue.push(cb);
-
-      if (!armed) {
-        armed = true;
-        ch.port2.postMessage(0);
-      }
+      startTick();
 
       return queue.length;
     };
@@ -67,9 +74,9 @@ export function installRafShimIfRequested() {
     // Timers too: a long-hidden tab throttles setTimeout/setInterval to ~1/min, which would freeze polling (react-query).
     const timers = new Map<number, { due: number; every?: number; cb: () => void }>();
     let tid = 100000;
-    const tch = new MessageChannel();
-    let tArmed = false;
     const tpump = () => {
+      if (!timers.size) return;
+
       const now = performance.now();
 
       timers.forEach((t, id) => {
@@ -82,19 +89,11 @@ export function installRafShimIfRequested() {
           console.warn('[qaRaf] timer callback threw', e);
         }
       });
-
-      if (timers.size) tch.port2.postMessage(0);
-      else tArmed = false;
     };
-    // Pump through a MessageChannel hop (not throttled) instead of the native timer.
-    tch.port1.onmessage = tpump;
 
-    const arm = () => {
-      if (!tArmed) {
-        tArmed = true;
-        tch.port2.postMessage(0);
-      }
-    };
+    tickers.push(tpump);
+
+    const arm = () => startTick();
 
     (window as any).setTimeout = (cb: any, ms = 0, ...args: any[]) => {
       const id = tid++;
