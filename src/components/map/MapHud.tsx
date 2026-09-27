@@ -1,5 +1,6 @@
 'use client';
 
+import Flash from '@components/ui/Flash';
 import type { LiveVehicle } from './vehicle/vehicleKinds';
 
 const CHIPS: { state: LiveVehicle['state']; label: string; dot: string }[] = [
@@ -35,7 +36,10 @@ export default function MapHud({
               boxShadow: c.state === 'moving' ? `0 0 8px ${c.dot}` : undefined,
             }}
           />
-          <span className="tabular-nums">{vehicles.filter(v => v.state === c.state).length}</span>
+          <Flash
+            value={vehicles.filter(v => v.state === c.state).length}
+            className="tabular-nums"
+          />
           <span className="font-medium text-ink-2">{c.label}</span>
         </span>
       ))}

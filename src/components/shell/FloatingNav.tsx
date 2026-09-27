@@ -263,11 +263,11 @@ export default function FloatingNav({ onOpenPalette, onOpenCopilot }: Props) {
             setUserMenu(false);
             setNotifOpen(v => !v);
           }}
-          className="relative grid size-[38px] shrink-0 place-items-center rounded-full border border-line bg-white text-ink-1 transition-colors hover:bg-surface-2"
+          className="bell-wiggle relative grid size-[38px] shrink-0 place-items-center rounded-full border border-line bg-white text-ink-1 transition-colors hover:bg-surface-2"
         >
           <Bell size={16} />
           {unread && (
-            <span className="absolute right-2 top-2 size-2 rounded-full border-2 border-white bg-gold" />
+            <span className="absolute right-2 top-2 size-2 rounded-full border-2 border-white bg-gold icon-live-dot" />
           )}
         </button>
         {notifOpen && (
