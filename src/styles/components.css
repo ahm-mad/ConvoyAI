@@ -1519,7 +1519,7 @@
     box-shadow:
       0 10px 20px -8px color-mix(in srgb, var(--color-ink-0) 70%, transparent),
       0 0 0 6px color-mix(in srgb, var(--color-ink-0) 14%, transparent);
-    transition: scale var(--motion-base) var(--ease-standard);
+    transition: box-shadow var(--motion-base) var(--ease-standard);
   }
   .cv-cluster.has-moving {
     background: linear-gradient(150deg, var(--color-brand-bright), var(--color-brand));
@@ -1527,8 +1527,16 @@
       0 10px 22px -6px color-mix(in srgb, var(--color-brand) 80%, transparent),
       0 0 0 6px color-mix(in srgb, var(--color-brand) 20%, transparent);
   }
+  /* No scale on hover: the bubble stays put under the pointer; only its halo grows. */
   .cv-cluster:hover {
-    scale: 1.1;
+    box-shadow:
+      0 12px 24px -8px color-mix(in srgb, var(--color-ink-0) 70%, transparent),
+      0 0 0 10px color-mix(in srgb, var(--color-ink-0) 18%, transparent);
+  }
+  .cv-cluster.has-moving:hover {
+    box-shadow:
+      0 12px 26px -6px color-mix(in srgb, var(--color-brand) 80%, transparent),
+      0 0 0 10px color-mix(in srgb, var(--color-brand) 26%, transparent);
   }
 
   /* ------------------------------------------------------------------ Map pin (coordinate picker) */

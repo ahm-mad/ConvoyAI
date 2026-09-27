@@ -14,7 +14,12 @@ import VehicleLayer from '@components/map/layers/VehicleLayer';
 import { vehicleFromPosition, type LiveVehicle } from '@components/map/vehicle/vehicleKinds';
 import { formatQty } from '@utils/units';
 import { isShowcase } from '@utils/showcase';
-import { getDemoSpeed, setDemoSpeed } from '@utils/showcase/simulation';
+import {
+  DEFAULT_DEMO_SPEED,
+  getDemoSpeed,
+  missionRoute,
+  setDemoSpeed,
+} from '@utils/showcase/simulation';
 import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair } from 'lucide-react';
 import MapHud from '@components/map/MapHud';
 import MapSearch from '@components/map/MapSearch';
@@ -22,6 +27,7 @@ import MapViews from '@components/map/MapViews';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import HeatLayer from '@components/map/layers/HeatLayer';
 import RouteLayer from '@components/map/layers/RouteLayer';
+import MissionRouteLayer from '@components/map/layers/MissionRouteLayer';
 import HistoryLayer from '@components/map/layers/HistoryLayer';
 import GeofenceLayer from '@components/map/layers/GeofenceLayer';
 import YardLayer from '@components/map/layers/YardLayer';
@@ -62,7 +68,8 @@ export default function FleetMap() {
   const [mapPrefs, setMapPrefs] = useMapPrefs();
   const [glMap, setGlMap] = useState<any>(null);
   const [glSelected, setGlSelected] = useState<string | null>(null);
-  const [demoSpeed, setDemoSpeedState] = useState(20);
+  const [glHover, setGlHover] = useState<string | null>(null);
+  const [demoSpeed, setDemoSpeedState] = useState(DEFAULT_DEMO_SPEED);
 
   useEffect(() => setDemoSpeedState(getDemoSpeed()), []);
 
@@ -420,6 +427,13 @@ export default function FleetMap() {
               ariaLabel="Live fleet map"
             >
               <Scenery3D />
+              {isShowcase() && (
+                <MissionRouteLayer
+                  vehicleId={glSelected ?? glHover}
+                  read={missionRoute}
+                  preview={!glSelected}
+                />
+              )}
               {tripRoute && <RouteLayer route={tripRoute} />}
               <HeatLayer points={heatPts} visible={layers.heat} />
               <HistoryLayer trail={trail} speeds={trailSpeeds} bySpeed={speedColors} />
@@ -444,6 +458,7 @@ export default function FleetMap() {
                 }}
                 speedLabel={v => formatQty(u.speed, v.speed, 0)}
                 motionScale={isShowcase() ? demoSpeed : 1}
+                onHover={setGlHover}
                 followId={follow ? glSelected : null}
                 onFollowLost={() => {
                   setFollow(false);
@@ -491,7 +506,7 @@ export default function FleetMap() {
                     className="flex shrink-0 items-center gap-0.5 rounded-full bg-white/70 p-0.5"
                   >
                     <Gauge size={14} className="ml-2 text-ink-2" aria-hidden />
-                    {[1, 10, 20, 60].map(x => (
+                    {[1, 3, 10, 20, 60].map(x => (
                       <button
                         key={x}
                         type="button"

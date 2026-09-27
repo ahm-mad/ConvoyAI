@@ -32,16 +32,17 @@ const ANCHOR = showcaseNow();
 /** Simulated clock: advances at `demoSpeed`× wall time, so changing the speed never makes vehicles jump. */
 let virtualMs = 0;
 let lastWall = Date.now();
-const KEY = 'convoyai-demo-speed';
+const KEY = 'convoyai-demo-speed-v2'; // v2: the default moved from ×20 to ×3 (old saved choices are dropped)
+export const DEFAULT_DEMO_SPEED = 3;
 
 export const getDemoSpeed = (): number => {
   try {
     const v = Number(window.localStorage.getItem(KEY));
 
-    // Real time is far too slow to see on a map; videos default to ×20 until the operator picks another speed.
-    return v >= 1 ? v : 20;
+    // Real time (×1) is barely visible below zoom 12 and ×20 looks cartoonish (~1,200 km/h): ×3 reads as fast but believable.
+    return v >= 1 ? v : DEFAULT_DEMO_SPEED;
   } catch {
-    return 20;
+    return DEFAULT_DEMO_SPEED;
   }
 };
 export const setDemoSpeed = (v: number) => {
@@ -156,6 +157,8 @@ const at = (l: Line, d: number): { p: Pt; h: number } => {
 const rng = makeRng(31337);
 const missions = new Map<string, Mission>();
 const fracByVehicle = new Map<string, number>();
+/** Where each moving mission is on its road right now (km along the stored line, and whether it travels toward higher km). */
+const roadNow = new Map<string, { line: Line; d: number; up: boolean }>();
 
 positionModels.forEach((p, i) => {
   const v = vehicleModels.find(x => x.id === p._vehicleId)!;
@@ -197,6 +200,21 @@ positionModels.forEach((p, i) => {
   else missions.set(v.id, { kind: 'parked', homeYard: home });
 });
 
+/**
+ * Trapezoid motion profile over one leg: accelerate for the first `a`, cruise, brake for the last `a`.
+ * Returns the covered share `p` (0..1) and the speed as a share of cruise speed `v` (0..1).
+ */
+const trapezoid = (u: number, a = 0.035): { p: number; v: number } => {
+  const vmax = 1 / (1 - a);
+
+  if (u <= 0) return { p: 0, v: 0 };
+  if (u >= 1) return { p: 1, v: 0 };
+  if (u < a) return { p: (vmax * u * u) / (2 * a), v: u / a };
+  if (u > 1 - a) return { p: 1 - (vmax * (1 - u) ** 2) / (2 * a), v: (1 - u) / a };
+
+  return { p: vmax * (u - a / 2), v: 1 };
+};
+
 /** Where one tracked vehicle is at `virtual` ms of simulated time (shared by the live positions and the recorded trail). */
 function stateAt(p: any, virtual: number) {
   const m = missions.get(p._vehicleId);
@@ -211,32 +229,51 @@ function stateAt(p: any, virtual: number) {
     const f = (m.f0 ?? 0) + virtual / (m.legMs ?? 1);
     const g = ((f % 2) + 2) % 2; // 0..2 ping-pong
     const t = g <= 1 ? g : 2 - g;
-    const dwell = t < 0.02 || t > 0.98;
-    const frac = Math.min(0.995, Math.max(0.005, t));
+    const fwd = g <= 1 !== !!m.reverse;
+    // Each end of the leg is a short stop (the vehicle sits at the yard), then it accelerates away.
+    const DWELL = 0.03;
+    const u = Math.min(1, Math.max(0, (t - DWELL) / (1 - 2 * DWELL)));
+    const prof = trapezoid(u);
+    const frac = Math.min(0.995, Math.max(0.005, t <= DWELL ? 0 : t >= 1 - DWELL ? 1 : prof.p));
     const d = (m.reverse ? 1 - frac : frac) * m.line.km;
     const pos = at(m.line, d);
-    const fwd = g <= 1 !== !!m.reverse;
 
     lat = pos.p[0];
     lon = pos.p[1];
     heading = fwd ? pos.h : (pos.h + 180) % 360;
-    speed = dwell ? 0 : 58 + 14 * Math.sin(virtual / 90_000 + pid);
+    speed =
+      t <= DWELL || t >= 1 - DWELL ? 0 : prof.v * (58 + 14 * Math.sin(virtual / 90_000 + pid));
     age = 4;
 
-    return { lat, lon, heading, speed, age, frac };
+    return { lat, lon, heading, speed, age, frac, road: { line: m.line, d, up: fwd } };
   }
   if (m?.kind === 'loop' && m.line) {
+    // Every 9th two-minute window the vehicle really stops (its position freezes, not just the speed reading).
+    const W = 120_000;
+    const K = Math.floor(virtual / W);
+    const r = (9 - (pid % 9)) % 9;
+    const stopped = K % 9 === r;
+    const before = K > r ? Math.floor((K - 1 - r) / 9) + 1 : 0; // stopped windows fully behind us
+    const eff = stopped ? K * W - before * W : virtual - before * W;
     const d =
-      ((((m.off0 ?? 0) + ((m.kmh ?? 40) * virtual) / 3_600_000) % m.line.km) + m.line.km) %
-      m.line.km;
+      ((((m.off0 ?? 0) + ((m.kmh ?? 40) * eff) / 3_600_000) % m.line.km) + m.line.km) % m.line.km;
     const pos = at(m.line, d);
-    const stopped = Math.floor(virtual / 120_000 + pid) % 9 === 0;
 
     lat = pos.p[0];
     lon = pos.p[1];
     heading = pos.h;
     speed = stopped ? 0 : (m.kmh ?? 40) + 6 * Math.sin(virtual / 40_000 + pid);
     age = 5;
+
+    return {
+      lat,
+      lon,
+      heading,
+      speed,
+      age,
+      frac: null as number | null,
+      road: { line: m.line, d, up: true },
+    };
   } else if (m?.kind === 'parked') {
     const y = yards[m.homeYard];
 
@@ -246,7 +283,7 @@ function stateAt(p: any, virtual: number) {
     age = 30;
   }
 
-  return { lat, lon, heading, speed, age, frac: null as number | null };
+  return { lat, lon, heading, speed, age, frac: null as number | null, road: null };
 }
 
 /** Position reports for the whole tracked fleet at wall-clock `now` (ms) — same shape as GET /fleet/positions items. */
@@ -259,6 +296,8 @@ export function simulatedPositions(now = Date.now(), demoSpeed = getDemoSpeed())
     const s = stateAt(p, virtualMs);
 
     if (s.frac !== null) fracByVehicle.set(p._vehicleId, s.frac);
+    if (s.road) roadNow.set(p._vehicleId, s.road);
+    else roadNow.delete(p._vehicleId);
 
     const stale = m?.kind === 'offline';
 
@@ -350,3 +389,31 @@ export function tripFraction(vehicleId: string): number | null {
 // Dev-only QA hook: inspect the simulation from the browser console (`__cvSim()`).
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production')
   (window as any).__cvSim = () => simulatedPositions();
+
+/**
+ * The road a simulated vehicle is driving right now, split at the vehicle: `ahead` (still to drive, in driving order)
+ * and `behind` (already driven, nearest the vehicle first), both as [lon, lat] for MapLibre. null = not on a road.
+ */
+export function missionRoute(
+  vehicleId: string
+): { ahead: [number, number][]; behind: [number, number][] } | null {
+  simulatedPositions(); // advance the clock
+
+  const r = roadNow.get(vehicleId);
+
+  if (!r) return null;
+
+  const { line, d, up } = r;
+  const idx = Math.max(
+    1,
+    line.cum.findIndex(c => c >= d)
+  );
+  const here: [number, number] = [at(line, d).p[1], at(line, d).p[0]];
+  const ll = (q: Pt): [number, number] => [q[1], q[0]];
+  const after = line.pts.slice(idx).map(ll);
+  const before = line.pts.slice(0, idx).map(ll).reverse();
+
+  return up
+    ? { ahead: [here, ...after], behind: [here, ...before] }
+    : { ahead: [here, ...before], behind: [here, ...after] };
+}
