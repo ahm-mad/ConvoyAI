@@ -26,8 +26,10 @@ import MapSearch from '@components/map/MapSearch';
 import MapViews from '@components/map/MapViews';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import HeatLayer from '@components/map/layers/HeatLayer';
+import { routePoints } from '@components/map/geo';
 import RouteLayer from '@components/map/layers/RouteLayer';
 import MissionRouteLayer from '@components/map/layers/MissionRouteLayer';
+import RouteContextLayer from '@components/map/layers/RouteContextLayer';
 import HistoryLayer from '@components/map/layers/HistoryLayer';
 import GeofenceLayer from '@components/map/layers/GeofenceLayer';
 import YardLayer from '@components/map/layers/YardLayer';
@@ -262,6 +264,23 @@ export default function FleetMap() {
   );
   const tripRoute: any = selectedTripId && routeData?.success ? routeData.data : null;
 
+  // The road whose surroundings are highlighted (yards + geofences it passes): a chosen trip, else the selected vehicle's.
+  const contextPath = useMemo<[number, number][] | null>(() => {
+    if (tripRoute) {
+      const pts: [number, number][] = Array.isArray(tripRoute.path)
+        ? tripRoute.path.map((p: any) => [Number(p.longitude), Number(p.latitude)])
+        : routePoints(tripRoute).map(([la, lo]) => [lo, la]);
+
+      return pts.length > 1 ? pts : null;
+    }
+
+    const r = isShowcase() && glSelected ? missionRoute(glSelected) : null;
+
+    return r ? [...[...r.behind].reverse(), ...r.ahead.slice(1)] : null;
+    // A trip refetch changes the object, not the road: key on ids / sizes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [glSelected, tripRoute?.trip?.id, tripRoute?.path?.length]);
+
   // Yards / geofences whose circle overlaps the view (up to 500 records each, five pages of 100).
   const yardsView = useViewportList('fleet-yards', '/api/yards', { bbox: bboxParam }, !!bboxParam);
   const yards: any[] = yardsView.items.filter((y: any) => y.latitude && y.longitude);
@@ -432,8 +451,10 @@ export default function FleetMap() {
                   vehicleId={glSelected ?? glHover}
                   read={missionRoute}
                   preview={!glSelected}
+                  yards={yards}
                 />
               )}
+              <RouteContextLayer path={contextPath} yards={yards} geofences={geofences} />
               {tripRoute && <RouteLayer route={tripRoute} />}
               <HeatLayer points={heatPts} visible={layers.heat} />
               <HistoryLayer trail={trail} speeds={trailSpeeds} bySpeed={speedColors} />

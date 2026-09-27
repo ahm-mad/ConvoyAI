@@ -69,9 +69,13 @@ export const geofences: any[] = [
   ...(
     [
       ['Karachi Port Gate 2', 24.8, 66.98, 'enter', 1],
-      ['M-2 Motorway toll plaza', 31.72, 73.5, 'both', null],
-      ['Khyber Pass checkpoint', 34.0, 71.15, 'exit', null],
+      // Placed on the simulated highways (routes.ts) so trips visibly pass through them.
+      ['M-2 Motorway toll plaza', 32.7624, 73.9037, 'both', null],
+      ['Khyber Pass checkpoint', 34.126, 71.8049, 'exit', null],
       ['Gwadar corridor no-go zone', 25.13, 62.32, 'enter', null],
+      ['Sahiwal weigh station', 30.9681, 72.8303, 'both', null],
+      ['Sukkur toll plaza', 27.9944, 69.2457, 'both', null],
+      ['GT Road Jhelum checkpoint', 33.2659, 73.2946, 'enter', null],
     ] as const
   ).map(([name, lat, lon, alert, yardId], i) => ({
     id: String(9 + i),
@@ -80,7 +84,7 @@ export const geofences: any[] = [
     name,
     center_latitude: lat,
     center_longitude: lon,
-    radius_m: 900 + i * 250,
+    radius_m: 900 + (i % 4) * 250,
     alert_on: alert,
     is_active: i !== 3,
     created_at: iso(NOW - (60 - i * 8) * DAY),

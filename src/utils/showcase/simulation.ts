@@ -14,6 +14,8 @@ interface Line {
   pts: Pt[];
   cum: number[]; // km from start to each point
   km: number;
+  /** Names of the yards at the first and last point (for start / destination labels). */
+  names?: [string, string];
 }
 interface Mission {
   kind: 'trip' | 'loop' | 'parked' | 'offline';
@@ -116,7 +118,12 @@ const highway = (a: number, b: number): { line: Line; reverse: boolean } | null 
   const src = HIGHWAY_ROUTES[key];
 
   if (!src) return null;
-  if (!cache.has(key)) cache.set(key, build(decode(src.line)));
+  if (!cache.has(key)) {
+    const l = build(decode(src.line));
+
+    l.names = [yards[lo]?.name, yards[hi]?.name];
+    cache.set(key, l);
+  }
 
   return { line: cache.get(key)!, reverse: a > b };
 };
@@ -127,7 +134,12 @@ const loop = (yard: number, k: number): Line | null => {
 
   const key = `loop-${yard}-${k % 3}`;
 
-  if (!cache.has(key)) cache.set(key, build(decode(src.line)));
+  if (!cache.has(key)) {
+    const l = build(decode(src.line));
+
+    l.names = [yards[yard]?.name, yards[yard]?.name];
+    cache.set(key, l);
+  }
 
   return cache.get(key)!;
 };
@@ -394,9 +406,12 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production')
  * The road a simulated vehicle is driving right now, split at the vehicle: `ahead` (still to drive, in driving order)
  * and `behind` (already driven, nearest the vehicle first), both as [lon, lat] for MapLibre. null = not on a road.
  */
-export function missionRoute(
-  vehicleId: string
-): { ahead: [number, number][]; behind: [number, number][] } | null {
+export function missionRoute(vehicleId: string): {
+  ahead: [number, number][];
+  behind: [number, number][];
+  fromName?: string;
+  toName?: string;
+} | null {
   simulatedPositions(); // advance the clock
 
   const r = roadNow.get(vehicleId);
@@ -413,7 +428,9 @@ export function missionRoute(
   const after = line.pts.slice(idx).map(ll);
   const before = line.pts.slice(0, idx).map(ll).reverse();
 
+  const [lo, hi] = line.names ?? [undefined, undefined];
+
   return up
-    ? { ahead: [here, ...after], behind: [here, ...before] }
-    : { ahead: [here, ...before], behind: [here, ...after] };
+    ? { ahead: [here, ...after], behind: [here, ...before], fromName: lo, toName: hi }
+    : { ahead: [here, ...before], behind: [here, ...after], fromName: hi, toName: lo };
 }
