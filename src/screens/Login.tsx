@@ -262,7 +262,7 @@ export default function Login() {
   }, []);
 
   return (
-    <AuthShell>
+    <AuthShell variant="login">
       <div className="glass-modal w-full max-w-[420px] p-8">
         <form onSubmit={handleSubmit(handleLoginClick)} className="space-y-4">
           {/* Header */}

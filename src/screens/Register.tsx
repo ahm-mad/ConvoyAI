@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Eye, EyeOff, Check, Loader2 } from 'lucide-react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerFormSchema } from '@validation/registerFormValidation';
 import { post } from '@utils/apiHelper';
@@ -8,6 +8,7 @@ import { Link } from '@lib/router-compat';
 import GlobalInput from '@components/Input';
 // import Signimg from '../assets/images/backgroundImg.webp';
 import AuthShell from '@components/auth/AuthShell';
+import PasswordStrength from '@components/auth/PasswordStrength';
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
 
 interface RegisterFormValues {
@@ -45,6 +46,8 @@ export default function Register() {
       check: false,
     },
   });
+
+  const passwordValue = useWatch({ control, name: 'password' }) ?? '';
 
   async function handleRegisterSubmit(data: RegisterFormValues) {
     console.log('register form data', data);
@@ -87,7 +90,7 @@ export default function Register() {
   }
 
   return (
-    <AuthShell>
+    <AuthShell variant="register">
       <div className="glass-modal w-full max-w-[420px] p-8">
         <form onSubmit={handleSubmit(handleRegisterSubmit)} className="space-y-3">
           {/* Header */}
@@ -174,6 +177,7 @@ export default function Register() {
                 />
               )}
             />
+            <PasswordStrength value={passwordValue} />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
