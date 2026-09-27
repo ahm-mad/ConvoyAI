@@ -16,6 +16,7 @@ import { getDemoSpeed } from '@utils/showcase/simulation';
 import { formatQty } from '@utils/units';
 import { useUnits } from '@hooks/useUnits';
 import { useCompanyMoney } from '@hooks/useCompanyMoney';
+import Flash from '@components/ui/Flash';
 
 const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false });
 
@@ -192,15 +193,24 @@ export default function OverviewHero({
           <div className="pointer-events-none absolute left-4 top-4 z-[500] flex flex-wrap gap-2">
             <span className="glass-strong flex items-center gap-2 rounded-full px-3.5 py-2 text-[12.5px] font-medium">
               <i className="size-2 rounded-full bg-brand" />
-              <b>{fresh.length}</b> Live
+              <b>
+                <Flash value={fresh.length} />
+              </b>{' '}
+              Live
             </span>
             <span className="glass-strong flex items-center gap-2 rounded-full px-3.5 py-2 text-[12.5px] font-medium">
               <i className="size-2 rounded-full bg-ink-2" />
-              <b>{stale.length}</b> Stale
+              <b>
+                <Flash value={stale.length} />
+              </b>{' '}
+              Stale
             </span>
             <span className="glass-strong flex items-center gap-2 rounded-full px-3.5 py-2 text-[12.5px] font-medium">
               <Cpu size={13} className="text-ink-2" />
-              <b>{total}</b> trackers reporting
+              <b>
+                <Flash value={total} />
+              </b>{' '}
+              trackers reporting
             </span>
           </div>
           <Link

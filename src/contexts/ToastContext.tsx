@@ -25,12 +25,22 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             boxShadow: 'var(--shadow-glass)',
           },
           success: {
+            style: {
+              boxShadow:
+                'var(--shadow-glass), 0 10px 26px -12px color-mix(in srgb, var(--color-success) 60%, transparent)',
+              borderLeft: '3px solid var(--color-success)',
+            },
             iconTheme: {
-              primary: 'var(--color-accent-green)',
+              primary: 'var(--color-success)',
               secondary: 'var(--color-surface-2)',
             },
           },
           error: {
+            style: {
+              boxShadow:
+                'var(--shadow-glass), 0 10px 26px -12px color-mix(in srgb, var(--color-danger) 60%, transparent)',
+              borderLeft: '3px solid var(--color-danger)',
+            },
             iconTheme: {
               primary: 'var(--color-danger)',
               secondary: 'var(--color-surface-2)',
