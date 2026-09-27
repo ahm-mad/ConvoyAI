@@ -1195,6 +1195,10 @@
       scale var(--motion-base) var(--ease-standard),
       opacity var(--motion-base) var(--ease-standard);
   }
+  .cv-veh.is-moving {
+    --veh-state: var(--color-moving);
+    --veh-state-deep: var(--color-moving-deep);
+  }
   .cv-veh.is-idle {
     --veh-state: var(--color-gold);
     --veh-state-deep: var(--color-warning);
@@ -1625,10 +1629,10 @@
     transition: box-shadow var(--motion-base) var(--ease-standard);
   }
   .cv-cluster.has-moving {
-    background: linear-gradient(150deg, var(--color-brand-bright), var(--color-brand));
+    background: linear-gradient(150deg, var(--color-moving-bright), var(--color-moving));
     box-shadow:
-      0 10px 22px -6px color-mix(in srgb, var(--color-brand) 80%, transparent),
-      0 0 0 6px color-mix(in srgb, var(--color-brand) 20%, transparent);
+      0 10px 22px -6px color-mix(in srgb, var(--color-moving) 80%, transparent),
+      0 0 0 6px color-mix(in srgb, var(--color-moving) 20%, transparent);
   }
   /* No scale on hover: the bubble stays put under the pointer; only its halo grows. */
   .cv-cluster:hover {
@@ -1638,8 +1642,8 @@
   }
   .cv-cluster.has-moving:hover {
     box-shadow:
-      0 12px 26px -6px color-mix(in srgb, var(--color-brand) 80%, transparent),
-      0 0 0 10px color-mix(in srgb, var(--color-brand) 26%, transparent);
+      0 12px 26px -6px color-mix(in srgb, var(--color-moving) 80%, transparent),
+      0 0 0 10px color-mix(in srgb, var(--color-moving) 26%, transparent);
   }
 
   /* ------------------------------------------------------------------ Map pin (coordinate picker) */
