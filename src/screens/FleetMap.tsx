@@ -50,6 +50,7 @@ export default function FleetMap() {
   const { openModal } = useModal();
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | number | null>(null);
   const [layers, setLayers] = useState({ vehicles: true, yards: true, geofences: true });
+  const [speedColors, setSpeedColors] = useState(true);
   // MapLibre GL map (needs WebGL; see the fallback message in the render).
   const [gl, setGl] = useState(false);
   const [mapPrefs, setMapPrefs] = useMapPrefs();
@@ -310,6 +311,9 @@ export default function FleetMap() {
   const trail: [number, number][] = historyData?.success
     ? historyData.data.map((p: any) => [p.latitude, p.longitude])
     : [];
+  const trailSpeeds: number[] = historyData?.success
+    ? historyData.data.map((p: any) => Number(p.speed) || 0)
+    : [];
 
   // Default center: the most recently reporting vehicle, else a reasonable fallback matching the
   // existing Map.jsx's default location. (Read once, when the map mounts.)
@@ -376,7 +380,7 @@ export default function FleetMap() {
             >
               <Scenery3D />
               {tripRoute && <RouteLayer route={tripRoute} />}
-              <HistoryLayer trail={trail} />
+              <HistoryLayer trail={trail} speeds={trailSpeeds} bySpeed={speedColors} />
               <GeofenceLayer
                 geofences={geofences}
                 yards={yards}
@@ -387,6 +391,7 @@ export default function FleetMap() {
               <VehicleLayer
                 vehicles={layers.vehicles ? glVehicles : []}
                 iconStyle={mapPrefs.iconStyle}
+                speedColors={speedColors}
                 selectedId={glSelected}
                 onSelect={id => {
                   setGlSelected(id);
@@ -558,6 +563,32 @@ export default function FleetMap() {
                   <span className="tabular-nums text-ink-2">{n}</span>
                 </label>
               ))}
+            </div>
+            <div className="mt-1.5 hidden border-t border-line-soft pt-2 sm:block">
+              <label className="flex cursor-pointer items-center gap-2.5 rounded-lg px-1.5 py-1 text-[13px] text-ink-0 hover:bg-black/[0.04]">
+                <input
+                  type="checkbox"
+                  className="check"
+                  checked={speedColors}
+                  onChange={() => setSpeedColors(v => !v)}
+                />
+                <span className="flex-1">Speed colours</span>
+              </label>
+              {speedColors && (
+                <div className="mt-1.5 px-1.5" aria-hidden>
+                  <div
+                    className="h-1.5 rounded-full"
+                    style={{
+                      background:
+                        'linear-gradient(90deg, var(--color-success), var(--color-gold), var(--color-brand), var(--color-danger))',
+                    }}
+                  />
+                  <div className="mt-1 flex justify-between text-[10.5px] font-medium text-ink-2">
+                    <span>Slow</span>
+                    <span>Fast</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

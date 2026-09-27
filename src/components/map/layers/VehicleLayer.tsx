@@ -8,6 +8,7 @@ import { useConvoyMap } from '../ConvoyMap';
 import VehicleIcon from '../vehicle/VehicleIcon';
 import VehicleCard from '../VehicleCard';
 import { kindOf, type LiveVehicle } from '../vehicle/vehicleKinds';
+import { speedColorExpr } from '../speedColors';
 import type { VehicleIconStyle } from '../useMapPrefs';
 
 interface Entry {
@@ -38,6 +39,7 @@ export default function VehicleLayer({
   onOpen,
   motionScale = 1,
   trails = true,
+  speedColors = true,
   followId = null,
   onFollowLost,
 }: {
@@ -51,6 +53,8 @@ export default function VehicleLayer({
   motionScale?: number;
   /** Fading comet tails behind moving vehicles. */
   trails?: boolean;
+  /** Colour the comet tails by speed (green slow → red fast) instead of a single brand colour. */
+  speedColors?: boolean;
   /** Keep the camera centred on this vehicle (cinematic follow). Any manual drag ends it. */
   followId?: string | null;
   onFollowLost?: () => void;
@@ -64,6 +68,7 @@ export default function VehicleLayer({
 
   const scaleRef = useRef(motionScale);
   const trailsOn = useRef(trails);
+  const speedOn = useRef(speedColors);
   const followRef = useRef(followId);
   const styleRef = useRef(iconStyle);
   const ctor = useRef<typeof Marker | null>(null);
@@ -75,6 +80,7 @@ export default function VehicleLayer({
   latest.current = { selectedId, onSelect };
   scaleRef.current = motionScale;
   trailsOn.current = trails;
+  speedOn.current = speedColors;
   styleRef.current = iconStyle;
   followRef.current = followId;
   lostRef.current = onFollowLost;
@@ -412,7 +418,7 @@ export default function VehicleLayer({
           if (seg.length > 1)
             features.push({
               type: 'Feature',
-              properties: { o, w: 2 + i * 1.1 },
+              properties: { o, w: 2 + i * 1.1, s: e.kmh },
               geometry: { type: 'LineString', coordinates: seg },
             });
         });
@@ -429,7 +435,7 @@ export default function VehicleLayer({
           source: 'cv-trails',
           layout: { 'line-cap': 'round', 'line-join': 'round' },
           paint: {
-            'line-color': token('--color-brand-bright'),
+            'line-color': speedOn.current ? speedColorExpr('s') : token('--color-brand-bright'),
             'line-opacity': ['get', 'o'],
             'line-width': ['get', 'w'],
           },
@@ -441,6 +447,17 @@ export default function VehicleLayer({
 
     return () => cancelAnimationFrame(raf);
   }, [map]);
+
+  // Switching speed colours on/off recolours the comet tails immediately.
+  useEffect(() => {
+    if (!map?.getLayer('cv-trails')) return;
+
+    map.setPaintProperty(
+      'cv-trails',
+      'line-color',
+      speedColors ? speedColorExpr('s') : token('--color-brand-bright')
+    );
+  }, [map, speedColors]);
 
   // The selected vehicle's card marker.
   useEffect(() => {
