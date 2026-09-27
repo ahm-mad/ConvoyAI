@@ -464,6 +464,18 @@
       transform: translateY(-9px);
     }
   }
+  /* Product tour: the active tab fills like a timer until the next tab. */
+  .lp-tour-progress {
+    animation: lp-tour-fill linear forwards;
+  }
+  @keyframes lp-tour-fill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
   /* Landing closing section: routes that flow and stops that ping. */
   .lp-route-flow {
     stroke-dasharray: 8 14;

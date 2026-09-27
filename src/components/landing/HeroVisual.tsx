@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowUpRight, Sparkles } from 'lucide-react';
 import HeroMapLive from './HeroMapLive';
+import LazyMount from './LazyMount';
 
 /** What the copilot "notices" in the hero, in rotation. Plain, specific and believable. */
 const INSIGHTS = [
@@ -61,7 +62,9 @@ export default function HeroVisual() {
           </span>
         </div>
         <div className="relative h-[520px] overflow-hidden bg-surface-2 md:h-[580px]">
-          <HeroMapLive />
+          <LazyMount rootMargin="500px" className="absolute inset-0">
+            <HeroMapLive />
+          </LazyMount>
 
           <div className="glass motion-float pointer-events-none absolute bottom-5 left-16 hidden w-[220px] p-5 lg:block">
             <div className="text-caption text-ink-2">Fleet utilisation</div>
