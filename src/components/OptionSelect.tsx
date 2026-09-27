@@ -19,7 +19,7 @@ export default function OptionSelect({
   placeholder,
   emptyLabel,
   disabled,
-  className = 'w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0',
+  className = 'w-full field',
   wrapperClassName = 'flex-1 min-w-0',
   ariaLabel,
   selectedLabel,

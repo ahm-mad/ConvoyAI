@@ -331,12 +331,12 @@ function IncidentsTab({
             value={type}
             onChange={e => setType(e.target.value)}
             placeholder="Incident type (e.g. Speeding Violation)"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <select
             value={severity}
             onChange={e => setSeverity(e.target.value)}
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           >
             <option value="minor">Minor</option>
             <option value="moderate">Moderate</option>
@@ -346,14 +346,14 @@ function IncidentsTab({
             value={date}
             onChange={e => setDate(e.target.value)}
             type="date"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <textarea
             value={description}
             onChange={e => setDescription(e.target.value)}
             placeholder="Description (optional)"
             rows={2}
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <RequiredHint
             missing={[!type.trim() && 'incident type', !date && 'date'].filter(Boolean) as string[]}

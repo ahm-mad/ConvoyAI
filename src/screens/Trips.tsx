@@ -473,14 +473,14 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={tripReference}
           onChange={e => setTripReference(e.target.value)}
           placeholder="Trip reference"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <input
           value={purpose}
           onChange={e => setPurpose(e.target.value)}
           placeholder="Purpose (e.g. delivery)"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
       </div>
 
@@ -494,7 +494,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={originAddress}
           onChange={e => setOriginAddress(e.target.value)}
           placeholder="Origin address *"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 col-span-2"
+          className="field col-span-2"
         />
 
         <input
@@ -503,7 +503,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Latitude"
           type="number"
           step="any"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <input
@@ -512,7 +512,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Longitude"
           type="number"
           step="any"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <PickOnMapButton
@@ -537,7 +537,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           value={destinationAddress}
           onChange={e => setDestinationAddress(e.target.value)}
           placeholder="Destination address *"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 col-span-2"
+          className="field col-span-2"
         />
 
         <input
@@ -546,7 +546,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Latitude"
           type="number"
           step="any"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <input
@@ -555,7 +555,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder="Longitude"
           type="number"
           step="any"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <PickOnMapButton
@@ -586,7 +586,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           onChange={e => setPlannedStartAt(e.target.value)}
           type="datetime-local"
           aria-label="Planned start"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <input
@@ -594,7 +594,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           onChange={e => setPlannedEndAt(e.target.value)}
           type="datetime-local"
           aria-label="Planned end"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <input
@@ -603,7 +603,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder={`Planned distance (${u.distance.label})`}
           type="number"
           step="any"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <input
@@ -612,7 +612,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           placeholder={`Starting odometer (${u.distance.label})`}
           type="number"
           step="any"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
 
         <textarea
@@ -620,7 +620,7 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
           onChange={e => setNotes(e.target.value)}
           placeholder="Notes"
           rows={2}
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 col-span-2 resize-none"
+          className="field col-span-2 resize-none"
         />
       </div>
 

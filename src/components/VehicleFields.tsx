@@ -134,7 +134,7 @@ export const vehicleToPayload = (
   );
 };
 
-const INPUT = 'w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0';
+const INPUT = 'w-full field';
 
 function Field({
   label,

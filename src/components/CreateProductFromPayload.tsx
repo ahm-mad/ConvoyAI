@@ -394,7 +394,7 @@ function StepNameAndMap({
         <select
           value={deviceProtocolId}
           onChange={e => setDeviceProtocolId(e.target.value)}
-          className="w-full mt-1.5 mb-4 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="w-full mt-1.5 mb-4 field"
         >
           <option value="">Not set — configure later</option>
           {deviceProtocols.map(protocol => {
