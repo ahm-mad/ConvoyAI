@@ -3,6 +3,8 @@
 import toast from 'react-hot-toast';
 import { Check, Sparkles } from 'lucide-react';
 import { useFleetCurrency } from '@utils/fleetCurrency';
+import { useSimpleQuery } from '@hooks/useSimpleQuery';
+import { useUser } from '@contexts/UserContext';
 
 interface Plan {
   key: string;
@@ -57,15 +59,37 @@ const PLANS: Plan[] = [
   },
 ];
 
-const USAGE = [
-  { label: 'Vehicles', used: 69, cap: 250 },
-  { label: 'Drivers', used: 47, cap: 250 },
-  { label: 'Connected devices', used: 4, cap: 500 },
-  { label: 'Members', used: 1, cap: 25 },
-];
+/** Plan limits (the "used" side comes from the live counts below). */
+const CAPS = { vehicles: 250, drivers: 250, devices: 500, members: 25 };
 
 export default function PlanManagement() {
   const currency = useFleetCurrency();
+  const { user } = useUser();
+  const vehiclesQ = useSimpleQuery<any>('plan-usage-vehicles', '/api/vehicles', {
+    page: 1,
+    per_page: 1,
+  });
+  const driversQ = useSimpleQuery<any>('plan-usage-drivers', '/api/drivers', {
+    page: 1,
+    per_page: 1,
+  });
+  const trackersQ = useSimpleQuery<any>('plan-usage-trackers', '/api/fleet/positions', {
+    limit: 1,
+  });
+  const companyQ = useSimpleQuery<any>(
+    'companyData',
+    `/api/companies/${user?.company_id}`,
+    {},
+    {
+      enabled: !!user?.company_id,
+    }
+  );
+  const USAGE = [
+    { label: 'Vehicles', used: vehiclesQ.data?.data?.pagination?.total ?? 0, cap: CAPS.vehicles },
+    { label: 'Drivers', used: driversQ.data?.data?.pagination?.total ?? 0, cap: CAPS.drivers },
+    { label: 'Connected devices', used: trackersQ.data?.meta?.total ?? 0, cap: CAPS.devices },
+    { label: 'Members', used: companyQ.data?.data?.users?.length ?? 0, cap: CAPS.members },
+  ];
 
   return (
     <div className="p-1 sm:p-4">

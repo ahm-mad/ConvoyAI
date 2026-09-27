@@ -78,7 +78,7 @@ export default function ManageDevice() {
   // Which rows' "View Details" accordion is open — a Set so more than one can be open at once.
   const [expandedPacketIds, setExpandedPacketIds] = useState<Set<any>>(new Set());
 
-  const productName = location.state?.productName || `Product ${productId}`;
+  const navProductName = location.state?.productName;
 
   // Debounce search term
   useEffect(() => {
@@ -125,6 +125,20 @@ export default function ManageDevice() {
     `/api/products/${productId}`,
     queryParams
   );
+
+  // Opened by URL (no navigation state)? Look the product's name up in the product list.
+  const { data: productListData } = useSimpleQuery(
+    'product-names-lookup',
+    '/api/products',
+    { page: 1, per_page: 100 },
+    { enabled: !navProductName, staleTime: 300_000 }
+  );
+  const listed: any[] =
+    (productListData as any)?.data?.data ?? (productListData as any)?.data?.items ?? [];
+  const productName: string =
+    navProductName ||
+    listed.find((x: any) => String(x.id) === String(productId))?.name ||
+    `Product ${productId}`;
 
   useEffect(() => {
     if (devicesData && !hasLoadedOnce) {

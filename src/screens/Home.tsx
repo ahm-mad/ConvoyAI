@@ -264,7 +264,10 @@ const Home = () => {
                 enablePagination={true}
                 itemsPerPage={4}
                 className="!rounded-none !border-0 !bg-transparent !shadow-none"
-                renderCell={renderDeviceCell}
+                // Devices in this list are offline by definition: never show the "online" green dot for them.
+                renderCell={(value: any, column: any, row: any) =>
+                  renderDeviceCell(value, column, { ...row, last_heard_at: null })
+                }
               />
             </div>
           </div>
