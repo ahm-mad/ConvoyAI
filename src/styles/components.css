@@ -1320,6 +1320,49 @@
   }
 
   /* ------------------------------------------------------------------ Map beacons (trip stops / destination) */
+  /* ETA chip above the destination beacon */
+  .cv-eta {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.28rem 0.7rem;
+    border-radius: 9999px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-glass);
+    color: var(--color-ink-0);
+    font: 600 11.5px/1.2 var(--font-sans);
+    white-space: nowrap;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .cv-eta i {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--color-ink-2);
+  }
+  .cv-eta::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    background: inherit;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    transform: rotate(45deg);
+  }
+  .cv-eta.is-late {
+    border-color: color-mix(in srgb, var(--color-danger) 45%, transparent);
+    color: var(--color-danger-text);
+  }
   .cv-beacon {
     --beacon: var(--color-chart-neutral);
     position: relative;
