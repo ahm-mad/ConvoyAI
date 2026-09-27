@@ -557,8 +557,9 @@ const company = () =>
     currency: 'PKR',
     created_at: iso(showcaseNow() - 400 * DAY),
     updated_at: iso(showcaseNow() - 30 * DAY),
-    users: [],
-    products: [],
+    // counts shown on Company & locations; they match the 8 members and 6 products listed in the showcase
+    users: Array.from({ length: 8 }, (_, i) => ({ id: String(i + 1) })),
+    products: Array.from({ length: 6 }, (_, i) => ({ id: String(i + 1) })),
   });
 
 export function resolveFleet(url: string, p: Params): any | undefined {
