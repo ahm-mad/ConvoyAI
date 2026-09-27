@@ -26,7 +26,7 @@ import MapSearch from '@components/map/MapSearch';
 import MapViews from '@components/map/MapViews';
 import Scenery3D from '@components/map/layers/Scenery3D';
 import HeatLayer from '@components/map/layers/HeatLayer';
-import { routePoints } from '@components/map/geo';
+import { flatM, routePoints } from '@components/map/geo';
 import RouteLayer from '@components/map/layers/RouteLayer';
 import MissionRouteLayer from '@components/map/layers/MissionRouteLayer';
 import RouteContextLayer from '@components/map/layers/RouteContextLayer';
@@ -53,6 +53,8 @@ const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: fals
  * of reporting vehicles.
  */
 const POSITION_LIMIT = 2000;
+/** Length (km) of the road the hero opening prefers. */
+const HERO_KM = 260;
 
 export default function FleetMap() {
   const u = useUnits();
@@ -125,9 +127,54 @@ export default function FleetMap() {
     });
   };
 
-  // Open on the whole fleet the first time the GL map is ready.
+  // Hero opening (showcase): frame one moving trip vehicle's whole road, then select it (card + route + named ends +
+  // geofences on the way). Falls back to the whole fleet when nothing suitable moves, and always outside the showcase.
+  const openHero = async () => {
+    if (!glMap) return;
+
+    const res: any = await get('/api/fleet/positions', { limit: 500 });
+    const all = ((res?.success ? res.data : []) as any[])
+      .map(vehicleFromPosition)
+      .filter((v): v is LiveVehicle => !!v && v.state === 'moving');
+    let best: { v: LiveVehicle; path: [number, number][]; score: number } | null = null;
+
+    all.forEach(v => {
+      const r = missionRoute(v.id);
+
+      if (!r?.fromName || r.fromName === r.toName) return; // a real trip between two places, not a round trip
+
+      const path = [...[...r.behind].reverse(), ...r.ahead.slice(1)];
+      const km = path.slice(1).reduce((t, p, i) => t + flatM(path[i], p), 0) / 1000;
+      const score = Math.abs(km - HERO_KM); // a road long enough to read, short enough to frame tightly
+
+      if (!best || score < best.score) best = { v, path, score };
+    });
+
+    const hero = best as { v: LiveVehicle; path: [number, number][] } | null;
+
+    if (!hero) return fitFleet();
+
+    const xs = hero.path.map(p => p[0]);
+    const ys = hero.path.map(p => p[1]);
+
+    setGlSelected(null);
+    setPendingSelect({ id: hero.v.id, arrived: false });
+    glMap.once('moveend', () => setPendingSelect(p => (p ? { ...p, arrived: true } : p)));
+    glMap.fitBounds(
+      [
+        [Math.min(...xs), Math.min(...ys)],
+        [Math.max(...xs), Math.max(...ys)],
+      ],
+      { padding: { top: 150, bottom: 70, left: 80, right: 80 }, maxZoom: 9.5, duration: 1800 }
+    );
+  };
+
+  // Open the first time the GL map is ready.
   useEffect(() => {
-    if (glMap) fitFleet();
+    if (!glMap) return;
+
+    if (isShowcase()) openHero();
+    else fitFleet();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per map instance
   }, [glMap]);
 
