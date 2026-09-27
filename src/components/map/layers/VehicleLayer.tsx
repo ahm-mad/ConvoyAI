@@ -24,7 +24,14 @@ interface Entry {
   fixes: { t: number; lat: number; lon: number; h: number }[];
   /** Smoothed gap between fixes (ms). */
   gap: number;
+  /** Latest vehicle data (for the label). */
+  v: LiveVehicle;
+  /** Name chip under the vehicle, created when first needed (zoomed in). */
+  label: { marker: Marker; el: HTMLDivElement; text: string } | null;
 }
+
+/** Name labels appear from this zoom on. */
+const LABEL_ZOOM = 12;
 
 /** A count bubble. It keeps its identity (`key` = lowest member id) so it glides instead of teleporting when groups change. */
 interface ClusterItem {
@@ -59,6 +66,7 @@ export default function VehicleLayer({
   followId = null,
   onFollowLost,
   onHover,
+  labels = true,
 }: {
   vehicles: LiveVehicle[];
   iconStyle: VehicleIconStyle;
@@ -77,6 +85,8 @@ export default function VehicleLayer({
   onFollowLost?: () => void;
   /** The pointer entered / left a vehicle (drives the route preview). */
   onHover?: (id: string | null) => void;
+  /** Name + plate chips under the vehicles when zoomed in. */
+  labels?: boolean;
 }) {
   const { map } = useConvoyMap();
   const store = useRef(new Map<string, Entry>());
@@ -94,6 +104,7 @@ export default function VehicleLayer({
   const clusterPool = useRef<ClusterItem[]>([]);
   const lostRef = useRef(onFollowLost);
   const hoverRef = useRef(onHover);
+  const labelsOn = useRef(labels);
   const hist = useRef(new Map<string, [number, number][]>());
   const lastSample = useRef(0);
 
@@ -105,6 +116,7 @@ export default function VehicleLayer({
   followRef.current = followId;
   lostRef.current = onFollowLost;
   hoverRef.current = onHover;
+  labelsOn.current = labels;
 
   // Create / update / remove markers to match `vehicles`.
   useEffect(() => {
@@ -164,6 +176,8 @@ export default function VehicleLayer({
             fixAt: performance.now(),
             fixes: [],
             gap: 700,
+            v,
+            label: null,
           };
           store.current.set(v.id, e);
         }
@@ -208,11 +222,13 @@ export default function VehicleLayer({
           e.fixes = [{ t: arrive, lat: v.lat, lon: v.lon, h }];
         }
         e.el.setAttribute('aria-label', `${v.name}, ${v.state}`);
+        e.v = v;
       });
 
       store.current.forEach((e, id) => {
         if (!seen.has(id)) {
           e.marker.remove();
+          e.label?.marker.remove();
           store.current.delete(id);
           hist.current.delete(id);
         }
@@ -308,6 +324,7 @@ export default function VehicleLayer({
         );
         e.el.style.setProperty('--vs', vs.toFixed(3));
         e.el.style.zIndex = id === latest.current.selectedId ? '5' : '1';
+        updateLabel(e, id, vs);
       });
 
       // Count bubbles glide toward their group's centre (their target only changes a few times a second).
@@ -320,6 +337,57 @@ export default function VehicleLayer({
         c.cur.lat += (c.tgt.lat - c.cur.lat) * kc;
         c.marker.setLngLat([c.cur.lon, c.cur.lat]);
       });
+
+      // Vehicles zoomed in get a name chip (the selected one has its card instead; clustered ones are hidden).
+      function updateLabel(e: Entry, id: string, vs: number) {
+        const show =
+          labelsOn.current &&
+          ctor.current &&
+          map.getZoom() >= LABEL_ZOOM &&
+          e.el.style.display !== 'none' &&
+          id !== latest.current.selectedId;
+
+        if (!show) {
+          if (e.label) e.label.el.style.display = 'none';
+
+          return;
+        }
+
+        const short = e.v.name.split(' · ')[0];
+        const text = `${short}|${e.v.plate ?? ''}`;
+
+        if (!e.label) {
+          const el = document.createElement('div');
+
+          el.className = 'cv-vlabel';
+          el.setAttribute('aria-hidden', 'true');
+          e.label = {
+            marker: new ctor.current!({ element: el, anchor: 'top', subpixelPositioning: true })
+              .setLngLat([e.cur.lon, e.cur.lat])
+              .addTo(map),
+            el,
+            text: '',
+          };
+        }
+        if (e.label.text !== text) {
+          e.label.text = text;
+          e.label.el.replaceChildren();
+
+          const b = document.createElement('b');
+
+          b.textContent = short;
+          e.label.el.appendChild(b);
+          if (e.v.plate) {
+            const i = document.createElement('i');
+
+            i.textContent = e.v.plate;
+            e.label.el.appendChild(i);
+          }
+        }
+        e.label.marker.setLngLat([e.cur.lon, e.cur.lat]);
+        e.label.el.style.display = '';
+        e.label.el.style.setProperty('--vs', vs.toFixed(3));
+      }
 
       const sel = latest.current.selectedId ? store.current.get(latest.current.selectedId) : null;
 
@@ -686,7 +754,10 @@ export default function VehicleLayer({
   // Remove everything on unmount.
   useEffect(
     () => () => {
-      store.current.forEach(e => e.marker.remove());
+      store.current.forEach(e => {
+        e.marker.remove();
+        e.label?.marker.remove();
+      });
       store.current.clear();
       card.current?.marker.remove();
       clusterPool.current.forEach(c => c.marker.remove());

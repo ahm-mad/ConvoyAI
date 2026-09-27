@@ -1552,6 +1552,30 @@
     color: var(--color-ink-2);
   }
 
+  /* Name chip under a vehicle (zoomed in). Sits under the icon; the icon is up to ~36 px * scale tall from its centre. */
+  .cv-vlabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: calc(var(--vs, 1) * 26px);
+    padding: 1px 8px;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--color-surface-1) 92%, transparent);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
+    color: var(--color-ink-0);
+    font: 600 10.5px/1.3 var(--font-sans);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .cv-vlabel i {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 9.5px;
+    color: var(--color-ink-2);
+  }
+
   /* ------------------------------------------------------------------ Map clusters */
   .cv-cluster {
     z-index: 3; /* above yard pads and single vehicles, below the selected vehicle and its card */
