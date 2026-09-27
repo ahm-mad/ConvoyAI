@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import AiOrb, { type AiOrbState } from '@components/ui/AiOrb';
 import { X } from 'lucide-react';
 import CopilotChat from './CopilotChat';
 
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export default function CopilotPanel({ open, onClose, pendingQuestion, onConsumed }: Props) {
+  const [orb, setOrb] = useState<AiOrbState>('idle');
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -41,15 +44,7 @@ export default function CopilotPanel({ open, onClose, pendingQuestion, onConsume
           style={{ background: 'var(--gradient-copilot-glow)' }}
         />
         <header className="relative flex items-center gap-3 px-5 pb-3 pt-5">
-          <div
-            className="relative size-10 rounded-full shadow-ai motion-spin-slow"
-            style={{ background: 'var(--gradient-ai-orb)' }}
-          >
-            <span
-              className="absolute inset-1 rounded-full"
-              style={{ background: 'var(--gradient-orb-core)' }}
-            />
-          </div>
+          <AiOrb state={orb} className="size-10" />
           <div>
             <h2 className="text-base font-semibold text-ink-0">Convoy Copilot</h2>
             <p className="text-xs text-ink-2">Ask anything about your fleet</p>
@@ -67,7 +62,12 @@ export default function CopilotPanel({ open, onClose, pendingQuestion, onConsume
           </button>
         </header>
 
-        <CopilotChat active={open} pendingQuestion={pendingQuestion} onConsumed={onConsumed} />
+        <CopilotChat
+          active={open}
+          pendingQuestion={pendingQuestion}
+          onConsumed={onConsumed}
+          onOrbState={setOrb}
+        />
       </aside>
     </>
   );

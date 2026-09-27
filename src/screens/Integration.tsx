@@ -231,7 +231,7 @@ export default function Integration() {
             const Icon = c.icon;
 
             return (
-              <div key={c.key} className="glass card-lift spotlight flex flex-col gap-4 p-5">
+              <div key={c.key} className="glass group card-lift spotlight flex flex-col gap-4 p-5">
                 <div className="flex items-start justify-between gap-3">
                   <span className="grid size-11 place-items-center rounded-card bg-brand-wash text-brand icon-gradient">
                     <Icon size={20} />

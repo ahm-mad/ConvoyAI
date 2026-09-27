@@ -24,7 +24,7 @@ export default function GlobalToggle({
       {...props}
     >
       <span
-        className={`absolute left-0 top-[2px] size-[21px] rounded-full bg-white shadow-card transition-transform ${on ? 'translate-x-[19px]' : 'translate-x-[2px]'}`}
+        className={`absolute left-0 top-[2px] size-[21px] rounded-full bg-white shadow-card switch-thumb ${on ? 'translate-x-[19px]' : 'translate-x-[2px]'}`}
       />
     </button>
   );

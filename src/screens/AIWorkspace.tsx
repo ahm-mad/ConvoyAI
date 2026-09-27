@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CalendarClock, ShieldAlert, Sparkles, TrendingDown, Wrench } from 'lucide-react';
 import CopilotChat from '@components/shell/CopilotChat';
 import { useCompanyMoney } from '@hooks/useCompanyMoney';
+import AiOrb, { type AiOrbState } from '@components/ui/AiOrb';
 
 /** Illustrative data (no AI backend yet): everything on this page is clearly labelled Preview. */
 const MAINTENANCE = [
@@ -73,6 +74,7 @@ function Ring({ value }: { value: number }) {
 
 export default function AIWorkspace() {
   const money = useCompanyMoney();
+  const [orb, setOrb] = useState<AiOrbState>('idle');
   const [auto, setAuto] = useState<Record<string, boolean>>(
     Object.fromEntries(AUTOMATIONS.map(a => [a.key, a.on]))
   );
@@ -103,21 +105,13 @@ export default function AIWorkspace() {
             style={{ background: 'var(--gradient-copilot-glow)' }}
           />
           <div className="relative flex items-center gap-3 px-6 pb-3 pt-5">
-            <div
-              className="relative size-10 rounded-full shadow-ai motion-spin-slow"
-              style={{ background: 'var(--gradient-ai-orb)' }}
-            >
-              <span
-                className="absolute inset-1 rounded-full"
-                style={{ background: 'var(--gradient-orb-core)' }}
-              />
-            </div>
+            <AiOrb state={orb} className="size-10" />
             <div>
               <h2 className="card-title">Convoy Copilot</h2>
               <p className="card-subtitle">Reads your live fleet data</p>
             </div>
           </div>
-          <CopilotChat />
+          <CopilotChat onOrbState={setOrb} />
         </section>
 
         <div className="flex flex-col gap-6">
@@ -153,7 +147,7 @@ export default function AIWorkspace() {
                     className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${auto[a.key] ? 'btn-ai' : 'bg-black/[0.12]'}`}
                   >
                     <span
-                      className={`absolute left-0 top-0.5 size-5 rounded-full bg-white shadow-card transition-transform ${auto[a.key] ? 'translate-x-[22px]' : 'translate-x-0.5'}`}
+                      className={`absolute left-0 top-0.5 size-5 rounded-full bg-white shadow-card switch-thumb ${auto[a.key] ? 'translate-x-[22px]' : 'translate-x-0.5'}`}
                     />
                   </button>
                 </li>
