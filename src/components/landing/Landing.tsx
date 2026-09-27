@@ -16,6 +16,7 @@ import HeroVisual from './HeroVisual';
 import CountUp from '@components/ui/CountUp';
 import SpotlightTracker from '@components/ui/SpotlightTracker';
 import Tour from './Tour';
+import ScrollStory from './ScrollStory';
 import { FinalCta, HowItWorks, LogoStrip, SiteFooter, Testimonials } from './Proof';
 
 const NAV = [
@@ -195,6 +196,8 @@ export default function Landing() {
             })}
           </div>
         </section>
+
+        <ScrollStory />
 
         <HowItWorks />
 

@@ -197,6 +197,21 @@ export default function ConvoyMap({
       .catch(e => setFailed(e instanceof Error ? e.message : 'Map style failed.'));
   }, [look, map]);
 
+  // Keep the map's internal transform in step with its container. Needed whenever the container's size can change
+  // after the map is created: a panel opening/closing beside it, a `sticky` element settling into its final box, or a
+  // map that mounts lazily (`LazyMount`) while its ancestor is still being laid out. Without this the canvas still
+  // paints at the right CSS size, but marker projections and the visible tiles drift to where an earlier, wrong size
+  // put them.
+  useEffect(() => {
+    if (!map || !host.current || typeof ResizeObserver === 'undefined') return;
+
+    const ro = new ResizeObserver(() => map.resize());
+
+    ro.observe(host.current);
+
+    return () => ro.disconnect();
+  }, [map]);
+
   // 2D ↔ 3D: animate the camera.
   useEffect(() => {
     if (!map) return;
