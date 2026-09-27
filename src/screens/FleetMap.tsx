@@ -491,9 +491,9 @@ export default function FleetMap() {
     : [31.4757729, 74.3399971];
 
   return (
-    <div className="glass flex flex-col h-[calc(100vh-200px)] min-h-[640px] overflow-hidden rounded-modal mt-4 mb-8">
-      <div className="px-4 sm:px-6 py-4 border-b border-line-soft bg-white/60 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 flex-shrink-0">
-        <div className="min-w-0">
+    <div className="glass flex flex-col h-[calc(100vh-190px)] min-h-[640px] overflow-hidden rounded-modal mt-2 mb-6">
+      <div className="px-4 sm:px-6 py-2.5 border-b border-line-soft bg-white/60 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 flex-shrink-0">
+        <div className="flex min-w-0 flex-wrap items-baseline gap-x-3">
           <h1 className="page-title text-title-sm">Live map</h1>
           <p className="text-[12.5px] text-ink-2">
             {isLoading
