@@ -110,7 +110,7 @@ export default function PlanManagement() {
         {PLANS.map(p => (
           <div
             key={p.key}
-            className={`glass card-lift flex flex-col gap-4 p-6 ${p.current ? 'ring-2 ring-brand' : ''}`}
+            className={`glass group card-lift flex flex-col gap-4 p-6 ${p.current ? 'ring-2 ring-brand' : ''}`}
           >
             <div className="flex items-center justify-between">
               <div className="card-title">{p.name}</div>

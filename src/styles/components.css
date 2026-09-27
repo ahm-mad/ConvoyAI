@@ -518,6 +518,92 @@
     transform: translateY(-1px);
     filter: saturate(1.12) brightness(1.03);
   }
+  .btn-brand:active,
+  .btn-ai:active {
+    transform: translateY(0) scale(0.97);
+    filter: saturate(1.05) brightness(0.98);
+    transition-duration: var(--motion-fast);
+  }
+  .btn-soft:active {
+    transform: scale(0.96);
+  }
+  /* B6: a light sweep crosses primary buttons on hover */
+  .btn-brand::after,
+  .btn-ai::after {
+    content: '';
+    position: absolute;
+    inset: -25% -60%;
+    pointer-events: none;
+    background: linear-gradient(
+      112deg,
+      transparent 42%,
+      color-mix(in srgb, var(--color-surface-1) 42%, transparent) 50%,
+      transparent 58%
+    );
+    transform: translateX(-110%);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .btn-brand::after,
+    .btn-ai::after {
+      transition: transform 750ms var(--ease-standard);
+    }
+    .btn-brand:hover::after,
+    .btn-ai:hover::after {
+      transform: translateX(110%);
+    }
+    /* Springs: switches overshoot slightly, checkboxes and radios pop when ticked */
+    .switch-thumb {
+      transition: transform 380ms var(--ease-spring);
+    }
+    .check:checked,
+    .radio:checked {
+      animation: cv-box-pop 300ms var(--ease-spring);
+    }
+    .check:checked::after {
+      animation: cv-tick-pop 320ms var(--ease-spring);
+    }
+    .radio:checked::after {
+      animation: cv-dot-pop 320ms var(--ease-spring);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .switch-thumb {
+      transition: none;
+    }
+  }
+  @keyframes cv-box-pop {
+    0% {
+      transform: scale(0.86);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes cv-tick-pop {
+    from {
+      transform: translateY(-1px) rotate(45deg) scale(0);
+    }
+    to {
+      transform: translateY(-1px) rotate(45deg) scale(1);
+    }
+  }
+  @keyframes cv-dot-pop {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  /* Table rows: the hovered row gets a brand rail on its left edge that slides in */
+  .row-glide > td:first-child {
+    box-shadow: inset 0 0 0 0 var(--color-brand);
+    transition: box-shadow var(--motion-base) var(--ease-standard);
+  }
+  .row-glide:hover > td:first-child {
+    box-shadow: inset 3px 0 0 0 var(--color-brand);
+  }
 
   @media (prefers-reduced-motion: no-preference) {
     .motion-rise {
@@ -642,6 +728,153 @@
   @media (prefers-reduced-motion: reduce) {
     .radar-sweep {
       display: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------ AI orb (B5) */
+  .ai-orb {
+    --orb-spin: 16s;
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    isolation: isolate;
+  }
+  .ai-orb > span {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+  .ai-orb__glow {
+    inset: -22%;
+    z-index: -2;
+    background: var(--gradient-ai-orb);
+    filter: blur(12px);
+    opacity: 0.55;
+  }
+  .ai-orb__ring {
+    inset: 0;
+    background: var(--gradient-ai-orb);
+    box-shadow: var(--shadow-ai);
+  }
+  .ai-orb__core {
+    inset: 12%;
+    background: var(--gradient-orb-core);
+    box-shadow:
+      inset 0 -6px 10px -6px color-mix(in srgb, var(--color-ai) 40%, transparent),
+      inset 0 2px 3px color-mix(in srgb, var(--color-surface-1) 90%, transparent);
+  }
+  .ai-orb__ripple {
+    inset: 0;
+    z-index: -1;
+    border: 1.5px solid color-mix(in srgb, var(--color-ai) 55%, transparent);
+    opacity: 0;
+  }
+  .ai-orb__spark {
+    inset: 0;
+    opacity: 0;
+  }
+  .ai-orb__spark::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -9%;
+    width: 16%;
+    height: 16%;
+    margin-left: -8%;
+    border-radius: 9999px;
+    background: var(--color-surface-1);
+    box-shadow:
+      0 0 8px 2px color-mix(in srgb, var(--color-ai-bright) 80%, transparent),
+      0 0 16px 4px color-mix(in srgb, var(--color-brand-bright) 45%, transparent);
+  }
+  .ai-orb[data-state='thinking'] .ai-orb__spark {
+    opacity: 1;
+  }
+  .ai-orb[data-state='thinking'] .ai-orb__glow {
+    opacity: 0.85;
+  }
+  .ai-orb[data-state='speaking'] .ai-orb__glow {
+    opacity: 0.75;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ai-orb__ring {
+      animation: cv-spin var(--orb-spin) linear infinite;
+    }
+    .ai-orb__glow {
+      animation: cv-orb-breathe 4.2s ease-in-out infinite;
+    }
+    .ai-orb[data-state='thinking'] {
+      --orb-spin: 2.4s;
+    }
+    .ai-orb[data-state='speaking'] {
+      --orb-spin: 7s;
+    }
+    .ai-orb[data-state='thinking'] .ai-orb__glow {
+      animation: cv-orb-breathe 1.1s ease-in-out infinite;
+    }
+    .ai-orb[data-state='thinking'] .ai-orb__core {
+      animation: cv-orb-think 1.1s ease-in-out infinite;
+    }
+    .ai-orb[data-state='thinking'] .ai-orb__spark {
+      animation: cv-spin 1.6s linear infinite;
+    }
+    .ai-orb[data-state='thinking'] .ai-orb__ripple,
+    .ai-orb[data-state='speaking'] .ai-orb__ripple {
+      animation: cv-orb-ripple 1.8s var(--ease-standard) infinite;
+    }
+    .ai-orb[data-state='thinking'] .ai-orb__ripple--late,
+    .ai-orb[data-state='speaking'] .ai-orb__ripple--late {
+      animation-delay: 0.9s;
+    }
+    .ai-orb[data-state='speaking'] .ai-orb__core {
+      animation: cv-orb-speak 0.62s ease-in-out infinite;
+    }
+    .ai-orb[data-state='speaking'] .ai-orb__glow {
+      animation: cv-orb-breathe 0.62s ease-in-out infinite;
+    }
+  }
+  @keyframes cv-orb-breathe {
+    0%,
+    100% {
+      transform: scale(0.94);
+    }
+    50% {
+      transform: scale(1.08);
+    }
+  }
+  @keyframes cv-orb-think {
+    0%,
+    100% {
+      transform: scale(0.9);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  }
+  @keyframes cv-orb-speak {
+    0%,
+    100% {
+      transform: scale(0.94);
+    }
+    30% {
+      transform: scale(1.1);
+    }
+    55% {
+      transform: scale(0.98);
+    }
+    75% {
+      transform: scale(1.06);
+    }
+  }
+  @keyframes cv-orb-ripple {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(1.75);
+      opacity: 0;
     }
   }
 

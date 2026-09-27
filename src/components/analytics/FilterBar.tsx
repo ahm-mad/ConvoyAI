@@ -193,7 +193,7 @@ export default function FilterBar({
             }`}
           >
             <span
-              className={`absolute top-[2px] left-[2px] w-[14px] h-[14px] rounded-full bg-white shadow transition-transform ${
+              className={`absolute top-[2px] left-[2px] w-[14px] h-[14px] rounded-full bg-white shadow switch-thumb ${
                 compare ? 'translate-x-[14px]' : ''
               }`}
             />

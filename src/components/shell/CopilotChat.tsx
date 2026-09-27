@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useCompanyMoney } from '@hooks/useCompanyMoney';
+import type { AiOrbState } from '@components/ui/AiOrb';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface Msg {
@@ -166,12 +167,15 @@ export default function CopilotChat({
   active = true,
   pendingQuestion,
   onConsumed,
+  onOrbState,
   className = '',
 }: {
   /** Whether the chat is currently visible (the panel keeps it mounted while closed). */
   active?: boolean;
   pendingQuestion?: string | null;
   onConsumed?: () => void;
+  /** Reports what the assistant is doing (thinking → speaking while the answer types → idle) so an orb can mirror it. */
+  onOrbState?: (s: AiOrbState) => void;
   className?: string;
 }) {
   const money = useCompanyMoney();
@@ -188,9 +192,15 @@ export default function CopilotChat({
     setMsgs(m => [...m, { id: ++idRef.current, role: 'user', text }]);
     setInput('');
     setThinking(true);
+    onOrbState?.('thinking');
     setTimeout(() => {
-      setMsgs(m => [...m, { id: ++idRef.current, role: 'ai', ...withMoney(answer(text), money) }]);
+      const a = withMoney(answer(text), money);
+
+      setMsgs(m => [...m, { id: ++idRef.current, role: 'ai', ...a }]);
       setThinking(false);
+      onOrbState?.('speaking');
+      // The answer types at ~3 characters per 16 ms; the orb keeps "speaking" until it has finished.
+      setTimeout(() => onOrbState?.('idle'), Math.ceil(a.text.length / 3) * 16 + 500);
     }, 900);
   };
 

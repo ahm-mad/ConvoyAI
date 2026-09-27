@@ -274,7 +274,7 @@ export default function Yards() {
             >
               <button
                 onClick={() => openModal(<YardLayoutEditor yardId={y.id} yardName={y.name} />)}
-                className={`w-full text-left flex items-center justify-between glass-strong spotlight px-5 py-4 card-lift ${
+                className={`w-full text-left flex items-center justify-between glass-strong spotlight px-5 py-4 group card-lift ${
                   y.is_active === false ? 'opacity-60' : ''
                 }`}
               >

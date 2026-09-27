@@ -497,7 +497,7 @@ const DataTable = ({
                   getPaginationInfo.currentData.map((item, index) => (
                     <React.Fragment key={item.id}>
                       <tr
-                        className={`border-b border-line-soft hover:bg-brand-wash/40 transition-colors ${rowClassName} ${
+                        className={`border-b border-line-soft row-glide hover:bg-brand-wash/40 transition-colors ${rowClassName} ${
                           loading ? 'opacity-60 pointer-events-none' : ''
                         }`}
                         onClick={() => onRowClick(item)}

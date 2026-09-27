@@ -332,7 +332,7 @@ function VehicleRow({ vehicle, onClick }: { vehicle: Vehicle; onClick: () => voi
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left flex items-center justify-between glass-strong spotlight px-5 py-4 card-lift ${
+      className={`w-full text-left flex items-center justify-between glass-strong spotlight px-5 py-4 group card-lift ${
         vehicle.lifecycle_status === 'retired' || vehicle.lifecycle_status === 'sold'
           ? 'opacity-60'
           : ''
@@ -346,7 +346,7 @@ function VehicleRow({ vehicle, onClick }: { vehicle: Vehicle; onClick: () => voi
             className="w-11 h-11 rounded-xl object-cover flex-shrink-0"
           />
         ) : (
-          <div className="w-11 h-11 rounded-xl bg-brand-wash flex items-center justify-center flex-shrink-0">
+          <div className="w-11 h-11 rounded-xl bg-brand-wash icon-tile flex items-center justify-center flex-shrink-0">
             <Truck size={18} className="text-brand" />
           </div>
         )}

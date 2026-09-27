@@ -59,7 +59,7 @@ const PermissionCard = ({
   enabled,
   onChange,
 }: PermissionCardProps) => (
-  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 glass-strong card-lift gap-3 sm:gap-4">
+  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 glass-strong group card-lift gap-3 sm:gap-4">
     <div className="flex items-start gap-3 sm:gap-4 w-full sm:w-auto">
       <HexagonBadge>
         <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-accent-cyan" />

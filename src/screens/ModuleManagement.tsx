@@ -95,7 +95,7 @@ export default function ModuleManagement() {
             const Icon = meta?.icon ?? Boxes;
 
             return (
-              <div key={m.id} className="glass card-lift spotlight flex flex-col gap-3 p-5">
+              <div key={m.id} className="glass group card-lift spotlight flex flex-col gap-3 p-5">
                 <div className="flex items-start justify-between gap-3">
                   <span className="grid size-11 place-items-center rounded-card bg-brand-wash text-brand icon-gradient">
                     <Icon size={20} />
