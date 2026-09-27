@@ -66,6 +66,7 @@ export default function FleetMap() {
     yards: true,
     geofences: true,
     heat: false,
+    labels: true,
   });
   const [speedColors, setSpeedColors] = useState(true);
   // MapLibre GL map (needs WebGL; see the fallback message in the render).
@@ -586,6 +587,7 @@ export default function FleetMap() {
                 speedLabel={v => formatQty(u.speed, v.speed, 0)}
                 motionScale={isShowcase() ? demoSpeed : 1}
                 onHover={setGlHover}
+                labels={layers.labels}
                 followId={follow ? glSelected : null}
                 onFollowLost={() => {
                   setFollow(false);
@@ -753,6 +755,7 @@ export default function FleetMap() {
                   ['vehicles', 'Vehicles', positions.length, 'var(--color-brand)'],
                   ['yards', 'Yards', yardsTotal, 'var(--color-brand-ink)'],
                   ['geofences', 'Geofences', geofencesTotal, 'var(--color-gold)'],
+                  ['labels', 'Labels', '', 'var(--color-ink-1)'],
                   ['heat', 'Heat', '', 'var(--color-danger)'],
                 ] as const
               ).map(([key, label, n, color]) => (
