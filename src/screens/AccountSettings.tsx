@@ -448,9 +448,16 @@ export default function BasicCard({
           id="scroll-container"
           className="flex-1 px-4 overflow-y-auto scroll-hidden scroll-smooth xl:-ml-20 xl:mr-30"
         >
+          <header className="mt-10 px-5 lg:px-0">
+            <div className="eyebrow">Account</div>
+            <h1 className="page-display mt-1">Account settings</h1>
+            <p className="mt-2 max-w-xl text-sm text-ink-1">
+              Your profile, company details and sign-in security in one place.
+            </p>
+          </header>
           <div
             id="basic-settings"
-            className="flex justify-center mt-10 p-5 lg:p-0 border border-line-soft rounded-md"
+            className="flex justify-center mt-6 p-5 lg:p-0 border border-line-soft rounded-md"
           >
             <Card
               sx={{
