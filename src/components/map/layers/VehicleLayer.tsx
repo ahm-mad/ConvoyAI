@@ -66,7 +66,7 @@ export default function VehicleLayer({
   followId = null,
   onFollowLost,
   onHover,
-  labels = true,
+  labels = false,
   cardExtra,
   onReplay,
 }: {
