@@ -94,7 +94,7 @@ export default function SaveAsTemplateModal({ product, onSuccess }) {
             value={description}
             onChange={e => setDescription(e.target.value)}
             rows={2}
-            className="w-full mt-1.5 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+            className="w-full mt-1.5 field"
           />
         </div>
         {error && <div className="text-xs text-danger-text">{error}</div>}

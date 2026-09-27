@@ -95,7 +95,7 @@ export default function FilterBar({
   }, [open]);
 
   const input =
-    'bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan';
+    'field focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan';
 
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5">

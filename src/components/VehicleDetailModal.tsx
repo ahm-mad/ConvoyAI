@@ -462,7 +462,7 @@ function TrackerTab({ vehicleId, vehicle, onChanged }) {
               value={deviceId}
               onChange={e => setDeviceId(e.target.value)}
               disabled={trackersLoading}
-              className="flex-1 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+              className="flex-1 field"
             >
               <option value="">
                 {trackersLoading
@@ -621,20 +621,20 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
             value={serviceType}
             onChange={e => setServiceType(e.target.value)}
             placeholder="Service type (e.g. Oil Change)"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <input
             value={intervalDays}
             onChange={e => setIntervalDays(e.target.value)}
             placeholder="Interval (days)"
             type="number"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <input
             value={lastServiceDate}
             onChange={e => setLastServiceDate(e.target.value)}
             type="date"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <div className="flex gap-2">
             <button
@@ -717,7 +717,7 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
                 const schedule = schedules.find(s => String(s.id) === e.target.value);
                 if (schedule) setLogType(schedule.service_type);
               }}
-              className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+              className="w-full field mb-2"
             >
               <option value="">Unscheduled service (no schedule)</option>
               {schedules.map(s => (
@@ -731,20 +731,20 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
             value={logType}
             onChange={e => setLogType(e.target.value)}
             placeholder="Service performed (e.g. Oil Change)"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <input
             value={logDate}
             onChange={e => setLogDate(e.target.value)}
             type="date"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <input
             value={logCost}
             onChange={e => setLogCost(e.target.value)}
             type="number"
             placeholder="Cost (optional)"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <div className="flex gap-2">
             <button
@@ -878,13 +878,9 @@ function FuelTab({ vehicleId, economy, onCreated }) {
               value={fillDate}
               onChange={e => setFillDate(e.target.value)}
               type="date"
-              className="bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0"
+              className="field"
             />
-            <select
-              value={unit}
-              onChange={e => setUnit(e.target.value)}
-              className="bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0"
-            >
+            <select value={unit} onChange={e => setUnit(e.target.value)} className="field">
               <option value="liters">Liters</option>
               <option value="gallons">Gallons</option>
             </select>
@@ -894,14 +890,14 @@ function FuelTab({ vehicleId, economy, onCreated }) {
             onChange={e => setVolume(e.target.value)}
             type="number"
             placeholder="Volume"
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <input
             value={odometer}
             onChange={e => setOdometer(e.target.value)}
             type="number"
             placeholder={`Odometer (${u.distance.label}, optional)`}
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+            className="w-full field mb-2"
           />
           <label className="flex items-center gap-2 text-xs text-ink-1 mb-2">
             <input

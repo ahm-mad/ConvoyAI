@@ -363,30 +363,45 @@ function NewYardForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
 
   return (
     <div className="glass  p-6 mb-5">
-      <input
-        value={name}
-        onChange={e => setName(e.target.value)}
-        placeholder="Yard name"
-        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mb-2"
-      />
-      <input
-        value={address}
-        onChange={e => setAddress(e.target.value)}
-        placeholder="Address (optional)"
-        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mb-2"
-      />
-      <div className="grid grid-cols-2 gap-2 mb-3">
+      <div className="mb-4 flex items-center gap-3">
+        <span className="icon-tile grid size-10 place-items-center rounded-control bg-brand-wash text-brand">
+          <Warehouse size={18} aria-hidden />
+        </span>
+        <div>
+          <div className="card-title">New yard</div>
+          <p className="text-[12.5px] text-ink-2">
+            Name it; add a location and radius so vehicles arriving are detected automatically.
+          </p>
+        </div>
+      </div>
+      <div className="mb-3 grid gap-3 md:grid-cols-2">
+        <input
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="Yard name"
+          aria-label="Yard name"
+          className="w-full field"
+        />
+        <input
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+          placeholder="Address (optional)"
+          aria-label="Address"
+          className="w-full field"
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-3 mb-3">
         <input
           value={lat}
           onChange={e => setLat(e.target.value)}
           placeholder="Latitude (optional)"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
         <input
           value={lng}
           onChange={e => setLng(e.target.value)}
           placeholder="Longitude (optional)"
-          className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+          className="field"
         />
         <PickOnMapButton
           latitude={lat}
@@ -408,7 +423,7 @@ function NewYardForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
               onChange={e => setRadius(e.target.value)}
               type="number"
               min={10}
-              className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+              className="w-full field"
             />
             <span className="block text-[10px] text-ink-2 mt-1">
               A geofence of this size is created for the yard, so sensors detect vehicles entering

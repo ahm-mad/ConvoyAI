@@ -26,7 +26,7 @@ export interface FieldDef {
   qty?: 'distance';
 }
 
-const input = 'w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0';
+const input = 'w-full field';
 
 const toInitial = (record: any, f: FieldDef, u: Units) => {
   const v = record[f.key];

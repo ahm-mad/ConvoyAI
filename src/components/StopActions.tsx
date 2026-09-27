@@ -131,7 +131,7 @@ export default function StopActions({
             step={1}
             value={time}
             onChange={e => setTime(e.target.value)}
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0"
+            className="w-full field"
           />
 
           <textarea
@@ -139,7 +139,7 @@ export default function StopActions({
             onChange={e => setReason(e.target.value)}
             rows={2}
             placeholder={replacing ? 'Reason for the correction *' : 'Reason (optional)'}
-            className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 resize-none"
+            className="w-full field resize-none"
           />
 
           {replacing && (

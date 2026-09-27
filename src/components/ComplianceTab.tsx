@@ -146,19 +146,19 @@ function NewDocumentForm({
         value={type}
         onChange={e => setType(e.target.value)}
         placeholder="Document type (e.g. Registration, Insurance)"
-        className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+        className="w-full field mb-2"
       />
       <input
         value={number}
         onChange={e => setNumber(e.target.value)}
         placeholder="Document number (optional)"
-        className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+        className="w-full field mb-2"
       />
       <input
         value={expiryDate}
         onChange={e => setExpiryDate(e.target.value)}
         type="date"
-        className="w-full bg-surface-1 border border-line rounded px-2 py-1.5 text-xs text-ink-0 mb-2"
+        className="w-full field mb-2"
       />
       <RequiredHint missing={type.trim() ? [] : ['document type']} />
       <div className="flex gap-2">

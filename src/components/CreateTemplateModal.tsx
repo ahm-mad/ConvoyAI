@@ -120,7 +120,7 @@ export default function CreateTemplateModal({ onSuccess }) {
             value={description}
             onChange={e => setDescription(e.target.value)}
             rows={2}
-            className="w-full mt-1.5 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+            className="w-full mt-1.5 field"
           />
         </div>
 
@@ -139,13 +139,13 @@ export default function CreateTemplateModal({ onSuccess }) {
                   value={field.label}
                   onChange={e => updateField(index, { label: e.target.value })}
                   placeholder="label"
-                  className="w-28 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+                  className="w-28 field"
                 />
                 <input
                   value={field.unit}
                   onChange={e => updateField(index, { unit: e.target.value })}
                   placeholder="unit"
-                  className="w-16 bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+                  className="w-16 field"
                 />
                 <button
                   onClick={() => removeField(index)}

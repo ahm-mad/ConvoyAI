@@ -493,7 +493,7 @@ function NewGeofenceForm({
         value={name}
         onChange={e => setName(e.target.value)}
         placeholder="Geofence name"
-        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mb-2"
+        className="w-full field mb-2"
       />
 
       <label className="text-[10px] uppercase text-ink-2">Center</label>
@@ -501,7 +501,7 @@ function NewGeofenceForm({
         value={yardId}
         onChange={e => setYardId(e.target.value)}
         aria-label="Center"
-        className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1 mb-2"
+        className="w-full field mt-1 mb-2"
       >
         <option value="">Enter coordinates manually</option>
         {yards.map(y => (
@@ -517,13 +517,13 @@ function NewGeofenceForm({
             value={lat}
             onChange={e => setLat(e.target.value)}
             placeholder="Latitude"
-            className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+            className="field"
           />
           <input
             value={lng}
             onChange={e => setLng(e.target.value)}
             placeholder="Longitude"
-            className="bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0"
+            className="field"
           />
           <PickOnMapButton
             latitude={lat}
@@ -546,7 +546,7 @@ function NewGeofenceForm({
             onChange={e => setRadius(e.target.value)}
             type="number"
             aria-label="Radius"
-            className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1"
+            className="w-full field mt-1"
           />
         </div>
         <div>
@@ -555,7 +555,7 @@ function NewGeofenceForm({
             value={alertOn}
             onChange={e => setAlertOn(e.target.value)}
             aria-label="Alert on"
-            className="w-full bg-white border border-line rounded-xl px-2.5 py-1.5 text-xs text-ink-0 mt-1"
+            className="w-full field mt-1"
           >
             <option value="both">Enter &amp; Exit</option>
             <option value="enter">Enter only</option>
