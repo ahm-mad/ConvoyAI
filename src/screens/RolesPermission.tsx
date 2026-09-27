@@ -259,19 +259,24 @@ const RolesPermission = () => {
       accessor: 'status',
       sortable: true,
       width: '120px',
-      render: status => (
-        <span
-          className={`px-2 py-0.5 rounded text-[10.5px] font-medium ${
-            status === 'Active'
-              ? 'bg-accent-green/10 text-accent-green'
-              : status === 'Pending'
-                ? 'bg-warning/10 text-warning'
-                : 'bg-danger/10 text-danger-text'
-          }`}
-        >
-          {status}
-        </span>
-      ),
+      render: status => {
+        // The API and the showcase data differ in case ("Active" / "active"); compare case-insensitively.
+        const st = String(status ?? '').toLowerCase();
+
+        return (
+          <span
+            className={`px-2 py-0.5 rounded text-[10.5px] font-medium capitalize ${
+              st === 'active'
+                ? 'bg-accent-green/10 text-accent-green'
+                : st === 'pending'
+                  ? 'bg-warning/10 text-warning'
+                  : 'bg-danger/10 text-danger-text'
+            }`}
+          >
+            {status}
+          </span>
+        );
+      },
     },
     {
       key: 'createdAt',

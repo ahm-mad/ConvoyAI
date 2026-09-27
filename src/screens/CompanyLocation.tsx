@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Building2, Mail, MapPin, Pencil, Warehouse } from 'lucide-react';
 import { useModal } from '@contexts/ModalContext';
@@ -30,11 +30,17 @@ export default function CompanyLocation() {
 
   const edit = () => openModal(<AddLocation companyData={companyData?.data} refetch={refetch} />);
 
-  // Original behaviour: a company without details is asked to fill them in straight away.
+  // A company without details is asked to fill them in straight away — but only once the company itself has loaded and
+  // really has none (an incomplete user profile alone must not cover a filled-in page with a dialog).
+  const asked = useRef(false);
+
   useEffect(() => {
-    if (!user?.company_info) edit();
+    if (asked.current || !companyData) return;
+
+    asked.current = true;
+    if (!user?.company_info && !c?.address && !c?.city) edit();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [companyData]);
 
   const address = [c?.address, c?.city, c?.state, c?.zip_code, c?.country]
     .filter(Boolean)

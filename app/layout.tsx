@@ -40,13 +40,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
+        {/* userSpaceOnUse: a bounding-box gradient makes perfectly straight strokes (e.g. the Signal icon) disappear */}
         <svg width="0" height="0" aria-hidden focusable="false" style={{ position: 'absolute' }}>
           <defs>
-            <linearGradient id="cv-grad-brand" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient
+              id="cv-grad-brand"
+              gradientUnits="userSpaceOnUse"
+              x1="0"
+              y1="0"
+              x2="24"
+              y2="24"
+            >
               <stop offset="0" style={{ stopColor: 'var(--color-brand-bright)' }} />
               <stop offset="1" style={{ stopColor: 'var(--color-brand)' }} />
             </linearGradient>
-            <linearGradient id="cv-grad-ai" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient
+              id="cv-grad-ai"
+              gradientUnits="userSpaceOnUse"
+              x1="0"
+              y1="0"
+              x2="24"
+              y2="24"
+            >
               <stop offset="0" style={{ stopColor: 'var(--color-ai)' }} />
               <stop offset="1" style={{ stopColor: 'var(--color-ai-bright)' }} />
             </linearGradient>
