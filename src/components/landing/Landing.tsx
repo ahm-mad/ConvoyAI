@@ -15,10 +15,11 @@ import BrandMark from '@components/shell/BrandMark';
 import HeroVisual from './HeroVisual';
 import CountUp from '@components/ui/CountUp';
 import SpotlightTracker from '@components/ui/SpotlightTracker';
+import Tour from './Tour';
 import { FinalCta, HowItWorks, LogoStrip, SiteFooter, Testimonials } from './Proof';
 
 const NAV = [
-  ['Product', '#product'],
+  ['Product', '#tour'],
   ['AI', '#ai'],
   ['Analytics', '#analytics'],
   ['Customers', '#customers'],
@@ -171,6 +172,8 @@ export default function Landing() {
             ))}
           </div>
         </section>
+
+        <Tour />
 
         <section id="product" className="page-container scroll-mt-24 pb-24">
           <div className="mx-auto max-w-[640px] text-center">
