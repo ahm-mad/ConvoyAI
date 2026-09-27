@@ -191,7 +191,8 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
         label: string,
         cls: string,
         title: string,
-        chip?: { head: string; sub: string; late: boolean } | null
+        chip?: { head: string; sub: string; late: boolean } | null,
+        name?: string
       ) => {
         if (!at) return;
 
@@ -218,10 +219,20 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
           el.appendChild(c);
           chipEl.current = c;
         }
+        if (name) {
+          const tag = document.createElement('span');
+
+          tag.className = `cv-tag cv-tag--under ${cls.includes('is-start') ? 'is-start' : 'is-dest'}`;
+          tag.textContent = name;
+          el.appendChild(tag);
+        }
         markers.push(new GLMarker({ element: el, anchor: 'center' }).setLngLat(at).addTo(map));
       };
 
-      beacon(origin, 'S', 'is-start', 'Origin');
+      // The address is long ('Sargodha Rd, Faisalabad'): the tag keeps the most specific two parts.
+      const short = (a?: string) => (a ? a.split(',').slice(0, 2).join(',').trim() : undefined);
+
+      beacon(origin, 'S', 'is-start', 'Origin', undefined, short(route.origin?.address));
       stops.forEach((s: any) =>
         beacon(
           coord(s.yard?.latitude, s.yard?.longitude),
@@ -235,7 +246,8 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
         'D',
         route.trip?.destination_reached_at ? 'is-departed is-dest' : 'is-dest',
         'Destination',
-        etaRef.current
+        etaRef.current,
+        short(route.destination?.address)
       );
     })();
 

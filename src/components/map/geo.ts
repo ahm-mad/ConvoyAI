@@ -35,3 +35,41 @@ export function routePoints(route: any): [number, number][] {
 
   return pts;
 }
+
+const M_PER_DEG = 111_320;
+
+/**
+ * Distance in metres from a point to a polyline ([lon, lat] vertices), and the index of the segment it is nearest to.
+ * Flat-earth projection around the point: exact enough for "is this zone next to the road" questions.
+ */
+export function distToPath(path: [number, number][], lon: number, lat: number) {
+  const kx = M_PER_DEG * Math.max(0.2, Math.cos((lat * Math.PI) / 180));
+  let best = Infinity;
+  let at = 0;
+
+  for (let i = 1; i < path.length; i++) {
+    const ax = (path[i - 1][0] - lon) * kx;
+    const ay = (path[i - 1][1] - lat) * M_PER_DEG;
+    const bx = (path[i][0] - lon) * kx;
+    const by = (path[i][1] - lat) * M_PER_DEG;
+    const dx = bx - ax;
+    const dy = by - ay;
+    const len2 = dx * dx + dy * dy;
+    const t = len2 ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / len2)) : 0;
+    const d = Math.hypot(ax + dx * t, ay + dy * t);
+
+    if (d < best) {
+      best = d;
+      at = i;
+    }
+  }
+
+  return { m: best, at };
+}
+
+/** Flat-earth distance in metres between two [lon, lat] points (fine below ~50 km). */
+export const flatM = (a: [number, number], b: [number, number]) =>
+  Math.hypot(
+    (b[0] - a[0]) * M_PER_DEG * Math.max(0.2, Math.cos((a[1] * Math.PI) / 180)),
+    (b[1] - a[1]) * M_PER_DEG
+  );

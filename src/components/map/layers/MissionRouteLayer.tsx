@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import type { Marker } from 'maplibre-gl';
 import { token } from '@lib/design/tokens';
 import { useConvoyMap } from '../ConvoyMap';
+import { flatM } from '../geo';
 
 type LL = [number, number]; // [lon, lat]
 
@@ -11,6 +13,9 @@ export interface MissionRoute {
   ahead: LL[];
   /** Already driven, starting at the vehicle and going back. */
   behind: LL[];
+  /** Place names at the start and the end of the road, when known. */
+  fromName?: string;
+  toName?: string;
 }
 
 const SRC = 'cv-mroute';
@@ -25,27 +30,96 @@ export default function MissionRouteLayer({
   vehicleId,
   read,
   preview = false,
+  yards = [],
 }: {
   vehicleId: string | null;
   read: (vehicleId: string) => MissionRoute | null;
   preview?: boolean;
+  /** Used to name the start / destination after the yard they are at. */
+  yards?: any[];
 }) {
   const { map, styleVersion } = useConvoyMap();
   const idRef = useRef(vehicleId);
   const readRef = useRef(read);
+  const yardsRef = useRef(yards);
+  const previewRef = useRef(preview);
 
   idRef.current = vehicleId;
   readRef.current = read;
+  yardsRef.current = yards;
+  previewRef.current = preview;
 
   useEffect(() => {
     if (!map) return;
 
     const empty = { type: 'FeatureCollection' as const, features: [] as any[] };
+    let ends: Marker[] = [];
+    let endsKey = '';
+    let ctor: typeof Marker | null = null;
+
+    void import('maplibre-gl').then(m => (ctor = m.Marker as unknown as typeof Marker));
+
+    const yardName = (p: [number, number]) => {
+      let best: { n: string; d: number } | null = null;
+
+      yardsRef.current.forEach(y => {
+        const d = flatM(p, [Number(y.longitude), Number(y.latitude)]);
+
+        if (d < 1500 && (!best || d < best.d)) best = { n: String(y.name), d };
+      });
+
+      return (best as { n: string } | null)?.n ?? null;
+    };
+
+    // Start and destination of the road being driven: a labelled beacon at each end (one, when it is a round trip).
+    const drawEnds = (r: MissionRoute | null) => {
+      const from = r?.behind[r.behind.length - 1];
+      const to = r?.ahead[r.ahead.length - 1];
+      const key =
+        r && from && to
+          ? `${idRef.current}|${from.map(n => n.toFixed(4))}|${to.map(n => n.toFixed(4))}|${previewRef.current}`
+          : '';
+
+      if (key === endsKey || !ctor) return;
+
+      endsKey = key;
+      ends.forEach(m => m.remove());
+      ends = [];
+      if (!key || !from || !to) return;
+
+      const Ctor = ctor;
+      const round = flatM(from, to) < 300;
+      const add = (at: [number, number], letter: string, cls: string, label: string) => {
+        const el = document.createElement('div');
+
+        el.className = `cv-beacon ${cls}${previewRef.current ? ' is-preview' : ''}`;
+        el.innerHTML = `<span class="cv-beacon__ring"></span><span class="cv-beacon__dot">${letter}</span>`;
+
+        const tag = document.createElement('span');
+
+        tag.className = `cv-tag cv-tag--under ${cls === 'is-start' ? 'is-start' : 'is-dest'}`;
+        tag.textContent = label;
+        el.appendChild(tag);
+        ends.push(
+          new Ctor({ element: el, anchor: 'center', subpixelPositioning: true })
+            .setLngLat(at)
+            .addTo(map)
+        );
+      };
+
+      if (round) add(from, 'S', 'is-start', r?.fromName ?? yardName(from) ?? 'Start · round trip');
+      else {
+        add(from, 'S', 'is-start', r?.fromName ?? yardName(from) ?? 'Start');
+        add(to, 'D', 'is-dest', r?.toName ?? yardName(to) ?? 'Destination');
+      }
+    };
 
     const push = () => {
       if (!map.isStyleLoaded() && !map.getSource(SRC)) return;
 
       const r = idRef.current ? readRef.current(idRef.current) : null;
+
+      drawEnds(r);
       const features = r
         ? [
             {
@@ -127,6 +201,8 @@ export default function MissionRouteLayer({
 
     return () => {
       clearInterval(timer);
+      ends.forEach(m => m.remove());
+      ends = [];
       try {
         LAYERS.forEach(id => map.getLayer(id) && map.removeLayer(id));
         if (map.getSource(SRC)) map.removeSource(SRC);
