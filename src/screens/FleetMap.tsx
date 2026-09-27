@@ -20,8 +20,9 @@ import {
   missionRoute,
   setDemoSpeed,
 } from '@utils/showcase/simulation';
-import { Eye, EyeOff, Gauge, Maximize2, Play, Pause, Crosshair, PanelLeftOpen } from 'lucide-react';
+import { Eye, Maximize2, Crosshair, PanelLeftOpen } from 'lucide-react';
 import MapHud from '@components/map/MapHud';
+import DemoMenu from '@components/map/DemoMenu';
 import FleetPanel, { type StatusFilter } from '@components/map/FleetPanel';
 import MapSearch from '@components/map/MapSearch';
 import MapViews from '@components/map/MapViews';
@@ -654,32 +655,9 @@ export default function FleetMap() {
                 onFit={fitFleet}
                 className="absolute inset-x-3 top-3 z-10 lg:inset-x-auto lg:right-4 lg:top-4"
               >
-                {isShowcase() && (
-                  <div
-                    role="group"
-                    aria-label="Demo speed"
-                    className="flex shrink-0 items-center gap-0.5 rounded-full bg-white/70 p-0.5"
-                  >
-                    <Gauge size={14} className="ml-2 text-ink-2" aria-hidden />
-                    {[1, 3, 10, 20, 60].map(x => (
-                      <button
-                        key={x}
-                        type="button"
-                        aria-pressed={demoSpeed === x}
-                        onClick={() => {
-                          setDemoSpeed(x);
-                          setDemoSpeedState(x);
-                        }}
-                        className="grid h-8 min-w-8 place-items-center rounded-full px-2 text-[11px] font-semibold text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
-                      >
-                        {x}×
-                      </button>
-                    ))}
-                  </div>
-                )}
                 <div
                   role="group"
-                  aria-label="Cinematic tools"
+                  aria-label="Camera tools"
                   className="flex shrink-0 items-center gap-0.5 rounded-full bg-white/70 p-0.5"
                 >
                   <button
@@ -694,25 +672,6 @@ export default function FleetMap() {
                     className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05] disabled:opacity-40 aria-pressed:bg-brand aria-pressed:text-white"
                   >
                     <Crosshair size={15} />
-                  </button>
-                  <button
-                    type="button"
-                    aria-pressed={tour}
-                    aria-label={tour ? 'Stop the fleet tour' : 'Start the fleet tour'}
-                    title="Fleet tour — the camera visits moving vehicles"
-                    onClick={() => setTour(t => !t)}
-                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05] aria-pressed:bg-brand aria-pressed:text-white"
-                  >
-                    {tour ? <Pause size={15} /> : <Play size={15} />}
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Hide the controls (clean view for recording)"
-                    title="Clean view"
-                    onClick={() => setClean(true)}
-                    className="grid size-8 place-items-center rounded-full text-ink-1 hover:bg-black/[0.05]"
-                  >
-                    <EyeOff size={15} />
                   </button>
                   <button
                     type="button"
@@ -732,6 +691,18 @@ export default function FleetMap() {
                     <Maximize2 size={15} />
                   </button>
                 </div>
+                <DemoMenu
+                  container={stage.current}
+                  showSpeed={isShowcase()}
+                  speed={demoSpeed}
+                  onSpeed={x => {
+                    setDemoSpeed(x);
+                    setDemoSpeedState(x);
+                  }}
+                  tour={tour}
+                  onTour={() => setTour(t => !t)}
+                  onClean={() => setClean(true)}
+                />
               </MapToolbar>
             )}
           </>
