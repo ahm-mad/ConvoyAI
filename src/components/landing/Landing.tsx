@@ -7,7 +7,6 @@ import {
   Route,
   ShieldCheck,
   Sparkles,
-  Truck,
   Users,
   Wrench,
   Check,
@@ -16,19 +15,21 @@ import BrandMark from '@components/shell/BrandMark';
 import HeroVisual from './HeroVisual';
 import CountUp from '@components/ui/CountUp';
 import SpotlightTracker from '@components/ui/SpotlightTracker';
+import { FinalCta, HowItWorks, LogoStrip, SiteFooter, Testimonials } from './Proof';
 
 const NAV = [
   ['Product', '#product'],
   ['AI', '#ai'],
   ['Analytics', '#analytics'],
+  ['Customers', '#customers'],
   ['Security', '#security'],
 ];
 
 const STATS = [
-  ['26.8k', 'km tracked every day'],
+  ['41k', 'vehicles on the platform'],
+  ['19.4M', 'km tracked every month'],
   ['91%', 'trips delivered on time'],
-  ['−18%', 'harsh braking events'],
-  ['412k', 'PKR saved weekly by AI'],
+  ['−14%', 'fuel spend after 90 days'],
 ];
 
 const FEATURES = [
@@ -156,6 +157,8 @@ export default function Landing() {
           </div>
         </section>
 
+        <LogoStrip />
+
         <section className="page-container pb-20">
           <div className="glass grid grid-cols-2 gap-y-8 p-8 md:grid-cols-4">
             {STATS.map(([v, l]) => (
@@ -189,6 +192,8 @@ export default function Landing() {
             })}
           </div>
         </section>
+
+        <HowItWorks />
 
         <section id="ai" className="page-container scroll-mt-24 pb-24">
           <div
@@ -309,6 +314,8 @@ export default function Landing() {
           </div>
         </section>
 
+        <Testimonials />
+
         <section id="security" className="page-container scroll-mt-24 pb-24">
           <div className="mx-auto max-w-[640px] text-center">
             <div className="eyebrow">Security</div>
@@ -348,39 +355,10 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="page-container pb-24">
-          <div className="brand-gradient-bg rounded-modal relative overflow-hidden p-10 text-center text-white shadow-glow md:p-16">
-            <h2 className="page-title !text-white">Put your fleet on autopilot.</h2>
-            <p className="mx-auto mt-4 max-w-[520px] text-body text-white/85">
-              Create your workspace in minutes and let ConvoyAI start finding savings on day one.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link
-                href="/register"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-body font-semibold text-brand-ink shadow-card"
-              >
-                Get started <ArrowRight size={16} />
-              </Link>
-              <Link
-                href="/login"
-                className="inline-flex items-center rounded-full border border-white/50 px-7 py-3.5 text-body font-semibold text-white"
-              >
-                Sign in
-              </Link>
-            </div>
-          </div>
-        </section>
+        <FinalCta />
       </main>
 
-      <footer className="page-container pb-10">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8 text-caption text-ink-2">
-          <BrandMark />
-          <span>© {new Date().getFullYear()} ConvoyAI. Automated fleet management.</span>
-          <span className="flex items-center gap-2">
-            <Truck size={14} /> Built for fleets that never stop.
-          </span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
