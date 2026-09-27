@@ -80,9 +80,9 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
         filter: ['==', ['get', 'kind'], 'planned'],
         layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: {
-          'line-color': token('--color-ink-2'),
+          'line-color': token('--color-ink-1'),
           'line-width': 3,
-          'line-opacity': 0.6,
+          'line-opacity': 0.62,
           'line-dasharray': [1.2, 2],
         },
       });
@@ -154,6 +154,41 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
     // The route object identity changes on every refetch; its id + point counts are what matter for redraws.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, styleVersion, route?.trip?.id, route?.trail?.total_points, route?.path?.length]);
+
+  // Flow: the planned (remaining) road's dashes march from origin toward destination. MapLibre cannot animate a dash
+  // offset, so the dash pattern is re-issued with a growing leading gap ("shifted" patterns), ~20 times a second.
+  useEffect(() => {
+    if (!map || !route) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+    const DASH = 1.2;
+    const GAP = 2;
+    const PERIOD = DASH + GAP;
+    const STEPS = 24;
+    const seq: number[][] = Array.from({ length: STEPS }, (_, i) => {
+      const sh = (i / STEPS) * PERIOD;
+
+      return sh <= GAP ? [0, sh, DASH, GAP - sh] : [sh - GAP, GAP, DASH - (sh - GAP), 0];
+    });
+    let raf = 0;
+    let last = 0;
+    let n = -1;
+
+    const tick = (now: number) => {
+      raf = requestAnimationFrame(tick);
+      if (now - last < 48) return;
+
+      last = now;
+      if (!map.getLayer('cv-route-planned')) return;
+
+      n = (n + 1) % STEPS;
+      map.setPaintProperty('cv-route-planned', 'line-dasharray', seq[n]);
+    };
+
+    raf = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(raf);
+  }, [map, styleVersion, route?.trip?.id]);
 
   // Frame the whole trip once per trip (not on every live refresh).
   useEffect(() => {

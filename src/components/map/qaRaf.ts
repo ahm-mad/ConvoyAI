@@ -32,13 +32,23 @@ export function installRafShimIfRequested() {
 
       tickStarted = true;
       try {
+        // Backpressure: the worker sends the next tick only after the page acknowledged the last one, so a slow page can
+        // never pile up a backlog of ticks (which would starve the main thread and grow memory).
         const w = new Worker(
           URL.createObjectURL(
-            new Blob(['setInterval(()=>postMessage(0),16)'], { type: 'text/javascript' })
+            new Blob(['onmessage=()=>setTimeout(()=>postMessage(0),16);postMessage(0)'], {
+              type: 'text/javascript',
+            })
           )
         );
 
-        w.onmessage = () => tickers.forEach(t => t());
+        w.onmessage = () => {
+          try {
+            tickers.forEach(t => t());
+          } finally {
+            w.postMessage(0); // acknowledge -> worker schedules the next tick 16 ms later
+          }
+        };
       } catch {
         // No worker (CSP): fall back to a 16 ms native interval.
         nativeSetInterval(() => tickers.forEach(t => t()), 16);
