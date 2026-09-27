@@ -89,7 +89,8 @@ export default function FleetMap() {
     try {
       const saved = window.localStorage.getItem('convoyai-map-fleet-panel');
 
-      setPanelOpenState(saved ? saved === '1' : window.innerWidth >= 1024);
+      // Phones and small tablets always start with the list collapsed (it would cover most of the map).
+      setPanelOpenState(window.innerWidth >= 1024 && (saved ? saved === '1' : true));
     } catch {
       setPanelOpenState(window.innerWidth >= 1024);
     }
