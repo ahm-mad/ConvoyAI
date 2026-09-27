@@ -1,8 +1,54 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { ArrowUpRight, Sparkles } from 'lucide-react';
 import HeroMapLive from './HeroMapLive';
 
-/** Illustrated product preview for the landing hero: stylised live map, KPI card, AI bubble. Token-driven. */
+/** What the copilot "notices" in the hero, in rotation. Plain, specific and believable. */
+const INSIGHTS = [
+  {
+    text: (
+      <>
+        Reroute 14 trips via M-9 and save <b className="text-ink-0">46 min</b> each. Estimated{' '}
+        <b className="text-ink-0">PKR 412k</b> saved this week.
+      </>
+    ),
+    cta: 'Apply to all trips',
+  },
+  {
+    text: (
+      <>
+        Three trucks show a <b className="text-ink-0">31% rise</b> in hard braking. Brake wear
+        likely within <b className="text-ink-0">9 days</b>.
+      </>
+    ),
+    cta: 'Schedule service',
+  },
+  {
+    text: (
+      <>
+        <b className="text-ink-0">Bilal Sheikh</b> reaches the hours limit in 40 minutes. Swap the
+        Multan leg to keep the delivery on time.
+      </>
+    ),
+    cta: 'See swap options',
+  },
+];
+
+/** Product preview for the landing hero: a live, clickable fleet map with a KPI card and the rotating copilot. */
 export default function HeroVisual() {
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const t = setInterval(() => setI(n => (n + 1) % INSIGHTS.length), 7000);
+
+    return () => clearInterval(t);
+  }, []);
+
+  const insight = INSIGHTS[i];
+
   return (
     <div className="relative mx-auto w-full max-w-[1120px]">
       <div className="glass rounded-modal relative overflow-hidden p-0">
@@ -11,56 +57,13 @@ export default function HeroVisual() {
           <span className="size-2.5 rounded-full bg-gold" />
           <span className="size-2.5 rounded-full bg-success/80" />
           <span className="ml-3 rounded-full bg-black/[0.05] px-3 py-1 text-caption text-ink-2">
-            app.convoyai.com / overview
+            app.convoyai.com / live-map
           </span>
         </div>
-        <div className="relative h-[430px] overflow-hidden bg-surface-2">
+        <div className="relative h-[520px] overflow-hidden bg-surface-2 md:h-[580px]">
           <HeroMapLive />
 
-          <div className="absolute left-5 top-5 flex flex-wrap gap-2">
-            {[
-              ['bg-success', '132 Moving'],
-              ['bg-gold', '31 Idle'],
-              ['bg-danger', '7 Alerts'],
-            ].map(([c, t]) => (
-              <span
-                key={t}
-                className="glass-strong glass-pill flex items-center gap-2 px-3.5 py-2 text-caption font-medium"
-              >
-                <i className={`size-2 rounded-full ${c}`} />
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <div
-            className="glass motion-float absolute bottom-5 left-5 hidden w-[300px] p-4 sm:block"
-            style={{ ['--delay' as string]: '0.7s' }}
-          >
-            <div className="flex items-center justify-between">
-              <b className="text-control text-ink-0">KHI-2291 · Hino 500</b>
-              <span className="rounded-full bg-success/15 px-2.5 py-0.5 text-micro font-semibold text-online-text">
-                On route
-              </span>
-            </div>
-            <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-              {[
-                ['62', 'km/h'],
-                ['16:42', 'ETA'],
-                ['−4.1°', 'Cargo'],
-              ].map(([v, l]) => (
-                <div key={l} className="rounded-control bg-white/70 py-2">
-                  <div className="text-control font-semibold tabular-nums text-ink-0">{v}</div>
-                  <div className="text-micro text-ink-2">{l}</div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 h-1.5 rounded-full bg-black/[0.06]">
-              <i className="brand-gradient-bg block h-full w-[68%] rounded-full" />
-            </div>
-          </div>
-
-          <div className="glass motion-float absolute right-5 top-5 hidden w-[230px] p-5 md:block">
+          <div className="glass motion-float pointer-events-none absolute bottom-5 left-16 hidden w-[220px] p-5 lg:block">
             <div className="text-caption text-ink-2">Fleet utilisation</div>
             <div className="kpi-value mt-2">
               87.4<span className="text-body text-ink-2">%</span>
@@ -69,21 +72,29 @@ export default function HeroVisual() {
           </div>
 
           <div
-            className="glass-strong motion-float absolute bottom-5 right-5 hidden w-[300px] p-4 md:block"
-            style={{ ['--delay' as string]: '1.4s' }}
+            className="glass-strong absolute bottom-5 right-5 hidden w-[310px] p-4 md:block"
+            role="status"
+            aria-live="polite"
           >
             <div className="flex items-center gap-2 text-caption font-semibold text-ai-ink">
               <span className="btn-ai grid size-7 place-items-center rounded-control">
                 <Sparkles size={13} fill="currentColor" />
               </span>
               Convoy Copilot
+              <span className="ml-auto flex gap-1" aria-hidden>
+                {INSIGHTS.map((_, n) => (
+                  <i
+                    key={n}
+                    className={`h-1 rounded-full transition-all ${n === i ? 'w-4 bg-ai' : 'w-1.5 bg-black/15'}`}
+                  />
+                ))}
+              </span>
             </div>
-            <p className="mt-2 text-control text-ink-1">
-              Reroute 14 trips via M-9 and save <b className="text-ink-0">46 min</b> each. Estimated{' '}
-              <b className="text-ink-0">PKR 412k</b> saved this week.
+            <p key={i} className="motion-rise mt-2 min-h-[64px] text-control text-ink-1">
+              {insight.text}
             </p>
-            <span className="mt-2 inline-flex items-center gap-1 text-caption font-semibold text-brand">
-              Apply to all trips <ArrowUpRight size={13} />
+            <span className="mt-1 inline-flex items-center gap-1 text-caption font-semibold text-brand">
+              {insight.cta} <ArrowUpRight size={13} />
             </span>
           </div>
         </div>

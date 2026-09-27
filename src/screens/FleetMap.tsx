@@ -22,6 +22,7 @@ import {
 } from '@utils/showcase/simulation';
 import { Eye, Maximize2, Crosshair, PanelLeftOpen } from 'lucide-react';
 import MapHud from '@components/map/MapHud';
+import TripCardExtra from '@components/map/TripCardExtra';
 import DemoMenu from '@components/map/DemoMenu';
 import AlertStrip from '@components/map/AlertStrip';
 import { useMapAlerts, type MapAlert } from '@components/map/useMapAlerts';
@@ -415,54 +416,11 @@ export default function FleetMap() {
   const [alertsHidden, setAlertsHidden] = useState(false);
 
   // Driver + current trip of the selected vehicle, shown on its card (from the active-trips list the screen already loads).
-  const cardExtra = (v: LiveVehicle) => {
-    const t = activeTrips.find(x => String(x.vehicle_id) === v.id && x.status === 'in_progress');
-    const place = (a?: string) => (a ? a.split(',').slice(-1)[0].trim() || a : '—');
-
-    if (!t)
-      return (
-        <div className="mt-2 rounded-xl bg-black/[0.04] px-2.5 py-1.5 text-[11px] text-ink-2">
-          No trip in progress
-        </div>
-      );
-
-    const start = Date.parse(t.actual_start_at || t.planned_start_at);
-    const end = Date.parse(t.planned_end_at);
-    const pct =
-      Number.isFinite(start) && end > start
-        ? Math.min(1, Math.max(0, (Date.now() - start) / (end - start)))
-        : 0;
-    const late = Number.isFinite(end) && Date.now() > end;
-    const driver = t.driver
-      ? [t.driver.first_name, t.driver.last_name].filter(Boolean).join(' ')
-      : '';
-
-    return (
-      <div className="mt-2 rounded-xl bg-black/[0.04] px-2.5 py-2">
-        <div className="flex items-center justify-between gap-2 text-[11px]">
-          <span className="font-semibold text-ink-0">{t.trip_reference || `Trip #${t.id}`}</span>
-          <span className={late ? 'font-semibold text-danger-text' : 'text-ink-2'}>
-            {late ? 'Running late' : 'On schedule'}
-          </span>
-        </div>
-        <div className="mt-0.5 truncate text-[11.5px] text-ink-1">
-          {place(t.origin_address)} → {place(t.destination_address)}
-        </div>
-        <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-black/[0.08]" aria-hidden>
-          <div
-            className="h-full rounded-full bg-brand"
-            style={{ width: `${Math.round(pct * 100)}%` }}
-          />
-        </div>
-        <div className="mt-1 flex justify-between text-[10.5px] text-ink-2">
-          <span>{Math.round(pct * 100)}% of planned time</span>
-          {driver && <span className="truncate pl-2">{driver}</span>}
-        </div>
-      </div>
-    );
-  };
-
-  if (process.env.NODE_ENV !== 'production') (window as any).__cvAlerts = alerts;
+  const cardExtra = (v: LiveVehicle) => (
+    <TripCardExtra
+      trip={activeTrips.find(x => String(x.vehicle_id) === v.id && x.status === 'in_progress')}
+    />
+  );
 
   const pickAlert = (a: MapAlert) => {
     const v = a.vehicleId ? fleetVehicles.find(x => x.id === a.vehicleId) : null;
