@@ -227,6 +227,10 @@ const trapezoid = (u: number, a = 0.035): { p: number; v: number } => {
   return { p: vmax * (u - a / 2), v: 1 };
 };
 
+/** Every third tracker sometimes speeds (6 minutes in every 20 of simulated time): feeds the map's alert strip. */
+const overspeed = (pid: number, virtual: number) =>
+  pid % 3 === 0 && (virtual / 60_000 + pid * 3) % 20 < 6 ? 22 : 0;
+
 /** Where one tracked vehicle is at `virtual` ms of simulated time (shared by the live positions and the recorded trail). */
 function stateAt(p: any, virtual: number) {
   const m = missions.get(p._vehicleId);
@@ -254,7 +258,9 @@ function stateAt(p: any, virtual: number) {
     lon = pos.p[1];
     heading = fwd ? pos.h : (pos.h + 180) % 360;
     speed =
-      t <= DWELL || t >= 1 - DWELL ? 0 : prof.v * (58 + 14 * Math.sin(virtual / 90_000 + pid));
+      t <= DWELL || t >= 1 - DWELL
+        ? 0
+        : prof.v * (58 + 14 * Math.sin(virtual / 90_000 + pid) + overspeed(pid, virtual));
     age = 4;
 
     return { lat, lon, heading, speed, age, frac, road: { line: m.line, d, up: fwd } };
@@ -274,7 +280,9 @@ function stateAt(p: any, virtual: number) {
     lat = pos.p[0];
     lon = pos.p[1];
     heading = pos.h;
-    speed = stopped ? 0 : (m.kmh ?? 40) + 6 * Math.sin(virtual / 40_000 + pid);
+    speed = stopped
+      ? 0
+      : (m.kmh ?? 40) + 6 * Math.sin(virtual / 40_000 + pid) + overspeed(pid, virtual);
     age = 5;
 
     return {
