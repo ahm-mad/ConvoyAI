@@ -77,29 +77,29 @@ export default function CompanyLocation() {
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
         <div className="glass p-6 xl:col-span-1">
           <div className="card-title mb-4">Company profile</div>
-          <dl className="space-y-4 text-sm">
+          <div className="space-y-4 text-sm">
             <div className="flex items-start gap-3">
               <Building2 size={16} className="mt-0.5 text-brand" />
-              <div>
+              <dl>
                 <dt className="eyebrow">Name</dt>
                 <dd className="text-ink-0">{c?.name || '—'}</dd>
-              </div>
+              </dl>
             </div>
             <div className="flex items-start gap-3">
               <MapPin size={16} className="mt-0.5 text-brand" />
-              <div>
+              <dl>
                 <dt className="eyebrow">Address</dt>
                 <dd className="text-ink-0">{address || '—'}</dd>
-              </div>
+              </dl>
             </div>
             <div className="flex items-start gap-3">
               <Mail size={16} className="mt-0.5 text-brand" />
-              <div>
+              <dl>
                 <dt className="eyebrow">Company email</dt>
                 <dd className="break-all text-ink-0">{c?.email || '—'}</dd>
-              </div>
+              </dl>
             </div>
-          </dl>
+          </div>
         </div>
 
         <div className="glass p-6 xl:col-span-2">
