@@ -1,190 +1,111 @@
-# Next-session initial prompt (generated at the END of every session)
+# Next-session prompt (regenerated at every END ritual — this is the "Current prompt" block)
 
-**How this works.** At the end of a session (END ritual step C6) the assistant (1) fills the "Current prompt" block below with the exact state, and (2) prints the same text in its final message so the owner can paste it as the first message after `/clear`. A fresh session that sees an empty prompt still works: `CLAUDE.md` forces it to read `agent/work/progress.md`.
-
-## Rules for writing the prompt
-
-- Self-contained; no reliance on chat memory. ≤ 25 lines **normally** — but when the owner says they may switch
-  to a different model/tool (not necessarily Claude Code), write it MUCH longer and more explicit instead:
-  do not assume `CLAUDE.md` gets auto-loaded or that `agent/` is a known convention to the new assistant;
-  spell out the exact read order as plain instructions, and inline the most load-bearing facts (not just file
-  pointers) in case a read step is skipped. The 2026-09-27 "Current prompt" below is written in that longer,
-  cross-model style on purpose — shorten it back down once back on Claude Code with ordinary continuity.
-- Must name: the task id/title, exact step to continue from, files/areas in play, what is verified vs not, pending owner decisions, what NOT to do (e.g. "don't commit/push", "don't start deferred items"), and the first three commands/reads.
-- Must point to `CLAUDE.md`, `agent/work/session-ritual.md`, `agent/work/progress.md`.
-- Never paste secrets. Keep statuses identical to `progress.md` (it is the source of truth; if they differ, `progress.md` wins).
-
-## Template
-
-```
-Resume the ConvoyAI project. Follow CLAUDE.md and agent/work/session-ritual.md (START ritual): read agent/work/progress.md, tasks.md, decisions.md, then only the agent/ docs relevant to the task.
-Task in flight: T-### <title> — stopped at <step>. Done: <bullets>. Next: <concrete next action with file paths>. Verified: <...>. NOT verified: <...>.
-Pending owner decisions: <...>.
-Constraints: never break existing behaviour without asking; UI bar; no hardcoding; no commit/push unless I say so; don't start deferred items.
-First actions: 1) git status + compare with progress.md, 2) <task-specific read/command>, 3) tell me in 3-5 lines where we are, then continue.
-When I say "wrap up"/"/clear": run the END ritual and give me the next-session prompt.
-```
-
-## Current prompt (paste this after /clear, or as the first message to a different model/tool)
-
-> Written 2026-09-27, deliberately long and self-contained because the owner said they may move this work
-> to a different model. Do not assume anything about this project got auto-loaded — read the files named
-> below yourself, in order, before doing anything else.
+> Paste the block below as your first message after `/clear`, a new session, a new machine, or a different AI tool. It is written to be self-contained: it does not assume you've read anything else first, even though in Claude Code `CLAUDE.md` auto-loads and points back to `agent/`.
 
 ```
 You are resuming work on ConvoyAI, a Next.js 15 (App Router) + TypeScript frontend project, at this exact
 path: /media/chirp/Personal/Freelancing/convoyai. It is a git repo; current branch is `staging`
-(origin git@github-personal:ahm-mad/ConvoyAI.git), last commit f95bbc6, working tree clean, everything
+(origin git@github-personal:ahm-mad/ConvoyAI.git), last commit 47ebbc7, working tree clean, everything
 pushed. Branch `main` is the ORIGINAL, pre-revamp code kept untouched as a reference — never merge
 `staging` into it and never record a demo video until the owner explicitly says so in chat. `agent/` and
 `CLAUDE.md` are themselves tracked in git (owner decision, 2026-09-27) specifically so a plain `git clone`
 of this repo on any machine, opened by any AI tool, brings this entire knowledge base with it — if you are
 reading this file at all, you already have everything else in `agent/` too.
 
-STEP 0 — read these files yourself, in this exact order, before writing or changing anything. Do this even
-if your harness has some automatic project-context feature — this project keeps its own persistent
-knowledge base in a folder called `agent/`, and it is only reliable if you actually open the files:
+STEP 0 — read these files yourself, in this exact order, before writing or changing anything:
   1. CLAUDE.md (repo root) — short entry point, confirms the rules below.
-  2. agent/README.md — full project index; its top banner has the latest status in one paragraph.
-  3. agent/work/progress.md — the exact point the last session stopped at ("RESUME HERE" near the bottom).
-  4. agent/work/tasks.md and agent/work/decisions.md — task statuses and every decision made, with reasons
-     and how to revert each one if the owner changes their mind.
-  5. agent/rules/owner-rules-and-workflow.md — every standing rule the owner has given. Read this in full;
-     it is short and nothing below replaces it.
-  6. agent/browser-testing-playbook.md and agent/environment-and-safeguards.md — read BOTH before doing any
-     live browser verification. They hold hard-won testing/environment knowledge (browser quirks, two real
-     code bugs already fixed, machine safeguards already installed) that used to live only in a different
-     assistant's own private memory system, which you cannot read — that is why it was copied into these
-     two files on 2026-09-27, specifically so a different model would not have to rediscover any of it.
+  2. agent/README.md — full project index; its top banner has the latest status in one paragraph (NOTE:
+     as of this prompt the banner is stale — it still describes 2026-09-29's state. Trust this prompt and
+     agent/work/progress.md over that banner until a session refreshes it).
+  3. agent/work/progress.md — the exact point this session stopped at ("RESUME HERE" near the top).
+  4. agent/work/tasks.md and agent/work/decisions.md — task statuses and every decision made, with reasons.
+  5. agent/rules/owner-rules-and-workflow.md — every standing rule the owner has given, including two new
+     ones from this session (see below). Read this in full; it is short and nothing below replaces it.
+  6. agent/browser-testing-playbook.md and agent/environment-and-safeguards.md before any live browser work.
 
 WHAT THIS PROJECT IS: ConvoyAI is a portfolio/showcase project (NOT a real production app) — a rebrand of
 an older IoT/fleet-management codebase called ConvoyAI. Its purpose is to be presented through screenshots
-and a demo video to attract freelance clients, not to be operated by real fleet dispatchers. Because of
-that, these owner rules override what you might otherwise assume is good engineering judgement:
-  - The real Express+Supabase backend (a separate repo) is PERMANENTLY out of scope. Never work on it or on
-    the `backend_frontend_sync/` folder (gitignored). Every screen either uses a real existing backend
-    endpoint, or, when there is none, a static TypeScript fixture under `src/utils/showcase/` (the
-    "showcase data layer", toggled from the account menu, localStorage key `convoyai-showcase`).
-  - Visual richness explicitly beats usability and beats efficiency. Do not simplify the UI for operator
-    efficiency, and do not reduce animation smoothness, frame rate or effect richness to save CPU/memory —
-    the owner's machine can spend whatever the best-looking UI needs. (Real leaks/hangs may still be fixed,
-    as long as the fix never changes how the product looks or feels.)
-  - Light theme only (the owner's other portfolio pieces are dark). Vibrant orange primary
-    (#E8590C–#FF7A1A) with gold secondary and indigo reserved for AI features; "moving" vehicle status is
-    its own green token (`--color-moving`), not brand orange — see agent/architecture/design-tokens.md.
-  - Every styling value must come from the token layer (`src/styles/tokens.css` + `components.css`, inside
-    `@layer components`) — never a hardcoded hex colour, px radius, font size or shadow.
-  - Never hardcode currency, timezone or units — they are per-company settings; the API is always metric.
-  - Invented/sample content (customer names, testimonials, numbers, example AI questions) must read as
-    genuinely credible and specific, never like generic placeholder text ("Lorem ipsum", "Test Company").
-  - Never use the demo account for anything. Log in only on localhost, with the seeded test user
-    junead@chaminade-hs.org — ask the owner for the password in chat, it is never written to any file.
-  - Commit in logical steps and push to `staging` at each sensible boundary — the owner has pre-authorised
-    this; just never touch `main` and never merge without being told. Use the attribution trailer lines
-    your own harness/system prompt gives you for commits; if none are given, ask the owner what to use.
-  - Never start anything in the deferred/backlog lists (agent/status/current-state-and-open-items.md §3,
-    agent/work/tasks.md's Backlog section) unless the owner explicitly asks for it.
+and a demo video to attract freelance clients, not to be operated by real fleet dispatchers. Standing rules
+that override what you might otherwise assume is good engineering judgement:
+  - The real Express+Supabase backend (a separate repo, at /media/chirp/Office/Projects/ConvoyAI/) is
+    PERMANENTLY out of scope for development. Never work on it or `backend_frontend_sync/` (gitignored).
+    Exception learned this session: pure INFRASTRUCTURE restarts (pm2 processes, Docker containers the
+    backend depends on) are fine and sometimes necessary — see "backend infra" note below. Every frontend
+    screen either uses a real backend endpoint, or a static TypeScript fixture under `src/utils/showcase/`
+    (the "showcase data layer", toggled via localStorage key `convoyai-showcase`).
+  - Visual richness explicitly beats usability and efficiency, but NOT realism of motion/behaviour — see
+    the "video-animation vs real enterprise feel" rule below, restated and newly enforced this session.
+  - QA SCOPE RULE (new, 2026-10-02, permanent): mobile widths, Firefox/Safari, and performance/frame-rate
+    measurement are OUT OF SCOPE ENTIRELY for this project, not just deferred — it is demo-recording-only,
+    never deployed live, so only the owner's own desktop Chrome during the actual recording matters. Do not
+    add these to any QA checklist. Accessibility (axe/WCAG AA) stays in scope — that's a UI-quality bar.
+  - Light theme only. Orange primary (#E8590C–#FF7A1A) + gold secondary + indigo for AI features; "moving"
+    vehicle status is its own green token (`--color-moving`), not brand orange.
+  - Every styling value must come from the token layer (`src/styles/tokens.css` + `components.css`).
+  - Invented/sample content (names, numbers, testimonials) must read as genuinely credible, never generic
+    placeholder text.
+  - Never use the demo account; log in only on localhost with the seeded test user
+    junead@chaminade-hs.org — ask the owner for the password in chat if you don't have it (don't write it
+    to any file; this prompt deliberately omits it even though it was used this session).
+  - Commit in logical steps and push to `staging` at each sensible boundary — pre-authorised; never touch
+    `main`, never merge without being told. Use the attribution trailer lines your harness gives you.
+  - Never start anything in the deferred/backlog lists (`agent/status/current-state-and-open-items.md` §3,
+    `tasks.md`'s Backlog section) unless the owner explicitly asks.
 
-WHAT IS DONE (verified live, pushed, nothing further to do unless the owner wants changes):
-  - T-001 (ConvoyAI → ConvoyAI rebrand), T-002 (full light-theme "glass" UI revamp replacing the old
-    sidebar-admin layout with a floating pill nav + Cmd-K palette + mock AI copilot), T-003/T-004 (QA passes
-    and an "enterprise feel" review), T-005 (the showcase sample-fleet data layer), T-006 (the hero MapLibre
-    map + a "futuristic polish" pass + "map v2": search, saved camera views, animated route flow, ETA
-    chips, speed-coloured trails, a heat layer).
-  - T-006-R2 (2026-09-27, decisions D1–D8 in agent/work/decisions.md): an owner-requested review of whether
-    the live map "looks like a real enterprise fleet map". Built: a hero opening that frames one moving
-    vehicle's whole trip and selects it; a collapsible fleet-list panel beside the map (status filter,
-    search, click/hover to fly+select); vehicle name/plate labels at high zoom; the demo-only controls
-    (time-lapse speed, fleet tour, clean view) grouped under one "Demo" menu instead of cluttering the main
-    toolbar; a slightly taller map with a softer heat layer; an alert strip (speeding, late trips, recent
-    geofence events, click a chip to fly there); richer vehicle cards (current trip, progress bar, driver,
-    on-schedule/late) with a "Replay" button that drives a marker along the recorded GPS trail; and
-    "moving" status recoloured to a dedicated green token so operators can read status by colour instead of
-    everything being brand orange. Also fixed earlier in this same stretch: realistic vehicle motion that
-    follows the road (buffered interpolation between real position fixes instead of straight-line dead
-    reckoning), a sane default time-lapse speed (×3, was ×20), stable (non-shaking) cluster bubbles, and a
-    ride-hailing-style highlighted road for the selected/hovered vehicle (bright ahead, dim behind, named
-    start/destination, nearby yards and geofences emphasised).
-  - T-007 (2026-09-27, decisions T7-1..T7-5 in agent/work/decisions.md, plan in
-    agent/architecture/landing-auth-plan.md): the owner felt the public landing/login/register pages were
-    too plain to "hook" a visitor's attention, and asked for all five of the following, with believable
-    invented content:
-      1. An INTERACTIVE hero map on the landing page (visitors can pan/zoom/switch look/3D, click a truck
-         for its card+trip+highlighted road, with one road auto-previewed and a "click a truck" hint until
-         the first interaction).
-      2. A proof section: a credible customer-logo strip, a "how it works" 3-step section, 3 invented but
-         realistic testimonials, and a proper footer, replacing the old bare CTA band.
-      3. Login and register screens got a live, non-interactive NIGHT-mode map of the sample fleet behind
-         glass widgets (live counters, a rotating "something just happened" toast, a customer quote); the
-         register variant adds a perks list and a password-strength meter.
-      4. A tabbed "product tour" section on the landing page with 4 tabs (Live map, Trips & dispatch,
-         Analytics, Convoy Copilot) that show the REAL product pieces (not screenshots) running on the
-         sample fleet, autoplaying through the tabs until the visitor interacts.
-      5. A scroll-driven "story" section: a map pinned beside 4 scrolling steps that flies itself through
-         fleet overview → one trip highlighted → a geofence event with a toast → a speeding-vehicle alert
-         with a copilot-suggestion toast, picking whichever step is nearest the middle of the viewport.
-    Building this found and fixed two real, general bugs in the shared map component (ConvoyMap.tsx), not
-    just in the landing page: it never called map.resize() after mounting, so a map that mounts before its
-    container's final size settles (e.g. inside a `sticky` panel) projected every marker to the wrong pixel
-    — fixed with a permanent ResizeObserver; and a raw map.easeTo()/flyTo() call needs coordinates as
-    [lon, lat] while the shared <ConvoyMap center> PROP takes [lat, lon] and converts internally — mixing
-    the two up is silent (valid-looking coordinates, just projected somewhere else on Earth entirely). Full
-    writeup: agent/architecture/map-kit.md's "Two real bugs..." section.
+NEW STANDING RULES FROM THIS SESSION (2026-10-02), both now also in `agent/rules/owner-rules-and-workflow.md`:
+  1. "QA scope" rule above (mobile/cross-browser/performance permanently out of scope).
+  2. **3D motion must match the already-approved 2D realism standard, always.** The owner restated the
+     2026-09-27 map-realism fix (real speed, road-following, never "cartoony video-animation" movement)
+     applies to anything that moves on the map, present or future, including the new 3D vehicle models. When
+     building or changing ANY vehicle-motion-related feature, verify it inherits the existing
+     `VehicleLayer` per-frame position/heading system rather than introducing a second, independent motion
+     path — a second path is exactly how this kind of regression would sneak back in.
+  Also learned (not a rule change, just useful): backend infrastructure (pm2 processes, Docker containers
+  like `convoyai-node-dev-redis-1` / `-postgres-1` on ports 6389/5442) is fine to restart when the owner's
+  laptop reboot leaves the backend half-broken — this is "keeping the dev environment running", not
+  "working on the backend". Never touch the backend's actual code/config.
 
-WHAT IS OPEN — the owner stated the FULL remaining roadmap on 2026-10-02 (recommended order below is a
-suggestion, not locked; the owner has not yet picked which one to start with — ASK, don't assume):
-  0. The owner's own hands-on review of the map and the new landing/login/register work (T-006-R2/T-007),
-     and whatever changes come out of it. Still open, still theirs to trigger.
-  1. Real 3D vehicle models (glTF via a three.js custom MapLibre layer) — the deliberate LAST map-polish
-     step, saved for after item 0, before any recording.
-  2. **T-008** (new, 2026-10-02, tasks.md): a global UI-consistency + enterprise-components pass (one
-     Input/Dropdown/DatePicker/etc. everywhere — plan in agent/architecture/design-system-and-ui.md §7) PLUS
-     the legacy Fleet leftovers G14 (multi-select trip status), G15 (URL-synced list state), G18 (polish:
-     skeletons/a11y/saved views/light-theme at wide widths), G20 (imagery: photo markers, initials
-     avatars), G19 (ZZ test-data cleanup — do this one LAST, after T-009 too, since recording prep may still
-     create throwaway records). This was previously parked in a "backlog, do not start" table on the
-     condition "after Fleet is finished" — Fleet is finished, and the owner has now moved it onto the
-     explicit todo list. Not started.
-  3. One full heavy QA pass (production build + a crawl of every route through hidden iframes + an axe
-     accessibility scan) — per the owner's QA-cadence rule, do this only once, right before any recording,
-     not after every small change.
-  4. **T-009** (new, 2026-10-02): record demo video(s) + screenshots for the owner's own portfolio site and
-     client outreach — the project will never be deployed live, so the public GitHub repo plus this
-     recorded material is the ENTIRE trust signal a prospective client gets; the owner said it "needs to be
-     very good video". IMPORTANT capability boundary: there is no tool here that exports a finished,
-     polished video file (only a short-clip GIF recorder exists) — agree explicitly with the owner that
-     Claude's role is prep (a shot list / script, a final clean-view pass with no debug artifacts or ZZ
-     data, confirming showcase data looks rich everywhere in the script) while the owner does the actual
-     screen capture themselves. Not started.
-  5. Merging `staging` into `main` — still waits for the owner's explicit word; timing relative to the
-     recording is the owner's call.
-  6. **T-010** (new, 2026-10-02): write a proper README for the public repo. BLOCKED until the owner shares
-     an example README from one of their other portfolio repos as the reference for tone/structure. Do this
-     after T-009's video/screenshots exist, since the README will likely embed or link them.
-  7. **T-011** (new, 2026-10-02), the final step overall: the owner will bring the separate backend repo's
-     code into this repo and turn it into a monorepo, then push to GitHub. Explicit instruction: **do not
-     read the backend source when it arrives** — this stays a structural/assembly task only (workspace
-     layout, build scripts, getting both halves to build/run together); the long-standing "backend is out
-     of scope" rule continues in spirit even once the code is physically present in the same repo. The
-     owner will rotate the MapTiler/Pusher keys themselves (flagged 2026-09-27) — not a task for you.
-Full detail + reasoning for each: agent/work/decisions.md's 2026-10-02 entry; task write-ups:
-agent/work/tasks.md T-008 through T-011.
+WHAT'S DONE THIS SESSION (2026-10-02, T-006 — now fully closed, see `archive.md`):
+  Built real 3D vehicle models for the live map (glTF via deck.gl `ScenegraphLayer`, individual vehicles
+  only, zoom ≥13, 3D mode only; flat icons unchanged everywhere/everywhen else). All 7 vehicle kinds work
+  and are visible live, including bus (a showcase-data bug meant it never appeared until fixed). Found and
+  fixed SEVEN real bugs along the way (two deck.gl↔maplibre-gl incompatibilities, a React Strict Mode race,
+  a CSS selector bug, a missing size floor, a heading-orientation bug, a showcase-data bug, and a
+  zoom-disproportion bug the owner found by hand). Full technical detail:
+  `agent/architecture/map-kit.md`'s "3D vehicle models" section, `agent/architecture/showcase-data.md`'s
+  "Bus vehicles..." section, and `agent/work/decisions.md`'s five 2026-10-02 entries. Everything is
+  committed and pushed (`6f12f66` … `47ebbc7`) and T-006 has been moved to `agent/work/archive.md`.
+  NOT verified this session (deliberately deferred, see below): the full route crawl + axe scan, and
+  general visual-quality tuning of the 3D models' lighting/colour beyond "looks good, nothing short of the
+  bar" (a quick pass, not a deep one).
 
-NOT VERIFIED (say so plainly if asked, do not claim otherwise): Firefox/Safari anywhere in the app; tablet
-widths specifically (only phone ~390px and a ~1536px desktop width were checked); the real-backend
-(non-showcase) behaviour of everything built in T-006-R2/T-007, since showcase mode is what was actually
-exercised; the landing hero map in a genuinely fresh logged-out browser profile (it was checked by stashing
-and restoring the owner's own login token in localStorage instead, inside the same browser).
+WHAT'S OPEN — owner said (2026-10-02, this session's end) "quickly wrap these up and take video+pics for
+showcasing, it's been too long" — meaning: move toward T-009 (recording) with real urgency, not necessarily
+do every item below in the original recommended order. ASK the owner at the start of the next session which
+of these they want first; do not assume:
+  1. **The one heavy QA pass** (production build + full ~50-route crawl + axe scan) — per the QA-cadence
+     rule this was always meant to happen once, right before recording. Due now. Nothing more should be
+     built before this runs, since it's meant to certify the state that gets recorded.
+  2. **T-008** (global UI consistency + enterprise-components pass + legacy Fleet leftovers G14/G15/G18/G20/
+     G19) — not started. Given the owner's stated urgency, consider asking whether to skip or shrink this
+     rather than assuming it must happen before recording; it was always "recommended, not locked" position.
+  3. **T-009** (record demo video(s) + screenshots) — not started. Claude's role is prep only (shot list /
+     script, a final clean-view pass with no debug artifacts or stray ZZ test data, confirming showcase data
+     reads richly everywhere in the script) — there is no tool here that exports a finished video, only a
+     short-GIF recorder. The owner does the actual screen capture. Agree the shot list with the owner before
+     doing the clean-view pass.
+  4. Merge `staging` → `main` — owner's call on timing, still not yet.
+  5. **T-010** (public README) — BLOCKED until the owner supplies an example README from another of their
+     portfolio repos; do after T-009 since the README will likely embed/link the recorded material.
+  6. **T-011** (bring the backend into this repo as a monorepo) — far future, last step; do NOT read the
+     backend source when it arrives, this stays a structural/assembly task only.
 
-FIRST ACTIONS, in order: (1) run `git status --short` and `git log --oneline -5` and compare against what
-this prompt and agent/work/progress.md say — trust git over any written note if they disagree; (2) if you
-will run the app, start it ONLY with `npm run dev` (never `next dev` directly — see
-agent/environment-and-safeguards.md for why) and read agent/browser-testing-playbook.md before doing any
-live browser check; (3) tell the owner in 3–5 lines where things stand, then ASK which of the open items
-(0 through 7 above) they want to start on — do not assume the order above and do not start coding anything
-unprompted; every open item is explicitly theirs to sequence.
+FIRST ACTIONS, in order: (1) `git status --short` and `git log --oneline -5`, compare against this prompt —
+trust git over any written note if they disagree; (2) if running the app, start ONLY with `npm run dev`
+(never `next dev` directly); (3) tell the owner in 2-3 lines where things stand (T-006 fully done and
+shipped, now at the open-items list above); (4) ASK which of items 1-3 above to start on, given their stated
+urgency to reach recording soon — do not assume the heavy-QA-first order is locked.
 
-When the owner says "wrap up", asks to `/clear`, or says they are switching sessions or models again: follow
-agent/work/session-ritual.md's END checklist, and rewrite this same "Current prompt" block for whoever
-comes next.
+When the owner says "wrap up", asks to `/clear`, or switches sessions/models again: follow
+agent/work/session-ritual.md's END checklist, and rewrite this same block for whoever comes next.
 ```
