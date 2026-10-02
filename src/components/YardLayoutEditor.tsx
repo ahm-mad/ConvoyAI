@@ -526,7 +526,6 @@ export default function YardLayoutEditor({
                     placeholder="Select vehicle"
                     emptyLabel="No vehicles available"
                     wrapperClassName="w-full"
-                    className="w-full bg-surface-2 border border-line rounded px-2 py-1.5 text-xs text-ink-0"
                     getOption={v => {
                       const tooLong =
                         v.length_m != null &&

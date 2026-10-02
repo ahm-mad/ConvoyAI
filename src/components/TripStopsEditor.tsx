@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
 import OptionSelect from '@components/OptionSelect';
+import DatePicker from '@components/DatePicker';
 import { toDatetimeLocal, toIsoInstant } from '@utils/datetime';
 
 /** One planned yard stop as the operator edits it (datetime fields are naive `datetime-local` strings). */
@@ -234,7 +235,6 @@ export default function TripStopsEditor({
                 placeholder="Select yard"
                 emptyLabel="No yards available"
                 wrapperClassName="col-span-2"
-                className="w-full glass-strong  px-2.5 py-1.5 text-xs text-ink-0"
                 getOption={y => ({ label: y.name || `Yard #${y.id}` })}
                 selectedLabel={stop.yard_name || `Yard #${stop.yard_id}`}
                 ariaLabel={`Yard for stop ${index + 1}`}
@@ -257,25 +257,25 @@ export default function TripStopsEditor({
 
               <label className="flex flex-col">
                 <span className="text-[10px] text-ink-2 mb-0.5">Planned arrival</span>
-                <input
+                <DatePicker
+                  withTime
                   value={stop.planned_arrival_at}
-                  onChange={e => update(index, { planned_arrival_at: e.target.value })}
-                  type="datetime-local"
+                  onChange={v => update(index, { planned_arrival_at: v })}
                   aria-label={`Planned arrival of stop ${index + 1}`}
                   disabled={disabled}
-                  className={inputCls}
+                  placeholder="Arrival"
                 />
               </label>
 
               <label className="flex flex-col">
                 <span className="text-[10px] text-ink-2 mb-0.5">Planned departure</span>
-                <input
+                <DatePicker
+                  withTime
                   value={stop.planned_departure_at}
-                  onChange={e => update(index, { planned_departure_at: e.target.value })}
-                  type="datetime-local"
+                  onChange={v => update(index, { planned_departure_at: v })}
                   aria-label={`Planned departure of stop ${index + 1}`}
                   disabled={disabled}
-                  className={inputCls}
+                  placeholder="Departure"
                 />
               </label>
 

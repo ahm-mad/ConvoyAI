@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useState } from 'react';
 import { useOptions, type OptionKind } from '@hooks/useOptions';
+import SelectRadix from '@components/Select';
 
 /**
  * A <select> fed by the options endpoint (flows/06 §12). One request, active records only. When the
@@ -19,7 +20,6 @@ export default function OptionSelect({
   placeholder,
   emptyLabel,
   disabled,
-  className = 'w-full field',
   wrapperClassName = 'flex-1 min-w-0',
   ariaLabel,
   selectedLabel,
@@ -36,7 +36,6 @@ export default function OptionSelect({
   /** Shown as the empty option when nothing is available. */
   emptyLabel: string;
   disabled?: boolean;
-  className?: string;
   wrapperClassName?: string;
   ariaLabel?: string;
   /** Label for the current value when it is not among the options (e.g. a deactivated yard on an old trip stop). */
@@ -59,6 +58,18 @@ export default function OptionSelect({
 
   const showSearch = truncated || search !== '';
 
+  const options = [
+    ...(selectedItem
+      ? [{ value: String(selectedItem.id), label: getOption(selectedItem).label }]
+      : []),
+    ...(fallbackOption ? [{ value: String(value), label: selectedLabel as string }] : []),
+    ...visible.map(i => ({
+      value: String(i.id),
+      label: getOption(i).label,
+      disabled: getOption(i).disabled,
+    })),
+  ];
+
   return (
     <div className={wrapperClassName}>
       {showSearch && (
@@ -70,38 +81,27 @@ export default function OptionSelect({
           className="w-full mb-1 bg-white border border-line rounded-xl px-2.5 py-1 text-[11px] text-ink-0"
         />
       )}
-      <select
+      <SelectRadix
+        variant="field"
         value={value}
-        onChange={e => {
-          const item = visible.find(i => String(i.id) === e.target.value) ?? selectedItem;
+        onValueChange={v => {
+          const item = visible.find(i => String(i.id) === v) ?? selectedItem;
 
-          onChange(e.target.value, item);
+          onChange(v, item);
         }}
         disabled={disabled || isLoading}
         aria-label={ariaLabel}
-        className={className}
-      >
-        <option value="">
-          {isLoading
+        placeholder={
+          isLoading
             ? 'Loading…'
             : error
               ? 'Could not load options'
               : visible.length
                 ? placeholder
-                : emptyLabel}
-        </option>
-        {selectedItem && <option value={selectedItem.id}>{getOption(selectedItem).label}</option>}
-        {fallbackOption && <option value={value}>{selectedLabel}</option>}
-        {visible.map(i => {
-          const o = getOption(i);
-
-          return (
-            <option key={i.id} value={i.id} disabled={o.disabled}>
-              {o.label}
-            </option>
-          );
-        })}
-      </select>
+                : emptyLabel
+        }
+        options={options}
+      />
     </div>
   );
 }

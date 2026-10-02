@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import RequiredHint from '@components/RequiredHint';
+import SelectRadix from '@components/Select';
+import DatePicker from '@components/DatePicker';
 import { useState } from 'react';
 import { X, Truck, AlertTriangle, Plus } from 'lucide-react';
 import { useModal } from '@contexts/ModalContext';
@@ -333,21 +335,17 @@ function IncidentsTab({
             placeholder="Incident type (e.g. Speeding Violation)"
             className="w-full field mb-2"
           />
-          <select
+          <SelectRadix
+            className="mb-2"
             value={severity}
-            onChange={e => setSeverity(e.target.value)}
-            className="w-full field mb-2"
-          >
-            <option value="minor">Minor</option>
-            <option value="moderate">Moderate</option>
-            <option value="severe">Severe</option>
-          </select>
-          <input
-            value={date}
-            onChange={e => setDate(e.target.value)}
-            type="date"
-            className="w-full field mb-2"
+            onValueChange={setSeverity}
+            options={[
+              { value: 'minor', label: 'Minor' },
+              { value: 'moderate', label: 'Moderate' },
+              { value: 'severe', label: 'Severe' },
+            ]}
           />
+          <DatePicker className="mb-2" value={date} onChange={setDate} />
           <textarea
             value={description}
             onChange={e => setDescription(e.target.value)}

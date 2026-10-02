@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useUnits } from '@hooks/useUnits';
+import SelectRadix from '@components/Select';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { keepPreviousData } from '@tanstack/react-query';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
@@ -538,20 +539,19 @@ export default function FleetMap() {
         </div>
         <div className="flex w-full items-center gap-2 sm:w-auto">
           {gl && (
-            <select
+            <SelectRadix
+              variant="control"
+              fullWidth={false}
+              className="min-w-0 flex-1 sm:max-w-[240px] sm:flex-none"
               value={selectedTripId}
-              onChange={e => setSelectedTripId(e.target.value)}
-              className="min-w-0 flex-1 bg-white border border-line rounded-xl px-2 py-1 text-[11px] text-ink-0 sm:max-w-[240px] sm:flex-none"
+              onValueChange={setSelectedTripId}
               aria-label="Show trip route"
-            >
-              <option value="">Show trip route…</option>
-              {activeTrips.map((t: any) => (
-                <option key={t.id} value={t.id}>
-                  {t.trip_reference || `Trip #${t.id}`} · {t.vehicle?.name || 'vehicle'} ·{' '}
-                  {String(t.status).replace('_', ' ')}
-                </option>
-              ))}
-            </select>
+              placeholder="Show trip route…"
+              options={activeTrips.map((t: any) => ({
+                value: String(t.id),
+                label: `${t.trip_reference || `Trip #${t.id}`} · ${t.vehicle?.name || 'vehicle'} · ${String(t.status).replace('_', ' ')}`,
+              }))}
+            />
           )}
           {selectedDeviceId && (
             <button
