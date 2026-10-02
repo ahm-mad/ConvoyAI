@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { put } from '@utils/apiHelper';
+import SelectRadix from '@components/Select';
+import DatePicker from '@components/DatePicker';
 import { useEditConflict } from '@hooks/useEditConflict';
 import { useUnits } from '@hooks/useUnits';
 import { toDisplayString, toMetric, type Units } from '@utils/units';
@@ -135,18 +137,18 @@ export default function RecordForm({
               </span>
             )}
             {f.type === 'select' ? (
-              <select
+              <SelectRadix
+                variant="field"
                 value={values[f.key]}
-                onChange={e => setValues(p => ({ ...p, [f.key]: e.target.value }))}
-                className={input}
-              >
-                {!f.required && <option value="">—</option>}
-                {(f.options ?? []).map(o => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
+                onValueChange={v => setValues(p => ({ ...p, [f.key]: v }))}
+                placeholder="—"
+                options={f.options ?? []}
+              />
+            ) : f.type === 'date' ? (
+              <DatePicker
+                value={values[f.key]}
+                onChange={v => setValues(p => ({ ...p, [f.key]: v }))}
+              />
             ) : f.type === 'textarea' ? (
               <textarea
                 value={values[f.key]}

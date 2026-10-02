@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import SelectRadix from '@components/Select';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toDisplayString, toMetric } from '@utils/units';
 import { useState } from 'react';
@@ -115,11 +116,16 @@ export default function GeofenceEditForm({
         </label>
         <label className="block">
           <span className="block text-[10px] uppercase text-ink-2 mb-1">Alert on</span>
-          <select value={alertOn} onChange={e => setAlertOn(e.target.value)} className={INPUT}>
-            <option value="both">Enter and exit</option>
-            <option value="enter">Enter only</option>
-            <option value="exit">Exit only</option>
-          </select>
+          <SelectRadix
+            variant="field"
+            value={alertOn}
+            onValueChange={setAlertOn}
+            options={[
+              { value: 'both', label: 'Enter and exit' },
+              { value: 'enter', label: 'Enter only' },
+              { value: 'exit', label: 'Exit only' },
+            ]}
+          />
         </label>
 
         {linked ? (

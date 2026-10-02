@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, type ChangeEvent } from 'react';
+import SelectRadix from '@components/Select';
 import { useFleetOptions, optionLabel } from '@utils/fleetOptions';
 import { useFleetCurrency } from '@utils/fleetCurrency';
 import { useUnits } from '@hooks/useUnits';
@@ -176,20 +177,20 @@ export default function VehicleFields({
     <input value={values[key]} onChange={set(key)} type={type} step={step} className={INPUT} />
   );
 
-  const select = (key: VehicleKey, list: string[]) => (
-    <select value={values[key]} onChange={set(key)} className={INPUT}>
-      <option value="">Not set</option>
-      {/* Keep a value that is no longer in the canonical list selectable instead of silently dropping it. */}
-      {values[key] && !list.includes(values[key]) && (
-        <option value={values[key]}>{values[key]}</option>
-      )}
-      {list.map(v => (
-        <option key={v} value={v}>
-          {optionLabel(v)}
-        </option>
-      ))}
-    </select>
-  );
+  const select = (key: VehicleKey, list: string[]) => {
+    // Keep a value that is no longer in the canonical list selectable instead of silently dropping it.
+    const extra = values[key] && !list.includes(values[key]) ? [values[key]] : [];
+    const options = [...extra, ...list].map(v => ({ value: v, label: optionLabel(v) }));
+    return (
+      <SelectRadix
+        variant="field"
+        value={values[key]}
+        onValueChange={v => onChange({ ...values, [key]: v })}
+        options={options}
+        placeholder="Not set"
+      />
+    );
+  };
 
   return (
     <div>

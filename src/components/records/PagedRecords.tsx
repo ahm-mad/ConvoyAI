@@ -4,6 +4,8 @@ import { keepPreviousData } from '@tanstack/react-query';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
 import { useListState } from '@hooks/useListState';
 import Pager from '@components/list/Pager';
+import SelectRadix from '@components/Select';
+import DatePicker from '@components/DatePicker';
 import { X } from 'lucide-react';
 
 /**
@@ -76,39 +78,36 @@ export default function PagedRecords({
           />
         )}
         {extraFilters.map(x => (
-          <select
+          <SelectRadix
             key={x.key}
+            variant="control"
+            fullWidth={false}
+            className="w-[170px]"
             value={f[x.key] ?? ''}
-            onChange={e => list.setFilter(x.key, e.target.value)}
+            onValueChange={v => list.setFilter(x.key, v)}
             aria-label={x.label}
-            className={CONTROL}
-          >
-            <option value="">{x.label}: all</option>
-            {x.options.map(o => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
+            placeholder={`${x.label}: all`}
+            options={x.options}
+          />
         ))}
-        <label className="flex items-center gap-1 text-[10px] text-ink-2">
-          From
-          <input
-            type="date"
-            value={f.date_from ?? ''}
-            onChange={e => list.setFilter('date_from', e.target.value)}
-            className={CONTROL}
-          />
-        </label>
-        <label className="flex items-center gap-1 text-[10px] text-ink-2">
-          To
-          <input
-            type="date"
-            value={f.date_to ?? ''}
-            onChange={e => list.setFilter('date_to', e.target.value)}
-            className={CONTROL}
-          />
-        </label>
+        <DatePicker
+          variant="control"
+          fullWidth={false}
+          className="w-[140px]"
+          value={f.date_from ?? ''}
+          onChange={v => list.setFilter('date_from', v)}
+          placeholder="From"
+          aria-label="From"
+        />
+        <DatePicker
+          variant="control"
+          fullWidth={false}
+          className="w-[140px]"
+          value={f.date_to ?? ''}
+          onChange={v => list.setFilter('date_to', v)}
+          placeholder="To"
+          aria-label="To"
+        />
         {list.hasActiveFilters && (
           <button
             type="button"
