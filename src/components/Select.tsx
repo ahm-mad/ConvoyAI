@@ -16,6 +16,9 @@ export interface SelectRadixProps {
   onValueChange?: (value: string) => void;
   fullWidth?: boolean;
   size?: 'small' | 'medium' | 'large' | 'xs' | string;
+  /** 'field' (default) = form-field look (`.field`, rounded-control); 'control' = compact pill
+   * look (`.control`) for toolbar filters/sort/pager — same tokens the rest of the control shares. */
+  variant?: 'field' | 'control';
   className?: string;
   error?: boolean;
   helperText?: ReactNode;
@@ -36,6 +39,7 @@ const SelectRadix = ({
   onValueChange,
   fullWidth = true,
   size = 'small',
+  variant,
   className = '',
   error,
   helperText,
@@ -87,15 +91,26 @@ const SelectRadix = ({
         <Select.Trigger
           id={id}
           aria-label={ariaLabel ?? placeholder}
-          className={`
-            inline-flex items-center justify-between w-full rounded-md border
-            ${getSizeClasses()}
-            ${disabled ? 'bg-surface-1 text-ink-2 cursor-not-allowed' : 'bg-surface-2 cursor-pointer'}
-            ${error ? 'border-danger' : 'border-line'}
-            ${value ? 'text-ink-0' : 'text-ink-2'}
-            outline-none transition-colors
-            data-[state=open]:border-accent-cyan
-          `}
+          className={
+            variant
+              ? `
+                ${variant === 'control' ? 'control' : 'field'}
+                inline-flex items-center justify-between w-full gap-2
+                ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
+                ${error ? '!border-danger' : ''}
+                ${value ? '' : 'text-ink-2'}
+                data-[state=open]:!border-brand
+              `
+              : `
+                inline-flex items-center justify-between w-full rounded-md border
+                ${getSizeClasses()}
+                ${disabled ? 'bg-surface-1 text-ink-2 cursor-not-allowed' : 'bg-surface-2 cursor-pointer'}
+                ${error ? 'border-danger' : 'border-line'}
+                ${value ? 'text-ink-0' : 'text-ink-2'}
+                outline-none transition-colors
+                data-[state=open]:border-accent-cyan
+              `
+          }
         >
           <Select.Value placeholder={placeholder}>
             {renderValue && selectedOption

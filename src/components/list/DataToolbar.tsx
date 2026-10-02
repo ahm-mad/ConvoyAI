@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import SavedViews, { type ViewsList } from './SavedViews';
 import { Search, X } from 'lucide-react';
+import SelectRadix from '@components/Select';
+import DatePicker from '@components/DatePicker';
 
 export interface FilterDef {
   key: string;
@@ -14,8 +16,6 @@ export interface SortOption {
   value: string;
   label: string;
 }
-
-const CONTROL = 'control max-w-[190px]';
 
 /**
  * Search + filters + sort + actions row shared by every enterprise list (flows/06 §2). Purely
@@ -71,48 +71,43 @@ export default function DataToolbar({
 
         {filters.map(f =>
           f.type === 'date' ? (
-            <label key={f.key} className="flex items-center gap-1 text-[10px] text-ink-2">
-              {f.label}
-              <input
-                type="date"
-                value={values[f.key] ?? ''}
-                onChange={e => onFilter(f.key, e.target.value)}
-                className={CONTROL}
-              />
-            </label>
-          ) : (
-            <select
+            <DatePicker
               key={f.key}
+              variant="control"
+              fullWidth={false}
               value={values[f.key] ?? ''}
-              onChange={e => onFilter(f.key, e.target.value)}
+              onChange={v => onFilter(f.key, v)}
+              placeholder={f.label}
               aria-label={f.label}
-              className={CONTROL}
-            >
-              <option value="">{f.label}: all</option>
-              {(f.options ?? []).map(o => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
+              className="w-[150px]"
+            />
+          ) : (
+            <SelectRadix
+              key={f.key}
+              variant="control"
+              fullWidth={false}
+              value={values[f.key] ?? ''}
+              onValueChange={v => onFilter(f.key, v)}
+              placeholder={`${f.label}: all`}
+              aria-label={f.label}
+              className="w-[190px]"
+              options={(f.options ?? []).map(o => ({ value: o.value, label: o.label }))}
+            />
           )
         )}
 
         {sortOptions && onSort && (
           <div className="flex items-center gap-1">
-            <select
+            <SelectRadix
+              variant="control"
+              fullWidth={false}
               value={sortBy ?? ''}
-              onChange={e => onSort(e.target.value, sortDir ?? 'desc')}
+              onValueChange={v => onSort(v, sortDir ?? 'desc')}
+              placeholder="Sort: default"
               aria-label="Sort by"
-              className={CONTROL}
-            >
-              <option value="">Sort: default</option>
-              {sortOptions.map(o => (
-                <option key={o.value} value={o.value}>
-                  Sort: {o.label}
-                </option>
-              ))}
-            </select>
+              className="w-[170px]"
+              options={sortOptions.map(o => ({ value: o.value, label: `Sort: ${o.label}` }))}
+            />
             {sortBy && (
               <button
                 type="button"

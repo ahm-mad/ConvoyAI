@@ -1,3 +1,5 @@
+import SelectRadix from '@components/Select';
+
 /** Pager for any list: "21–40 of 137", previous/next, page numbers with ellipsis, page-size choice. */
 export default function Pager({
   page,
@@ -59,20 +61,18 @@ export default function Pager({
       </div>
 
       {onPageSize && (
-        <label className="flex items-center gap-1.5">
-          Per page
-          <select
-            value={pageSize}
-            onChange={e => onPageSize(Number(e.target.value))}
-            className="control !py-1"
-          >
-            {pageSizes.map(s => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="flex items-center gap-1.5">
+          <span>Per page</span>
+          <SelectRadix
+            variant="control"
+            fullWidth={false}
+            className="w-[76px]"
+            value={String(pageSize)}
+            onValueChange={v => onPageSize(Number(v))}
+            aria-label="Per page"
+            options={pageSizes.map(s => ({ value: String(s), label: String(s) }))}
+          />
+        </div>
       )}
     </div>
   );
