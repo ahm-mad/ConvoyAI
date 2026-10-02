@@ -1,6 +1,17 @@
 # Progress — the resume point
 
-## >>> RESUME HERE (2026-10-03): T-008 "visual-impact items" scope FULLY DONE and pushed — next is owner's call (T-009 prep, merge, or something else)
+## >>> RESUME HERE (2026-10-03, later same day): T-009 script LOCKED and ready to capture — nothing recorded yet
+
+T-008 is fully done (see the block below). Owner then moved straight into T-009 planning. Full story is in `decisions.md`'s "T-009 script fully locked" entry (2026-10-03) and the two files it produced:
+
+- **`agent/work/portfolio-video-style-guide.md`** — reusable conventions (captions = short section titles, voiceover tone, the standalone+mergeable structure, honesty-in-claims, clean-view discipline). Written so the owner can apply the same approach to editing their OTHER already-recorded portfolio project's video, not just this one.
+- **`agent/work/t009-shot-list-and-script.md`** — ConvoyAI's locked, 13-shot script (~3:50), bookended by a "ConvoyAI — Enterprise fleet management, powered by AI" title card so the segment works standalone (e.g. attached to one cover letter) or concatenated into the owner's bigger merged portfolio reel (intro-with-face + other project + this one). AI is shown at 3 separate touchpoints (Overview insight card, Vehicles maintenance/HOS quick-action, a full AI Copilot deep-dive) rather than one isolated stop, since this project is meant to be the portfolio's AI-differentiated entry.
+- Also fixed and pushed (`7c5040f`): the map-toolbar "3D" toggle contrast finding from the 2026-10-02 QA pass, now that the map is about to be the hero shot on camera. Scoped to just that button (every other icon-only button in the shared class was already passing and is unchanged). Verified by zoomed screenshot, not `getComputedStyle` — that read flaky/inconsistent values on this WebGL-heavy page, worth remembering if it comes up again.
+- **Capability correction, also in `decisions.md`:** Claude CAN capture clean video-like clips directly (GIF tool with all 5 debug overlays — click circles, action labels, progress bar, watermark — turned off) and take real screenshots directly; ffmpeg screen-recording is ruled out on this machine (Wayland, no ffmpeg installed, no passwordless sudo).
+
+**Nothing has been recorded yet.** Next step: the pre-capture checklist at the bottom of `t009-shot-list-and-script.md` (clean-view pass, confirm showcase data, pick the specific trip/vehicle for shots 7-8), then start capturing clips with `mcp__claude-in-chrome__gif_creator`.
+
+## >>> RESUME HERE (2026-10-03, earlier, superseded by the block above): T-008 "visual-impact items" scope FULLY DONE and pushed
 
 Owner said "let's do the global ui consistency" and picked the "visual-impact items only" scope: (a) custom dropdown + date/time picker everywhere a native `<select>`/`<input type="date"|"datetime-local">` was popping an OS-native widget, (b) G20 (vehicle photo markers/initials avatars), (c) G14 (multi-select trip-status filter). Explicitly skipped: G15 (URL-synced list state, no screenshot value), G19 (ZZ cleanup, still deliberately last), and a full G18 re-audit (spot-checked instead — Saved Views still opens/works, no regression).
 
