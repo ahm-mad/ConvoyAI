@@ -23,3 +23,7 @@ Goal (owner requirement): the whole process must be **seamless, resumable and cr
 6. **Never** mark something done that was not verified; list unverified items as new TODOs.
 7. Keep each file concise and current; archive rather than delete. Statuses: `TODO` · `IN PROGRESS` · `BLOCKED (why)` · `DONE (in archive)`.
 8. Commit rules: only when the owner asks; stage exact files; note commit hashes in `archive.md`.
+
+## `agent/` is git-tracked — it is the durable record, not a side note (owner, 2026-09-27)
+
+`agent/` and `CLAUDE.md` are committed to git (see `decisions.md`'s 2026-09-27 "now TRACKED in git" entry) specifically so this whole knowledge base survives a move to a different laptop (a plain `git clone` brings it along) or a switch to a completely different AI agent/tool, not only a `/clear` inside one tool's own session. Because of this: **whenever a durable fact, rule, decision or lesson would be saved to an assistant's own private cross-session memory system, it must also be written into the matching file here in `agent/`** — `rules/owner-rules-and-workflow.md` for standing rules, `work/decisions.md` for decisions, `browser-testing-playbook.md` / `environment-and-safeguards.md` for testing/environment lessons, or a new file under `agent/` if nothing existing fits. The two records should stay mirrored; `agent/` alone must always be enough to resume with, even if whatever private memory system an assistant has is unavailable to the next one.
