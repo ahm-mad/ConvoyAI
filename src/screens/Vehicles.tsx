@@ -3,6 +3,8 @@ import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
 import { useState } from 'react';
 import { Plus, Truck, Wifi, WifiOff, User } from 'lucide-react';
+import { GLYPH } from '@components/map/vehicle/VehicleIcon';
+import { kindOf } from '@components/map/vehicle/vehicleKinds';
 import { useModal } from '@contexts/ModalContext';
 import { post } from '@utils/apiHelper';
 import VehicleFields, { EMPTY_VEHICLE_VALUES, vehicleToPayload } from '@components/VehicleFields';
@@ -347,7 +349,10 @@ function VehicleRow({ vehicle, onClick }: { vehicle: Vehicle; onClick: () => voi
           />
         ) : (
           <div className="w-11 h-11 rounded-xl bg-brand-wash icon-tile flex items-center justify-center flex-shrink-0">
-            <Truck size={18} className="text-brand" />
+            {(() => {
+              const Glyph = GLYPH[kindOf(vehicle.vehicle_category)];
+              return <Glyph size={18} className="text-brand" />;
+            })()}
           </div>
         )}
         <div>

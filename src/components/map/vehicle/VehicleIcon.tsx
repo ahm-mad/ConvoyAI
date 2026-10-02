@@ -101,7 +101,8 @@ const wheels = (h: number) => (
   </>
 );
 
-const GLYPH: Record<VehicleKind, typeof Truck> = {
+/** Kind → lucide glyph, shared with anywhere else a vehicle needs a type-accurate icon (e.g. list rows). */
+export const GLYPH: Record<VehicleKind, typeof Truck> = {
   truck: Truck,
   semi: Container,
   van: Truck,
