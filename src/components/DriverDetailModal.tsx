@@ -40,21 +40,36 @@ export default function DriverDetailModal({
   return (
     <div className="glass-strong  w-[min(600px,calc(100vw_-_1.5rem))] max-h-[85vh] flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3 border-b border-line">
-        <div>
-          <h2 className="text-sm font-semibold text-ink-0">
-            {driver ? `${driver.first_name} ${driver.last_name}` : 'Driver Detail'}
-          </h2>
-          <p className="text-xs text-ink-2 mt-0.5">
-            {[
-              [driver?.license_class, driver?.license_number].filter(Boolean).join(' '),
-              driver?.phone,
-              driver?.email,
-            ]
-              .filter(Boolean)
-              .join(' · ')}
-          </p>
+        <div className="flex items-center gap-3 min-w-0">
+          {driver && (
+            <span
+              className="grid size-9 shrink-0 place-items-center rounded-card text-caption font-semibold text-white"
+              style={{ background: 'var(--gradient-avatar)' }}
+              aria-hidden
+            >
+              {`${driver.first_name?.[0] ?? ''}${driver.last_name?.[0] ?? ''}`.toUpperCase() || '?'}
+            </span>
+          )}
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-ink-0 truncate">
+              {driver ? `${driver.first_name} ${driver.last_name}` : 'Driver Detail'}
+            </h2>
+            <p className="text-xs text-ink-2 mt-0.5 truncate">
+              {[
+                [driver?.license_class, driver?.license_number].filter(Boolean).join(' '),
+                driver?.phone,
+                driver?.email,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+            </p>
+          </div>
         </div>
-        <button onClick={closeModal} className="text-ink-2 hover:text-ink-0" aria-label="Close">
+        <button
+          onClick={closeModal}
+          className="shrink-0 text-ink-2 hover:text-ink-0"
+          aria-label="Close"
+        >
           <X size={18} />
         </button>
       </div>

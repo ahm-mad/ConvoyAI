@@ -214,6 +214,7 @@ function OverviewTab({ detail, vehicleId, onChanged }) {
         <VehicleImageControl
           vehicleId={vehicleId}
           imageUrl={vehicle.image_url}
+          category={vehicle.vehicle_category}
           onChanged={onChanged}
         />
         <div>

@@ -43,7 +43,6 @@ export default function Trips() {
   const { items: drivers } = useOptions('drivers', { include_inactive: 1 });
 
   const filters: FilterDef[] = [
-    { key: 'status', label: 'Status', options: TRIP_STATUS_OPTIONS },
     {
       key: 'vehicle_id',
       label: 'Vehicle',
@@ -119,6 +118,7 @@ export default function Trips() {
       {showForm && <NewTripForm onClose={() => setShowForm(false)} onCreated={t.refetch} />}
 
       <StatusChips
+        multiple
         counts={counts}
         options={TRIP_STATUS_OPTIONS}
         value={state.filters.status}

@@ -6,6 +6,8 @@ import toast from 'react-hot-toast';
 import { post, del } from '@utils/apiHelper';
 import DeleteControl from '@components/records/DeleteControl';
 import { invalidateFleetQueries } from '@utils/fleetCache';
+import { GLYPH } from '@components/map/vehicle/VehicleIcon';
+import { kindOf } from '@components/map/vehicle/vehicleKinds';
 
 const MAX_BYTES = 10 * 1024 * 1024; // backend limit: 10 MB
 
@@ -16,15 +18,18 @@ const MAX_BYTES = 10 * 1024 * 1024; // backend limit: 10 MB
 export default function VehicleImageControl({
   vehicleId,
   imageUrl,
+  category,
   onChanged,
 }: {
   vehicleId: string | number;
   imageUrl?: string | null;
+  category?: string | null;
   onChanged?: () => void;
 }) {
   const qc = useQueryClient();
   const input = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const Glyph = GLYPH[kindOf(category)];
 
   const handleFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -91,8 +96,8 @@ export default function VehicleImageControl({
         {imageUrl ? (
           <img src={imageUrl} alt="" className="w-14 h-14 rounded-md object-cover" />
         ) : (
-          <div className="w-14 h-14 rounded-md bg-surface-3 flex items-center justify-center text-ink-2 text-xl">
-            🚚
+          <div className="w-14 h-14 rounded-md bg-brand-wash flex items-center justify-center text-brand">
+            <Glyph size={24} />
           </div>
         )}
         <button
