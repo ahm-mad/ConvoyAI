@@ -1,8 +1,18 @@
 # Progress — the resume point
 
-## >>> RESUME HERE (2026-10-03): T-008 IN PROGRESS — dropdown/date-picker consistency pass DONE and pushed; G14/G20 next
+## >>> RESUME HERE (2026-10-03): T-008 "visual-impact items" scope FULLY DONE and pushed — next is owner's call (T-009 prep, merge, or something else)
 
-Owner said "let's do the global ui consistency" and picked the "visual-impact items only" scope: (a) custom dropdown + date/time picker everywhere a native `<select>`/`<input type="date"|"datetime-local">` was popping an OS-native widget, (b) G20 (vehicle photo markers/initials avatars), (c) G14 (multi-select trip-status filter). Explicitly skipped: G15 (URL-synced list state, no screenshot value) and a full G18 re-audit (already mostly done by earlier work).
+Owner said "let's do the global ui consistency" and picked the "visual-impact items only" scope: (a) custom dropdown + date/time picker everywhere a native `<select>`/`<input type="date"|"datetime-local">` was popping an OS-native widget, (b) G20 (vehicle photo markers/initials avatars), (c) G14 (multi-select trip-status filter). Explicitly skipped: G15 (URL-synced list state, no screenshot value), G19 (ZZ cleanup, still deliberately last), and a full G18 re-audit (spot-checked instead — Saved Views still opens/works, no regression).
+
+**(b) and (c) are also DONE now, pushed `067745e`:**
+
+- **G20:** Vehicles list row + the Vehicle detail modal's photo fallback (previously a literal 🚚 emoji) now show the type-correct glyph (bus-front/fuel/container/truck) via the map kit's own `GLYPH`/`kindOf` mapping, exported from `VehicleIcon.tsx` for reuse — same icon language the live map already uses. Added a driver initials avatar to the Driver detail modal header (previously none), matching the Drivers list' existing treatment.
+- **G14:** `StatusChips` got an opt-in `multiple` prop (default off, so Vehicles/Drivers single-select chips are unchanged); Trips.tsx uses it — a comma-separated status set matching the backend's documented `status=a,b` multi-value contract — and the now-redundant single-select "Status" toolbar dropdown was removed.
+- Verified live: Pickup/Bus/Tanker/Semi-Trailer each render their distinct icon in both the list row and the modal photo fallback; driver modal shows a correct "AC"-style avatar; selecting Planned+In progress chips together shows their exact union (10+8=18 trips), Clear resets to all 420; Saved Views spot-checked, still works.
+
+**Everything in T-008's agreed scope for this round is done.** Next real decision is the owner's: T-009 prep (shot list + clean-view pass), T-010 (blocked on an example README), the still-open map-toolbar contrast finding from the QA pass (see below), or something else — ask rather than assume.
+
+## >>> RESUME HERE (2026-10-03, earlier, superseded by the block above): dropdown/date-picker consistency pass DONE and pushed; G14/G20 were next
 
 **(a) DONE, pushed in 3 commits (`8a716bc`, `40739ee`, `19fa030`):**
 
