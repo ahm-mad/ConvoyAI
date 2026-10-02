@@ -40,6 +40,13 @@ true (e.g. don't say "powered by GPT-4" unless that's literally the case). If a 
 scripted/mocked demo rather than a live integration, describe the _experience_ it delivers rather than
 asserting unverified backend specifics.
 
+**Demo data vs. live claims:** it's fine for a recording to use polished demo/seed data instead of a real
+production dataset (richer, more controllable, standard practice for product videos) — but when the
+recording does that, voiceover should describe the product's real, general capabilities (its actual
+architecture, what the backend genuinely does, what a feature genuinely computes) rather than implying this
+specific recording's numbers are live from a production database. The two are easy to blur when a script is
+written to sound impressive — keep them separate.
+
 ## Shot pacing
 
 - The single most impressive/differentiating feature of a project gets the longest single shot (ConvoyAI:
