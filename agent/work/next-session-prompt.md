@@ -34,10 +34,12 @@ When I say "wrap up"/"/clear": run the END ritual and give me the next-session p
 ```
 You are resuming work on ConvoyAI, a Next.js 15 (App Router) + TypeScript frontend project, at this exact
 path: /media/chirp/Personal/Freelancing/convoyai. It is a git repo; current branch is `staging`
-(origin git@github-personal:ahm-mad/ConvoyAI.git), last commit e24da95, working tree clean, everything
+(origin git@github-personal:ahm-mad/ConvoyAI.git), last commit f95bbc6, working tree clean, everything
 pushed. Branch `main` is the ORIGINAL, pre-revamp code kept untouched as a reference — never merge
-`staging` into it and never record a demo video until the owner explicitly says so in chat; they believe
-real work remains even though the lists below look complete.
+`staging` into it and never record a demo video until the owner explicitly says so in chat. `agent/` and
+`CLAUDE.md` are themselves tracked in git (owner decision, 2026-09-27) specifically so a plain `git clone`
+of this repo on any machine, opened by any AI tool, brings this entire knowledge base with it — if you are
+reading this file at all, you already have everything else in `agent/` too.
 
 STEP 0 — read these files yourself, in this exact order, before writing or changing anything. Do this even
 if your harness has some automatic project-context feature — this project keeps its own persistent
@@ -129,17 +131,44 @@ WHAT IS DONE (verified live, pushed, nothing further to do unless the owner want
     the two up is silent (valid-looking coordinates, just projected somewhere else on Earth entirely). Full
     writeup: agent/architecture/map-kit.md's "Two real bugs..." section.
 
-WHAT IS OPEN — every single one of these is the OWNER'S to trigger; do not start any of them yourself,
-just be ready:
-  1. The owner's own hands-on review of the map and the new landing/login/register work, and whatever
-     changes come out of it.
-  2. Real 3D vehicle models (glTF via a three.js custom MapLibre layer) — the deliberate LAST map-polish
-     step, saved for after the owner's review, before any recording.
+WHAT IS OPEN — the owner stated the FULL remaining roadmap on 2026-10-02 (recommended order below is a
+suggestion, not locked; the owner has not yet picked which one to start with — ASK, don't assume):
+  0. The owner's own hands-on review of the map and the new landing/login/register work (T-006-R2/T-007),
+     and whatever changes come out of it. Still open, still theirs to trigger.
+  1. Real 3D vehicle models (glTF via a three.js custom MapLibre layer) — the deliberate LAST map-polish
+     step, saved for after item 0, before any recording.
+  2. **T-008** (new, 2026-10-02, tasks.md): a global UI-consistency + enterprise-components pass (one
+     Input/Dropdown/DatePicker/etc. everywhere — plan in agent/architecture/design-system-and-ui.md §7) PLUS
+     the legacy Fleet leftovers G14 (multi-select trip status), G15 (URL-synced list state), G18 (polish:
+     skeletons/a11y/saved views/light-theme at wide widths), G20 (imagery: photo markers, initials
+     avatars), G19 (ZZ test-data cleanup — do this one LAST, after T-009 too, since recording prep may still
+     create throwaway records). This was previously parked in a "backlog, do not start" table on the
+     condition "after Fleet is finished" — Fleet is finished, and the owner has now moved it onto the
+     explicit todo list. Not started.
   3. One full heavy QA pass (production build + a crawl of every route through hidden iframes + an axe
      accessibility scan) — per the owner's QA-cadence rule, do this only once, right before any recording,
      not after every small change.
-  4. Merging `staging` into `main`, and recording the actual demo video/screenshots — both wait for the
-     owner's explicit word in chat.
+  4. **T-009** (new, 2026-10-02): record demo video(s) + screenshots for the owner's own portfolio site and
+     client outreach — the project will never be deployed live, so the public GitHub repo plus this
+     recorded material is the ENTIRE trust signal a prospective client gets; the owner said it "needs to be
+     very good video". IMPORTANT capability boundary: there is no tool here that exports a finished,
+     polished video file (only a short-clip GIF recorder exists) — agree explicitly with the owner that
+     Claude's role is prep (a shot list / script, a final clean-view pass with no debug artifacts or ZZ
+     data, confirming showcase data looks rich everywhere in the script) while the owner does the actual
+     screen capture themselves. Not started.
+  5. Merging `staging` into `main` — still waits for the owner's explicit word; timing relative to the
+     recording is the owner's call.
+  6. **T-010** (new, 2026-10-02): write a proper README for the public repo. BLOCKED until the owner shares
+     an example README from one of their other portfolio repos as the reference for tone/structure. Do this
+     after T-009's video/screenshots exist, since the README will likely embed or link them.
+  7. **T-011** (new, 2026-10-02), the final step overall: the owner will bring the separate backend repo's
+     code into this repo and turn it into a monorepo, then push to GitHub. Explicit instruction: **do not
+     read the backend source when it arrives** — this stays a structural/assembly task only (workspace
+     layout, build scripts, getting both halves to build/run together); the long-standing "backend is out
+     of scope" rule continues in spirit even once the code is physically present in the same repo. The
+     owner will rotate the MapTiler/Pusher keys themselves (flagged 2026-09-27) — not a task for you.
+Full detail + reasoning for each: agent/work/decisions.md's 2026-10-02 entry; task write-ups:
+agent/work/tasks.md T-008 through T-011.
 
 NOT VERIFIED (say so plainly if asked, do not claim otherwise): Firefox/Safari anywhere in the app; tablet
 widths specifically (only phone ~390px and a ~1536px desktop width were checked); the real-backend
@@ -151,9 +180,9 @@ FIRST ACTIONS, in order: (1) run `git status --short` and `git log --oneline -5`
 this prompt and agent/work/progress.md say — trust git over any written note if they disagree; (2) if you
 will run the app, start it ONLY with `npm run dev` (never `next dev` directly — see
 agent/environment-and-safeguards.md for why) and read agent/browser-testing-playbook.md before doing any
-live browser check; (3) tell the owner in 3–5 lines where things stand and ask what they would like done
-next — do not start coding anything new unprompted, since every open item above is explicitly theirs to
-trigger.
+live browser check; (3) tell the owner in 3–5 lines where things stand, then ASK which of the open items
+(0 through 7 above) they want to start on — do not assume the order above and do not start coding anything
+unprompted; every open item is explicitly theirs to sequence.
 
 When the owner says "wrap up", asks to `/clear`, or says they are switching sessions or models again: follow
 agent/work/session-ritual.md's END checklist, and rewrite this same "Current prompt" block for whoever
