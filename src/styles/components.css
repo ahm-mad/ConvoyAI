@@ -1254,6 +1254,16 @@
   .cv-veh.is-selected:hover {
     scale: 1.22;
   }
+  /* A real 3D glTF model (Vehicle3DOverlay, deck.gl) is drawn at this marker's exact lon/lat instead: keep the
+     halo glow, hit area and keyboard focus ring (so selection/hover/clicking still work unchanged), hide only the
+     flat drawn shape underneath it. `is-3d` is set on the MapLibre marker element (VehicleLayer's `e.el`), the
+     `.cv-veh` div's PARENT (React portals `<VehicleIcon>` as a child of it) — hence the descendant combinator,
+     not `.cv-veh.is-3d`. */
+  .is-3d .cv-veh__svg,
+  .is-3d .cv-veh__disc,
+  .is-3d .cv-veh__chev {
+    opacity: 0;
+  }
   .cv-veh__halo {
     position: absolute;
     pointer-events: none; /* the glow is decoration: it must not block hovering a bubble or vehicle underneath */

@@ -10,6 +10,7 @@ import VehicleCard from '../VehicleCard';
 import { kindOf, type LiveVehicle } from '../vehicle/vehicleKinds';
 import { speedColorExpr } from '../speedColors';
 import type { VehicleIconStyle } from '../useMapPrefs';
+import { Vehicle3DOverlay, type Vehicle3DEntry } from '../vehicle3d/Vehicle3DOverlay';
 
 interface Entry {
   marker: Marker;
@@ -94,7 +95,7 @@ export default function VehicleLayer({
   /** Replays the vehicle's recorded trail (button on the card). */
   onReplay?: (v: LiveVehicle) => void;
 }) {
-  const { map } = useConvoyMap();
+  const { map, mode } = useConvoyMap();
   const store = useRef(new Map<string, Entry>());
   const card = useRef<{ marker: Marker; el: HTMLDivElement } | null>(null);
   const [ids, setIds] = useState<{ id: string; el: HTMLDivElement }[]>([]);
@@ -106,6 +107,7 @@ export default function VehicleLayer({
   const speedOn = useRef(speedColors);
   const followRef = useRef(followId);
   const styleRef = useRef(iconStyle);
+  const modeRef = useRef(mode);
   const ctor = useRef<typeof Marker | null>(null);
   const clusterPool = useRef<ClusterItem[]>([]);
   const lostRef = useRef(onFollowLost);
@@ -113,6 +115,7 @@ export default function VehicleLayer({
   const labelsOn = useRef(labels);
   const hist = useRef(new Map<string, [number, number][]>());
   const lastSample = useRef(0);
+  const vehicle3D = useRef<Vehicle3DOverlay | null>(null);
 
   latest.current = { selectedId, onSelect };
   scaleRef.current = motionScale;
@@ -120,6 +123,7 @@ export default function VehicleLayer({
   speedOn.current = speedColors;
   styleRef.current = iconStyle;
   followRef.current = followId;
+  modeRef.current = mode;
   lostRef.current = onFollowLost;
   hoverRef.current = onHover;
   labelsOn.current = labels;
@@ -252,6 +256,36 @@ export default function VehicleLayer({
     };
   }, [map, vehicles]);
 
+  // Real 3D vehicle models (glTF, deck.gl) for the tilted-3D close-up look — see Vehicle3DOverlay.ts. The overlay
+  // itself lives for the map's whole life; which vehicles it actually draws is decided every frame below.
+  //
+  // Construction is deferred one frame (not done synchronously in the effect body) to survive React Strict
+  // Mode's dev-only double mount→cleanup→mount: deck.gl's interleaved overlay kicks off an ASYNC WebGL device
+  // attach inside its constructor, and attaching two of them to the map's one shared GL context back-to-back
+  // throws "WebGL context already attached to device" — a real race, not just console noise, since it left the
+  // 3D layer never actually rendering. Cancelling the scheduled rAF in the first (throwaway) mount's cleanup
+  // means only the surviving mount ever constructs an overlay.
+  useEffect(() => {
+    if (!map) return;
+
+    let cancelled = false;
+    let overlay: Vehicle3DOverlay | null = null;
+    const raf = requestAnimationFrame(() => {
+      if (cancelled) return;
+      overlay = new Vehicle3DOverlay(map);
+      vehicle3D.current = overlay;
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      if (overlay) {
+        overlay.dispose(map);
+        vehicle3D.current = null;
+      }
+    };
+  }, [map]);
+
   // Silhouettes lie on the road plane (map-aligned); badges and pucks stay upright billboards when the map is tilted.
   useEffect(() => {
     const flat = iconStyle === 'silhouette';
@@ -286,6 +320,9 @@ export default function VehicleLayer({
       const vs = Math.min(1.4, Math.max(0.55, 0.5 + (map.getZoom() - 9) * 0.16));
 
       last = now;
+      const show3DMode = modeRef.current === '3d';
+      const vehicle3DEntries: Vehicle3DEntry[] = [];
+
       store.current.forEach((e, id) => {
         const q = e.fixes;
 
@@ -331,7 +368,23 @@ export default function VehicleLayer({
         e.el.style.setProperty('--vs', vs.toFixed(3));
         e.el.style.zIndex = id === latest.current.selectedId ? '5' : '1';
         updateLabel(e, id, vs);
+
+        // Real 3D model instead of the flat icon: only for vehicles drawn as individuals (not folded into a
+        // count bubble — `clusterPass` below hides those via `display:none`) while the map is tilted into 3D.
+        const show3D = show3DMode && e.el.style.display !== 'none';
+
+        e.el.classList.toggle('is-3d', show3D);
+        if (show3D)
+          vehicle3DEntries.push({
+            id,
+            lon: e.cur.lon,
+            lat: e.cur.lat,
+            heading: e.cur.h,
+            kind: kindOf(e.v.category),
+            state: e.v.state,
+          });
       });
+      vehicle3D.current?.update(vehicle3DEntries);
 
       // Count bubbles glide toward their group's centre (their target only changes a few times a second).
       const kc = 1 - Math.exp(-dt / 0.35);
