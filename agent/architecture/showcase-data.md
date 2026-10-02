@@ -30,3 +30,19 @@ PKR / Asia/Karachi / metric). Quick check without a browser: `npx tsx` with a st
 
 `/api/modules`, `/api/users/monthly-registrations`, `/api/notifications`-style endpoints and the AI workspace (already static mock) are not
 faked; hard-coded old-brand webhook URL `https://api.example.com/api/webhook` in ProductConfiguration / ProtocolIntegration / HTTPProtocol.
+
+## Bus vehicles were generated but never active (fixed 2026-10-02)
+
+`dataset.ts`'s `CATS` array already had a `Bus` row (3 vehicles, idx 50-52) — it just happens to sit exactly in the fixed
+"last 8 indices = in_maintenance/retired/sold" tail the status-assignment formula uses, so all 3 came out
+`in_maintenance`/`retired` and none ever had `tracker: true` + `status: 'active'` (the two conditions `positionModels`
+requires to simulate a live, moving position). The bus 3D vehicle model (T-006 item 2) therefore loaded fine but could
+never actually appear anywhere in the showcase map/demo. Fixed with a small explicit swap right after the status
+formula: `BUS_IDX` (50,51,52) forced to `'active'`, and 3 of the far more numerous trucks (idx 13-15) take over the
+displaced maintenance/maintenance/retired slots instead — so the fleet's totals are completely unchanged (48 active /
+4 maintenance / 3 retired / 1 sold, verified on the Vehicles page) but at least one vehicle of every category,
+bus included, is now genuinely live. Every downstream consumer (`tripModels`, `positionModels`, `metrics.ts`'s
+`activeIdx`, `fleet.ts`'s aggregates) derives from the already-finalized `status`/`tracker` fields at module load, so
+nothing needed touching beyond this one swap — verified live (all 3 buses show on the Vehicles list with correct
+category/plate, 2 of 3 moving on the Live Map with a real 3D bus model, the swapped trucks show correctly as
+`in_maintenance`/`retired` with no crash).
