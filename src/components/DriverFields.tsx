@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, type ChangeEvent } from 'react';
+import SelectRadix from '@components/Select';
+import DatePicker from '@components/DatePicker';
 import { useFleetOptions, optionLabel } from '@utils/fleetOptions';
 
 /**
@@ -141,19 +143,19 @@ export default function DriverFields({
       ),
     });
 
-  const select = (key: TextKey, list: string[]) => (
-    <select value={values[key]} onChange={set(key)} className={INPUT}>
-      <option value="">Not set</option>
-      {values[key] && !list.includes(values[key]) && (
-        <option value={values[key]}>{values[key]}</option>
-      )}
-      {list.map(v => (
-        <option key={v} value={v}>
-          {optionLabel(v)}
-        </option>
-      ))}
-    </select>
-  );
+  const select = (key: TextKey, list: string[]) => {
+    const extra = values[key] && !list.includes(values[key]) ? [values[key]] : [];
+    const options = [...extra, ...list].map(v => ({ value: v, label: optionLabel(v) }));
+    return (
+      <SelectRadix
+        variant="field"
+        value={values[key]}
+        onValueChange={v => onChange({ ...values, [key]: v })}
+        options={options}
+        placeholder="Not set"
+      />
+    );
+  };
 
   return (
     <div>
@@ -184,11 +186,9 @@ export default function DriverFields({
         />
         <div className="col-span-2">
           <Field label="License expiry">
-            <input
+            <DatePicker
               value={values.license_expiry_date}
-              onChange={set('license_expiry_date')}
-              type="date"
-              className={INPUT}
+              onChange={v => onChange({ ...values, license_expiry_date: v })}
             />
           </Field>
         </div>
@@ -211,11 +211,9 @@ export default function DriverFields({
             <input value={values.phone} onChange={set('phone')} type="tel" className={INPUT} />
           </Field>
           <Field label="Hire date">
-            <input
+            <DatePicker
               value={values.hire_date}
-              onChange={set('hire_date')}
-              type="date"
-              className={INPUT}
+              onChange={v => onChange({ ...values, hire_date: v })}
             />
           </Field>
           <Field label="Payroll reference">
@@ -256,19 +254,17 @@ export default function DriverFields({
                   placeholder="Name (e.g. Hazmat)"
                   className={INPUT}
                 />
-                <input
+                <DatePicker
                   value={c.issued_date}
-                  onChange={e => setCert(i, 'issued_date', e.target.value)}
-                  type="date"
-                  title="Issued"
-                  className={INPUT}
+                  onChange={v => setCert(i, 'issued_date', v)}
+                  placeholder="Issued"
+                  aria-label="Issued"
                 />
-                <input
+                <DatePicker
                   value={c.expiry_date}
-                  onChange={e => setCert(i, 'expiry_date', e.target.value)}
-                  type="date"
-                  title="Expires"
-                  className={INPUT}
+                  onChange={v => setCert(i, 'expiry_date', v)}
+                  placeholder="Expires"
+                  aria-label="Expires"
                 />
                 <button
                   type="button"

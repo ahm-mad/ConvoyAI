@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CalendarDays, RefreshCw } from 'lucide-react';
+import DatePicker from '@components/DatePicker';
 import ViewSwitch from './ViewSwitch';
 import type { CompareMode, Interval, RangePreset } from './useAnalyticsFilters';
 import { ago } from './format';
@@ -94,9 +95,6 @@ export default function FilterBar({
     };
   }, [open]);
 
-  const input =
-    'field focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan';
-
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5">
       <div className="relative">
@@ -133,24 +131,11 @@ export default function FilterBar({
               <div className="grid grid-cols-2 gap-2.5">
                 <label className="flex flex-col gap-1 text-[11px] text-ink-1">
                   From
-                  <input
-                    type="date"
-                    className={input}
-                    value={f}
-                    max={t}
-                    onChange={e => setF(e.target.value)}
-                  />
+                  <DatePicker value={f} max={t} onChange={setF} aria-label="From" />
                 </label>
                 <label className="flex flex-col gap-1 text-[11px] text-ink-1">
                   To
-                  <input
-                    type="date"
-                    className={input}
-                    value={t}
-                    min={f}
-                    max={today}
-                    onChange={e => setT(e.target.value)}
-                  />
+                  <DatePicker value={t} min={f} max={today} onChange={setT} aria-label="To" />
                 </label>
               </div>
               <div className="text-[11px] text-ink-2 mt-2.5">
