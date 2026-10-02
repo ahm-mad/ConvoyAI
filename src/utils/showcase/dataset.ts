@@ -180,13 +180,27 @@ export interface Veh {
   raw: any;
 }
 
+// The 3 showcase buses (idx 50-52, from the `Bus` row in CATS) would otherwise fall entirely into the generic
+// "last 8 indices = not active" tail below, so none would ever be tracked or moving — the bus 3D vehicle model
+// would then never appear anywhere in the live map / demo recording. Swapped with 3 of the far more numerous
+// trucks (idx 13-15) instead, so the fleet's totals are unchanged (48 active / 4 maintenance / 3 retired / 1
+// sold) but at least one vehicle of every kind, bus included, is actually active and tracked.
+const BUS_IDX = new Set([50, 51, 52]);
+const SWAP_TRUCK_STATUS: Record<number, string> = {
+  13: 'in_maintenance',
+  14: 'in_maintenance',
+  15: 'retired',
+};
+
 export const vehicleModels: Veh[] = [];
 CATS.forEach(([cat, models, n]) => {
   for (let k = 0; k < n; k++) {
     const idx = vehicleModels.length;
     const [make, model] = models[k % models.length];
-    const status =
-      idx >= 52 ? (idx === 55 ? 'sold' : 'retired') : idx >= 48 ? 'in_maintenance' : 'active';
+    const status = BUS_IDX.has(idx)
+      ? 'active'
+      : (SWAP_TRUCK_STATUS[idx] ??
+        (idx >= 52 ? (idx === 55 ? 'sold' : 'retired') : idx >= 48 ? 'in_maintenance' : 'active'));
     const year = rng.int(2013, 2025);
     const heavy = ['Truck', 'Semi-Trailer', 'Tanker', 'Trailer'].includes(cat);
     const id = String(101 + idx);
