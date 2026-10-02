@@ -62,8 +62,8 @@ All code imports `useNavigate/useLocation/useParams/useSearchParams/Link/NavLink
 
 ## 6. Dev tooling (details in `DEV_PERFORMANCE.md`)
 
-`npm run dev` = `scripts/dev-safe.sh`: wipes a `.next` left by `next build`, caps memory (systemd cgroup 5G, V8 heap 2560 MB), timestamps logs to `.dev-logs/`, runs `scripts/dev-monitor.sh` black-box recorder,
-auto-restarts on crash (gives up after 2 crashes on the same route or >3/10 min). `npm run dev:report` summarises a session after a freeze. Root cause of the old runaway was `ReactIconDynamicImport`
+`npm run dev` = `scripts/dev-safe.sh`: wipes a `.next` left by `next build`, caps memory (systemd cgroup 5G, V8 heap 2560 MB), timestamps logs to `.dev-logs/`, runs `scripts/dev-monitor.sh` black-box recorder.
+**Does NOT auto-restart** (owner decision, 2026-10-03 — an earlier version looped and restarted on any unexpected exit, including when an external tool killed the inner `next dev` process by PID, which once left it running unattended well after its session ended): if the dev server dies or is killed, `dev-safe.sh` logs it and stops; run `npm run dev` again to bring it back. `npm run dev:report` summarises a session after a freeze. Root cause of the old runaway was `ReactIconDynamicImport`
 pulling ~20 react-icons packs; fixed by generated `src/assets/icons/ReactIcon/iconData.ts` (`npm run gen:icons` verifies it, do NOT prettier it). Dev memory still climbs to ~4 GB across many routes (webpack keeps graphs).
 `next build` needs `NODE_OPTIONS=--max-old-space-size=6144`. Never `next build` while dev runs.
 
