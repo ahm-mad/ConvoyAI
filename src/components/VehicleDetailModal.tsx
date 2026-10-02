@@ -1,6 +1,8 @@
 // @ts-nocheck -- TODO(ts-migration): type this file; see task.md Phase 7
 import React, { useState, useEffect } from 'react';
 import { X, Gauge, Wrench, Warehouse, Plus } from 'lucide-react';
+import SelectRadix from '@components/Select';
+import DatePicker from '@components/DatePicker';
 import dynamic from 'next/dynamic';
 import VehicleLayer from '@components/map/layers/VehicleLayer';
 import { useMapPrefs } from '@components/map/useMapPrefs';
@@ -458,27 +460,23 @@ function TrackerTab({ vehicleId, vehicle, onChanged }) {
             No tracker currently installed in this vehicle.
           </div>
           <div className="flex gap-2">
-            <select
+            <SelectRadix
+              className="flex-1"
               value={deviceId}
-              onChange={e => setDeviceId(e.target.value)}
+              onValueChange={setDeviceId}
               disabled={trackersLoading}
-              className="flex-1 field"
-            >
-              <option value="">
-                {trackersLoading
+              placeholder={
+                trackersLoading
                   ? 'Loading trackers…'
                   : trackers.length
                     ? 'Select tracker'
-                    : 'No unassigned trackers'}
-              </option>
-              {trackers.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.name} · {t.device_unique_identifier}
-                  {t.product?.name ? ` · ${t.product.name}` : ''}
-                  {t.has_position ? '' : ' — no GPS yet'}
-                </option>
-              ))}
-            </select>
+                    : 'No unassigned trackers'
+              }
+              options={trackers.map(t => ({
+                value: String(t.id),
+                label: `${t.name} · ${t.device_unique_identifier}${t.product?.name ? ` · ${t.product.name}` : ''}${t.has_position ? '' : ' — no GPS yet'}`,
+              }))}
+            />
             <button
               onClick={handleAssign}
               disabled={submitting || !deviceId}
@@ -630,12 +628,7 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
             type="number"
             className="w-full field mb-2"
           />
-          <input
-            value={lastServiceDate}
-            onChange={e => setLastServiceDate(e.target.value)}
-            type="date"
-            className="w-full field mb-2"
-          />
+          <DatePicker className="mb-2" value={lastServiceDate} onChange={setLastServiceDate} />
           <div className="flex gap-2">
             <button
               onClick={() => setShowForm(false)}
@@ -710,22 +703,20 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
       {showLogForm ? (
         <div className="bg-surface-2 rounded-md p-3 mt-2">
           {schedules.length > 0 && (
-            <select
+            <SelectRadix
+              className="mb-2"
               value={logScheduleId}
-              onChange={e => {
-                setLogScheduleId(e.target.value);
-                const schedule = schedules.find(s => String(s.id) === e.target.value);
+              onValueChange={v => {
+                setLogScheduleId(v);
+                const schedule = schedules.find(s => String(s.id) === v);
                 if (schedule) setLogType(schedule.service_type);
               }}
-              className="w-full field mb-2"
-            >
-              <option value="">Unscheduled service (no schedule)</option>
-              {schedules.map(s => (
-                <option key={s.id} value={s.id}>
-                  For schedule: {s.service_type}
-                </option>
-              ))}
-            </select>
+              placeholder="Unscheduled service (no schedule)"
+              options={schedules.map(s => ({
+                value: String(s.id),
+                label: `For schedule: ${s.service_type}`,
+              }))}
+            />
           )}
           <input
             value={logType}
@@ -733,12 +724,7 @@ function MaintenanceTab({ vehicleId, schedules, onCreated }) {
             placeholder="Service performed (e.g. Oil Change)"
             className="w-full field mb-2"
           />
-          <input
-            value={logDate}
-            onChange={e => setLogDate(e.target.value)}
-            type="date"
-            className="w-full field mb-2"
-          />
+          <DatePicker className="mb-2" value={logDate} onChange={setLogDate} />
           <input
             value={logCost}
             onChange={e => setLogCost(e.target.value)}
@@ -874,16 +860,15 @@ function FuelTab({ vehicleId, economy, onCreated }) {
       {showForm ? (
         <div className="bg-surface-2 rounded-md p-3 mt-2">
           <div className="grid grid-cols-2 gap-2 mb-2">
-            <input
-              value={fillDate}
-              onChange={e => setFillDate(e.target.value)}
-              type="date"
-              className="field"
+            <DatePicker value={fillDate} onChange={setFillDate} />
+            <SelectRadix
+              value={unit}
+              onValueChange={setUnit}
+              options={[
+                { value: 'liters', label: 'Liters' },
+                { value: 'gallons', label: 'Gallons' },
+              ]}
             />
-            <select value={unit} onChange={e => setUnit(e.target.value)} className="field">
-              <option value="liters">Liters</option>
-              <option value="gallons">Gallons</option>
-            </select>
           </div>
           <input
             value={volume}

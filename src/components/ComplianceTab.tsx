@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import RequiredHint from '@components/RequiredHint';
+import DatePicker from '@components/DatePicker';
 import { useState } from 'react';
 import { FileText, AlertTriangle, Plus } from 'lucide-react';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
@@ -154,12 +155,7 @@ function NewDocumentForm({
         placeholder="Document number (optional)"
         className="w-full field mb-2"
       />
-      <input
-        value={expiryDate}
-        onChange={e => setExpiryDate(e.target.value)}
-        type="date"
-        className="w-full field mb-2"
-      />
+      <DatePicker className="mb-2" value={expiryDate} onChange={setExpiryDate} />
       <RequiredHint missing={type.trim() ? [] : ['document type']} />
       <div className="flex gap-2">
         <button

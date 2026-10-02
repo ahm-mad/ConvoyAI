@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { post } from '@utils/apiHelper';
+import DatePicker from '@components/DatePicker';
 import { toIsoInstant, toDatetimeLocal } from '@utils/datetime';
 import toast from 'react-hot-toast';
 
@@ -126,13 +127,7 @@ export default function StopActions({
             {replacing ? 'Correct' : 'Record'} {mode === 'arrive' ? 'arrival' : 'departure'}
           </div>
 
-          <input
-            type="datetime-local"
-            step={1}
-            value={time}
-            onChange={e => setTime(e.target.value)}
-            className="w-full field"
-          />
+          <DatePicker withTime withSeconds value={time} onChange={setTime} />
 
           <textarea
             value={reason}

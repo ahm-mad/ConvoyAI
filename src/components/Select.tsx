@@ -6,6 +6,7 @@ import { ChevronDown, Check, Search } from 'lucide-react';
 export interface SelectOption {
   label?: ReactNode;
   value: string;
+  disabled?: boolean;
   [key: string]: unknown;
 }
 
@@ -172,12 +173,14 @@ const SelectRadix = ({
                     key={option.value || `item-${index}`}
                     value={option.value}
                     id={`unit-${index}`}
+                    disabled={Boolean(option.disabled)}
                     className={`
                       ${getItemSizeClasses()}
                       text-ink-1 rounded-md flex items-center pl-9 pr-3
                       relative select-none cursor-pointer outline-none
                       hover:bg-surface-3 hover:text-ink-0 focus:bg-surface-3
                       data-[highlighted]:bg-surface-3 data-[highlighted]:text-ink-0
+                      data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40 data-[disabled]:hover:bg-transparent
                       transition-colors duration-150
                     `}
                   >

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
+import SelectRadix from '@components/Select';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toDisplayString, toMetric } from '@utils/units';
 import { useState } from 'react';
@@ -364,16 +365,18 @@ export default function Geofences() {
             aria-label="Search events"
             className="flex-1 min-w-0 bg-white border border-line rounded-xl px-2 py-1 text-[11px] text-ink-0"
           />
-          <select
+          <SelectRadix
+            variant="control"
+            fullWidth={false}
             value={eventList.state.filters.event_type ?? ''}
-            onChange={e => eventList.setFilter('event_type', e.target.value)}
+            onValueChange={v => eventList.setFilter('event_type', v)}
             aria-label="Event type"
-            className="bg-white border border-line rounded-xl px-1.5 py-1 text-[11px] text-ink-0"
-          >
-            <option value="">All</option>
-            <option value="enter">Enter</option>
-            <option value="exit">Exit</option>
-          </select>
+            placeholder="All"
+            options={[
+              { value: 'enter', label: 'Enter' },
+              { value: 'exit', label: 'Exit' },
+            ]}
+          />
         </div>
         {events.error && (
           <div className="flex items-center justify-between text-[11px] text-danger-text bg-danger/10 rounded-md px-2 py-1.5 mb-2">
@@ -497,19 +500,14 @@ function NewGeofenceForm({
       />
 
       <label className="text-[10px] uppercase text-ink-2">Center</label>
-      <select
+      <SelectRadix
+        className="mt-1 mb-2"
         value={yardId}
-        onChange={e => setYardId(e.target.value)}
+        onValueChange={setYardId}
         aria-label="Center"
-        className="w-full field mt-1 mb-2"
-      >
-        <option value="">Enter coordinates manually</option>
-        {yards.map(y => (
-          <option key={y.id} value={y.id}>
-            Use {y.name}'s coordinates
-          </option>
-        ))}
-      </select>
+        placeholder="Enter coordinates manually"
+        options={yards.map(y => ({ value: String(y.id), label: `Use ${y.name}'s coordinates` }))}
+      />
 
       {!yardId && (
         <div className="grid grid-cols-2 gap-2 mb-2">
@@ -551,16 +549,17 @@ function NewGeofenceForm({
         </div>
         <div>
           <label className="text-[10px] uppercase text-ink-2">Alert on</label>
-          <select
+          <SelectRadix
+            className="mt-1"
             value={alertOn}
-            onChange={e => setAlertOn(e.target.value)}
+            onValueChange={setAlertOn}
             aria-label="Alert on"
-            className="w-full field mt-1"
-          >
-            <option value="both">Enter &amp; Exit</option>
-            <option value="enter">Enter only</option>
-            <option value="exit">Exit only</option>
-          </select>
+            options={[
+              { value: 'both', label: 'Enter & Exit' },
+              { value: 'enter', label: 'Enter only' },
+              { value: 'exit', label: 'Exit only' },
+            ]}
+          />
         </div>
       </div>
 

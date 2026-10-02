@@ -5,6 +5,8 @@ import { useSimpleQuery } from '@hooks/useSimpleQuery';
 import { useOptions } from '@hooks/useOptions';
 import { useListState } from '@hooks/useListState';
 import Pager from '@components/list/Pager';
+import SelectRadix from '@components/Select';
+import DatePicker from '@components/DatePicker';
 
 /**
  * Who drove which vehicle, and when — one component for the three backend endpoints:
@@ -17,8 +19,6 @@ import Pager from '@components/list/Pager';
  * and `invalidateFleetQueries` match on that prefix, so the history refetches when an assignment changes.
  */
 export type AssignmentScope = 'vehicle' | 'driver' | 'company';
-
-const CONTROL = 'control max-w-[190px]';
 
 // The year is omitted for the current year (recent history reads shorter and fits narrow tables).
 const fmt = (iso?: string | null) => {
@@ -146,66 +146,68 @@ export default function AssignmentHistory({
       <div className="flex items-center gap-2 flex-wrap mb-3">
         {scope === 'company' && (
           <>
-            <select
+            <SelectRadix
+              variant="control"
+              fullWidth={false}
               aria-label="Status"
               value={f.status ?? ''}
-              onChange={e => list.setFilter('status', e.target.value)}
-              className={CONTROL}
-            >
-              <option value="">Status: all</option>
-              <option value="active">Active</option>
-              <option value="historical">Historical</option>
-            </select>
-            <select
+              onValueChange={v => list.setFilter('status', v)}
+              placeholder="Status: all"
+              options={[
+                { value: 'active', label: 'Active' },
+                { value: 'historical', label: 'Historical' },
+              ]}
+            />
+            <SelectRadix
+              variant="control"
+              fullWidth={false}
+              className="max-w-[170px]"
               aria-label="Vehicle"
               value={f.vehicle_id ?? ''}
-              onChange={e => list.setFilter('vehicle_id', e.target.value)}
-              className={`${CONTROL} max-w-[170px]`}
-            >
-              <option value="">Vehicle: all</option>
-              {vehicles.map(v => (
-                <option key={v.id} value={v.id}>
-                  {v.name || `Vehicle #${v.id}`} (#{v.id})
-                  {v.lifecycle_status === 'retired' || v.lifecycle_status === 'sold'
+              onValueChange={v => list.setFilter('vehicle_id', v)}
+              placeholder="Vehicle: all"
+              options={vehicles.map(v => ({
+                value: String(v.id),
+                label: `${v.name || `Vehicle #${v.id}`} (#${v.id})${
+                  v.lifecycle_status === 'retired' || v.lifecycle_status === 'sold'
                     ? ' — inactive'
-                    : ''}
-                </option>
-              ))}
-            </select>
-            <select
+                    : ''
+                }`,
+              }))}
+            />
+            <SelectRadix
+              variant="control"
+              fullWidth={false}
+              className="max-w-[170px]"
               aria-label="Driver"
               value={f.driver_id ?? ''}
-              onChange={e => list.setFilter('driver_id', e.target.value)}
-              className={`${CONTROL} max-w-[170px]`}
-            >
-              <option value="">Driver: all</option>
-              {drivers.map(d => (
-                <option key={d.id} value={d.id}>
-                  {d.name}
-                  {d.status && d.status !== 'active' ? ` — ${d.status}` : ''}
-                </option>
-              ))}
-            </select>
+              onValueChange={v => list.setFilter('driver_id', v)}
+              placeholder="Driver: all"
+              options={drivers.map(d => ({
+                value: String(d.id),
+                label: `${d.name}${d.status && d.status !== 'active' ? ` — ${d.status}` : ''}`,
+              }))}
+            />
           </>
         )}
-        <label className="flex items-center gap-1 text-[10px] text-ink-2">
-          From
-          <input
-            type="date"
-            value={f.date_from ?? ''}
-            onChange={e => list.setFilter('date_from', e.target.value)}
-            className={CONTROL}
-          />
-        </label>
-        <label className="flex items-center gap-1 text-[10px] text-ink-2">
-          To
-          <input
-            type="date"
-            value={f.date_to ?? ''}
-            onChange={e => list.setFilter('date_to', e.target.value)}
-            className={CONTROL}
-          />
-        </label>
+        <DatePicker
+          variant="control"
+          fullWidth={false}
+          className="w-[140px]"
+          value={f.date_from ?? ''}
+          onChange={v => list.setFilter('date_from', v)}
+          placeholder="From"
+          aria-label="From"
+        />
+        <DatePicker
+          variant="control"
+          fullWidth={false}
+          className="w-[140px]"
+          value={f.date_to ?? ''}
+          onChange={v => list.setFilter('date_to', v)}
+          placeholder="To"
+          aria-label="To"
+        />
         {hasFilters && (
           <button
             type="button"

@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { get, post, put } from '@utils/apiHelper';
 import Button from '@components/Button';
 import Input from '@components/Input';
+import SelectRadix from '@components/Select';
 
 /**
  * Real implementation of the "Create Product from Payload" flow prototyped
@@ -391,27 +392,24 @@ function StepNameAndMap({
         <label className="text-[10px] uppercase tracking-wider text-ink-2">
           Device protocol <span className="normal-case text-ink-2/70">(optional)</span>
         </label>
-        <select
+        <SelectRadix
+          className="mt-1.5 mb-4"
           value={deviceProtocolId}
-          onChange={e => setDeviceProtocolId(e.target.value)}
-          className="w-full mt-1.5 mb-4 field"
-        >
-          <option value="">Not set — configure later</option>
-          {deviceProtocols.map(protocol => {
+          onValueChange={setDeviceProtocolId}
+          placeholder="Not set — configure later"
+          options={deviceProtocols.map(protocol => {
             // Same distinction as the Add Device wizard's dropdown: only
             // LoRaWAN is genuinely receivable today (via MQTT through a
             // gateway); Modbus/BACnet/OPC UA need polling that doesn't
             // exist yet.
             const isPollingBased = ['Modbus', 'BACnet', 'OPC UA'].includes(protocol.name);
 
-            return (
-              <option key={protocol.id} value={protocol.id}>
-                {protocol.name}
-                {isPollingBased ? ' (coming soon — polling not yet implemented)' : ''}
-              </option>
-            );
+            return {
+              value: String(protocol.id),
+              label: `${protocol.name}${isPollingBased ? ' (coming soon — polling not yet implemented)' : ''}`,
+            };
           })}
-        </select>
+        />
 
         <div className="text-[10px] uppercase tracking-wider text-ink-2 mb-2">Fields to map</div>
 
@@ -469,15 +467,17 @@ function StepAlertConditions({ selectedFieldKeys, conditions, updateCondition })
         return (
           <div key={key} className="flex items-center gap-2 bg-surface-2 rounded-md px-3 py-2">
             <span className="text-xs font-mono text-brand-text w-40 truncate">{key}</span>
-            <select
+            <SelectRadix
+              fullWidth={false}
+              className="w-[64px] font-mono"
               value={condition.operator}
-              onChange={e => updateCondition(key, { operator: e.target.value })}
-              className="bg-surface-3 border border-line rounded text-xs font-mono px-2 py-1 text-ink-0"
-            >
-              <option value=">">&gt;</option>
-              <option value="<">&lt;</option>
-              <option value="=">=</option>
-            </select>
+              onValueChange={v => updateCondition(key, { operator: v })}
+              options={[
+                { value: '>', label: '>' },
+                { value: '<', label: '<' },
+                { value: '=', label: '=' },
+              ]}
+            />
             <input
               type="text"
               value={condition.value}
@@ -486,15 +486,17 @@ function StepAlertConditions({ selectedFieldKeys, conditions, updateCondition })
               className="bg-surface-3 border border-line rounded text-xs font-mono px-2 py-1 w-20 text-ink-0"
             />
             <span className="text-xs text-ink-1">send</span>
-            <select
+            <SelectRadix
+              fullWidth={false}
+              className="w-[160px]"
               value={condition.action}
-              onChange={e => updateCondition(key, { action: e.target.value })}
-              className="bg-surface-3 border border-line rounded text-xs px-2 py-1 text-ink-0"
-            >
-              <option>Email</option>
-              <option>SMS</option>
-              <option>System notification</option>
-            </select>
+              onValueChange={v => updateCondition(key, { action: v })}
+              options={[
+                { value: 'Email', label: 'Email' },
+                { value: 'SMS', label: 'SMS' },
+                { value: 'System notification', label: 'System notification' },
+              ]}
+            />
           </div>
         );
       })}

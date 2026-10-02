@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ListEmpty from '@components/list/ListEmpty';
 import RequiredHint from '@components/RequiredHint';
+import DatePicker from '@components/DatePicker';
 import { useUnits } from '@hooks/useUnits';
 import { formatQty, toMetric } from '@utils/units';
 import { useState, type ReactNode } from 'react';
@@ -581,20 +582,20 @@ function NewTripForm({ onClose, onCreated }: { onClose?: () => void; onCreated?:
       <div className="text-[10px] uppercase tracking-wider text-ink-2 mb-2 mt-3">Planning</div>
 
       <div className="grid grid-cols-2 gap-3 mb-3">
-        <input
+        <DatePicker
+          withTime
           value={plannedStartAt}
-          onChange={e => setPlannedStartAt(e.target.value)}
-          type="datetime-local"
+          onChange={setPlannedStartAt}
           aria-label="Planned start"
-          className="field"
+          placeholder="Planned start"
         />
 
-        <input
+        <DatePicker
+          withTime
           value={plannedEndAt}
-          onChange={e => setPlannedEndAt(e.target.value)}
-          type="datetime-local"
+          onChange={setPlannedEndAt}
           aria-label="Planned end"
-          className="field"
+          placeholder="Planned end"
         />
 
         <input
