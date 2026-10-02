@@ -1,6 +1,26 @@
 # Progress — the resume point
 
-## >>> RESUME HERE (2026-10-02, later same day): the heavy QA pass is DONE and pushed (`25159cb`) — next is owner's call between T-008 and T-009
+## >>> RESUME HERE (2026-10-03): T-008 IN PROGRESS — dropdown/date-picker consistency pass DONE and pushed; G14/G20 next
+
+Owner said "let's do the global ui consistency" and picked the "visual-impact items only" scope: (a) custom dropdown + date/time picker everywhere a native `<select>`/`<input type="date"|"datetime-local">` was popping an OS-native widget, (b) G20 (vehicle photo markers/initials avatars), (c) G14 (multi-select trip-status filter). Explicitly skipped: G15 (URL-synced list state, no screenshot value) and a full G18 re-audit (already mostly done by earlier work).
+
+**(a) DONE, pushed in 3 commits (`8a716bc`, `40739ee`, `19fa030`):**
+
+- New `src/components/DatePicker.tsx` (Radix Popover + custom calendar grid, token-styled; same ISO `YYYY-MM-DD` value/onChange contract as a native date input, so it drops in directly). Extended with an optional `withTime`/`withSeconds` mode (adds a time-of-day row + Done button) matching the app's `toDatetimeLocal()` string format, for the few `datetime-local` call sites (Trips.tsx planned start/end, TripStopsEditor arrival/departure, StopActions arrival/departure correction).
+- `src/components/Select.tsx` (SelectRadix) got a new `variant` prop (`'control'` pill / `'field'` rounded, reusing `.control`/`.field` tokens) — **defaults to the old undefined/legacy styling when omitted, zero behavior change for its ~17 pre-existing callers.** Also added per-option `disabled` support (`Select.Item disabled={option.disabled}`).
+- Swapped native selects/dates for the two everywhere they appeared across the in-scope Fleet/Devices surface: the shared `DataToolbar`/`Pager` (fixes every Fleet list screen's filters/sort/page-size in one file), `OptionSelect.tsx` (the shared "server-fed picker" — fixes 6+ forms in one file: vehicle/driver/yard assignment pickers), `VehicleFields`/`DriverFields`/`GeofenceEditForm`/`RecordForm`/`PagedRecords`/`analytics/FilterBar`, the vehicle/driver detail modals (tracker/driver assignment, incident form, maintenance schedule/log, fuel-log date+unit), `ComplianceTab`, `AssignmentHistory`, `CreateProductFromPayload` (device protocol + alert-condition dropdowns), and `FleetMap.tsx` (the actual current live-map screen — old filename, not legacy) + `Geofences.tsx`.
+- **IMPORTANT regression + fix, already resolved:** the earlier same-day NProgress a11y fix (`25159cb`, from the heavy-QA-pass session) broke every route transition app-wide — `NProgress.render()` looks up the bar via `Settings.barSelector`, which defaults to `[role="bar"]`; dropping that role without also overriding `barSelector` made the lookup return `null` and crash on every navigation. Fixed by also setting `barSelector: '.bar'` (commit `8a716bc`). If anyone ever touches `app/route-progress.tsx` again: the `template` and `barSelector` options must stay in sync.
+- Verified live throughout (see commit messages for the specific checks): toolbars, Create Trip's vehicle/driver pickers + planned start/end date-time pickers, a new geofence's dropdowns, vehicle maintenance/fuel forms. No crashes found on anything touched.
+- **One contrast finding from the earlier QA pass is STILL open, unrelated to this batch:** the map toolbar's "3D" toggle label contrast issue (`src/components/map/MapToolbar.tsx` — see the 2026-10-02 QA-pass entry below for the full writeup). Still the owner's call.
+
+**(b) and (c) NOT started yet — next up:**
+
+- **G20** (vehicle photo markers / initials avatars): check `CustomAvatar.tsx` for existing initials-avatar support before building a new one; apply to vehicle/driver lists and map markers where it adds real visual richness.
+- **G14** (multi-select trip-status filter): Trips list currently filters status via the single-value `DataToolbar` select; needs a multi-select control (new, since `SelectRadix` is single-value only).
+
+**Verification debt for this stretch:** did NOT re-run the full crawl/axe pass after this batch (that's the heavy-QA-cadence rule — once per phase, not per batch); did spot-check every screen touched live instead. `npm run typecheck` was run and clean after every sub-batch.
+
+## >>> RESUME HERE (2026-10-02, later same day, superseded by the block above): the heavy QA pass is DONE and pushed (`25159cb`) — next is owner's call between T-008 and T-009
 
 Owner chose "heavy QA pass first" when asked. Ran it in full: `rm -rf .next`, `NODE_OPTIONS=--max-old-space-size=6144 npm run build` (0 errors, 53 routes), `npx next start -p 3000`, then a 49-route hidden-iframe crawl (every static route in the app, logged in) + an axe-core scan (wcag2a/2aa/21a/21aa) of 34 screens.
 
