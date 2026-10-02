@@ -22,7 +22,11 @@ Completed tasks move to `archive.md`. Live execution state goes in `progress.md`
 
 ## T-006 · Phase 2 — hero map, futuristic polish, map v2, 3D vehicle models · STATUS: DONE 2026-10-02 — see `archive.md`
 
-Full history moved to `archive.md`'s T-006 entry (plan doc: `agent/architecture/phase2-map-and-futuristic-plan.md`). Both of T-006's owner-gated blockers are now closed: the owner's hands-on feedback happened and was acted on (a real zoom-disproportion bug in the 3D models, fixed in `47ebbc7`), and the 3D vehicle models themselves are done. Only the deliberately-deferred full route crawl + axe scan remain, due right before T-009's recording — tracked there, not as a T-006 follow-up.
+Full history moved to `archive.md`'s T-006 entry (plan doc: `agent/architecture/phase2-map-and-futuristic-plan.md`). Both of T-006's owner-gated blockers are now closed: the owner's hands-on feedback happened and was acted on (a real zoom-disproportion bug in the 3D models, fixed in `47ebbc7`), and the 3D vehicle models themselves are done. The deliberately-deferred full route crawl + axe scan is now DONE too (2026-10-02, later the same day — see below), so nothing remains open on T-006 itself.
+
+## Heavy QA pass (production build + 49-route crawl + axe) · STATUS: DONE 2026-10-02 · `decisions.md` + `progress.md` same date
+
+Owner chose this to go first (over T-008/T-009 prep). 0 crashes across 49 routes; one real app-wide a11y bug found and fixed+pushed (`25159cb`, NProgress's own invalid `role="bar"` markup); one contrast finding left for the owner's call (map toolbar "3D" toggle, pressed state, shared `seg` class — see `progress.md`). Next up, owner's call: T-008 or T-009 prep.
 
 ## T-007 · Landing + login + register "hook" pass — DONE, all 5 parts built + verified + pushed (2026-09-27) · plan + tracker: agent/architecture/landing-auth-plan.md · decisions T7-1..T7-5 in decisions.md
 
