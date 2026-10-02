@@ -34,6 +34,13 @@ interface Entry {
 /** Name labels appear from this zoom on. */
 const LABEL_ZOOM = 12;
 
+/** Real 3D vehicle models only appear from this zoom on (a deliberate close-up "hero" moment, not a general
+ * replacement for the flat icon). Below it, flat icons are used even for an individual vehicle — this matters
+ * because the selected/followed vehicle is deliberately NEVER folded into a cluster bubble (see `clusterPass`),
+ * so without this floor a 3D model forced up to its `sizeMinPixels` floor could render larger than an entire
+ * city while the camera is zoomed out to country/province level. */
+const VEHICLE_3D_ZOOM = 13;
+
 /** A count bubble. It keeps its identity (`key` = lowest member id) so it glides instead of teleporting when groups change. */
 interface ClusterItem {
   marker: Marker;
@@ -320,7 +327,7 @@ export default function VehicleLayer({
       const vs = Math.min(1.4, Math.max(0.55, 0.5 + (map.getZoom() - 9) * 0.16));
 
       last = now;
-      const show3DMode = modeRef.current === '3d';
+      const show3DMode = modeRef.current === '3d' && map.getZoom() >= VEHICLE_3D_ZOOM;
       const vehicle3DEntries: Vehicle3DEntry[] = [];
 
       store.current.forEach((e, id) => {
