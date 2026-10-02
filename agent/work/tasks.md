@@ -116,10 +116,36 @@ Status 2026-09-27: all 9 numbered items done (items 1–8 = decisions D1–D7 be
 - (old plan, mostly done) Remaining: (a) replace MUI components (Dialog/Modal, TextField, Select, Checkbox/Radio/Switch/Slider, Pagination, Popover, Accordion, Tables, Avatar, CircularProgress; `AppRouterCacheProvider`) with own token-styled primitives, then remove @mui/*, @emotion, antd, chart.js/react-chartjs-2, react-icons, @radix-ui/react-icons; (b) restyle Account settings/profile/company screens, members/users tables, forms inside modals (AddDevices multistep, driver/trip/vehicle forms), 404/error pages, ManageProductConfig; (c) Phase 2 futuristic icons/animations/motion; (d) final: docs refresh (file-map, README), archive T-002.
 - Open questions: none.
 
+## T-008 · Global UI consistency + legacy Fleet polish pass · STATUS: TODO, not started (promoted out of backlog 2026-10-02 — owner said to add it to the tracked todo list; Fleet is finished, which was the condition for starting this)
+
+- Requested: originally parked as "after Fleet is finished"; owner confirmed 2026-10-02 to keep it on the explicit todo list rather than leave it as an un-tracked backlog item.
+- Scope: (a) global UI consistency + enterprise components pass — one Input/Dropdown/DatePicker/Pagination/etc. used everywhere instead of whatever each screen currently has; plan already drafted in `agent/architecture/design-system-and-ui.md` §7; (b) legacy Fleet leftovers: **G14** multi-select trip status, **G15** URL-synced list state, **G18** polish (skeletons, a11y, saved views, light-theme at wide widths — some of this may already be covered by later T-004/T-006-R2 work, re-check before redoing), **G20** imagery (photo markers, initials avatars), **G19** ZZ test-data cleanup (do this LAST, after every other task that might still create ZZ-prefixed throwaway records, including T-009's demo recording prep).
+- Recommended position in the overall remaining order: after the owner's hands-on map/landing feedback and the 3D vehicle models, BEFORE the one heavy QA pass and the demo recording (T-009) — a polish pass should land before the "final" look is captured on video, not after. Not locked; owner can reorder.
+- Related docs: `agent/architecture/design-system-and-ui.md` §7, `agent/status/current-state-and-open-items.md` §3 (where this used to live as "do not start unless told").
+
+## T-009 · Record demo video(s) + screenshots for portfolio showcase · STATUS: TODO, not started (owner, 2026-10-02)
+
+- Requested (owner's words): "we have to record demo videos and pictures, for showcasing on my portfolio site and everywhere, since i wont be deploying this live, so only way clients will have trust is public repo of this and detailed interactive video and pics of this project, which needs to be very good video."
+- Why this matters: the project will never be deployed live; the public GitHub repo plus this recorded material is the ONLY thing a prospective client sees, so it has to carry the whole "is this real/good" impression by itself.
+- Scope note (capability boundary, important): Claude cannot itself produce a finished, polished walkthrough video file — there is no video-export tool available, only a Chrome-extension GIF recorder (`mcp__claude-in-chrome__gif_creator`) good for short feature highlights, not a full cinematic walkthrough. The realistic split: Claude prepares everything needed for a GREAT recording (a shot list / script of exactly which screens and interactions to show and in what order, makes sure every screen is "clean-view" ready with no debug artifacts or stray ZZ data, confirms showcase mode is populated richly, and can produce short GIF clips of specific interactions if useful) — the owner does the actual screen capture with their own tool (better resolution/audio/control than anything available here). Agree this split explicitly with the owner before starting.
+- Depends on (recommended, not locked): owner's hands-on feedback + 3D vehicle models + T-008 polish pass ideally land first; the one heavy QA pass (production build + full crawl + axe) happens right before recording, per the existing QA-cadence rule.
+- Sub-steps (draft, refine with the owner before starting): [ ] agree the shot list / script together; [ ] final clean-view pass of every screen to be shown; [ ] confirm showcase data looks rich and believable everywhere in the script; [ ] the owner records; [ ] Claude helps review/trim/caption if asked.
+
+## T-010 · Write a proper public-repo README · STATUS: TODO, BLOCKED on the owner supplying an example (owner, 2026-10-02)
+
+- Requested: owner will give an example README from another of their own portfolio repos as the reference for tone/structure/sections; we then write an equally good one for ConvoyAI.
+- Order: AFTER T-009 (demo video + screenshots) — the README will very likely embed/link the recorded video and screenshots, so it needs them to exist first.
+- Do not start drafting until the owner shares the example repo/README.
+
+## T-011 · Merge the backend repo into this one as a monorepo, then push to GitHub · STATUS: TODO, far future / LAST (owner, 2026-10-02)
+
+- Requested (owner's words): "since the backend is another place, so after all of this i will bring it here, and we will make it monorepo, then push to github, and you dont need to read backend code."
+- Important scope nuance: this is a STRUCTURAL task, not a licence to start learning/auditing the backend. When the backend repo arrives, do not read through its source to understand how it works — only what is strictly needed to place it correctly in a monorepo layout (e.g. `apps/frontend` + `apps/backend` or similar, workspace config, root scripts) and get the combined repo to build/run. The long-standing "backend is out of scope" rule continues to apply in spirit even once the code is physically present in the same repo.
+- Order: the LAST task, after demo video/pics (T-009) and the README (T-010) are both done, since those are both scoped to the frontend-only repo as it exists today.
+- No sub-steps yet — revisit once the owner actually brings the backend folder over.
+
 ## Backlog (deferred by the owner earlier — do NOT start unless told; full list in `agent/status/current-state-and-open-items.md` §3)
 
-- Global UI consistency + enterprise components pass (after Fleet).
-- Fleet leftovers G14, G15, G18, G20, G19 (last).
 - Trip lifecycle / driver experience notes (G22–G26).
 - Rule Builder system-notification / SMS; onboarding step-3 lock (owner-led).
 - Phase 8 SEO; strictness ladder; lint backlog.
