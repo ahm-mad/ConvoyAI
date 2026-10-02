@@ -76,7 +76,11 @@ export default function MapToolbar({
       <Group label="Camera">
         <button
           type="button"
-          className={`${seg} w-auto px-3 text-[11px] font-semibold`}
+          // Text label (unlike the icon-only buttons sharing `seg`), so the pressed state needs
+          // ink-0 instead of white: white-on-brand only reaches 3.58:1 at this size (needs 4.5:1);
+          // ink-0 reaches 4.93:1. Scoped to this button only — every other `seg` button is icon-only
+          // and already passes the 3:1 non-text contrast rule with white, so it stays unchanged.
+          className={`${seg} w-auto px-3 text-[11px] font-semibold aria-pressed:!text-ink-0`}
           aria-pressed={prefs.mode === '3d'}
           aria-label="3D view"
           title="Tilted 3D view"
