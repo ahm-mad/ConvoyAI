@@ -141,26 +141,46 @@ export default function PinLayer({
             ]
           : [],
     };
-    const src = map.getSource('cv-pin-radius') as any;
+    // addSource/addLayer throw "Style is not done loading" if a look-change style swap is still in
+    // flight when this effect re-runs on styleVersion. Retry once on 'idle' instead of crashing.
+    const addPinRadiusSourceAndLayers = () => {
+      const src = map.getSource('cv-pin-radius') as any;
 
-    if (src) {
-      src.setData(data);
+      if (src) {
+        src.setData(data);
 
-      return;
+        return;
+      }
+      map.addSource('cv-pin-radius', { type: 'geojson', data });
+      map.addLayer({
+        id: 'cv-pin-radius-fill',
+        type: 'fill',
+        source: 'cv-pin-radius',
+        paint: { 'fill-color': token('--color-brand'), 'fill-opacity': 0.12 },
+      });
+      map.addLayer({
+        id: 'cv-pin-radius-line',
+        type: 'line',
+        source: 'cv-pin-radius',
+        paint: {
+          'line-color': token('--color-brand'),
+          'line-width': 2,
+          'line-dasharray': [2, 1.5],
+        },
+      });
+    };
+
+    try {
+      addPinRadiusSourceAndLayers();
+    } catch {
+      map.once('idle', () => {
+        try {
+          addPinRadiusSourceAndLayers();
+        } catch {
+          /* still not ready; the next styleVersion (another look change) will retry */
+        }
+      });
     }
-    map.addSource('cv-pin-radius', { type: 'geojson', data });
-    map.addLayer({
-      id: 'cv-pin-radius-fill',
-      type: 'fill',
-      source: 'cv-pin-radius',
-      paint: { 'fill-color': token('--color-brand'), 'fill-opacity': 0.12 },
-    });
-    map.addLayer({
-      id: 'cv-pin-radius-line',
-      type: 'line',
-      source: 'cv-pin-radius',
-      paint: { 'line-color': token('--color-brand'), 'line-width': 2, 'line-dasharray': [2, 1.5] },
-    });
   }, [map, styleVersion, pin, radiusM]);
 
   return null;

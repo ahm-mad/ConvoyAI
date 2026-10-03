@@ -47,46 +47,63 @@ export default function GeofenceLayer({
         ...(showYards ? yards.flatMap(y => poly('yard', y.latitude, y.longitude, y.radius_m)) : []),
       ],
     };
-    const src = map.getSource('cv-zones') as any;
+    // addSource/addLayer throw "Style is not done loading" if a look-change style swap is still in
+    // flight when this effect re-runs on styleVersion. Retry once on 'idle' instead of crashing the
+    // whole app -- geofences/yards render by default, so this layer is live on every map screen.
+    const addZonesSourceAndLayers = () => {
+      const src = map.getSource('cv-zones') as any;
 
-    if (src) {
-      src.setData(data);
+      if (src) {
+        src.setData(data);
 
-      return;
+        return;
+      }
+      map.addSource('cv-zones', { type: 'geojson', data });
+      map.addLayer({
+        id: 'cv-zones-fill',
+        type: 'fill',
+        source: 'cv-zones',
+        paint: {
+          'fill-color': [
+            'match',
+            ['get', 'kind'],
+            'yard',
+            token('--color-brand-ink'),
+            token('--color-gold'),
+          ],
+          'fill-opacity': ['match', ['get', 'kind'], 'yard', 0.1, 0.13],
+        },
+      });
+      map.addLayer({
+        id: 'cv-zones-line',
+        type: 'line',
+        source: 'cv-zones',
+        paint: {
+          'line-color': [
+            'match',
+            ['get', 'kind'],
+            'yard',
+            token('--color-brand-ink'),
+            token('--color-gold'),
+          ],
+          'line-width': ['match', ['get', 'kind'], 'yard', 1.2, 2],
+          'line-opacity': 0.8,
+          'line-dasharray': [2, 1.6],
+        },
+      });
+    };
+
+    try {
+      addZonesSourceAndLayers();
+    } catch {
+      map.once('idle', () => {
+        try {
+          addZonesSourceAndLayers();
+        } catch {
+          /* still not ready; the next styleVersion (another look change) will retry */
+        }
+      });
     }
-    map.addSource('cv-zones', { type: 'geojson', data });
-    map.addLayer({
-      id: 'cv-zones-fill',
-      type: 'fill',
-      source: 'cv-zones',
-      paint: {
-        'fill-color': [
-          'match',
-          ['get', 'kind'],
-          'yard',
-          token('--color-brand-ink'),
-          token('--color-gold'),
-        ],
-        'fill-opacity': ['match', ['get', 'kind'], 'yard', 0.1, 0.13],
-      },
-    });
-    map.addLayer({
-      id: 'cv-zones-line',
-      type: 'line',
-      source: 'cv-zones',
-      paint: {
-        'line-color': [
-          'match',
-          ['get', 'kind'],
-          'yard',
-          token('--color-brand-ink'),
-          token('--color-gold'),
-        ],
-        'line-width': ['match', ['get', 'kind'], 'yard', 1.2, 2],
-        'line-opacity': 0.8,
-        'line-dasharray': [2, 1.6],
-      },
-    });
   }, [map, styleVersion, geofences, yards, showGeofences, showYards]);
 
   return null;
