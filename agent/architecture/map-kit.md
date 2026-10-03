@@ -13,6 +13,8 @@ One MapLibre GL map for the whole product. Nothing outside this folder imports `
 
 Adding a map screen: `const ConvoyMap = dynamic(() => import('@components/map/ConvoyMap'), { ssr: false })`, pass `look/mode` from `useMapPrefs()`, add layers as children. Give the map a parent with a real height.
 
+**Gotcha, found 2026-10-03 (real crash, not theoretical):** every layer effect keyed on `styleVersion` that calls `map.addSource`/`map.addLayer` must wrap the call in try/catch with a one-time `map.once('idle', ...)` retry. MapLibre throws `"Style is not done loading"` if `addSource`/`addLayer` runs while a `look` switch's internal `setStyle()` is still resolving, even though the `style.load` event (which bumps `styleVersion`) has already fired. Pattern (see `RouteLayer.tsx`, `GeofenceLayer.tsx`, `HeatLayer.tsx`, `HistoryLayer.tsx`, `PinLayer.tsx`, `MissionRouteLayer.tsx`, `RouteContextLayer.tsx` for the exact shape): extract the add-source/add-layer block into a named function, call it in `try {}`, and on catch retry once via `map.once('idle', () => { try { ... } catch {} })` — a bare catch-and-drop would silently leave the layer missing instead of crashing, which is just as wrong. This was an uncaught-exception crash (Next.js error screen, whole app down) triggered by switching Light/Dark/Satellite while a route or geofence/trail layer was actively rendering — easy to miss in normal QA since it only reproduces when a style toggle is exercised while something else is on screen.
+
 ## Map v2 (2026-09-29) — components added
 
 - `MapSearch.tsx` (vehicles + yards, `/` focuses, arrows/Enter/Esc; fetches the whole fleet only after first focus). Live map flies then selects once the flight ends (selecting mid-flight drops out of the viewport list).
