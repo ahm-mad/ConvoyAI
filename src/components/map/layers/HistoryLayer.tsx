@@ -49,39 +49,55 @@ export default function HistoryLayer({
     const line = () =>
       bySpeed && speeds?.length ? speedColorExpr('speed') : token('--color-brand');
 
-    const src = map.getSource('cv-history') as any;
-    const seg = map.getSource('cv-history-seg') as any;
+    // addSource/addLayer throw "Style is not done loading" if a look-change style swap is still in
+    // flight when this effect re-runs on styleVersion. Retry once on 'idle' instead of crashing.
+    const addHistorySourcesAndLayers = () => {
+      const src = map.getSource('cv-history') as any;
+      const seg = map.getSource('cv-history-seg') as any;
 
-    if (src && seg) {
-      src.setData(whole);
-      seg.setData(segments);
-      map.setPaintProperty('cv-history-line', 'line-color', line());
+      if (src && seg) {
+        src.setData(whole);
+        seg.setData(segments);
+        map.setPaintProperty('cv-history-line', 'line-color', line());
 
-      return;
+        return;
+      }
+      if (!src) map.addSource('cv-history', { type: 'geojson', data: whole });
+      if (!seg) map.addSource('cv-history-seg', { type: 'geojson', data: segments });
+      if (!map.getLayer('cv-history-glow'))
+        map.addLayer({
+          id: 'cv-history-glow',
+          type: 'line',
+          source: 'cv-history',
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+          paint: {
+            'line-color': token('--color-brand-bright'),
+            'line-width': 10,
+            'line-blur': 7,
+            'line-opacity': 0.35,
+          },
+        });
+      if (!map.getLayer('cv-history-line'))
+        map.addLayer({
+          id: 'cv-history-line',
+          type: 'line',
+          source: 'cv-history-seg',
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+          paint: { 'line-color': line(), 'line-width': 4 },
+        });
+    };
+
+    try {
+      addHistorySourcesAndLayers();
+    } catch {
+      map.once('idle', () => {
+        try {
+          addHistorySourcesAndLayers();
+        } catch {
+          /* still not ready; the next styleVersion (another look change) will retry */
+        }
+      });
     }
-    if (!src) map.addSource('cv-history', { type: 'geojson', data: whole });
-    if (!seg) map.addSource('cv-history-seg', { type: 'geojson', data: segments });
-    if (!map.getLayer('cv-history-glow'))
-      map.addLayer({
-        id: 'cv-history-glow',
-        type: 'line',
-        source: 'cv-history',
-        layout: { 'line-cap': 'round', 'line-join': 'round' },
-        paint: {
-          'line-color': token('--color-brand-bright'),
-          'line-width': 10,
-          'line-blur': 7,
-          'line-opacity': 0.35,
-        },
-      });
-    if (!map.getLayer('cv-history-line'))
-      map.addLayer({
-        id: 'cv-history-line',
-        type: 'line',
-        source: 'cv-history-seg',
-        layout: { 'line-cap': 'round', 'line-join': 'round' },
-        paint: { 'line-color': line(), 'line-width': 4 },
-      });
   }, [map, styleVersion, trail, speeds, bySpeed]);
 
   return null;

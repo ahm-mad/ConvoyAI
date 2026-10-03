@@ -142,8 +142,17 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
       ],
     };
 
-    if (map.getSource('cv-route')) (map.getSource('cv-route') as any).setData(data);
-    else {
+    // addSource/addLayer throw "Style is not done loading" if a style swap (look change) is still
+    // in flight when this effect's styleVersion-triggered re-run fires -- same race MissionRouteLayer
+    // guards against. Retry once on 'idle' instead of crashing the whole app (an uncaught error here
+    // previously took down the page with a Next.js error screen mid-style-switch).
+    const addRouteSourceAndLayers = () => {
+      if (map.getSource('cv-route')) {
+        (map.getSource('cv-route') as any).setData(data);
+
+        return;
+      }
+
       map.addSource('cv-route', { type: 'geojson', data });
       map.addLayer({
         id: 'cv-route-planned',
@@ -178,6 +187,18 @@ export default function RouteLayer({ route, fit = true }: { route: any; fit?: bo
         filter: ['==', ['get', 'kind'], 'done'],
         layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: { 'line-color': token('--color-brand'), 'line-width': 4.5 },
+      });
+    };
+
+    try {
+      addRouteSourceAndLayers();
+    } catch {
+      map.once('idle', () => {
+        try {
+          addRouteSourceAndLayers();
+        } catch {
+          /* still not ready; the next styleVersion (another look change) will retry */
+        }
       });
     }
 

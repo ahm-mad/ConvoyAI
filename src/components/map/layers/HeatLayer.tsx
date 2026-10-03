@@ -43,46 +43,62 @@ export default function HeatLayer({
         geometry: { type: 'Point' as const, coordinates: p },
       })),
     };
-    const src = map.getSource('cv-heat') as any;
+    // addSource/addLayer throw "Style is not done loading" if a look-change style swap is still in
+    // flight when this effect re-runs on styleVersion. Retry once on 'idle' instead of crashing.
+    const addHeatSourceAndLayer = () => {
+      const src = map.getSource('cv-heat') as any;
 
-    if (src) src.setData(data);
-    else map.addSource('cv-heat', { type: 'geojson', data });
+      if (src) src.setData(data);
+      else map.addSource('cv-heat', { type: 'geojson', data });
 
-    if (!map.getLayer('cv-heat')) {
-      const gold = token('--color-gold');
-      const brand = token('--color-brand');
-      const danger = token('--color-danger');
+      if (!map.getLayer('cv-heat')) {
+        const gold = token('--color-gold');
+        const brand = token('--color-brand');
+        const danger = token('--color-danger');
 
-      map.addLayer(
-        {
-          id: 'cv-heat',
-          type: 'heatmap',
-          source: 'cv-heat',
-          layout: { visibility: visible ? 'visible' : 'none' },
-          paint: {
-            'heatmap-weight': 1,
-            'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 0.3, 9, 0.6, 14, 1.3],
-            'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 9, 8, 18, 12, 34, 15, 56],
-            'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.7, 15, 0.6],
-            'heatmap-color': [
-              'interpolate',
-              ['linear'],
-              ['heatmap-density'],
-              0,
-              rgba(gold, 0),
-              0.15,
-              rgba(gold, 0.3),
-              0.4,
-              rgba(brand, 0.5),
-              0.7,
-              rgba(brand, 0.7),
-              1,
-              rgba(danger, 0.85),
-            ],
+        map.addLayer(
+          {
+            id: 'cv-heat',
+            type: 'heatmap',
+            source: 'cv-heat',
+            layout: { visibility: visible ? 'visible' : 'none' },
+            paint: {
+              'heatmap-weight': 1,
+              'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 0.3, 9, 0.6, 14, 1.3],
+              'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 9, 8, 18, 12, 34, 15, 56],
+              'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.7, 15, 0.6],
+              'heatmap-color': [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0,
+                rgba(gold, 0),
+                0.15,
+                rgba(gold, 0.3),
+                0.4,
+                rgba(brand, 0.5),
+                0.7,
+                rgba(brand, 0.7),
+                1,
+                rgba(danger, 0.85),
+              ],
+            },
           },
-        },
-        map.getLayer('cv-zones-fill') ? 'cv-zones-fill' : undefined
-      );
+          map.getLayer('cv-zones-fill') ? 'cv-zones-fill' : undefined
+        );
+      }
+    };
+
+    try {
+      addHeatSourceAndLayer();
+    } catch {
+      map.once('idle', () => {
+        try {
+          addHeatSourceAndLayer();
+        } catch {
+          /* still not ready; the next styleVersion (another look change) will retry */
+        }
+      });
     }
   }, [map, styleVersion, points, visible]);
 
