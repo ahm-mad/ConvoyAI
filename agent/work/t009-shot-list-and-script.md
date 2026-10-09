@@ -1,4 +1,12 @@
-# T-009 — ConvoyAI demo video shot list + voiceover script (LOCKED 2026-10-03, ready to capture)
+# T-009 — ConvoyAI demo video shot list + voiceover script (REFERENCE ONLY as of 2026-10-03 recording session — see note below)
+
+**Status update (2026-10-03, during actual recording):** the owner is recording freely rather than following
+this script's exact shots/order/wording — they said directly they didn't read it while recording the Live
+Map clip. This file is now reference material only (tone, pacing, which features are worth hitting), not a
+prescriptive script the footage must match. The actual captions and voiceover script get written AFTER each
+clip exists, by Claude reviewing the real footage frame-by-frame and fitting text to what's actually on
+screen — see `decisions.md`'s "Workflow pivot" entry and `progress.md`. Do not hand this table's caption/
+voiceover columns to the owner as-is; they need to be redone per clip once footage exists.
 
 General conventions (captions, tone, standalone/mergeable structure): see
 `agent/work/portfolio-video-style-guide.md`. This file is the ConvoyAI-specific content.
@@ -9,10 +17,22 @@ recorded as its own clean clip (`mcp__claude-in-chrome__gif_creator`, all five o
 text baked in via a DOM overlay before capture. ~3:40 total estimate, 13 shots.
 
 **AI emphasis (owner, 2026-10-03):** this project is the portfolio's AI-differentiated entry (the owner's
-other project already covers IoT), so AI is shown at three separate points rather than one isolated stop —
+other project already covers IoT), so AI is shown at two separate points rather than one isolated stop —
 reinforces it's woven through the product, not bolted on. Verified live before locking this in: the AI
 Copilot's "Predict maintenance" response is genuinely strong — specific data-driven numbers, embedded
 mini risk-bars per vehicle, and action buttons, not a placeholder.
+
+**Correction (2026-10-03, later in the same recording session):** the original plan had THREE AI
+touchpoints, including a "Predict maintenance"/"HOS breach risk" quick-action supposedly on the Vehicles
+page (shot 8, row below). That feature does not exist anywhere in the codebase — checked
+`src/components/VehicleDetailModal.tsx` directly, no match. "Predict maintenance"/"HOS breach risks" only
+exist as AI Copilot starter-prompt suggestions (`src/components/shell/CopilotChat.tsx`,
+`src/components/fleet/OverviewHero.tsx`, `src/components/shell/CommandPalette.tsx`), not a Vehicles-page
+button. The owner chose (of three options offered) to drop this touchpoint entirely rather than fold it
+into the `/ai` shot or build it as a real feature — there are now only TWO AI touchpoints in the script:
+the Overview insight card and the `/ai` deep-dive. Shot 8 is now just the vehicle-creation flow, no AI
+content. Do not re-introduce a "Vehicles AI quick-action" shot unless the owner asks for the feature to
+actually be built first.
 
 **Map-toolbar contrast fix:** done and pushed (`7c5040f`) ahead of recording, since the map is the longest
 single shot.
@@ -41,8 +61,8 @@ two when writing backend-emphasizing lines.
 | 5   | `/fleet-management/operations/map`                   | **The hero shot.** Load, let 3D vehicles move along real roads for a few seconds, zoom into one (triggers its real 3D model), click it to open the vehicle card, show the highlighted route                                                                                                                         | **"Live Fleet Map"** → **"Real 3D vehicles, road-accurate routing"**         | "This is the centerpiece — every vehicle rendered as a real 3D model, moving at real speed, following actual roads. Click any truck and its live route lights up." | 45s  |
 | 6   | same, zoomed out                                     | Zoom out to the clustered fleet view, open the fleet list panel                                                                                                                                                                                                                                                     | **"Full fleet, one view"**                                                   | "Zoom out and the whole fleet clusters cleanly — zoom back in and every vehicle is individually trackable."                                                        | 15s  |
 | 7   | `/fleet-management/operations/trips`                 | Click two status chips to multi-select (Planned + In progress), open "Create Trip"                                                                                                                                                                                                                                  | **"Plan and dispatch trips"**                                                | "Dispatchers can filter by multiple statuses at once, and spin up a new trip — vehicle, driver, route — in seconds."                                               | 20s  |
-| 8   | `/fleet-management/operations/vehicles`              | Open a vehicle, show the **"Predict maintenance"/"HOS breach risk" quick-actions** (AI touchpoint #2) without fully executing them yet                                                                                                                                                                              | **"AI, built into every screen"**                                            | "AI isn't a separate tab — maintenance predictions and compliance risk are one click away on any vehicle."                                                         | 15s  |
-| 9   | `/ai`                                                | **AI touchpoint #3, the deep dive.** Ask _"Which trucks are due for maintenance this month?"_ — show the response: "Three vehicles are likely to need brake service within 9 days, based on a 31% rise in hard stops..." with the per-vehicle risk bars and action buttons, then a glimpse of the Automations panel | **"AI Copilot"**                                                             | "Ask it anything about your fleet, in plain language, and it answers from your real data — with the numbers to back it up, and one-click actions to act on it."    | 35s  |
+| 8   | `/fleet-management/operations/vehicles`              | Show the vehicle creation flow (no AI content here — see the correction note above)                                                                                                                                                                                                                                 | **"Fleet, fully managed"**                                                   | _(tbd — no longer the AI line; revisit wording since the old voiceover referenced a feature that doesn't exist)_                                                   | 15s  |
+| 9   | `/ai`                                                | **AI touchpoint #2, the deep dive.** Ask _"Which trucks are due for maintenance this month?"_ — show the response: "Three vehicles are likely to need brake service within 9 days, based on a 31% rise in hard stops..." with the per-vehicle risk bars and action buttons, then a glimpse of the Automations panel | **"AI Copilot"**                                                             | "Ask it anything about your fleet, in plain language, and it answers from your real data — with the numbers to back it up, and one-click actions to act on it."    | 35s  |
 | 10  | `/fleet-management/analytics/fuel` or `/utilisation` | Switch between two analytics views, hover a chart                                                                                                                                                                                                                                                                   | **"Analytics that go deep"**                                                 | "Fuel, maintenance, utilisation — every report built for a real operations team, not a toy dashboard."                                                             | 18s  |
 | 11  | `/roles-permission`                                  | Show the roles list, open one role's permission grid                                                                                                                                                                                                                                                                | **"Real role-based access, enforced end-to-end"**                            | "Granular roles and permissions, enforced all the way through the backend — ready for a real multi-team company."                                                  | 13s  |
 | 12  | title card                                           | Static card, same text as #0                                                                                                                                                                                                                                                                                        | _(the card itself)_                                                          | "ConvoyAI — a full-stack platform built for fleets that need to see everything, in real time."                                                                     | 10s  |
