@@ -1,0 +1,3017 @@
+{
+  "GET /roles/user/{userId}/access-path": {
+    "200": {
+      "success": true,
+      "message": "Access path retrieved.",
+      "data": []
+    }
+  },
+  "GET /roles/user/{userId}": {
+    "200": {
+      "success": true,
+      "message": "Roles fetched successfully.",
+      "roles": []
+    }
+  },
+  "GET /roles/company": {
+    "200": {
+      "success": true,
+      "message": "Roles fetched successfully.",
+      "roles": [
+        {
+          "id": 7298,
+          "company_id": 23595,
+          "name": "test role",
+          "guard_name": "api",
+          "display_name": null,
+          "description": "it's descrip",
+          "created_by": null,
+          "created_at": "2026-09-18T21:02:15.000Z",
+          "updated_at": "2026-09-18T21:02:15.000Z",
+          "permissions": [
+            {
+              "id": 1867,
+              "name": "all-product",
+              "guard_name": "api",
+              "created_at": "2026-09-17T10:15:37.000Z",
+              "updated_at": "2026-09-21T07:54:05.000Z",
+              "pivot": {
+                "role_id": 7298,
+                "permission_id": 1867
+              }
+            },
+            {
+              "id": 1868,
+              "name": "all-dashboard",
+              "guard_name": "api",
+              "created_at": "2026-09-17T10:15:37.000Z",
+              "updated_at": "2026-09-21T07:54:05.000Z",
+              "pivot": {
+                "role_id": 7298,
+                "permission_id": 1868
+              }
+            }
+          ],
+          "users": [
+            {
+              "id": 23555,
+              "first_name": "sample",
+              "last_name": "user",
+              "email": "Sampleuser1@gmail.com",
+              "number": "122323123",
+              "timezone": null,
+              "profile_image": null,
+              "company_id": 23595,
+              "company_domain": null,
+              "status": "Active",
+              "email_verified_at": "2026-09-18T21:03:44.000Z",
+              "social_provider": null,
+              "social_provider_id": null,
+              "created_at": "2026-09-18T21:03:44.000Z",
+              "updated_at": "2026-09-18T21:03:44.000Z",
+              "stripe_id": null,
+              "pm_type": null,
+              "pm_last_four": null,
+              "trial_ends_at": null,
+              "pivot": {
+                "model_type": "App\\Domain\\Auth\\Models\\User",
+                "role_id": 7298,
+                "model_id": 23555
+              }
+            }
+          ]
+        },
+        {
+          "id": 5904,
+          "company_id": 23595,
+          "name": "admin",
+          "guard_name": "api",
+          "display_name": null,
+          "description": null,
+          "created_by": null,
+          "created_at": "2026-09-17T07:38:54.000Z",
+          "updated_at": "2026-09-18T12:31:13.000Z",
+          "permissions": [
+            {
+              "id": 1867,
+              "name": "all-product",
+              "guard_name": "api",
+              "created_at": "2026-09-17T10:15:37.000Z",
+              "updated_at": "2026-09-21T07:54:05.000Z",
+              "pivot": {
+                "role_id": 5904,
+                "permission_id": 1867
+              }
+            },
+            {
+              "id": 1868,
+              "name": "all-dashboard",
+              "guard_name": "api",
+              "created_at": "2026-09-17T10:15:37.000Z",
+              "updated_at": "2026-09-21T07:54:05.000Z",
+              "pivot": {
+                "role_id": 5904,
+                "permission_id": 1868
+              }
+            }
+          ],
+          "users": [
+            {
+              "id": 18555,
+              "first_name": "Nuzzi",
+              "last_name": "Developer22",
+              "email": "junead@chaminade-hs.org",
+              "number": "922343546786",
+              "timezone": "Asia/Karachi",
+              "profile_image": null,
+              "company_id": 23595,
+              "company_domain": null,
+              "status": "active",
+              "email_verified_at": "2026-09-17T07:38:54.000Z",
+              "social_provider": null,
+              "social_provider_id": null,
+              "created_at": null,
+              "updated_at": "2026-09-18T22:31:09.000Z",
+              "stripe_id": null,
+              "pm_type": null,
+              "pm_last_four": null,
+              "trial_ends_at": null,
+              "pivot": {
+                "model_type": "App\\Domain\\Auth\\Models\\User",
+                "role_id": 5904,
+                "model_id": 18555
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "GET /roles/{roleId}": {
+    "200": {
+      "success": true,
+      "role": {
+        "id": 7298,
+        "company_id": 23595,
+        "name": "test role",
+        "guard_name": "api",
+        "description": "it's descrip",
+        "modules": [
+          {
+            "id": 1514,
+            "code": "product",
+            "slug": "product"
+          },
+          {
+            "id": 1515,
+            "code": "dashboard",
+            "slug": "dashboard"
+          }
+        ],
+        "permissions": [
+          {
+            "id": 1867,
+            "name": "all-product"
+          },
+          {
+            "id": 1868,
+            "name": "all-dashboard"
+          }
+        ]
+      }
+    }
+  },
+  "GET /modules": {
+    "200": {
+      "success": true,
+      "modules": [
+        {
+          "id": 1514,
+          "code": "product",
+          "slug": "product"
+        },
+        {
+          "id": 1515,
+          "code": "dashboard",
+          "slug": "dashboard"
+        }
+      ]
+    }
+  },
+  "GET /profile": {
+    "200": {
+      "success": true,
+      "message": "Fetch user profile details successfully.",
+      "data": {
+        "user": {
+          "id": 18555,
+          "first_name": "Nuzzi",
+          "last_name": "Developer22",
+          "email": "junead@chaminade-hs.org",
+          "number": "922343546786",
+          "company_id": 23595,
+          "status": "active",
+          "email_verified_at": "2026-09-17T07:38:54.000Z",
+          "timezone": "Asia/Karachi",
+          "profile_image": null,
+          "company_domain": null,
+          "social_provider": null,
+          "social_provider_id": null,
+          "created_at": null,
+          "updated_at": "2026-09-18T22:31:09.000Z",
+          "company": {
+            "id": 23595,
+            "name": "Default Company",
+            "email": "junead@chaminade-compan.org",
+            "address": "lahore",
+            "city": "lahore",
+            "state": "punjab",
+            "country": "PK",
+            "zip_code": "848",
+            "created_at": null,
+            "updated_at": "2026-09-17T10:44:27.000Z"
+          }
+        },
+        "user_image": null
+      }
+    }
+  },
+  "GET /members": {
+    "200": {
+      "success": true,
+      "message": "Members list fetched successfully.",
+      "data": {
+        "current_page": 1,
+        "data": [
+          {
+            "id": 692,
+            "user_id": 23555,
+            "name": "sample user",
+            "address": "dfe",
+            "city": "cde",
+            "state": "fe",
+            "country": "Pakistan",
+            "company_id": 23595,
+            "created_by": "18555",
+            "created_at": "2026-09-18T21:03:44.000Z",
+            "updated_at": "2026-09-18T21:03:44.000Z",
+            "user": {
+              "id": 23555,
+              "first_name": "sample",
+              "last_name": "user",
+              "email": "Sampleuser1@gmail.com",
+              "number": "122323123",
+              "timezone": null,
+              "profile_image": null,
+              "company_id": 23595,
+              "company_domain": null,
+              "status": "Active",
+              "email_verified_at": "2026-09-18T21:03:44.000Z",
+              "social_provider": null,
+              "social_provider_id": null,
+              "created_at": "2026-09-18T21:03:44.000Z",
+              "updated_at": "2026-09-18T21:03:44.000Z",
+              "stripe_id": null,
+              "pm_type": null,
+              "pm_last_four": null,
+              "trial_ends_at": null,
+              "roles": [
+                {
+                  "id": 7298,
+                  "company_id": 23595,
+                  "name": "test role",
+                  "guard_name": "api",
+                  "display_name": null,
+                  "description": "it's descrip",
+                  "created_by": null,
+                  "created_at": "2026-09-18T21:02:15.000Z",
+                  "updated_at": "2026-09-18T21:02:15.000Z",
+                  "pivot": {
+                    "role_id": 7298,
+                    "model_id": 23555,
+                    "model_type": "App\\Domain\\Auth\\Models\\User"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "first_page_url": "http://localhost:8090/api/members?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/members?page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/members?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/members",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+      }
+    }
+  },
+  "GET /members/{id}": {
+    "200": {
+      "success": true,
+      "message": "Member fetched successfully.",
+      "data": {
+        "id": 692,
+        "user_id": 23555,
+        "name": "sample user",
+        "address": "dfe",
+        "city": "cde",
+        "state": "fe",
+        "country": "Pakistan",
+        "company_id": 23595,
+        "created_by": "18555",
+        "created_at": "2026-09-18T21:03:44.000Z",
+        "updated_at": "2026-09-18T21:03:44.000Z",
+        "user": {
+          "id": 23555,
+          "first_name": "sample",
+          "last_name": "user",
+          "email": "Sampleuser1@gmail.com",
+          "number": "122323123",
+          "timezone": null,
+          "profile_image": null,
+          "company_id": 23595,
+          "company_domain": null,
+          "status": "Active",
+          "email_verified_at": "2026-09-18T21:03:44.000Z",
+          "social_provider": null,
+          "social_provider_id": null,
+          "created_at": "2026-09-18T21:03:44.000Z",
+          "updated_at": "2026-09-18T21:03:44.000Z",
+          "stripe_id": null,
+          "pm_type": null,
+          "pm_last_four": null,
+          "trial_ends_at": null,
+          "roles": [
+            {
+              "id": 7298,
+              "company_id": 23595,
+              "name": "test role",
+              "guard_name": "api",
+              "display_name": null,
+              "description": "it's descrip",
+              "created_by": null,
+              "created_at": "2026-09-18T21:02:15.000Z",
+              "updated_at": "2026-09-18T21:02:15.000Z",
+              "pivot": {
+                "role_id": 7298,
+                "model_id": 23555,
+                "model_type": "App\\Domain\\Auth\\Models\\User"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "GET /products": {
+    "200": {
+      "success": true,
+      "message": "Products fetched successfully.",
+      "data": {
+        "current_page": 1,
+        "data": [
+          {
+            "id": 11281,
+            "name": "sample productt",
+            "status": "active",
+            "company_id": 23595,
+            "created_by": 18555,
+            "device_protocol_id": null,
+            "preconfigure_template_id": null,
+            "devices_count": 2,
+            "attribute_preferences_count": 3,
+            "created_at": "2026-09-18T14:10:04.000Z",
+            "updated_at": "2026-09-18T19:18:40.000Z"
+          },
+          {
+            "id": 11282,
+            "name": "prod2",
+            "status": "active",
+            "company_id": 23595,
+            "created_by": 18555,
+            "device_protocol_id": null,
+            "preconfigure_template_id": null,
+            "devices_count": 1,
+            "attribute_preferences_count": 0,
+            "created_at": "2026-09-18T15:18:52.000Z",
+            "updated_at": "2026-09-18T15:18:52.000Z"
+          }
+        ],
+        "first_page_url": "http://localhost:8090/api/products?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/products?page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/products?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/products",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 2,
+        "total": 2
+      },
+      "filters": {
+        "user_id": null,
+        "search": null,
+        "sort_by": "id",
+        "sort_order": "asc"
+      }
+    }
+  },
+  "GET /products/{product}": {
+    "200": {
+      "success": true,
+      "data": {
+        "devices": [
+          {
+            "id": 9432,
+            "device_unique_identifier": "second dev",
+            "name": "second dev",
+            "type": null,
+            "status": "active",
+            "location": "second dev",
+            "tags": "second dev",
+            "product_id": 11281,
+            "user_id": 18555,
+            "created_at": "2026-09-18 22:41:06",
+            "updated_at": "2026-09-18T17:41:06.000Z",
+            "last_updated": "never",
+            "latest_device_value": null,
+            "user": {
+              "id": 18555,
+              "first_name": "Nuzzi",
+              "last_name": "Developer22",
+              "email": "junead@chaminade-hs.org",
+              "number": "922343546786",
+              "timezone": "Asia/Karachi",
+              "profile_image": null,
+              "company_id": 23595,
+              "company_domain": null,
+              "status": "active",
+              "email_verified_at": "2026-09-17T07:38:54.000Z",
+              "social_provider": null,
+              "social_provider_id": null,
+              "created_at": null,
+              "updated_at": "2026-09-18T22:31:09.000Z",
+              "stripe_id": null,
+              "pm_type": null,
+              "pm_last_four": null,
+              "trial_ends_at": null
+            }
+          },
+          {
+            "id": 9425,
+            "device_unique_identifier": "sample_device_deveui",
+            "name": "sample device name",
+            "type": null,
+            "status": "active",
+            "location": "sample device location",
+            "tags": "sample device tag",
+            "product_id": 11281,
+            "user_id": 18555,
+            "created_at": "2026-09-18 19:10:04",
+            "updated_at": "2026-09-18T14:10:04.000Z",
+            "last_updated": "never",
+            "latest_device_value": null,
+            "user": {
+              "id": 18555,
+              "first_name": "Nuzzi",
+              "last_name": "Developer22",
+              "email": "junead@chaminade-hs.org",
+              "number": "922343546786",
+              "timezone": "Asia/Karachi",
+              "profile_image": null,
+              "company_id": 23595,
+              "company_domain": null,
+              "status": "active",
+              "email_verified_at": "2026-09-17T07:38:54.000Z",
+              "social_provider": null,
+              "social_provider_id": null,
+              "created_at": null,
+              "updated_at": "2026-09-18T22:31:09.000Z",
+              "stripe_id": null,
+              "pm_type": null,
+              "pm_last_four": null,
+              "trial_ends_at": null
+            }
+          }
+        ],
+        "pagination": {
+          "current_page": 1,
+          "per_page": 10,
+          "total": 2,
+          "last_page": 1,
+          "from": 1,
+          "to": 2,
+          "has_more_pages": false,
+          "path": "http://localhost:8090/api/products/11281",
+          "links": {
+            "first": "http://localhost:8090/api/products/11281?per_page=10&sort_by=created_at&sort_order=desc&page=1",
+            "last": "http://localhost:8090/api/products/11281?per_page=10&sort_by=created_at&sort_order=desc&page=1",
+            "prev": null,
+            "next": null
+          }
+        },
+        "filters": {
+          "type": null,
+          "search": null,
+          "sort_by": "created_at",
+          "sort_order": "desc"
+        }
+      }
+    }
+  },
+  "GET /product-settings/{id}": {
+    "200": {
+      "success": true,
+      "message": "Product settings retrieved successfully",
+      "product_id": 11281,
+      "product_name": "sample productt",
+      "raw_packet": {
+        "dr": 3,
+        "adr": true,
+        "data": "DgAADwQAAQ==",
+        "fCnt": 14,
+        "time": "2025-08-25T14:15:33.159689164+00:00",
+        "fPort": 10,
+        "object": {
+          "move": null,
+          "bytes": [14, 0],
+          "light": null,
+          "activity": null,
+          "humidity": null,
+          "reed_count": null,
+          "reed_state": null,
+          "temperature": 2000,
+          "external_input": true,
+          "warmcoldthresh": false,
+          "battery_voltage": 50
+        },
+        "rxInfo": [
+          {
+            "snr": 9.8,
+            "rssi": -38,
+            "nsTime": "2025-08-25T14:15:32.943414043+00:00",
+            "channel": 6,
+            "context": "cdJyvA==",
+            "location": [],
+            "uplinkId": 38165,
+            "crcStatus": "CRC_OK",
+            "gatewayId": "647fdafffe005960"
+          }
+        ],
+        "txInfo": {
+          "frequency": 903500000,
+          "modulation": {
+            "lora": {
+              "codeRate": "CR_4_5",
+              "bandwidth": 125000,
+              "spreadingFactor": 7
+            }
+          }
+        },
+        "devAddr": "01cd9e9c",
+        "confirmed": false,
+        "deviceInfo": {
+          "tags": [],
+          "devEui": "sample_device_deveui",
+          "tenantId": "a8d41aeb-323b-42b4-be1f-e56b895215e1",
+          "deviceName": "holo test max-one-p new",
+          "tenantName": "ChirpStack",
+          "applicationId": "49e93702-cf83-4c3c-90d0-19a293dd0328",
+          "applicationName": "TEST HOLO ",
+          "deviceProfileId": "a2fbc345-7e70-4bd7-b284-f00e83d76b4d",
+          "deviceProfileName": "MAX-ONE-P",
+          "deviceClassEnabled": "CLASS_A"
+        },
+        "regionConfigId": "us915_0",
+        "deduplicationId": "0154198e-b6c1-4511-9f9b-4f8eace36437"
+      },
+      "user_preference_attributes": [
+        {
+          "id": 826,
+          "label": "Battery",
+          "unit": "V",
+          "attribute_key": "<redacted>",
+          "is_selected": 1,
+          "is_unique_identifier": false
+        },
+        {
+          "id": 827,
+          "label": null,
+          "unit": null,
+          "attribute_key": "<redacted>",
+          "is_selected": 1,
+          "is_unique_identifier": true
+        }
+      ],
+      "token": "<redacted>"
+    }
+  },
+  "GET /preconfigure-templates/manufacturers": {
+    "200": {
+      "success": true,
+      "message": "Manufacturers retrieved.",
+      "data": ["Generic", "Sensative"]
+    }
+  },
+  "GET /preconfigure-templates": {
+    "200": {
+      "success": true,
+      "message": "Templates retrieved.",
+      "data": {
+        "current_page": 1,
+        "data": [
+          {
+            "id": 397,
+            "company_id": null,
+            "created_by": null,
+            "name": "Generic BACnet AHU Controller",
+            "manufacturer": "Generic",
+            "description": "Common air handling unit points — discharge temperature, fan status, cooling setpoint.",
+            "image": "generic-bacnet-ahu.png",
+            "configuration": {
+              "fields": [
+                {
+                  "unit": "Cel",
+                  "label": "Discharge Temperature",
+                  "attribute_key": "<redacted>"
+                },
+                {
+                  "unit": null,
+                  "label": "Supply Fan Status",
+                  "attribute_key": "<redacted>"
+                }
+              ]
+            },
+            "created_at": "2026-09-17T07:38:54.000Z",
+            "updated_at": "2026-09-17T07:38:54.000Z"
+          },
+          {
+            "id": 398,
+            "company_id": null,
+            "created_by": null,
+            "name": "Generic GPS Fleet Tracker",
+            "manufacturer": "Generic",
+            "description": "Vehicle/asset GPS tracking — position, speed, and heading. Works with most cellular or LoRaWAN GPS trackers that report these fields.",
+            "image": "generic-gps-tracker.png",
+            "configuration": {
+              "fields": [
+                {
+                  "unit": null,
+                  "label": "Latitude",
+                  "attribute_key": "<redacted>"
+                },
+                {
+                  "unit": null,
+                  "label": "Longitude",
+                  "attribute_key": "<redacted>"
+                }
+              ]
+            },
+            "created_at": "2026-09-17T07:38:54.000Z",
+            "updated_at": "2026-09-17T07:38:54.000Z"
+          }
+        ],
+        "first_page_url": "http://localhost:8090/api/preconfigure-templates?page=1",
+        "from": 1,
+        "last_page": 6,
+        "last_page_url": "http://localhost:8090/api/preconfigure-templates?page=6",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/preconfigure-templates?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": "http://localhost:8090/api/preconfigure-templates?page=2",
+        "path": "http://localhost:8090/api/preconfigure-templates",
+        "per_page": 50,
+        "prev_page_url": null,
+        "to": 50,
+        "total": 255
+      }
+    }
+  },
+  "GET /preconfigure-templates/{id}": {
+    "200": {
+      "success": true,
+      "message": "Template retrieved.",
+      "data": {
+        "id": 397,
+        "company_id": null,
+        "created_by": null,
+        "name": "Generic BACnet AHU Controller",
+        "manufacturer": "Generic",
+        "description": "Common air handling unit points — discharge temperature, fan status, cooling setpoint.",
+        "image": "generic-bacnet-ahu.png",
+        "configuration": {
+          "fields": [
+            {
+              "unit": "Cel",
+              "label": "Discharge Temperature",
+              "attribute_key": "<redacted>"
+            },
+            {
+              "unit": null,
+              "label": "Supply Fan Status",
+              "attribute_key": "<redacted>"
+            }
+          ]
+        },
+        "created_at": "2026-09-17T07:38:54.000Z",
+        "updated_at": "2026-09-17T07:38:54.000Z"
+      }
+    }
+  },
+  "GET /protocols": {
+    "200": {
+      "current_page": 1,
+      "data": [
+        {
+          "id": 2725,
+          "name": "HTTPS",
+          "category": "transport",
+          "image": "https.png",
+          "created_at": "2026-09-17T07:38:54.000Z",
+          "updated_at": "2026-09-17T07:38:54.000Z"
+        },
+        {
+          "id": 2726,
+          "name": "MQTT",
+          "category": "transport",
+          "image": "mqtts.png",
+          "created_at": "2026-09-17T07:38:54.000Z",
+          "updated_at": "2026-09-17T07:38:54.000Z"
+        }
+      ],
+      "first_page_url": "http://localhost:8090/api/protocols?page=1",
+      "from": 1,
+      "last_page": 1,
+      "last_page_url": "http://localhost:8090/api/protocols?page=1",
+      "links": [
+        {
+          "url": null,
+          "label": "&laquo; Previous",
+          "active": false
+        },
+        {
+          "url": "http://localhost:8090/api/protocols?page=1",
+          "label": "1",
+          "active": true
+        }
+      ],
+      "next_page_url": null,
+      "path": "http://localhost:8090/api/protocols",
+      "per_page": 10,
+      "prev_page_url": null,
+      "to": 2,
+      "total": 2
+    }
+  },
+  "GET /protocols/{protocol}": {
+    "200": {
+      "id": 2725,
+      "name": "HTTPS",
+      "category": "transport",
+      "image": "https.png",
+      "created_at": "2026-09-17T07:38:54.000Z",
+      "updated_at": "2026-09-17T07:38:54.000Z"
+    }
+  },
+  "GET /devices": {
+    "200": {
+      "success": true,
+      "message": "Products fetched successfully.",
+      "data": {
+        "current_page": 1,
+        "data": [
+          {
+            "id": 11281,
+            "name": "sample productt",
+            "status": "active",
+            "company_id": 23595,
+            "created_by": 18555,
+            "device_protocol_id": null,
+            "preconfigure_template_id": null,
+            "created_at": "2026-09-18T14:10:04.000Z",
+            "updated_at": "2026-09-18T19:18:40.000Z",
+            "devices": [
+              {
+                "id": 9425,
+                "device_unique_identifier": "sample_device_deveui",
+                "name": "sample device name",
+                "type": null,
+                "status": "active",
+                "location": "sample device location",
+                "tags": "sample device tag",
+                "product_id": 11281,
+                "user_id": 18555,
+                "created_at": "2026-09-18 19:10:04",
+                "updated_at": "2026-09-18T14:10:04.000Z",
+                "last_updated": "never",
+                "user": {
+                  "id": 18555,
+                  "first_name": "Nuzzi",
+                  "last_name": "Developer22",
+                  "email": "junead@chaminade-hs.org",
+                  "number": "922343546786",
+                  "timezone": "Asia/Karachi",
+                  "profile_image": null,
+                  "company_id": 23595,
+                  "company_domain": null,
+                  "status": "active",
+                  "email_verified_at": "2026-09-17T07:38:54.000Z",
+                  "social_provider": null,
+                  "social_provider_id": null,
+                  "created_at": null,
+                  "updated_at": "2026-09-18T22:31:09.000Z",
+                  "stripe_id": null,
+                  "pm_type": null,
+                  "pm_last_four": null,
+                  "trial_ends_at": null
+                }
+              },
+              {
+                "id": 9432,
+                "device_unique_identifier": "second dev",
+                "name": "second dev",
+                "type": null,
+                "status": "active",
+                "location": "second dev",
+                "tags": "second dev",
+                "product_id": 11281,
+                "user_id": 18555,
+                "created_at": "2026-09-18 22:41:06",
+                "updated_at": "2026-09-18T17:41:06.000Z",
+                "last_updated": "never",
+                "user": {
+                  "id": 18555,
+                  "first_name": "Nuzzi",
+                  "last_name": "Developer22",
+                  "email": "junead@chaminade-hs.org",
+                  "number": "922343546786",
+                  "timezone": "Asia/Karachi",
+                  "profile_image": null,
+                  "company_id": 23595,
+                  "company_domain": null,
+                  "status": "active",
+                  "email_verified_at": "2026-09-17T07:38:54.000Z",
+                  "social_provider": null,
+                  "social_provider_id": null,
+                  "created_at": null,
+                  "updated_at": "2026-09-18T22:31:09.000Z",
+                  "stripe_id": null,
+                  "pm_type": null,
+                  "pm_last_four": null,
+                  "trial_ends_at": null
+                }
+              }
+            ],
+            "plan": null
+          },
+          {
+            "id": 11282,
+            "name": "prod2",
+            "status": "active",
+            "company_id": 23595,
+            "created_by": 18555,
+            "device_protocol_id": null,
+            "preconfigure_template_id": null,
+            "created_at": "2026-09-18T15:18:52.000Z",
+            "updated_at": "2026-09-18T15:18:52.000Z",
+            "devices": [
+              {
+                "id": 9426,
+                "device_unique_identifier": "device2",
+                "name": "device2",
+                "type": null,
+                "status": "active",
+                "location": "device2",
+                "tags": "device2",
+                "product_id": 11282,
+                "user_id": 18555,
+                "created_at": "2026-09-18 20:18:52",
+                "updated_at": "2026-09-18T15:18:52.000Z",
+                "last_updated": "never",
+                "user": {
+                  "id": 18555,
+                  "first_name": "Nuzzi",
+                  "last_name": "Developer22",
+                  "email": "junead@chaminade-hs.org",
+                  "number": "922343546786",
+                  "timezone": "Asia/Karachi",
+                  "profile_image": null,
+                  "company_id": 23595,
+                  "company_domain": null,
+                  "status": "active",
+                  "email_verified_at": "2026-09-17T07:38:54.000Z",
+                  "social_provider": null,
+                  "social_provider_id": null,
+                  "created_at": null,
+                  "updated_at": "2026-09-18T22:31:09.000Z",
+                  "stripe_id": null,
+                  "pm_type": null,
+                  "pm_last_four": null,
+                  "trial_ends_at": null
+                }
+              }
+            ],
+            "plan": null
+          }
+        ],
+        "first_page_url": "http://localhost:8090/api/devices?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/devices?page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/devices?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/devices",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 2,
+        "total": 2
+      }
+    }
+  },
+  "GET /devices/product/{product_id}": {
+    "200": {
+      "success": true,
+      "message": "Devices retrieved successfully.",
+      "data": [
+        {
+          "id": 9425,
+          "device_unique_identifier": "sample_device_deveui",
+          "name": "sample device name",
+          "type": null,
+          "status": "active",
+          "location": "sample device location",
+          "tags": "sample device tag",
+          "product_id": 11281,
+          "user_id": 18555,
+          "created_at": "2026-09-18 19:10:04",
+          "updated_at": "2026-09-18T14:10:04.000Z",
+          "is_assigned": true,
+          "last_updated": "never",
+          "latest_device_value": null,
+          "user": {
+            "id": 18555,
+            "first_name": "Nuzzi",
+            "last_name": "Developer22",
+            "email": "junead@chaminade-hs.org",
+            "number": "922343546786",
+            "timezone": "Asia/Karachi",
+            "profile_image": null,
+            "company_id": 23595,
+            "company_domain": null,
+            "status": "active",
+            "email_verified_at": "2026-09-17T07:38:54.000Z",
+            "social_provider": null,
+            "social_provider_id": null,
+            "created_at": null,
+            "updated_at": "2026-09-18T22:31:09.000Z",
+            "stripe_id": null,
+            "pm_type": null,
+            "pm_last_four": null,
+            "trial_ends_at": null
+          }
+        },
+        {
+          "id": 9432,
+          "device_unique_identifier": "second dev",
+          "name": "second dev",
+          "type": null,
+          "status": "active",
+          "location": "second dev",
+          "tags": "second dev",
+          "product_id": 11281,
+          "user_id": 18555,
+          "created_at": "2026-09-18 22:41:06",
+          "updated_at": "2026-09-18T17:41:06.000Z",
+          "is_assigned": false,
+          "last_updated": "never",
+          "latest_device_value": null,
+          "user": {
+            "id": 18555,
+            "first_name": "Nuzzi",
+            "last_name": "Developer22",
+            "email": "junead@chaminade-hs.org",
+            "number": "922343546786",
+            "timezone": "Asia/Karachi",
+            "profile_image": null,
+            "company_id": 23595,
+            "company_domain": null,
+            "status": "active",
+            "email_verified_at": "2026-09-17T07:38:54.000Z",
+            "social_provider": null,
+            "social_provider_id": null,
+            "created_at": null,
+            "updated_at": "2026-09-18T22:31:09.000Z",
+            "stripe_id": null,
+            "pm_type": null,
+            "pm_last_four": null,
+            "trial_ends_at": null
+          }
+        }
+      ],
+      "userPreference": [
+        {
+          "id": 826,
+          "label": "Battery",
+          "unit": "V",
+          "attribute_key": "<redacted>",
+          "is_selected": 1,
+          "is_unique_identifier": false
+        },
+        {
+          "id": 827,
+          "label": null,
+          "unit": null,
+          "attribute_key": "<redacted>",
+          "is_selected": 1,
+          "is_unique_identifier": true
+        }
+      ],
+      "assigned_device_ids": [9425]
+    }
+  },
+  "GET /rules": {
+    "200": {
+      "success": true,
+      "message": "Rules fetched successfully.",
+      "data": {
+        "rules": [
+          {
+            "id": 2635,
+            "user_id": 18555,
+            "name": "ldie",
+            "execution_interval": 60,
+            "execution_interval_formatted": "1 minutes",
+            "allow_retriggering": false,
+            "conditions": [
+              {
+                "conditionValue": "3",
+                "logicalOperator": "If",
+                "selectedProduct": 11281,
+                "selectedAttribute": "object.external_input",
+                "selectedCondition": "equal to"
+              }
+            ],
+            "conditions_count": 1,
+            "actions": {
+              "sendEmail": true,
+              "sendMessage": true,
+              "systemNotification": true
+            },
+            "actions_count": 3,
+            "email_data": {
+              "to": ["fe@g.com"],
+              "message": "cvkjler  {{rule_name}}",
+              "subject": "fesdfe",
+              "newRecipient": null
+            },
+            "has_email_data": true,
+            "sms_data": {
+              "to": ["883839493"],
+              "message": "dfesdf",
+              "newRecipient": null
+            },
+            "has_sms_data": true,
+            "notification_data": {
+              "message": "feidfoev"
+            },
+            "has_notification_data": true,
+            "is_active": true,
+            "last_triggered": null,
+            "last_triggered_human": null,
+            "can_be_triggered": true,
+            "next_trigger_time": null,
+            "time_until_next_trigger": "Ready to trigger",
+            "created_at": "2026-09-19 01:41:57",
+            "updated_at": "2026-09-19 01:41:57"
+          }
+        ],
+        "pagination": {
+          "current_page": 1,
+          "per_page": 10,
+          "total": 1,
+          "last_page": 1,
+          "from": 1,
+          "to": 1,
+          "has_more_pages": false,
+          "path": "http://localhost:8090/api/rules",
+          "links": {
+            "first": "http://localhost:8090/api/rules?page=1",
+            "last": "http://localhost:8090/api/rules?page=1",
+            "prev": null,
+            "next": null
+          }
+        },
+        "filters": {
+          "search": null,
+          "is_active": null,
+          "has_email_data": null,
+          "has_sms_data": null,
+          "has_notification_data": null,
+          "can_be_triggered": null,
+          "recently_triggered": null,
+          "sort_by": "created_at",
+          "sort_order": "desc"
+        },
+        "meta": {
+          "total_active": 4,
+          "total_inactive": 0,
+          "total_with_email": 1,
+          "total_with_sms": 1,
+          "total_with_notifications": 1,
+          "total_can_be_triggered": 4,
+          "total_recently_triggered_24h": 0,
+          "total_never_triggered": 4,
+          "user": {
+            "id": 18555,
+            "name": "Nuzzi Developer22",
+            "email": "junead@chaminade-hs.org"
+          }
+        }
+      }
+    }
+  },
+  "GET /rules/{id}": {
+    "200": {
+      "success": true,
+      "message": "Rule fetched successfully.",
+      "data": {
+        "rule": {
+          "id": 2635,
+          "user_id": 18555,
+          "name": "ldie",
+          "ruleName": "ldie",
+          "execution_interval": 60,
+          "executionInterval": 60,
+          "execution_interval_formatted": "1 minutes",
+          "allow_retriggering": false,
+          "allowRetriggering": false,
+          "severity": "warning",
+          "conditions": [
+            {
+              "conditionValue": "3",
+              "logicalOperator": "If",
+              "selectedProduct": 11281,
+              "selectedAttribute": "object.external_input",
+              "selectedCondition": "equal to"
+            }
+          ],
+          "conditions_count": 1,
+          "actions": {
+            "sendEmail": true,
+            "sendMessage": true,
+            "systemNotification": true
+          },
+          "actions_count": 3,
+          "email_data": {
+            "to": ["fe@g.com"],
+            "message": "cvkjler  {{rule_name}}",
+            "subject": "fesdfe",
+            "newRecipient": null
+          },
+          "has_email_data": true,
+          "sms_data": {
+            "to": ["883839493"],
+            "message": "dfesdf",
+            "newRecipient": null
+          },
+          "smsData": {
+            "to": ["883839493"],
+            "message": "dfesdf",
+            "newRecipient": null
+          },
+          "has_sms_data": true,
+          "notification_data": {
+            "message": "feidfoev"
+          },
+          "notificationData": {
+            "message": "feidfoev"
+          },
+          "has_notification_data": true,
+          "is_active": true,
+          "last_triggered": null,
+          "last_triggered_human": null,
+          "can_be_triggered": true,
+          "next_trigger_time": null,
+          "time_until_next_trigger": "Ready to trigger",
+          "created_at": "2026-09-19 01:41:57",
+          "updated_at": "2026-09-19 01:41:57",
+          "deleted_at": null,
+          "user": {
+            "id": 18555,
+            "name": "Nuzzi Developer22",
+            "email": "junead@chaminade-hs.org"
+          }
+        }
+      }
+    }
+  },
+  "GET /alarms": {
+    "200": {
+      "success": true,
+      "message": "Alarms retrieved.",
+      "data": {
+        "current_page": 1,
+        "data": [],
+        "first_page_url": "http://localhost:8090/api/alarms?page=1",
+        "from": null,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/alarms?page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/alarms?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/alarms",
+        "per_page": 25,
+        "prev_page_url": null,
+        "to": null,
+        "total": 0
+      }
+    }
+  },
+  "GET /dashboards": {
+    "200": {
+      "success": true,
+      "message": "Dashboards fetched successfully.",
+      "data": {
+        "current_page": 1,
+        "data": [],
+        "first_page_url": "http://localhost:8090/api/dashboards?sort_by=id&sort_order=asc&page=1",
+        "from": null,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/dashboards?sort_by=id&sort_order=asc&page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/dashboards?sort_by=id&sort_order=asc&page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/dashboards",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": null,
+        "total": 0
+      }
+    }
+  },
+  "GET /admin/dashboard": {
+    "200": {
+      "success": true,
+      "message": "Dashboards fetched successfully.",
+      "data": {
+        "current_page": 1,
+        "data": [],
+        "first_page_url": "http://localhost:8090/api/admin/dashboard?sort_by=id&sort_order=asc&page=1",
+        "from": null,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/admin/dashboard?sort_by=id&sort_order=asc&page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/admin/dashboard?sort_by=id&sort_order=asc&page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/admin/dashboard",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": null,
+        "total": 0
+      }
+    }
+  },
+  "GET /stats/count-all": {
+    "200": {
+      "success": true,
+      "data": {
+        "users": 10,
+        "user_devices": 0,
+        "products": 2,
+        "companies": 5,
+        "device_packets": 0,
+        "widgets": 3,
+        "device_values": 0,
+        "device": 3
+      }
+    }
+  },
+  "GET /users/all": {
+    "200": {
+      "success": true,
+      "data": [
+        {
+          "id": 18555,
+          "first_name": "Nuzzi",
+          "last_name": "Developer22",
+          "email": "junead@chaminade-hs.org",
+          "created_at": null
+        },
+        {
+          "id": 14966,
+          "first_name": "Super",
+          "last_name": "Admin",
+          "email": "superadmin@example.com",
+          "created_at": null
+        }
+      ]
+    }
+  },
+  "GET /users/monthly-registrations": {
+    "200": {
+      "success": true,
+      "data": [
+        {
+          "month": "2026-09",
+          "total": 8
+        },
+        {
+          "month": "null-null",
+          "total": 2
+        }
+      ]
+    }
+  },
+  "GET /dashboard/analytics": {
+    "200": {
+      "success": true,
+      "message": "Analytics fetched successfully.",
+      "data": {
+        "total_devices": 3,
+        "online_devices": 0,
+        "offline_devices": 3,
+        "active_in_last_24h": 0,
+        "recently_active_devices": [],
+        "offline_devices_list": [
+          {
+            "id": 9425,
+            "name": "sample device name",
+            "device_unique_identifier": "sample_device_deveui",
+            "last_heard": "Never",
+            "last_heard_at": null
+          },
+          {
+            "id": 9426,
+            "name": "device2",
+            "device_unique_identifier": "device2",
+            "last_heard": "Never",
+            "last_heard_at": null
+          }
+        ]
+      }
+    }
+  },
+  "GET /dashboard/packet-history": {
+    "200": {
+      "success": true,
+      "message": "Packet history fetched successfully.",
+      "data": {
+        "packets": [
+          {
+            "id": 2280,
+            "product": {
+              "id": 11282,
+              "name": "prod2"
+            },
+            "protocol": {
+              "id": 2725,
+              "name": "HTTPS"
+            },
+            "device_ids": [],
+            "json_body": [],
+            "token": "<redacted>",
+            "status": "normal",
+            "is_alert": false,
+            "received_at": "2026-09-18 15:18:53"
+          },
+          {
+            "id": 2279,
+            "product": {
+              "id": 11281,
+              "name": "sample productt"
+            },
+            "protocol": {
+              "id": 2725,
+              "name": "HTTPS"
+            },
+            "device_ids": [],
+            "json_body": {
+              "dr": 3,
+              "adr": true,
+              "data": "DgAADwQAAQ==",
+              "fCnt": 14,
+              "time": "2025-08-25T14:15:33.159689164+00:00",
+              "fPort": 10,
+              "object": {
+                "move": null,
+                "bytes": [14, 0],
+                "light": null,
+                "activity": null,
+                "humidity": null,
+                "reed_count": null,
+                "reed_state": null,
+                "temperature": 2000,
+                "external_input": true,
+                "warmcoldthresh": false,
+                "battery_voltage": 50
+              },
+              "rxInfo": [
+                {
+                  "snr": 9.8,
+                  "rssi": -38,
+                  "nsTime": "2025-08-25T14:15:32.943414043+00:00",
+                  "channel": 6,
+                  "context": "cdJyvA==",
+                  "location": [],
+                  "uplinkId": 38165,
+                  "crcStatus": "CRC_OK",
+                  "gatewayId": "647fdafffe005960"
+                }
+              ],
+              "txInfo": {
+                "frequency": 903500000,
+                "modulation": {
+                  "lora": {
+                    "codeRate": "CR_4_5",
+                    "bandwidth": 125000,
+                    "spreadingFactor": 7
+                  }
+                }
+              },
+              "devAddr": "01cd9e9c",
+              "confirmed": false,
+              "deviceInfo": {
+                "tags": [],
+                "devEui": "sample_device_deveui",
+                "tenantId": "a8d41aeb-323b-42b4-be1f-e56b895215e1",
+                "deviceName": "holo test max-one-p new",
+                "tenantName": "ChirpStack",
+                "applicationId": "49e93702-cf83-4c3c-90d0-19a293dd0328",
+                "applicationName": "TEST HOLO ",
+                "deviceProfileId": "a2fbc345-7e70-4bd7-b284-f00e83d76b4d",
+                "deviceProfileName": "MAX-ONE-P",
+                "deviceClassEnabled": "CLASS_A"
+              },
+              "regionConfigId": "us915_0",
+              "deduplicationId": "0154198e-b6c1-4511-9f9b-4f8eace36437"
+            },
+            "token": "<redacted>",
+            "status": "normal",
+            "is_alert": false,
+            "received_at": "2026-09-18 14:10:05"
+          }
+        ],
+        "summary": {
+          "total": 2,
+          "alerts": 0,
+          "normal": 2
+        },
+        "pagination": {
+          "current_page": 1,
+          "per_page": 15,
+          "total": 2,
+          "last_page": 1,
+          "from": 1,
+          "to": 2,
+          "next_page_url": null,
+          "prev_page_url": null
+        }
+      }
+    }
+  },
+  "GET /widgets": {
+    "200": {
+      "success": true,
+      "message": "Widgets fetched successfully.",
+      "data": [
+        {
+          "id": 1920,
+          "dashboard_id": null,
+          "type": "Battery",
+          "x": null,
+          "y": null,
+          "w": null,
+          "h": null,
+          "created_by": 18555,
+          "created_at": "2026-09-18T17:13:30.000Z",
+          "updated_at": "2026-09-18T17:13:30.000Z"
+        },
+        {
+          "id": 1921,
+          "dashboard_id": null,
+          "type": "Battery",
+          "x": null,
+          "y": null,
+          "w": null,
+          "h": null,
+          "created_by": 18555,
+          "created_at": "2026-09-18T17:14:33.000Z",
+          "updated_at": "2026-09-18T17:14:33.000Z"
+        }
+      ]
+    }
+  },
+  "GET /widgets/{widget}": {
+    "200": {
+      "success": true,
+      "message": "Widget settings retrieved.",
+      "data": {
+        "id": 1605,
+        "widget_id": 1920,
+        "rule_id": 2458,
+        "widget_name": "productAttribute |Battery",
+        "settings": null,
+        "attributes": "object.battery_voltage",
+        "y_axis_label": null,
+        "device": 9425,
+        "data": null,
+        "unit": "V",
+        "icon": "humidity",
+        "decimal": null,
+        "show_timestamp": null,
+        "product": 11281,
+        "label": "Battery",
+        "background_color": "#ffffff",
+        "value_color": "#000000",
+        "text_color": "#000000",
+        "max_value": null,
+        "tank_type": null,
+        "graph_type": null,
+        "graph_interval": null,
+        "created_at": "2026-09-18T17:13:30.000Z",
+        "updated_at": "2026-09-18T17:13:30.000Z",
+        "device_name": "sample_device_deveui",
+        "product_name": "sample productt",
+        "widget_settings": [
+          {
+            "id": 1605,
+            "widget_id": 1920,
+            "rule_id": 2458,
+            "widget_name": "productAttribute |Battery",
+            "settings": null,
+            "attributes": "object.battery_voltage",
+            "y_axis_label": null,
+            "device": 9425,
+            "data": null,
+            "unit": "V",
+            "icon": "humidity",
+            "decimal": null,
+            "show_timestamp": null,
+            "product": 11281,
+            "label": "Battery",
+            "background_color": "#ffffff",
+            "value_color": "#000000",
+            "text_color": "#000000",
+            "max_value": null,
+            "tank_type": null,
+            "graph_type": null,
+            "graph_interval": null,
+            "created_at": "2026-09-18T17:13:30.000Z",
+            "updated_at": "2026-09-18T17:13:30.000Z",
+            "device_name": "sample_device_deveui",
+            "product_name": "sample productt"
+          }
+        ]
+      }
+    }
+  },
+  "GET /widget-settings": {
+    "200": {
+      "success": true,
+      "data": [
+        {
+          "id": 1605,
+          "widget_id": 1920,
+          "rule_id": 2458,
+          "widget_name": "productAttribute |Battery",
+          "settings": null,
+          "attributes": "object.battery_voltage",
+          "y_axis_label": null,
+          "device": "9425",
+          "data": null,
+          "unit": "V",
+          "icon": "humidity",
+          "decimal": null,
+          "show_timestamp": null,
+          "product": "11281",
+          "label": null,
+          "background_color": "#ffffff",
+          "value_color": "#000000",
+          "text_color": "#000000",
+          "max_value": null,
+          "tank_type": null,
+          "graph_type": null,
+          "graph_interval": null,
+          "created_at": "2026-09-18T17:13:30.000Z",
+          "updated_at": "2026-09-18T17:13:30.000Z"
+        },
+        {
+          "id": 1606,
+          "widget_id": 1921,
+          "rule_id": 2459,
+          "widget_name": "productAttribute |Battery",
+          "settings": null,
+          "attributes": "object.battery_voltage",
+          "y_axis_label": null,
+          "device": "9425",
+          "data": null,
+          "unit": "V",
+          "icon": "humidity",
+          "decimal": null,
+          "show_timestamp": null,
+          "product": "11281",
+          "label": null,
+          "background_color": "#ffffff",
+          "value_color": "#000000",
+          "text_color": "#000000",
+          "max_value": null,
+          "tank_type": null,
+          "graph_type": null,
+          "graph_interval": null,
+          "created_at": "2026-09-18T17:14:33.000Z",
+          "updated_at": "2026-09-18T17:14:33.000Z"
+        }
+      ]
+    }
+  },
+  "GET /widget-settings/{widgetSetting}": {
+    "200": {
+      "id": 1605,
+      "widget_id": 1920,
+      "rule_id": 2458,
+      "widget_name": "productAttribute |Battery",
+      "settings": null,
+      "attributes": "object.battery_voltage",
+      "y_axis_label": null,
+      "device": "9425",
+      "data": null,
+      "unit": "V",
+      "icon": "humidity",
+      "decimal": null,
+      "show_timestamp": null,
+      "product": "11281",
+      "label": null,
+      "background_color": "#ffffff",
+      "value_color": "#000000",
+      "text_color": "#000000",
+      "max_value": null,
+      "tank_type": null,
+      "graph_type": null,
+      "graph_interval": null,
+      "created_at": "2026-09-18T17:13:30.000Z",
+      "updated_at": "2026-09-18T17:13:30.000Z"
+    }
+  },
+  "GET /assets": {
+    "200": {
+      "success": true,
+      "assets": [
+        {
+          "id": 2013,
+          "asset_id": 2013,
+          "name": "bg",
+          "type": "BuildingIcon",
+          "icon": "BuildingIcon",
+          "description": null,
+          "created_at": "2026-09-18T19:36:28.000Z",
+          "updated_at": "2026-09-18T19:36:28.000Z",
+          "children": [
+            {
+              "id": 3387,
+              "asset_id": 2013,
+              "name": "flor1",
+              "icon": "BuildingIcon",
+              "component_type": null,
+              "device_id": null,
+              "product_id": null,
+              "inventory_check": 0,
+              "parent_id": null,
+              "floor_plan_id": null,
+              "position_x": null,
+              "position_y": null,
+              "created_at": "2026-09-18T19:36:39.000Z",
+              "updated_at": "2026-09-18T19:36:39.000Z",
+              "latest_device_values": null,
+              "children": [
+                {
+                  "id": 3388,
+                  "asset_id": 2013,
+                  "name": "asset1",
+                  "icon": "BuildingIcon",
+                  "component_type": null,
+                  "device_id": null,
+                  "product_id": null,
+                  "inventory_check": 0,
+                  "parent_id": 3387,
+                  "floor_plan_id": null,
+                  "position_x": null,
+                  "position_y": null,
+                  "created_at": "2026-09-18T19:36:50.000Z",
+                  "updated_at": "2026-09-18T19:36:50.000Z",
+                  "latest_device_values": null,
+                  "children": [
+                    {
+                      "id": 3389,
+                      "asset_id": 2013,
+                      "name": "site",
+                      "icon": "BuildingIcon",
+                      "component_type": null,
+                      "device_id": 9425,
+                      "product_id": 11281,
+                      "inventory_check": 1,
+                      "parent_id": 3388,
+                      "floor_plan_id": 570,
+                      "position_x": 0.52987,
+                      "position_y": 0.40716,
+                      "created_at": "2026-09-18T19:37:12.000Z",
+                      "updated_at": "2026-09-18T22:27:17.000Z",
+                      "latest_device_values": null,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "GET /assets/{id}/status-summary": {
+    "200": {
+      "success": true,
+      "id": "2013",
+      "alerts_count": 0,
+      "alerts_last_24h": 0,
+      "online_devices": 0,
+      "offline_devices": 1
+    }
+  },
+  "GET /assets/{id}": {
+    "200": {
+      "success": true,
+      "asset": {
+        "id": "2013",
+        "asset_id": "2013",
+        "name": "bg",
+        "type": "BuildingIcon",
+        "icon": "BuildingIcon",
+        "description": null,
+        "created_at": "2026-09-18T19:36:28.000Z",
+        "updated_at": "2026-09-18T19:36:28.000Z",
+        "children": [
+          {
+            "id": "3387",
+            "asset_id": "2013",
+            "name": "flor1",
+            "icon": "BuildingIcon",
+            "component_type": null,
+            "device_id": null,
+            "product_id": null,
+            "inventory_check": false,
+            "parent_id": null,
+            "floor_plan_id": null,
+            "position_x": null,
+            "position_y": null,
+            "created_at": "2026-09-18T19:36:39.000Z",
+            "updated_at": "2026-09-18T19:36:39.000Z",
+            "latest_device_values": null,
+            "is_alert": false,
+            "alert_attributes": [],
+            "children": [
+              {
+                "id": "3388",
+                "asset_id": "2013",
+                "name": "asset1",
+                "icon": "BuildingIcon",
+                "component_type": null,
+                "device_id": null,
+                "product_id": null,
+                "inventory_check": false,
+                "parent_id": "3387",
+                "floor_plan_id": null,
+                "position_x": null,
+                "position_y": null,
+                "created_at": "2026-09-18T19:36:50.000Z",
+                "updated_at": "2026-09-18T19:36:50.000Z",
+                "latest_device_values": null,
+                "is_alert": false,
+                "alert_attributes": [],
+                "children": [
+                  {
+                    "id": "3389",
+                    "asset_id": "2013",
+                    "name": "site",
+                    "icon": "BuildingIcon",
+                    "component_type": null,
+                    "device_id": "9425",
+                    "product_id": "11281",
+                    "inventory_check": true,
+                    "parent_id": "3388",
+                    "floor_plan_id": "570",
+                    "position_x": 0.52987,
+                    "position_y": 0.40716,
+                    "created_at": "2026-09-18T19:37:12.000Z",
+                    "updated_at": "2026-09-18T22:27:17.000Z",
+                    "latest_device_values": null,
+                    "is_alert": false,
+                    "alert_attributes": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alerts_count": 0
+      }
+    }
+  },
+  "GET /floor-plans/building/{assetId}": {
+    "200": {
+      "success": true,
+      "message": "Building floor plans retrieved.",
+      "data": [
+        {
+          "id": "570",
+          "asset_component_id": "3388",
+          "floor_level": 0,
+          "url": "https://pub-d72d0b952b204e3794beba294128e356.r2.dev/floor-plans/fc98f59e-f8af-43d0-8491-93cf03b30f66.webp",
+          "width_px": 800,
+          "height_px": 619,
+          "positioned_components": [
+            {
+              "id": "3389",
+              "name": "site",
+              "icon": "BuildingIcon",
+              "component_type": null,
+              "device_id": "9425",
+              "position_x": 0.52987,
+              "position_y": 0.40716,
+              "active_alarm": null
+            }
+          ],
+          "device_count": 1,
+          "online_count": 1,
+          "active_alarm_count": 0
+        }
+      ]
+    }
+  },
+  "GET /vehicles": {
+    "200": {
+      "success": true,
+      "message": "Vehicles retrieved successfully.",
+      "data": [
+        {
+          "id": "4758",
+          "company_id": "23595",
+          "name": "fke",
+          "vehicle_category": "cde",
+          "make": "cd",
+          "model": "cdv",
+          "plate": null,
+          "vin": null,
+          "year": null,
+          "fuel_type": null,
+          "tank_capacity_liters": null,
+          "odometer_km": null,
+          "ownership_type": null,
+          "cost_centre": null,
+          "lifecycle_status": "active",
+          "acquisition_date": null,
+          "acquisition_cost": null,
+          "length_m": null,
+          "width_m": null,
+          "height_m": null,
+          "gross_weight_kg": null,
+          "payload_kg": null,
+          "image_path": null,
+          "image_url": null,
+          "created_at": "2026-09-18T21:05:23.000Z",
+          "updated_at": "2026-09-18T21:05:23.000Z",
+          "current_device_assignment": null,
+          "current_driver_assignment": {
+            "id": "945",
+            "driver_id": "2631",
+            "vehicle_id": "4758",
+            "assigned_at": "2026-09-18T21:06:21.000Z",
+            "unassigned_at": null,
+            "driver": {
+              "id": "2631",
+              "first_name": "lckid",
+              "last_name": "oijmcie"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "GET /vehicles/{id}/assignment-history": {
+    "200": {
+      "success": true,
+      "message": "Assignment history retrieved successfully.",
+      "data": {
+        "vehicle": {
+          "id": "4758",
+          "name": "fke",
+          "plate": null
+        },
+        "summary": {
+          "total_assignments": 1,
+          "active_assignment": true,
+          "total_days_in_service": 0,
+          "unique_drivers": 1,
+          "total_trips": 1,
+          "total_distance_km": 2
+        },
+        "history": {
+          "current_page": 1,
+          "data": [
+            {
+              "id": "945",
+              "driver_id": "2631",
+              "vehicle_id": "4758",
+              "assigned_at": "2026-09-18T21:06:21.000Z",
+              "unassigned_at": null,
+              "assigned_by": {
+                "id": "18555",
+                "first_name": "Nuzzi",
+                "last_name": "Developer22"
+              },
+              "unassigned_by": null,
+              "notes": null,
+              "trip_count": 1,
+              "distance_km": 2,
+              "created_at": "2026-09-18T21:06:21.000Z",
+              "updated_at": "2026-09-18T21:09:10.000Z",
+              "is_active": true,
+              "duration_days": null,
+              "driver": {
+                "id": "2631",
+                "first_name": "lckid",
+                "last_name": "oijmcie",
+                "license_number": "iojc",
+                "license_class": "ijc"
+              }
+            }
+          ],
+          "first_page_url": "http://localhost:8090/api/vehicles/4758/assignment-history?page=1",
+          "from": 1,
+          "last_page": 1,
+          "last_page_url": "http://localhost:8090/api/vehicles/4758/assignment-history?page=1",
+          "links": [
+            {
+              "url": null,
+              "label": "&laquo; Previous",
+              "active": false
+            },
+            {
+              "url": "http://localhost:8090/api/vehicles/4758/assignment-history?page=1",
+              "label": "1",
+              "active": true
+            }
+          ],
+          "next_page_url": null,
+          "path": "http://localhost:8090/api/vehicles/4758/assignment-history",
+          "per_page": 20,
+          "prev_page_url": null,
+          "to": 1,
+          "total": 1
+        }
+      }
+    }
+  },
+  "GET /vehicles/{id}": {
+    "200": {
+      "success": true,
+      "message": "Vehicle retrieved successfully.",
+      "data": {
+        "vehicle": {
+          "id": "4758",
+          "company_id": "23595",
+          "name": "fke",
+          "vehicle_category": "cde",
+          "make": "cd",
+          "model": "cdv",
+          "plate": null,
+          "vin": null,
+          "year": null,
+          "fuel_type": null,
+          "tank_capacity_liters": null,
+          "odometer_km": null,
+          "ownership_type": null,
+          "cost_centre": null,
+          "lifecycle_status": "active",
+          "acquisition_date": null,
+          "acquisition_cost": null,
+          "length_m": null,
+          "width_m": null,
+          "height_m": null,
+          "gross_weight_kg": null,
+          "payload_kg": null,
+          "image_path": null,
+          "image_url": null,
+          "created_at": "2026-09-18T21:05:23.000Z",
+          "updated_at": "2026-09-18T21:05:23.000Z",
+          "current_device_assignment": null,
+          "current_driver_assignment": {
+            "id": "945",
+            "driver_id": "2631",
+            "vehicle_id": "4758",
+            "assigned_at": "2026-09-18T21:06:21.000Z",
+            "unassigned_at": null,
+            "driver": {
+              "id": "2631",
+              "first_name": "lckid",
+              "last_name": "oijmcie"
+            }
+          }
+        },
+        "current_position": null,
+        "stats": {
+          "distance_km_7d": null,
+          "distance_km_30d": null,
+          "avg_speed_kmh_7d": null,
+          "max_speed_kmh_7d": null
+        },
+        "maintenance_schedules": [
+          {
+            "id": "349",
+            "vehicle_id": "4758",
+            "service_type": "cd",
+            "interval_days": 2,
+            "interval_km": null,
+            "last_service_date": "2020-01-01T00:00:00.000Z",
+            "odometer_baseline_km": null,
+            "odometer_baseline_date": null,
+            "last_service_odometer_km": null,
+            "created_at": "2026-09-18T21:06:59.000Z",
+            "updated_at": "2026-09-18T21:06:59.000Z"
+          }
+        ],
+        "maintenance_logs": [],
+        "fuel_logs": [],
+        "fuel_economy": {
+          "economy": null,
+          "unit": null,
+          "pairs_used": 0
+        },
+        "yard_history": [],
+        "driver_assignment_history": [
+          {
+            "id": "945",
+            "driver_id": "2631",
+            "vehicle_id": "4758",
+            "assigned_at": "2026-09-18T21:06:21.000Z",
+            "unassigned_at": null,
+            "assigned_by": {
+              "id": "18555",
+              "first_name": "Nuzzi",
+              "last_name": "Developer22"
+            },
+            "unassigned_by": null,
+            "notes": null,
+            "trip_count": 1,
+            "distance_km": 2,
+            "created_at": "2026-09-18T21:06:21.000Z",
+            "updated_at": "2026-09-18T21:09:10.000Z",
+            "is_active": true,
+            "duration_days": null,
+            "driver": {
+              "id": "2631",
+              "first_name": "lckid",
+              "last_name": "oijmcie",
+              "license_number": "iojc",
+              "license_class": "ijc",
+              "license_expiry_date": "2025-02-02T00:00:00.000Z"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "GET /drivers": {
+    "200": {
+      "success": true,
+      "message": "Drivers retrieved successfully.",
+      "data": [
+        {
+          "id": "2631",
+          "company_id": "23595",
+          "first_name": "lckid",
+          "last_name": "oijmcie",
+          "email": null,
+          "phone": null,
+          "license_number": "iojc",
+          "license_class": "ijc",
+          "license_expiry_date": "2025-02-02T00:00:00.000Z",
+          "status": "active",
+          "employment_status": null,
+          "availability_status": null,
+          "certifications": null,
+          "payroll_reference": null,
+          "hire_date": null,
+          "photo_path": null,
+          "created_at": "2026-09-18T21:05:56.000Z",
+          "updated_at": "2026-09-18T21:05:56.000Z",
+          "is_license_expired": true,
+          "is_license_expiring_soon": false,
+          "current_assignment": {
+            "id": "945",
+            "driver_id": "2631",
+            "vehicle_id": "4758",
+            "assigned_at": "2026-09-18T21:06:21.000Z",
+            "unassigned_at": null,
+            "vehicle": {
+              "id": "4758",
+              "name": "fke",
+              "vehicle_category": "cde",
+              "lifecycle_status": "active"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "GET /drivers/{id}/assignment-history": {
+    "200": {
+      "success": true,
+      "message": "Assignment history retrieved successfully.",
+      "data": {
+        "driver": {
+          "id": "2631",
+          "name": "lckid oijmcie"
+        },
+        "summary": {
+          "total_assignments": 1,
+          "active_assignment": true,
+          "total_days_assigned": 0,
+          "unique_vehicles_driven": 1,
+          "total_trips": 1,
+          "total_distance_km": 2
+        },
+        "history": {
+          "current_page": 1,
+          "data": [
+            {
+              "id": "945",
+              "driver_id": "2631",
+              "vehicle_id": "4758",
+              "assigned_at": "2026-09-18T21:06:21.000Z",
+              "unassigned_at": null,
+              "assigned_by": {
+                "id": "18555",
+                "first_name": "Nuzzi",
+                "last_name": "Developer22"
+              },
+              "unassigned_by": null,
+              "notes": null,
+              "trip_count": 1,
+              "distance_km": 2,
+              "created_at": "2026-09-18T21:06:21.000Z",
+              "updated_at": "2026-09-18T21:09:10.000Z",
+              "is_active": true,
+              "duration_days": null,
+              "vehicle": {
+                "id": "4758",
+                "name": "fke",
+                "vehicle_category": "cde",
+                "plate": null,
+                "make": "cd",
+                "model": "cdv"
+              }
+            }
+          ],
+          "first_page_url": "http://localhost:8090/api/drivers/2631/assignment-history?page=1",
+          "from": 1,
+          "last_page": 1,
+          "last_page_url": "http://localhost:8090/api/drivers/2631/assignment-history?page=1",
+          "links": [
+            {
+              "url": null,
+              "label": "&laquo; Previous",
+              "active": false
+            },
+            {
+              "url": "http://localhost:8090/api/drivers/2631/assignment-history?page=1",
+              "label": "1",
+              "active": true
+            }
+          ],
+          "next_page_url": null,
+          "path": "http://localhost:8090/api/drivers/2631/assignment-history",
+          "per_page": 20,
+          "prev_page_url": null,
+          "to": 1,
+          "total": 1
+        }
+      }
+    }
+  },
+  "GET /drivers/{id}": {
+    "200": {
+      "success": true,
+      "message": "Driver retrieved successfully.",
+      "data": {
+        "id": "2631",
+        "company_id": "23595",
+        "first_name": "lckid",
+        "last_name": "oijmcie",
+        "email": null,
+        "phone": null,
+        "license_number": "iojc",
+        "license_class": "ijc",
+        "license_expiry_date": "2025-02-02T00:00:00.000Z",
+        "status": "active",
+        "employment_status": null,
+        "availability_status": null,
+        "certifications": null,
+        "payroll_reference": null,
+        "hire_date": null,
+        "photo_path": null,
+        "created_at": "2026-09-18T21:05:56.000Z",
+        "updated_at": "2026-09-18T21:05:56.000Z",
+        "is_license_expired": true,
+        "is_license_expiring_soon": false,
+        "current_assignment": {
+          "id": "945",
+          "driver_id": "2631",
+          "vehicle_id": "4758",
+          "assigned_at": "2026-09-18T21:06:21.000Z",
+          "unassigned_at": null,
+          "vehicle": {
+            "id": "4758",
+            "name": "fke",
+            "vehicle_category": "cde",
+            "lifecycle_status": "active"
+          }
+        },
+        "incidents": [],
+        "recent_assignments": [
+          {
+            "id": "945",
+            "driver_id": "2631",
+            "vehicle_id": "4758",
+            "assigned_at": "2026-09-18T21:06:21.000Z",
+            "unassigned_at": null,
+            "assigned_by": {
+              "id": "18555",
+              "first_name": "Nuzzi",
+              "last_name": "Developer22"
+            },
+            "unassigned_by": null,
+            "notes": null,
+            "trip_count": 1,
+            "distance_km": 2,
+            "created_at": "2026-09-18T21:06:21.000Z",
+            "updated_at": "2026-09-18T21:09:10.000Z",
+            "is_active": true,
+            "duration_days": null,
+            "vehicle": {
+              "id": "4758",
+              "name": "fke",
+              "vehicle_category": "cde",
+              "plate": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "GET /assignment-history": {
+    "200": {
+      "success": true,
+      "message": "Assignment history retrieved successfully.",
+      "data": {
+        "current_page": 1,
+        "data": [
+          {
+            "id": "945",
+            "driver_id": "2631",
+            "vehicle_id": "4758",
+            "assigned_at": "2026-09-18T21:06:21.000Z",
+            "unassigned_at": null,
+            "assigned_by": {
+              "id": "18555",
+              "first_name": "Nuzzi",
+              "last_name": "Developer22"
+            },
+            "unassigned_by": null,
+            "notes": null,
+            "trip_count": 1,
+            "distance_km": 2,
+            "created_at": "2026-09-18T21:06:21.000Z",
+            "updated_at": "2026-09-18T21:09:10.000Z",
+            "is_active": true,
+            "duration_days": null,
+            "driver": {
+              "id": "2631",
+              "first_name": "lckid",
+              "last_name": "oijmcie",
+              "license_number": "iojc"
+            },
+            "vehicle": {
+              "id": "4758",
+              "name": "fke",
+              "vehicle_category": "cde",
+              "plate": null
+            }
+          }
+        ],
+        "first_page_url": "http://localhost:8090/api/assignment-history?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/assignment-history?page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/assignment-history?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/assignment-history",
+        "per_page": 20,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+      }
+    }
+  },
+  "GET /trips": {
+    "200": {
+      "success": true,
+      "message": "Trips retrieved successfully.",
+      "data": {
+        "current_page": 1,
+        "data": [
+          {
+            "id": "1174",
+            "company_id": "23595",
+            "vehicle_id": "4758",
+            "driver_id": "2631",
+            "device_id": null,
+            "fleet_customer_id": null,
+            "trip_reference": "fd3",
+            "purpose": "delivery",
+            "status": "completed",
+            "origin_address": "lahore",
+            "origin_latitude": 3,
+            "origin_longitude": 3,
+            "destination_address": "sahiwal",
+            "destination_latitude": 3,
+            "destination_longitude": 4,
+            "planned_start_at": null,
+            "planned_end_at": null,
+            "actual_start_at": "2026-09-18T21:08:57.000Z",
+            "actual_end_at": "2026-09-18T21:09:10.000Z",
+            "planned_distance_km": 5,
+            "actual_distance_km": 2,
+            "actual_duration_minutes": 0.22,
+            "fuel_used_liters": 9,
+            "odometer_start_km": 7,
+            "odometer_end_km": 9,
+            "notes": "dfe",
+            "cancellation_reason": null,
+            "created_by": "18555",
+            "created_at": "2026-09-18T21:08:51.000Z",
+            "updated_at": "2026-09-18T21:09:10.000Z",
+            "vehicle": {
+              "id": "4758",
+              "name": "fke"
+            },
+            "driver": {
+              "id": "2631",
+              "first_name": "lckid",
+              "last_name": "oijmcie"
+            },
+            "customer": null
+          }
+        ],
+        "first_page_url": "http://localhost:8090/api/trips?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/trips?page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/trips?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/trips",
+        "per_page": 20,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+      }
+    }
+  },
+  "GET /trips/{id}": {
+    "200": {
+      "success": true,
+      "message": "Trip retrieved successfully.",
+      "data": {
+        "id": "1174",
+        "company_id": "23595",
+        "vehicle_id": "4758",
+        "driver_id": "2631",
+        "device_id": null,
+        "fleet_customer_id": null,
+        "trip_reference": "fd3",
+        "purpose": "delivery",
+        "status": "completed",
+        "origin_address": "lahore",
+        "origin_latitude": 3,
+        "origin_longitude": 3,
+        "destination_address": "sahiwal",
+        "destination_latitude": 3,
+        "destination_longitude": 4,
+        "planned_start_at": null,
+        "planned_end_at": null,
+        "actual_start_at": "2026-09-18T21:08:57.000Z",
+        "actual_end_at": "2026-09-18T21:09:10.000Z",
+        "planned_distance_km": 5,
+        "actual_distance_km": 2,
+        "actual_duration_minutes": 0.22,
+        "fuel_used_liters": 9,
+        "odometer_start_km": 7,
+        "odometer_end_km": 9,
+        "notes": "dfe",
+        "cancellation_reason": null,
+        "created_by": "18555",
+        "created_at": "2026-09-18T21:08:51.000Z",
+        "updated_at": "2026-09-18T21:09:10.000Z",
+        "vehicle": {
+          "id": "4758",
+          "name": "fke",
+          "vehicle_category": "cde",
+          "make": "cd",
+          "model": "cdv"
+        },
+        "driver": {
+          "id": "2631",
+          "first_name": "lckid",
+          "last_name": "oijmcie",
+          "license_number": "iojc"
+        },
+        "device": null,
+        "customer": null,
+        "created_by_user": {
+          "id": "18555",
+          "first_name": "Nuzzi",
+          "last_name": "Developer22"
+        },
+        "planned_yards": [
+          {
+            "id": "252",
+            "trip_id": "1174",
+            "yard_id": "1320",
+            "sequence": 1,
+            "stop_purpose": "fd",
+            "planned_arrival_at": null,
+            "planned_departure_at": null,
+            "actual_arrival_at": null,
+            "actual_departure_at": null,
+            "dwell_time_minutes": null,
+            "actual_source": null,
+            "status": "planned",
+            "notes": null,
+            "yard": {
+              "id": "1320",
+              "name": "yard 1",
+              "address": null,
+              "latitude": null,
+              "longitude": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "GET /geofences": {
+    "200": {
+      "success": true,
+      "message": "Geofences retrieved successfully.",
+      "data": []
+    }
+  },
+  "GET /geofences/events": {
+    "200": {
+      "success": true,
+      "message": "Geofence events retrieved successfully.",
+      "data": []
+    }
+  },
+  "GET /yards": {
+    "200": {
+      "success": true,
+      "message": "Yards retrieved.",
+      "data": [
+        {
+          "id": "1320",
+          "company_id": "23595",
+          "name": "yard 1",
+          "address": null,
+          "latitude": null,
+          "longitude": null,
+          "created_at": "2026-09-18T21:07:29.000Z",
+          "updated_at": "2026-09-18T21:07:29.000Z",
+          "slots_count": 0
+        }
+      ]
+    }
+  },
+  "GET /yards/{id}": {
+    "200": {
+      "success": true,
+      "message": "Yard retrieved.",
+      "data": {
+        "id": "1320",
+        "company_id": "23595",
+        "name": "yard 1",
+        "address": null,
+        "latitude": null,
+        "longitude": null,
+        "created_at": "2026-09-18T21:07:29.000Z",
+        "updated_at": "2026-09-18T21:07:29.000Z",
+        "layout": null,
+        "slots": []
+      }
+    }
+  },
+  "GET /compliance-documents/expiring-soon": {
+    "200": {
+      "success": true,
+      "message": "Expiring documents retrieved.",
+      "data": []
+    }
+  },
+  "GET /fleet/dashboard": {
+    "200": {
+      "success": true,
+      "meta": {
+        "from": "2026-09-21",
+        "to": "2026-09-21",
+        "generated_at": "2026-09-21T12:17:55.942Z"
+      },
+      "data": {
+        "fleet_status": {
+          "total": 1,
+          "moving": 0,
+          "idle": 0,
+          "parked": 0,
+          "offline": 1,
+          "unknown": 1,
+          "active_trips": 0
+        },
+        "trips": {
+          "total": 0,
+          "completed": 0,
+          "in_progress": 0,
+          "cancelled": 0,
+          "planned": 0,
+          "planned_distance_km": 0,
+          "actual_distance_km": 0,
+          "distance_variance_km": 0,
+          "on_time_pct": null,
+          "avg_duration_minutes": null
+        },
+        "alerts": {
+          "total": 0,
+          "critical": 0,
+          "warning": 0,
+          "info": 0,
+          "offline_vehicles": 1,
+          "expiring_documents": 0,
+          "expiring_driver_licences": 0
+        },
+        "utilisation": {
+          "rate": 0,
+          "driving_hours": 0,
+          "idle_hours": 0,
+          "parked_hours": 24,
+          "distance_km": 0,
+          "available_hours": 24
+        },
+        "fuel": {
+          "used_liters": 0,
+          "total_cost": 0,
+          "average_efficiency_km_per_liter": null,
+          "cost_per_km": null,
+          "idle_fuel_liters": null
+        },
+        "financial": {
+          "revenue": null,
+          "total_cost": 0,
+          "profit": null,
+          "margin": null,
+          "outstanding": null,
+          "overdue": null,
+          "cost_breakdown": {
+            "fuel": 0,
+            "maintenance": null,
+            "driver": null,
+            "tolls": null,
+            "other": null
+          },
+          "_note": "revenue, profit and payment data will be populated once the billing module is integrated."
+        }
+      }
+    }
+  },
+  "GET /fleet/dashboard/trends": {
+    "200": {
+      "success": true,
+      "meta": {
+        "from": "2026-08-23",
+        "to": "2026-09-21",
+        "interval": "day",
+        "generated_at": "2026-09-21T12:17:55.990Z"
+      },
+      "data": {
+        "utilisation": [
+          {
+            "date": "2026-08-23",
+            "rate": 0,
+            "hours": 0
+          },
+          {
+            "date": "2026-08-24",
+            "rate": 0,
+            "hours": 0
+          }
+        ],
+        "distance": [
+          {
+            "date": "2026-08-23",
+            "km": 0
+          },
+          {
+            "date": "2026-08-24",
+            "km": 0
+          }
+        ],
+        "fuel": [
+          {
+            "date": "2026-08-23",
+            "liters": 0,
+            "cost": 0
+          },
+          {
+            "date": "2026-08-24",
+            "liters": 0,
+            "cost": 0
+          }
+        ],
+        "trips": [
+          {
+            "date": "2026-08-23",
+            "total": 0,
+            "completed": 0,
+            "cancelled": 0
+          },
+          {
+            "date": "2026-08-24",
+            "total": 0,
+            "completed": 0,
+            "cancelled": 0
+          }
+        ]
+      }
+    }
+  },
+  "GET /fleet/dashboard/vehicle-performance": {
+    "200": {
+      "success": true,
+      "meta": {
+        "from": "2026-09-21",
+        "to": "2026-09-21",
+        "sort": "utilisation_rate",
+        "direction": "desc",
+        "generated_at": "2026-09-21T12:17:55.996Z"
+      },
+      "data": [
+        {
+          "vehicle_id": "4758",
+          "vehicle_name": "fke",
+          "plate": null,
+          "distance_km": 0,
+          "driving_hours": 0,
+          "idle_hours": 0,
+          "utilisation_rate": 0,
+          "trip_count": 0,
+          "fuel_used_liters": 0,
+          "fuel_efficiency": null,
+          "fuel_cost": 0
+        }
+      ]
+    }
+  },
+  "GET /fleet/dashboard/alerts": {
+    "200": {
+      "success": true,
+      "meta": {
+        "generated_at": "2026-09-21T12:17:56.001Z",
+        "total": 0
+      },
+      "data": []
+    }
+  },
+  "GET /fleet/dashboard/financial": {
+    "200": {
+      "success": true,
+      "meta": {
+        "from": "2026-09-21",
+        "to": "2026-09-21",
+        "generated_at": "2026-09-21T12:17:56.008Z"
+      },
+      "data": {
+        "revenue": null,
+        "total_cost": 0,
+        "profit": null,
+        "margin": null,
+        "outstanding": null,
+        "overdue": null,
+        "cost_breakdown": {
+          "fuel": 0,
+          "maintenance": null,
+          "driver": null,
+          "tolls": null,
+          "other": null
+        },
+        "_note": "revenue, profit and payment data will be populated once the billing module is integrated."
+      }
+    }
+  },
+  "GET /fleet-customers": {
+    "200": {
+      "success": true,
+      "message": "Customers retrieved.",
+      "data": []
+    }
+  },
+  "GET /billing/gateways": {
+    "200": {
+      "success": true,
+      "data": [
+        {
+          "name": "manual",
+          "label": "Manual (cash / bank transfer / cheque)",
+          "supports_charge": true,
+          "supports_hosted_page": false,
+          "supports_refunds": false,
+          "supports_webhooks": false,
+          "supports_polling": false
+        }
+      ]
+    }
+  },
+  "GET /billing/billable-events": {
+    "200": {
+      "success": true,
+      "data": []
+    }
+  },
+  "GET /billing/invoices": {
+    "200": {
+      "success": true,
+      "data": {
+        "current_page": 1,
+        "data": [],
+        "first_page_url": "http://localhost:8090/api/billing/invoices?page=1",
+        "from": null,
+        "last_page": 1,
+        "last_page_url": "http://localhost:8090/api/billing/invoices?page=1",
+        "links": [
+          {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+          },
+          {
+            "url": "http://localhost:8090/api/billing/invoices?page=1",
+            "label": "1",
+            "active": true
+          }
+        ],
+        "next_page_url": null,
+        "path": "http://localhost:8090/api/billing/invoices",
+        "per_page": 20,
+        "prev_page_url": null,
+        "to": null,
+        "total": 0
+      }
+    }
+  },
+  "GET /fleet/positions": {
+    "200": {
+      "success": true,
+      "message": "Fleet positions retrieved successfully.",
+      "data": []
+    }
+  },
+  "GET /plans": {
+    "200": [
+      {
+        "id": 393,
+        "name": "Full Access (Placeholder)",
+        "stripe_plan": "placeholder-full-access",
+        "price": "0",
+        "description": "Auto-provisioned placeholder plan granting every module. Real multi-tier billing is not yet authorized (DECISIONS.md D-0080) — every subscriber lands on this single plan until then.",
+        "modules": [
+          {
+            "id": 1514,
+            "code": "product",
+            "slug": "product",
+            "permissions": []
+          },
+          {
+            "id": 1515,
+            "code": "dashboard",
+            "slug": "dashboard",
+            "permissions": []
+          }
+        ],
+        "created_at": "2026-09-16T14:31:03.000Z",
+        "updated_at": "2026-09-16T14:31:03.000Z"
+      }
+    ]
+  },
+  "GET /plans/{plan}": {
+    "200": {
+      "id": 393,
+      "name": "Full Access (Placeholder)",
+      "stripe_plan": "placeholder-full-access",
+      "price": "0",
+      "description": "Auto-provisioned placeholder plan granting every module. Real multi-tier billing is not yet authorized (DECISIONS.md D-0080) — every subscriber lands on this single plan until then.",
+      "modules": [
+        {
+          "id": 1514,
+          "code": "product",
+          "slug": "product",
+          "permissions": []
+        },
+        {
+          "id": 1515,
+          "code": "dashboard",
+          "slug": "dashboard",
+          "permissions": []
+        }
+      ],
+      "created_at": "2026-09-16T14:31:03.000Z",
+      "updated_at": "2026-09-16T14:31:03.000Z"
+    }
+  },
+  "GET /notifications": {
+    "200": []
+  },
+  "GET /settings/user": {
+    "200": {
+      "message": "Settings fetched successfully.",
+      "success": true,
+      "data": [
+        {
+          "id": 58,
+          "user_id": 18555,
+          "locale": "en",
+          "created_at": "2026-09-17T10:44:59.000Z",
+          "updated_at": "2026-09-18T22:36:27.000Z"
+        }
+      ]
+    }
+  },
+  "GET /connectors/health": {
+    "200": {
+      "success": true,
+      "message": "Connector health retrieved.",
+      "data": {
+        "mqtt": {
+          "connector_id": "mqtt-central",
+          "runtime_id": "central",
+          "state": "stopped",
+          "connected": false,
+          "last_message_at": null,
+          "messages_received_total": 0,
+          "messages_sent_total": 0,
+          "errors_total": 0,
+          "reconnects_total": 0,
+          "queue_depth": 0,
+          "reported_at": "2026-09-21T12:17:56.102Z",
+          "capabilities": {
+            "supports_discovery": false,
+            "supports_read": true,
+            "supports_write": true,
+            "is_push_based": true
+          }
+        },
+        "webhook": {
+          "connector_id": "webhook-central",
+          "runtime_id": "central",
+          "state": "running",
+          "connected": true,
+          "last_message_at": "2026-09-18T15:18:53.000Z",
+          "messages_received_total": 2,
+          "messages_sent_total": 0,
+          "errors_total": 0,
+          "reconnects_total": 0,
+          "queue_depth": 0,
+          "reported_at": "2026-09-21T12:17:56.102Z",
+          "capabilities": {
+            "supports_discovery": false,
+            "supports_read": true,
+            "supports_write": false,
+            "is_push_based": true
+          }
+        }
+      }
+    }
+  },
+  "GET /mqtt-configurations": {
+    "200": {
+      "success": true,
+      "message": "MQTT configurations fetched successfully",
+      "data": []
+    }
+  }
+}

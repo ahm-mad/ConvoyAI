@@ -1,0 +1,91 @@
+{
+  "info": {
+    "description": "Contract for the ConvoyAI Node/TypeScript backend, as consumed by the web frontend.\n\n**This file is generated from the code** (`npm run openapi:write` in `node-backend/`) and verified in CI (`npm run openapi:check`). Route set, auth guards, request schemas, error messages and response shapes are all derived from the running code, so what is written here is what the server does. The human-readable companion with the realtime (Socket.IO) API, conventions, known gaps and quirks is `API_CONTRACT.md` (same folder).\n\n## Conventions\n- **Base URL:** every path is relative to `/api` (e.g. `POST /api/login`). Unversioned; the contract version is `info.version`.\n- **Auth:** `Authorization: Bearer <token>`; `token` from `POST /login` (identical to `access_token`), valid **7 days**. Operations marked `x-auth: public` need no token. `x-required-roles` / `x-required-permissions` list the guard on the operation (checked against the roles/permissions embedded in the token at login).\n- **Envelope:** almost every response is `{ \"success\": boolean, \"message\"?: string, ...payload }`. Errors are `{ \"success\": false, \"message\": string, \"errors\"?: { field: string[] } }`. Validation failures are HTTP **422**, unauthenticated **401**, forbidden **403**, missing **404**, unexpected **500** (`\"Internal server error\"`, never any detail).\n- **Some business \"failures\" are HTTP 200 with `success:false`** (a Laravel-parity quirk the frontend relies on); such variants appear as an `anyOf` branch of the 200 response.\n- **Ids are JSON integers** everywhere except the operations annotated `x-quirks` (a few asset endpoints still emit string ids).\n- **Timestamps** come in two formats depending on the endpoint: ISO-8601 (`2026-09-21T12:00:00.000Z`, `format: date-time`) and Laravel's `Y-m-d H:i:s` (`x-format`). Each schema says which.\n- **Pagination** has three styles: the Laravel paginator (`current_page`, `data`, `links`, …), a custom `{ items, pagination }`, and the offset-style `page` on `GET /products` (see that operation).\n- **Requests are lenient like Laravel's:** numeric strings are accepted for ids, `\"0\"`/`\"1\"`/`0`/`1` for booleans, `\"\"` becomes `null`, unknown keys are ignored. The request schemas below already express these unions.\n- **Response shape provenance:** `x-shape-source: typescript` = derived from the handler's return type; `curated` = hand-written override. A property with no `type` is one whose value type the code does not establish (`any`/JSON).\n- **Not covered here:** realtime events (Socket.IO) and operations that are not implemented — see `API_CONTRACT.md` (same folder)."
+  },
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Login, registration, verification, password reset, Google popup login, token refresh/logout."
+    },
+    {
+      "name": "users",
+      "description": "Profile, members, settings."
+    },
+    {
+      "name": "rbac",
+      "description": "Companies, roles, permissions, modules."
+    },
+    {
+      "name": "products",
+      "description": "Products, product settings, attribute preferences, preconfigure templates, ingestion tokens."
+    },
+    {
+      "name": "devices",
+      "description": "Devices, commands, user devices."
+    },
+    {
+      "name": "peripheral",
+      "description": "Ingestion webhook, protocols and MQTT configurations."
+    },
+    {
+      "name": "connectivity",
+      "description": "Connector health."
+    },
+    {
+      "name": "dashboards",
+      "description": "Dashboards, widgets, widget settings, packet history, statistics, alarms."
+    },
+    {
+      "name": "rules",
+      "description": "Rule builder."
+    },
+    {
+      "name": "assets",
+      "description": "Assets, components, floor plans."
+    },
+    {
+      "name": "fleet",
+      "description": "Fleet positions."
+    },
+    {
+      "name": "fleet-vehicles-drivers",
+      "description": "Vehicles, drivers, assignments."
+    },
+    {
+      "name": "fleet-trips",
+      "description": "Trips."
+    },
+    {
+      "name": "fleet-geofences",
+      "description": "Geofences and their events."
+    },
+    {
+      "name": "fleet-yards",
+      "description": "Yards, slots, layouts."
+    },
+    {
+      "name": "fleet-fuel-maintenance-compliance",
+      "description": "Fuel logs, maintenance, compliance documents."
+    },
+    {
+      "name": "fleet-dashboard",
+      "description": "Fleet dashboards."
+    },
+    {
+      "name": "fleet-crm-billing",
+      "description": "Fleet customers, contracts, rate cards, invoices."
+    },
+    {
+      "name": "billing",
+      "description": "Billing gateways and events."
+    },
+    {
+      "name": "onboarding",
+      "description": "Plans/modules onboarding."
+    },
+    {
+      "name": "superadmin",
+      "description": "Platform-operator views."
+    }
+  ]
+}
