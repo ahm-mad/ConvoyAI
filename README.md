@@ -176,7 +176,6 @@ npm run typecheck
 ```bash
 cd backend
 npm install
-cp .env.example .env        # fill in your database/Redis/LLM keys
 npm run db:up                # Postgres (TimescaleDB) + Redis via Docker
 npx prisma migrate deploy
 npm run dev                  # HTTP API
@@ -188,7 +187,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Full deployment docs (Docker and PM2 paths, environment variables, external services) are in `backend/deploy/`.
+Required environment variables (database/Redis URLs, JWT secrets, LLM key, …) and their validation rules are documented in `backend/deploy/02-environment-variables.md`; the process refuses to start and names the missing/malformed variable if one is wrong. Full deployment docs (Docker and PM2 paths, external services) are in `backend/deploy/`.
 
 ## Project structure
 
