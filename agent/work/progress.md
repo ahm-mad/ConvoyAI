@@ -1,6 +1,8 @@
 # Progress — the resume point
 
-## >>> RESUME HERE (2026-10-16, latest): repo is now PUBLIC + linked in the video; v16 is current — `~/Videos/Screencasts/final/convoyai_portfolio_cut_v16.mp4`, 342.8s (5:42.8). Two items left before moving to T-010: portfolio screenshots, and T-010 itself once the owner's reference README arrives.
+## >>> RESUME HERE (2026-10-16, latest): T-009 is now FULLY DONE — video (v16), public repo+link, AND 8 portfolio screenshots all delivered. Next up: T-010 (enterprise README), waiting on the owner's reference repo.
+
+**Portfolio screenshots delivered:** 8 PNGs in `~/Videos/Screencasts/portfolio_shots/` (`01_map_3d_vehicle.png` through `08_vehicle_modal_history.png`), owner-approved shortlist covering map (3D/satellite/heat/night), AI workspace, Overview KPIs, landing hero, and a vehicle-history modal — all pulled from RAW source recordings, not the edited video, so there's no subtitle/caption burn-in. One known limitation: the 4 map shots are 1280x720 (native recording resolution) vs ~1920x920 for the rest — not fixable without re-recording, flagged to the owner rather than hidden.
 
 **GitHub repo flipped from private to public (owner's explicit go-ahead, after a clean secret scan) — live at `github.com/ahm-mad/ConvoyAI`.** The video's closing title card now shows this: "OPEN SOURCE · ENTERPRISE-GRADE CODE" + the repo URL, styled to match the card's existing design, appearing only during the closing card's own time window. Full detail (secret-scan method, exact drawtext implementation, verification) in `decisions.md`'s 2026-10-16 entries.
 
@@ -9,8 +11,8 @@
 **Remaining follow-up items from the owner, in `tasks.md`, to work through in order:**
 
 1. ~~On-screen GitHub repo link~~ — DONE (v16).
-2. A set of clean portfolio screenshots pulled from the RAW source recordings (not the final video, so no subtitle/caption burn-in) — need owner to confirm which screens matter most before pulling them. **Next up.**
-3. T-010 (enterprise README with flowcharts) — owner is about to supply the reference README from their other repo.
+2. ~~Portfolio screenshots~~ — DONE (8 PNGs, see above).
+3. **T-010 (enterprise README with flowcharts) — NEXT.** Owner is about to supply the reference README from their other repo; do not start drafting until it arrives.
 
 **v15: loudness pulled down and subtitle outline fixed**, both from the owner's first real combined watch (previous rounds were Claude's frame-by-frame checks only — this was the first time sound+picture together got a real review). Loudness was measured, not guessed: v14 was -20.3 LUFS integrated with -0.95dB true peaks (very close to full scale) — hot peaks read much louder through earphones than the same level via speakers, which is exactly what the owner reported. Fixed with a single flat -5dB pass applied to the whole already-mixed track (not re-touching the individual VO/music/click balance), landing at -25.4 LUFS / -5.7dB peak — confirmed by direct re-measurement, not assumed from the math. Subtitle outline was too thin and blended into some screens (owner asked outright whether that was deliberate — it wasn't; the earlier fix was about not being a heavy _box_, not about being hard to read). Fixed by thickening the outline and recoloring it to the product's own brand orange, sampled directly from an actual rendered frame (not guessed) — full hex/conversion detail in `decisions.md`'s v15 entry.
 
