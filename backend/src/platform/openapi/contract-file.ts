@@ -16,7 +16,7 @@ type Json = any;
  * The contract the frontend consumes, split by module (D-0140 — the single
  * 860 KB file was unwieldy to hand over or open on demand), and living in
  * `../backend_frontend_sync/api_contract/` (D-0141) — the hand-copied bridge
- * folder to the separate frontend Claude session, not `migration/` — since
+ * folder to the separate frontend workspace, not `migration/` — since
  * that folder, not this repo's own docs, is what actually gets handed over.
  * `CONTRACT_PATH` is the small **index** (conventions header, servers/
  * security, and an `x-modules` map of tag -> file); `MODULES_DIR` holds one

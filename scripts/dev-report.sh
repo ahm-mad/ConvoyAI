@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Summarise the most recent `npm run dev` session (or pass a monitor log path).
-# Run it after a freeze / forced reboot and paste the output to Claude.
+# Run it after a freeze / forced reboot to see a summary of what happened.
 cd "$(dirname "$0")/.." || exit 1
 LOGDIR=.dev-logs
 MON="${1:-$(ls -1t $LOGDIR/monitor-*.log 2>/dev/null | head -1)}"
