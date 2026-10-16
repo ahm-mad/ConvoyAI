@@ -1,12 +1,16 @@
 # Progress — the resume point
 
-## >>> RESUME HERE (2026-10-16, latest): T-009's edited video is DONE and QA-PASSED — `~/Videos/Screencasts/final/convoyai_portfolio_cut_v15.mp4`, 342.8s (5:42.8), owner watched it, liked it, and it passed a thorough final technical QA pass (see `decisions.md`'s "Final QA pass on v15" entry — clipping/levels, full-timeline silence check, content-accuracy re-verification via isolated re-transcription, full visual contact-sheet scan). **This is the owner's call to make, not a technical blocker, but as far as verification goes: this video is ready to send.**
+## >>> RESUME HERE (2026-10-16, latest): repo is now PUBLIC + linked in the video; v16 is current — `~/Videos/Screencasts/final/convoyai_portfolio_cut_v16.mp4`, 342.8s (5:42.8). Two items left before moving to T-010: portfolio screenshots, and T-010 itself once the owner's reference README arrives.
 
-**Three new follow-up items from the owner, added to `tasks.md`, to work through one by one next:**
+**GitHub repo flipped from private to public (owner's explicit go-ahead, after a clean secret scan) — live at `github.com/ahm-mad/ConvoyAI`.** The video's closing title card now shows this: "OPEN SOURCE · ENTERPRISE-GRADE CODE" + the repo URL, styled to match the card's existing design, appearing only during the closing card's own time window. Full detail (secret-scan method, exact drawtext implementation, verification) in `decisions.md`'s 2026-10-16 entries.
 
-1. On-screen GitHub repo link near the closing title card.
-2. T-010 (enterprise README with flowcharts) — owner is about to supply the reference README from their other repo; no longer purely hypothetical-future, start as soon as it arrives.
-3. A set of clean portfolio screenshots pulled from the RAW source recordings (not the final video, so no subtitle/caption burn-in) — need owner to confirm which screens matter most before pulling them.
+**Also pushed this round (owner's explicit "push them too"):** two files with uncommitted changes from an earlier session that Claude had deliberately held back pending review — `src/components/shell/CopilotChat.tsx` (AI "thinking" delay made realistic/variable, loader replaced with cycling status text, a real scroll-bug fix) and the `/ai` recording script that documents it. Both reviewed (full diff read, typecheck run clean) before committing, since neither was this session's own work. Commits: `d1dc652` (docs sync), `bf7f000` (CopilotChat + script).
+
+**Remaining follow-up items from the owner, in `tasks.md`, to work through in order:**
+
+1. ~~On-screen GitHub repo link~~ — DONE (v16).
+2. A set of clean portfolio screenshots pulled from the RAW source recordings (not the final video, so no subtitle/caption burn-in) — need owner to confirm which screens matter most before pulling them. **Next up.**
+3. T-010 (enterprise README with flowcharts) — owner is about to supply the reference README from their other repo.
 
 **v15: loudness pulled down and subtitle outline fixed**, both from the owner's first real combined watch (previous rounds were Claude's frame-by-frame checks only — this was the first time sound+picture together got a real review). Loudness was measured, not guessed: v14 was -20.3 LUFS integrated with -0.95dB true peaks (very close to full scale) — hot peaks read much louder through earphones than the same level via speakers, which is exactly what the owner reported. Fixed with a single flat -5dB pass applied to the whole already-mixed track (not re-touching the individual VO/music/click balance), landing at -25.4 LUFS / -5.7dB peak — confirmed by direct re-measurement, not assumed from the math. Subtitle outline was too thin and blended into some screens (owner asked outright whether that was deliberate — it wasn't; the earlier fix was about not being a heavy _box_, not about being hard to read). Fixed by thickening the outline and recoloring it to the product's own brand orange, sampled directly from an actual rendered frame (not guessed) — full hex/conversion detail in `decisions.md`'s v15 entry.
 
