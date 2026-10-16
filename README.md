@@ -1,42 +1,29 @@
 # ConvoyAI
 
-**An enterprise fleet operations platform with a conversational AI copilot and a database-enforced, multi-tenant permission system.** Vehicles, drivers, trips, yards, maintenance, fuel, compliance and billing all live under one roof — queried, forecast and explained in plain English by an AI layer built on top of the same live data, not a bolt-on chatbot.
+**An enterprise fleet operations platform built around generative AI and a database-enforced, multi-tenant permission system.** Vehicles, drivers, trips, yards, maintenance, fuel, compliance and billing all live under one roof — queried, forecast and explained in plain English by an LLM-powered copilot built on top of the same live data, not a bolt-on chatbot.
 
 [![CI](https://github.com/ahm-mad/ConvoyAI/actions/workflows/ci.yml/badge.svg)](https://github.com/ahm-mad/ConvoyAI/actions/workflows/ci.yml) ![License](https://img.shields.io/github/license/ahm-mad/ConvoyAI)
-![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js) ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-Express%205-339933?logo=node.js&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-TimescaleDB-336791?logo=postgresql&logoColor=white) ![Redis](https://img.shields.io/badge/Redis-BullMQ-DC382D?logo=redis&logoColor=white) ![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white) ![AI](https://img.shields.io/badge/AI-LLM%20copilot-5B5BE6)
+![Generative AI](https://img.shields.io/badge/Generative%20AI-LLM%20integration-5B5BE6) ![OpenRouter](https://img.shields.io/badge/LLM-OpenRouter-412991) ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js) ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-Express%205-339933?logo=node.js&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-TimescaleDB-336791?logo=postgresql&logoColor=white) ![Redis](https://img.shields.io/badge/Redis-BullMQ-DC382D?logo=redis&logoColor=white) ![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white)
 
 ---
 
 ### Contents
 
-[What this is](#what-this-is) · [At a glance](#at-a-glance) · [AI copilot](#the-ai-copilot) · [Enterprise RBAC](#enterprise-rbac--multi-tenancy) · [Architecture](#architecture) · [Fleet operations](#fleet-operations) · [Built for scale](#built-for-scale) · [Also in the box](#also-in-the-box) · [Getting started](#getting-started) · [Project structure](#project-structure)
+[What this is](#what-this-is) · [Generative AI copilot](#the-generative-ai-copilot) · [At a glance](#at-a-glance) · [Enterprise RBAC](#enterprise-rbac--multi-tenancy) · [Architecture](#architecture) · [Fleet operations](#fleet-operations) · [Built for scale](#built-for-scale) · [Also in the box](#also-in-the-box) · [Getting started](#getting-started) · [Project structure](#project-structure)
+
+<p align="center"><img src="docs/screenshots/landing.png" alt="ConvoyAI landing page" width="100%" /></p>
 
 ## What this is
 
-A company onboards its fleet — vehicles, drivers, trips, yards, geofences — and runs the entire operation from one workspace: live positions on a 3D map, fuel/maintenance/compliance tracking, dispatch, CRM & billing, and an **AI copilot that can be asked plain-English questions about the fleet's own data** ("why did fuel cost spike last month?", "which vehicles are near their maintenance window?") and answers with real numbers, charts and drafted action plans, not canned responses.
+A company onboards its fleet — vehicles, drivers, trips, yards, geofences — and runs the entire operation from one workspace: live positions on a 3D map, fuel/maintenance/compliance tracking, dispatch, CRM & billing, and a **generative-AI copilot that can be asked plain-English questions about the fleet's own data** ("why did fuel cost spike last month?", "which vehicles are near their maintenance window?") and answers with real numbers, charts and drafted action plans, not canned responses.
 
 Underneath, every one of those questions and every page load is authorized by a **module-based, company-scoped permission system** — not a handful of `if (user.isAdmin)` checks sprinkled through the app, but a real RBAC model with protected roles, per-module permission grants, and a reserved super-admin tier.
 
 It's built for **portfolio purposes** — the architecture and code are real and fully functional, but the data behind it is synthetic. No real customer data anywhere in the app or its history.
 
-## At a glance
+## The generative AI copilot
 
-|                 |                                                                                                                                                                                                                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **AI**          | A dedicated Python/FastAPI AI microservice that turns a natural-language question into a query plan, runs it against live fleet data, and streams an LLM-synthesized answer back over WebSocket — plus a forecasting layer (maintenance due, fuel-spend projection, driver risk scoring) |
-| **Permissions** | Module-based RBAC — company-scoped roles, per-module permission grants, protected/reserved role tiers, a separate super-admin layer — enforced in the backend on every request                                                                                                           |
-| **Backend**     | Node.js + Express, 30 feature modules behind a repository → service → controller layering, dependency-injected via Awilix                                                                                                                                                                |
-| **Processes**   | 4 independent services from one codebase — HTTP API, realtime ingestion, scheduler, background worker — so a slow job never blocks a request                                                                                                                                             |
-| **Data**        | PostgreSQL (TimescaleDB) with hypertables for the fleet's time-series data, Prisma as the typed query layer, Redis + BullMQ for async/queued work                                                                                                                                        |
-| **Frontend**    | Next.js 15 App Router, React 19, TypeScript, a hand-built design-token system (no component-library skin), a 3D live fleet map (deck.gl + MapLibre + three.js)                                                                                                                           |
-| **Type safety** | Strict-leaning TypeScript on both sides, Zod validation on every backend input, 145 backend test files                                                                                                                                                                                   |
-| **Realtime**    | Socket.io pushes live fleet state to the browser — no polling                                                                                                                                                                                                                            |
-
-<p align="center"><img src="docs/screenshots/landing.png" alt="ConvoyAI landing page" width="100%" /></p>
-
-## The AI copilot
-
-This is the project's centerpiece. The AI layer isn't a chat widget wired to a generic prompt — it's a dedicated **Python/FastAPI microservice** that sits beside the main Node backend, with its own job: turn a fleet manager's plain-English question into a real, data-grounded answer.
+This is the project's centerpiece, and the reason the backend exists as a service-oriented platform rather than a plain CRUD API: **a dedicated LLM integration, not a chat widget wired to a generic prompt.** A fleet manager asks a real question in plain English; the system interprets it, grounds it in the fleet's own live data, and generates an answer — numbers, charts and a drafted action plan, not a canned response.
 
 <p align="center"><img src="docs/screenshots/ai-copilot.png" alt="AI copilot conversation" width="100%" /></p>
 
@@ -66,6 +53,19 @@ Beyond the conversational layer, the same workspace runs standing **forecasts** 
 
 <p align="center"><img src="docs/screenshots/ai-forecasts.png" alt="AI maintenance, fuel and driver-risk forecasts" width="100%" /></p>
 
+## At a glance
+
+|                   |                                                                                                                                                                                                                                                                                          |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Generative AI** | A dedicated Python/FastAPI AI microservice that turns a natural-language question into a query plan, runs it against live fleet data, and streams an LLM-synthesized answer back over WebSocket — plus a forecasting layer (maintenance due, fuel-spend projection, driver risk scoring) |
+| **Permissions**   | Module-based RBAC — company-scoped roles, per-module permission grants, protected/reserved role tiers, a separate super-admin layer — enforced in the backend on every request                                                                                                           |
+| **Backend**       | Node.js + Express, 30 feature modules behind a repository → service → controller layering, dependency-injected via Awilix                                                                                                                                                                |
+| **Processes**     | 4 independent services from one codebase — HTTP API, realtime ingestion, scheduler, background worker — so a slow job never blocks a request                                                                                                                                             |
+| **Data**          | PostgreSQL (TimescaleDB) with hypertables for the fleet's time-series data, Prisma as the typed query layer, Redis + BullMQ for async/queued work                                                                                                                                        |
+| **Frontend**      | Next.js 15 App Router, React 19, TypeScript, a hand-built design-token system (no component-library skin), a 3D live fleet map (deck.gl + MapLibre + three.js)                                                                                                                           |
+| **Type safety**   | Strict-leaning TypeScript on both sides, Zod validation on every backend input, 145 backend test files                                                                                                                                                                                   |
+| **Realtime**      | Socket.io pushes live fleet state to the browser — no polling                                                                                                                                                                                                                            |
+
 ## Enterprise RBAC & multi-tenancy
 
 Every company on the platform is its own tenant. Roles are **module-based**: a role is a named bundle of per-module permission grants (dashboard, fleet, role-management, member-management, …), assigned to users and checked on the backend for every request — the frontend hides what a user can't do, but the backend is the actual enforcement boundary.
@@ -89,7 +89,7 @@ flowchart TD
         WORK["Background worker<br/>(BullMQ)"]
     end
 
-    subgraph AI["AI microservice (Python / FastAPI)"]
+    subgraph AI["Generative AI microservice (Python / FastAPI)"]
         direction TB
         WS["WebSocket endpoint"]
         QA["Question → query plan → answer"]
