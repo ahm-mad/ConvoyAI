@@ -1,0 +1,146 @@
+# Full-stack deployment compose (Phase 7, D-0094) — every process this
+# app needs, built from the one existing `Dockerfile` (ARCHITECTURE.md
+# §1: one image, 4 entrypoints selected via CMD) plus its own Postgres+
+# TimescaleDB and Redis. This is the PRIMARY deployment path (the
+# plain-Node fallback lives in `deploy/` for a server without Docker).
+#
+# Usage (see `deploy/DEPLOY.md` for full detail):
+#   cp .env.example .env.production   # fill in real secrets
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# `migrate` is a one-shot service (D-0094's `dist/bootstrap-db.js`,
+# idempotent — safe on a genuinely fresh database AND safe to re-run on
+# every `up` against an already-provisioned one, see `scripts/bootstrap-db.ts`'s
+# own doc comment). Every long-running service waits for it to exit 0
+# before starting.
+#
+# Postgres/Redis are NOT published to the host — only reachable from other
+# containers on this compose network. Only `http` (the HTTP+Socket.IO
+# entrypoint) is published; that's the one port a reverse-proxy/tunnel
+# needs to reach.
+name: convoyai-node
+
+services:
+  postgres:
+    image: timescale/timescaledb:2.17.2-pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-convoyai}
+      POSTGRES_USER: ${POSTGRES_USER:-convoyai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env.production}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-convoyai} -d ${POSTGRES_DB:-convoyai}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  migrate:
+    build: { context: ., dockerfile: Dockerfile }
+    command: ["node", "dist/bootstrap-db.js"]
+    env_file: .env.production
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-convoyai}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-convoyai}?schema=public
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: "no"
+
+  http:
+    build: { context: ., dockerfile: Dockerfile }
+    command: ["node", "dist/main.http.js"]
+    env_file: .env.production
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-convoyai}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-convoyai}?schema=public
+      REDIS_URL: redis://redis:6379
+      # Forced to 8080 regardless of whatever HTTP_PORT the env file sets —
+      # confirmed live this needs to stay in lockstep with the Dockerfile's
+      # `EXPOSE 8080`/this compose file's own container-side port mapping
+      # below. `HOST_HTTP_PORT` (a different variable, set on the host
+      # shell or in `.env.production`, never read by the app itself) is
+      # the only thing that should change which port this is reachable on
+      # from outside Docker.
+      HTTP_PORT: "8080"
+    ports:
+      - "${HOST_HTTP_PORT:-8080}:8080"
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8080/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }
+
+  worker:
+    build: { context: ., dockerfile: Dockerfile }
+    command: ["node", "dist/main.worker.js"]
+    env_file: .env.production
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-convoyai}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-convoyai}?schema=public
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }
+
+  mqtt:
+    build: { context: ., dockerfile: Dockerfile }
+    command: ["node", "dist/main.mqtt.js"]
+    env_file: .env.production
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-convoyai}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-convoyai}?schema=public
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }
+
+  scheduler:
+    build: { context: ., dockerfile: Dockerfile }
+    command: ["node", "dist/main.scheduler.js"]
+    env_file: .env.production
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-convoyai}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-convoyai}?schema=public
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }
+
+volumes:
+  pgdata:
