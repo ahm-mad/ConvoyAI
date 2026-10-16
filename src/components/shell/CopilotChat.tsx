@@ -106,6 +106,26 @@ function answer(q: string): Omit<Msg, 'id' | 'role'> {
   };
 }
 
+/** "Thinking" time before an answer appears: longer for data-heavy answers, with jitter so it doesn't feel metronomic. Lands around 4-5s so the status-phrase cycle below has room to play out. */
+const thinkingDelay = (a: Omit<Msg, 'id' | 'role'>) => {
+  let ms = 3400;
+
+  if (a.bars?.length) ms += 300 + a.bars.length * 120;
+  if (a.text.length > 140) ms += 400;
+  ms += Math.random() * 900 - 300;
+
+  return Math.max(3200, Math.min(ms, 5600));
+};
+
+/** Status line cycled while "thinking", mimicking a real agent working through steps. */
+const THINKING_PHRASES = [
+  'Reading live fleet data…',
+  'Cross-referencing trips and drivers…',
+  'Checking recent telemetry…',
+  'Running the numbers…',
+  'Drafting an answer…',
+];
+
 /** AI answer that types itself out, then reveals its chart bars and action chips. */
 function AiBubble({ m, onAsk }: { m: Msg; onAsk: (q: string) => void }) {
   const [n, setN] = useState(0);
@@ -182,8 +202,17 @@ export default function CopilotChat({
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState(false);
+  const [phraseIdx, setPhraseIdx] = useState(0);
   const idRef = useRef(0);
-  const endRef = useRef<HTMLDivElement | null>(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!thinking) return;
+    setPhraseIdx(0);
+    const id = setInterval(() => setPhraseIdx(i => (i + 1) % THINKING_PHRASES.length), 950);
+
+    return () => clearInterval(id);
+  }, [thinking]);
 
   const ask = (q: string) => {
     const text = q.trim();
@@ -193,15 +222,16 @@ export default function CopilotChat({
     setInput('');
     setThinking(true);
     onOrbState?.('thinking');
-    setTimeout(() => {
-      const a = withMoney(answer(text), money);
 
+    const a = withMoney(answer(text), money);
+
+    setTimeout(() => {
       setMsgs(m => [...m, { id: ++idRef.current, role: 'ai', ...a }]);
       setThinking(false);
       onOrbState?.('speaking');
       // The answer types at ~3 characters per 16 ms; the orb keeps "speaking" until it has finished.
       setTimeout(() => onOrbState?.('idle'), Math.ceil(a.text.length / 3) * 16 + 500);
-    }, 900);
+    }, thinkingDelay(a));
   };
 
   useEffect(() => {
@@ -213,12 +243,14 @@ export default function CopilotChat({
   }, [active, pendingQuestion]);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    // Scroll only this panel's own message list, never the page — scrollIntoView on the
+    // end-marker would also drag the whole page down if the chat box isn't fully in view.
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
   }, [msgs, thinking]);
 
   return (
     <div className={`flex min-h-0 flex-1 flex-col ${className}`}>
-      <div className="relative flex flex-1 flex-col gap-3 overflow-y-auto px-5 py-2">
+      <div ref={listRef} className="relative flex flex-1 flex-col gap-3 overflow-y-auto px-5 py-2">
         {msgs.length === 0 && (
           <div className="my-auto text-center">
             <div className="btn-ai mx-auto mb-4 grid size-14 place-items-center rounded-2xl">
@@ -245,19 +277,15 @@ export default function CopilotChat({
         )}
         {thinking && (
           <div
-            className="flex items-center gap-1.5 self-start rounded-full bg-white px-4 py-3 shadow-card"
+            className="flex items-center gap-2.5 self-start rounded-full bg-white px-4 py-3 shadow-card"
             aria-label="Convoy is thinking"
           >
-            {[0, 1, 2].map(i => (
-              <span
-                key={i}
-                className="size-1.5 animate-bounce rounded-full bg-ai"
-                style={{ animationDelay: `${i * 120}ms` }}
-              />
-            ))}
+            <span className="size-3.5 shrink-0 animate-spin rounded-full border-2 border-ai/20 border-t-ai" />
+            <span key={phraseIdx} className="motion-rise text-[12.5px] text-ink-2">
+              {THINKING_PHRASES[phraseIdx]}
+            </span>
           </div>
         )}
-        <div ref={endRef} />
       </div>
       <footer className="relative px-4 pb-4 pt-2">
         {msgs.length === 0 && (
