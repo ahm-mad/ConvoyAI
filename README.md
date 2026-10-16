@@ -130,7 +130,7 @@ Cross-module dependencies are wired explicitly in `container.ts` (Awilix), each 
 
 ## Fleet operations
 
-<p align="center"><img src="docs/screenshots/analytics.png" alt="Fleet analytics and cost breakdown" width="100%" /></p>
+<p align="center"><img src="docs/screenshots/fleet-map.png" alt="Live 3D fleet map with real vehicle models" width="100%" /></p>
 
 - **Live 3D map** — real vehicle models (not flat pins), road-following movement, speed-colored trails, saved camera views, a heat-density layer, satellite/night/day modes.
 - **Vehicles & drivers** — assignment history, documents, compliance status.
@@ -141,7 +141,7 @@ Cross-module dependencies are wired explicitly in `container.ts` (Awilix), each 
 - **CRM & billing** — customer accounts tied into company-scoped subscriptions and plans.
 - **Analytics** — cost-breakdown donut, incident severity, top-vehicle rankings, utilisation and on-time delivery KPIs.
 
-<p align="center"><img src="docs/screenshots/yard-ops.png" alt="Yard slot-grid operations view" width="100%" /></p>
+<p align="center"><img src="docs/screenshots/analytics.png" alt="Fleet analytics and cost breakdown" width="49%" /> <img src="docs/screenshots/yard-ops.png" alt="Yard slot-grid operations view" width="49%" /></p>
 
 ## Built for scale
 
