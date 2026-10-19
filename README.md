@@ -19,7 +19,7 @@ A company onboards its fleet — vehicles, drivers, trips, yards, geofences — 
 
 Underneath, every one of those questions and every page load is authorized by a **module-based, company-scoped permission system** — not a handful of `if (user.isAdmin)` checks sprinkled through the app, but a real RBAC model with protected roles, per-module permission grants, and a reserved super-admin tier.
 
-It's built for **portfolio purposes** — the architecture and code are real and fully functional, but the data behind it is synthetic. No real customer data anywhere in the app or its history.
+It is a **production system, built solo from scratch** and used by real fleet operators, who get answers from their own data in seconds instead of waiting on an analyst. The screenshots and the data in this repository are a **synthetic dataset**, so no customer data appears anywhere in the code, the screenshots or the history.
 
 ## The generative AI copilot
 
@@ -214,4 +214,4 @@ docs/screenshots/          README images
 
 ---
 
-_A portfolio project — architecture and code are real and fully functional; the data behind it is synthetic._
+_A production system built solo from scratch. Screenshots and data in this repository are synthetic; no customer data appears anywhere in it._
