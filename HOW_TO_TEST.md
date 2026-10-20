@@ -19,8 +19,8 @@
 ---
 
 This zip is your **entire frontend project** with every change from this
-session applied — not a diff. A handful of large binary files (Unity WebGL
-builds, videos, images) were excluded since they're unchanged and you
+session applied — not a diff. A handful of large binary files (videos,
+images) were excluded since they're unchanged and you
 already have them; everything else is included.
 
 ## 1. Back up first (you don't have git yet)
@@ -35,9 +35,8 @@ cp -r /path/to/ConvoyAIFrontend /path/to/ConvoyAIFrontend_backup
 
 Unzip `convoyai_full_project_noc_redesign.zip` and copy everything from it
 **into** your real project folder, overwriting matching files. Because the
-large media/Unity folders were excluded from this zip, copying it over won't
-touch or delete anything in `public/unity`, `public/DiaryFarm`, or your
-existing images/videos in `src/assets` — those stay exactly as they are.
+large media folders were excluded from this zip, copying it over won't
+touch or delete your existing images/videos in `src/assets` — those stay exactly as they are.
 
 ## 3. Install and run
 
@@ -85,8 +84,5 @@ Most likely culprits, in order of probability:
 1. A page/component that wasn't in scope this session (there's a long tail
    of small files we didn't get to)
 2. The antd Tree in Assets — flagged above as the highest-risk item
-3. Something Unity-specific that needs the actual WebGL build present to
-   render correctly (those folders were intentionally excluded from testing
-   here since they're unchanged, but confirm they still load)
 
 Tell me what you find and I'll dig in.

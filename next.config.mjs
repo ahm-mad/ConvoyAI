@@ -39,7 +39,7 @@ const nextConfig = {
   // incrementally. A type regression in an already-typed file now fails the build.
   typescript: { ignoreBuildErrors: false },
 
-  // Unity WebGL / large static assets are served straight from /public; Next's
+  // Large static assets are served straight from /public; Next's
   // image optimizer is not in the picture for this app (see task.md).
   // `disableStaticImages` turns off Next's `*.png -> StaticImageData` typing so
   // our own `src/types/assets.d.ts` (`*.png -> string`) wins — which matches
