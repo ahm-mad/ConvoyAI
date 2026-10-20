@@ -21,6 +21,8 @@ Underneath, every one of those questions and every page load is authorized by a 
 
 It is a **production system, built solo from scratch** and used by real fleet operators, who get answers from their own data in seconds instead of waiting on an analyst. The screenshots and the data in this repository are a **synthetic dataset**, so no customer data appears anywhere in the code, the screenshots or the history.
 
+> **About this repository.** This is the public showcase edition of a system I built and ran in production, rebranded and loaded with a synthetic dataset. It moved to my personal GitHub account in September 2026, so the commit history here begins then; the original working history is in a private repository.
+
 ## The generative AI copilot
 
 This is the project's centerpiece, and the reason the backend exists as a service-oriented platform rather than a plain CRUD API: **a dedicated LLM integration, not a chat widget wired to a generic prompt.** A fleet manager asks a real question in plain English; the system interprets it, grounds it in the fleet's own live data, and generates an answer — numbers, charts and a drafted action plan, not a canned response.
