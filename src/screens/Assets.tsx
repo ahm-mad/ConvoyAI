@@ -15,30 +15,21 @@ import { useUser } from '@contexts/UserContext';
 import { useTheme } from '@contexts/ThemeContext';
 import CustomButton from '@components/Button';
 import AddEditEntityModal from '@components/AddEditEntityModal';
-import { transformForAntdTree, transformForWebglBuilding } from '@utils/DataFormatter';
+import { transformForAntdTree } from '@utils/DataFormatter';
 import { IconMapper } from '@utils/IconMapper';
 import FloorPlanEditor from '@components/FloorPlanEditor';
 import BuildingMultiFloor3DViewer from '@components/BuildingMultiFloor3DViewer';
 import FlowChart from '@components/FlowChart';
 import { useSimpleQuery } from '@hooks/useSimpleQuery';
 import { useTranslation } from 'react-i18next';
-import { FaEye } from 'react-icons/fa';
-import UnityControlBuilding from './WEBGLBUILDING';
-import { get, del } from '@utils/apiHelper';
-import Loader from '@components/Loader';
-import { useSocket } from '@contexts/SocketContext';
+import { del } from '@utils/apiHelper';
 
 export default function AssetTree() {
   const { t } = useTranslation();
   const { openModal } = useModal();
   const { user } = useUser();
   const { isLight } = useTheme();
-  const { bindBuildingEvent, unbindBuildingEvent } = useSocket();
   const [selectedSubtree, setSelectedSubtree] = useState<any[]>([]);
-  const [webglBuildingData, setWebglBuildingData] = useState<any>({});
-  const [activeBuildingIdLoading, setActiveBuildingIdLoading] = useState<any>(null);
-  const [showUnity, setShowUnity] = useState(false);
-  const [unityReady, setUnityReady] = useState(false);
 
   const {
     data: treeData = [],
@@ -61,7 +52,6 @@ export default function AssetTree() {
   const { data: productData } = useSimpleQuery(`products`, `/api/products`, { user_id: user?.id });
 
   const openAddEditModal = (node: any, mode: string) => {
-    console.log('node-mode', node, mode);
     openModal(
       <AddEditEntityModal mode={mode} node={node} onSave={refetch} productData={productData} />
     );
@@ -88,69 +78,6 @@ export default function AssetTree() {
     });
     setSelectedSubtree([extractSubtree(node)]);
   };
-
-  const handleFullScreen = () => {
-    const wrapper = document.getElementById('unity-wrapper');
-    if (wrapper?.requestFullscreen) {
-      wrapper.requestFullscreen();
-    }
-  };
-
-  function handleBuildingLiveValues(data: any) {
-    // building:update (api_contract §4.2/§4.3) — { buildingId, deviceId, deviceIdentifier, asset }.
-    // `asset` is the identical formatted tree Laravel/Pusher sent (same shape as GET /assets/{id}),
-    // just no longer wrapped in buildingAssetData / status / message / userId — those are gone, not
-    // renamed, so there's nothing to branch on before reading `asset` (SocketContext already filtered
-    // this call to our buildingId).
-    console.log('socket-building-data', data);
-    const transformedData = transformForWebglBuilding(data?.asset?.children);
-    setWebglBuildingData({
-      assetId: data?.asset?.id,
-      assetName: data?.asset?.name,
-      transformedData,
-    });
-  }
-
-  async function fetchWebglBuildingData(id: any) {
-    setActiveBuildingIdLoading(id);
-    const response = await get(`/api/assets/${id}`);
-    // return
-    // console.log('bacha', response);
-    if (response?.success) {
-      const transformedData = transformForWebglBuilding(response?.asset?.children);
-      // console.log('bacha1', {
-      //   assetId: response?.asset?.id,
-      //   assetName: response?.asset?.name,
-      //   transformedData,
-      // });
-      setWebglBuildingData({
-        assetId: response?.asset?.id,
-        assetName: response?.asset?.name,
-        transformedData,
-      });
-      // setActiveBuildingIdLoading(null);
-      bindBuildingEvent(id, handleBuildingLiveValues);
-      setShowUnity(true);
-      handleFullScreen();
-    }
-    setActiveBuildingIdLoading(null);
-  }
-
-  useEffect(() => {
-    const handleFsChange = () => {
-      if (!document.fullscreenElement) {
-        setShowUnity(false);
-        webglBuildingData?.assetId ? unbindBuildingEvent(webglBuildingData?.assetId) : null;
-      }
-    };
-
-    document.addEventListener('fullscreenchange', handleFsChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFsChange);
-    };
-  }, []);
-
-  console.log('transformed-tree-data', treeData);
 
   return (
     <div className="p-3 sm:p-5">
@@ -237,17 +164,6 @@ export default function AssetTree() {
                       </>
                     )}
 
-                    {/* {node?.isTopMost && (
-                      <FaEye
-                        fontSize="small"
-                        style={{ fontSize: '11px' }}
-                        className="cursor-pointer hover:scale-110 transition text-ink-1"
-                        onClick={() => {
-                          setUnityReady(true);
-                          fetchWebglBuildingData(node?.id);
-                        }}
-                      />
-                    )} */}
                     {node?.isTopMost && (
                       <LayersIcon
                         titleAccess="Building 3D (all floors)"
@@ -262,7 +178,6 @@ export default function AssetTree() {
                         className="text-accent-cyan cursor-pointer hover:scale-110 transition !w-3 !h-3"
                       />
                     )}
-                    {node?.isTopMost && activeBuildingIdLoading == node?.id && <Loader />}
                   </div>
                 </div>
               )}
@@ -275,13 +190,6 @@ export default function AssetTree() {
           <FlowChart data={selectedSubtree} />
         </div>
       </div>
-
-      {/* Unity (always mounted, just hidden) */}
-      {unityReady && (
-        <div className={`${showUnity ? 'block' : 'hidden'}`}>
-          <UnityControlBuilding webglBuildingData={webglBuildingData} />
-        </div>
-      )}
     </div>
   );
 }

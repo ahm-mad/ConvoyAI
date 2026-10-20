@@ -12,38 +12,6 @@ export const transformForAntdTree = data => {
   });
 };
 
-export const transformForWebglBuilding = data => {
-  return {
-    floors: (data || []).map(fl => ({
-      floorId: fl.id,
-      floorName: fl.name,
-      numberOfUnits: fl.children?.length || 0,
-      units: (fl.children || []).map(un => ({
-        unitId: un.id,
-        unitName: un.name,
-        numberOfAreas: un.children?.length || 0,
-        areas: (un.children || []).map(ar => ({
-          areaId: ar.id,
-          areaName: ar.name,
-          sensors: (ar.children || []).map(si => ({
-            id: si.id,
-            Operations: Object.entries(si.latest_device_values || {}).map(([key, value]) => ({
-              id: key,
-              value: value,
-              warning: si?.is_alert,
-              // warning: (si.alert_attributes || []).includes(key),
-              type: 'dummy',
-              unit: 'dummy',
-              widget: 'dummy',
-              widgetstate: 'dummy',
-            })),
-          })),
-        })),
-      })),
-    })),
-  };
-};
-
 export function getBreadcrumb(data, currentState, assetName = '') {
   const { view, id } = currentState;
 

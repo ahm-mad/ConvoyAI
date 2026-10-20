@@ -54,10 +54,6 @@ export default function Breadcrumb() {
         { label: 'Home', path: '/home' },
         { label: 'Integration', path: null },
       ],
-      '/webgl-building': [
-        { label: 'Home', path: '/home' },
-        { label: 'WebGL Building', path: null },
-      ],
       '/rule-builder': [
         { label: 'Home', path: '/home' },
         { label: 'Rule Builder', path: null },
