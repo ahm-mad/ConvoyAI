@@ -21,7 +21,7 @@ Underneath, every one of those questions and every page load is authorized by a 
 
 It is a **production system, built solo from scratch** and used by real fleet operators, who get answers from their own data in seconds instead of waiting on an analyst. The screenshots and the data in this repository are a **synthetic dataset**, so no customer data appears anywhere in the code, the screenshots or the history.
 
-> **About this repository.** This is the public showcase edition of a system I built and ran in production, rebranded and loaded with a synthetic dataset. It moved to my personal GitHub account in September 2026, so the commit history here begins then; the original working history is in a private repository.
+> **About this repository.** This is the public showcase edition of a system I built and ran in production, rebranded and loaded with a synthetic dataset. It contains part of the codebase: client-specific modules, integrations and data stay in a private repository under NDA. The architecture, stack and figures described in this README are those of the production system. The commit history here begins in September 2026, when the code moved to my personal GitHub account.
 
 ## The generative AI copilot
 
